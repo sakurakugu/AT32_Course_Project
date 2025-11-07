@@ -1,0 +1,1 @@
+GEN_CSRCS += _wifi_alpha_16x16.c _voice_on_alpha_16x16.c _voice_off_alpha_16x16.c _setting_app_alpha_80x80.c _deepseek_alpha_80x80.c _calculator_app_alpha_80x80.c _smart_home_app_alpha_80x80.c _music_app_alpha_80x80.c _weather_app_alpha_80x80.c

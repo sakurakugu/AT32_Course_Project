@@ -1,0 +1,50 @@
+#pragma once
+
+#include "at32f435_437_board.h"
+
+#define OLED_CMD 0
+#define OLED_DATA 1
+#define OLED_MODE 0
+
+// OLED模式设置
+// 0:4线串行模式
+// 1:并行8080模式
+
+#define SIZE 16
+#define XLevelL 0x02
+#define XLevelH 0x10
+#define Max_Column 128
+#define Max_Row 64
+#define Brightness 0xFF
+#define X_WIDTH 128
+#define Y_WIDTH 64
+
+class OLED {
+  public:
+    void init();
+    void displayOn();
+    void displayOff();
+    void clear();
+    void setPos(uint8_t x, uint8_t y);
+    void showChar(uint8_t x, uint8_t y, uint8_t chr);
+    void showNum(uint8_t x, uint8_t y, uint32_t num, uint8_t len, uint8_t size2);
+    void showString(uint8_t x, uint8_t y, uint8_t *p);
+    void showChinese(uint8_t x, uint8_t y, uint8_t no);
+    void drawBMP(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, unsigned char BMP[]);
+    void showCHStr(uint8_t X, uint8_t Y, uint8_t *pstr);
+    void writeByte(uint8_t dat, uint8_t cmd);
+
+  private:
+    static uint32_t pow_uint32_t(uint8_t m, uint8_t n);
+    void dcSet();
+    void dcClr();
+    void csSet();
+    void csClr();
+    void rstSet();
+    void rstClr();
+    void spiTransferByte(uint8_t data);
+    void spiConfig();
+    void gpioConfig();
+};
+
+extern OLED g_oled;
