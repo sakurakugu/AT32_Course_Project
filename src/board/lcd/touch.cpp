@@ -24,30 +24,15 @@
  **************************************************************************
  */
 
-#include "touch_gt911.h"
+#include "touch.hpp"
 #include "at32f435_437_board.h"
 #include <stdio.h>
 #include <string.h>
 
 i2c_handle_type hi2c_gt;
 
-/**
- * @brief touch functions definition
- */
-touch_dev_type touch_dev_struct = {
-    touch_init,          /*!< function for init touch pin */
-    touch_read_xy,       /*!< function for read data from touch */
-    touch_scan,          /*!< function for scanning the screen */
-    touch_adjust,        /*!< function for adjust the screen */
-    TOUCH_SCAN_VERTICAL, /*!< touch scan direction */
-    0,
-    0,
-};
-
 uint8_t cmd_rdx = 0xd0;
 uint8_t cmd_rdy = 0x90;
-
-touch_dev_type *touch_struct;
 
 /* gt911 parameter configuration table */
 const uint8_t GT911_CFG_TBL[] = {
@@ -505,13 +490,13 @@ error_status gt911_send_cfg(uint8_t mode) {
  * @retval function execution result.
  *         - SUCCESS.
  *         - ERROR.
+ * @retval SUCCESS or ERROR
  */
-error_status touch_init(touch_scan_type direction) {
-    error_status status = ERROR;
+bool Touch::Init(touch_scan_type direction) {
+    bool status = false;
     uint8_t temp[5];
     gpio_init_type gpio_init_struct = {0};
-
-    touch_dev_struct.direction = direction;
+    m_direction = direction;
 
     /* enable the gpio clock */
     crm_periph_clock_enable(GT_RST_GPIO_CLK, TRUE);
@@ -541,7 +526,6 @@ error_status touch_init(touch_scan_type direction) {
     /* set RST pin high */
     GT_RST_HIGH();
     delay_ms(10);
-
 
     /* after handshake, INT becomes input for data-ready */
     gpio_init_struct.gpio_mode = GPIO_MODE_INPUT;
@@ -591,18 +575,20 @@ error_status touch_init(touch_scan_type direction) {
 }
 
 /**
- * @brief  this function is read data from touch.
- * @param  x/y : coordinate vaule.
- * @retval function execution result.
- *         - SUCCESS.
- *         - ERROR.
+ * @brief  this function is adjust the screen.
+ * @param  none
+ * @retval state
  */
-error_status touch_read_xy(uint16_t *x, uint16_t *y) {
+bool Touch::Adjust() {
+    /* touch adjust code */
+    return true;
+}
+
+bool Touch::Read(uint16_t &x, uint16_t &y) {
     uint8_t buf[4];
-    uint8_t i = 0;
     uint8_t temp = 0;
     uint8_t mode, num = 0;
-    error_status status = ERROR;
+    bool pressed = false;
 
     /* read touch point status */
     gt9111_reg_read(GT_STS_REG, &mode, 1);
@@ -613,58 +599,82 @@ error_status touch_read_xy(uint16_t *x, uint16_t *y) {
         /* clear touch flag */
         gt911_reg_write(GT_STS_REG, &temp, 1);
 
-        for (i = 0; i < num; i++) {
-            /* read x y coordinates */
-            gt9111_reg_read(GT911_TPX_TBL[i], buf, 4);
+        // uint8_t i = 0;
+        // for (i = 0; i < num; i++) {
+        //     /* read x y coordinates */
+        //     gt9111_reg_read(GT911_TPX_TBL[i], buf, 4);
 
-            uint16_t raw_x = (((uint16_t)buf[1] << 8) | buf[0]);
-            uint16_t raw_y = (((uint16_t)buf[3] << 8) | buf[2]);
+        //     uint16_t raw_x = (((uint16_t)buf[1] << 8) | buf[0]);
+        //     uint16_t raw_y = (((uint16_t)buf[3] << 8) | buf[2]);
 
-            switch (touch_dev_struct.direction) {
-            case TOUCH_SCAN_VERTICAL:
-                x[i] = raw_x;
-                y[i] = raw_y;
-                break;
-            case TOUCH_SCAN_HORIZONTAL:
-                x[i] = raw_y;
-                y[i] = 320 - raw_x;
-                break;
-            case TOUCH_SCAN_VERTICAL_180:
-                x[i] = 480 - raw_x;
-                y[i] = 320 - raw_y;
-                break;
-            case TOUCH_SCAN_HORIZONTAL_180:
-                x[i] = 480 - raw_y;
-                y[i] = raw_x;
-                break;
-            default:
-                x[i] = raw_x;
-                y[i] = raw_y;
-                break;
-            }
+        //     switch (m_direction) {
+        //     case TOUCH_SCAN_VERTICAL:
+        //         x[i] = raw_x;
+        //         y[i] = raw_y;
+        //         break;
+        //     case TOUCH_SCAN_HORIZONTAL:
+        //         x[i] = raw_y;
+        //         y[i] = 320 - raw_x;
+        //         break;
+        //     case TOUCH_SCAN_VERTICAL_180:
+        //         x[i] = 480 - raw_x;
+        //         y[i] = 320 - raw_y;
+        //         break;
+        //     case TOUCH_SCAN_HORIZONTAL_180:
+        //         x[i] = 480 - raw_y;
+        //         y[i] = raw_x;
+        //         break;
+        //     default:
+        //         x[i] = raw_x;
+        //         y[i] = raw_y;
+        //         break;
+        //     }
+        /* read first touch point coordinates */
+        gt9111_reg_read(GT911_TPX_TBL[0], buf, 4);
+        uint16_t raw_x = (((uint16_t)buf[1] << 8) | buf[0]);
+        uint16_t raw_y = (((uint16_t)buf[3] << 8) | buf[2]);
+        switch (m_direction) {
+        case TOUCH_SCAN_VERTICAL:
+            x = raw_x;
+            y = raw_y;
+            break;
+        case TOUCH_SCAN_HORIZONTAL:
+            x = raw_y;
+            y = 320 - raw_x;
+            break;
+        case TOUCH_SCAN_VERTICAL_180:
+            x = 480 - raw_x;
+            y = 320 - raw_y;
+            break;
+        case TOUCH_SCAN_HORIZONTAL_180:
+            x = 480 - raw_y;
+            y = raw_x;
+            break;
+        default:
+            x = raw_x;
+            y = raw_y;
+            break;
         }
     }
 
     if (num) {
-        status = SUCCESS;
+        pressed = true;
     }
 
-    return status;
+    return pressed;
 }
 
-/**
- * @brief  this function is scanning the screen.
- * @param  none
- * @retval none
- */
-void touch_scan(void) {}
+extern "C" {
 
 /**
- * @brief  this function is adjust the screen.
- * @param  none
- * @retval state
+ * @brief  this function is read data from touch.
+ * @param  x/y : coordinate vaule.
+ * @retval function execution result.
+ *         - SUCCESS.
+ *         - ERROR.
  */
-error_status touch_adjust(void) {
-    /* touch adjust code */
-    return SUCCESS;
+error_status touch_read_xy(uint16_t *x, uint16_t *y) {
+    return Touch::GetInstance().Read(*x, *y) ? SUCCESS : ERROR;
 }
+
+} // extern "C"

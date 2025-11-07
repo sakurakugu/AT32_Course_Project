@@ -58,20 +58,6 @@ typedef enum {
     TOUCH_SCAN_HORIZONTAL_180 = 0x03 /*!< horizontal display 180 deg */
 } touch_scan_type;
 
-/**
- * @brief touch device type
- */
-typedef struct {
-    error_status (*init)(touch_scan_type direction);         /* pin init */
-    error_status (*touch_read_xy)(uint16_t *x, uint16_t *y); /* read x/y coordinate */
-    void (*touch_scan)(void);                                /* touch scan func */
-    error_status (*touch_adjust)(void);                      /* touch adjust func */
-    touch_scan_type direction;                               /* touch scan direction */
-    uint16_t x_p[6];                                         /* save x coordinate */
-    uint16_t y_p[6];                                         /* save y coordinate */
-} touch_dev_type;
-
-extern touch_dev_type touch_dev_struct;
 
 /**
  * @brief io definition
@@ -113,17 +99,11 @@ extern touch_dev_type touch_dev_struct;
 #define GT_INT_HIGH() gpio_bits_set(GT_INT_GPIO_PORT, GT_INT_GPIO_PIN)
 #define GT_INT_READ() gpio_input_data_bit_read(GT_INT_GPIO_PORT, GT_INT_GPIO_PIN)
 
-extern touch_dev_type touch_dev_struct;
-extern touch_dev_type *touch_struct;
 
 /**
  * @brief touch exported functions
  */
-error_status touch_init(touch_scan_type direction);
 error_status touch_read_xy(uint16_t *x, uint16_t *y);
-error_status touch_read_x_or_y(uint8_t xy);
-error_status touch_adjust(void);
-void touch_scan(void);
 
 #ifdef __cplusplus
 }

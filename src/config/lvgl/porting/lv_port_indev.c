@@ -11,7 +11,7 @@
  *********************/
 #include "lv_port_indev.h"
 #include "lvgl.h"
-#include "touch_gt911.h"
+#include "touch.h"
 
 /*********************
  *      DEFINES
@@ -182,7 +182,7 @@ void lv_port_indev_init(void) {
 /*Initialize your touchpad*/
 static void touchpad_init(void) {
     /*Your code comes here*/
-    printf("LVGL indev: touchpad init\r\n");
+    // printf("LVGL indev: touchpad init\r\n");
 }
 
 /*Will be called by the library to read the touchpad*/
@@ -190,9 +190,10 @@ static void touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data) {
     static int16_t last_x = 0;
     static int16_t last_y = 0;
 
-    if (touch_dev_struct.touch_read_xy(&touch_dev_struct.x_p[1], &touch_dev_struct.y_p[1])) {
-        data->point.x = touch_dev_struct.x_p[1];
-        data->point.y = touch_dev_struct.y_p[1];
+    uint16_t x = 0, y = 0;
+    if (touch_read_xy(&x, &y) == SUCCESS) {
+        data->point.x = (lv_coord_t)x;
+        data->point.y = (lv_coord_t)y;
 
         data->state = LV_INDEV_STATE_PR;
         last_x = data->point.x;

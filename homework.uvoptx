@@ -384,8 +384,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\src\board\lcd\touch_gt911.cpp</PathWithFileName>
-      <FilenameWithoutPath>touch_gt911.cpp</FilenameWithoutPath>
+      <PathWithFileName>.\src\board\lcd\touch.cpp</PathWithFileName>
+      <FilenameWithoutPath>touch.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

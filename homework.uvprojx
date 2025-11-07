@@ -449,9 +449,9 @@
               <FilePath>.\src\board\lcd\lcd.cpp</FilePath>
             </File>
             <File>
-              <FileName>touch_gt911.cpp</FileName>
+              <FileName>touch.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\board\lcd\touch_gt911.cpp</FilePath>
+              <FilePath>.\src\board\lcd\touch.cpp</FilePath>
             </File>
             <File>
               <FileName>oled.cpp</FileName>

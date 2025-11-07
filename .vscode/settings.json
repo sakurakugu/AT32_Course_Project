@@ -103,7 +103,13 @@
         "cstdlib": "c",
         "cstring": "c",
         "cwchar": "c",
-        "gui_guider.h": "c"
+        "gui_guider.h": "c",
+        "forward_list": "cpp",
+        "iosfwd": "cpp",
+        "numeric": "cpp",
+        "thread": "cpp",
+        "touch_c_api.h": "c",
+        "touch.h": "c"
     },
     "search.useIgnoreFiles": false, // 禁用git忽略文件
     "search.exclude": { // 排除搜索范围

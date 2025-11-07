@@ -31,11 +31,10 @@
 extern "C" {
 #endif
 
-/* includes ------------------------------------------------------------------*/
 #include "at32f435_437.h"
 
 /**
- * @brief lcd color definition
+ * @brief lcd 颜色定义
  */
 #define WHITE 0xFFFF
 #define BLACK 0x0000
@@ -64,18 +63,18 @@ extern "C" {
 #define LBBLUE 0x2B12
 
 /**
- * @brief lcd mode definition
+ * @brief lcd 模式定义
  */
 #define LCD_USE8BIT_MODEL 0
 
 /**
- * @brief lcd size definition
+ * @brief lcd 尺寸定义
  */
 #define LCD_W 320
 #define LCD_H 480
 
 /**
- * @brief the address of write data & command (xmc_a0)
+ * @brief lcd 命令数据地址定义
  */
 // #define XMC_LCD_COMMAND                  (0x60000000)
 // #define XMC_LCD_DATA                     (0x60000000 | 0x800)
@@ -84,17 +83,17 @@ extern "C" {
 #define XMC_LCD_DATA 0x60080000
 
 /**
- * @brief lcd display direction
+ * @brief lcd 显示方向定义
  */
 typedef enum {
-    LCD_DISPLAY_VERTICAL = 0x00,      /*!< vertical display */
-    LCD_DISPLAY_HORIZONTAL = 0x01,    /*!< horizontal display */
-    LCD_DISPLAY_VERTICAL_180 = 0x02,  /*!< vertical display */
-    LCD_DISPLAY_HORIZONTAL_180 = 0x03 /*!< horizontal display */
+    LCD_DISPLAY_VERTICAL = 0x00,      /*!< 垂直显示 */
+    LCD_DISPLAY_HORIZONTAL = 0x01,    /*!< 水平显示 */
+    LCD_DISPLAY_VERTICAL_180 = 0x02,  /*!< 垂直显示 */
+    LCD_DISPLAY_HORIZONTAL_180 = 0x03 /*!< 水平显示 */
 } lcd_display_type;
 
 /**
- * @brief the lcd operate struct
+ * @brief lcd 操作结构体定义
  */
 typedef struct {
 #if LCD_USE8BIT_MODEL
@@ -107,7 +106,7 @@ typedef struct {
 } lcd_type;
 
 /**
- * @brief the lcd device struct
+ * @brief lcd 设备结构体定义
  */
 typedef struct {
     uint16_t width;
@@ -122,11 +121,11 @@ typedef struct {
 
 extern lcd_device_type lcddev;
 
-extern u16 POINT_COLOR;
-extern u16 BACK_COLOR;
+extern uint16_t POINT_COLOR;
+extern uint16_t BACK_COLOR;
 
 /**
- * @brief the lcd io definition
+ * @brief lcd io 定义
  */
 #define LCD_D0_GPIO_PORT GPIOD
 #define LCD_D0_GPIO_CLK CRM_GPIOD_PERIPH_CLOCK
@@ -256,11 +255,11 @@ extern u16 BACK_COLOR;
 #define LCD_RESET_GPIO_PIN GPIO_PINS_5
 #define LCD_RESET_GPIO_PORT GPIOE
 
-/* the lcd back light line */
+/* lcd 背光线定义 */
 #define LCD_BL_HIGH() gpio_bits_set(LCD_BL_GPIO_PORT, LCD_BL_GPIO_PIN)
 #define LCD_BL_LOW() gpio_bits_reset(LCD_BL_GPIO_PORT, LCD_BL_GPIO_PIN)
 
-/* the lcd reset line */
+/* lcd 复位线定义 */
 #define LCD_RESET_HIGH() gpio_bits_set(LCD_RESET_GPIO_PORT, LCD_RESET_GPIO_PIN)
 #define LCD_RESET_LOW() gpio_bits_reset(LCD_RESET_GPIO_PORT, LCD_RESET_GPIO_PIN)
 

@@ -18,7 +18,6 @@ extern "C" {
  *********************/
 #include "lvgl.h"
 // #include "at_surf_f437_board_lcd.h"
-#include "touch_gt911.h"
 #include "lcd.h"
 //#include "custom.h"
 #include "at32f435_437.h"

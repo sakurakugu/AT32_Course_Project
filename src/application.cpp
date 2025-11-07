@@ -14,6 +14,7 @@
 #include "lcd.h"
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
+#include "touch.hpp"
 #include "lv_tick_custom.h"
 #include "lvgl.h"
 #include "key.h"
@@ -508,7 +509,7 @@ void Application::Start() {
     // driver init
     tmr7_int_init(287, 999); // 1 micro second interrupt
     lcd_init(LCD_DISPLAY_HORIZONTAL_180);
-    touch_init(TOUCH_SCAN_HORIZONTAL_180);
+    Touch::GetInstance().Init(TOUCH_SCAN_HORIZONTAL_180);
 
     // lvgl init
     lv_init();
