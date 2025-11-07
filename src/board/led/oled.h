@@ -21,6 +21,14 @@
 
 class OLED {
   public:
+    static OLED &GetInstance() {
+        static OLED instance;
+        return instance;
+    }
+    // 删除拷贝构造函数和赋值运算符
+    OLED(const OLED &) = delete;
+    OLED &operator=(const OLED &) = delete;
+
     void init();
     void displayOn();
     void displayOff();
@@ -35,6 +43,9 @@ class OLED {
     void writeByte(uint8_t dat, uint8_t cmd);
 
   private:
+    OLED() = default;
+    ~OLED() = default;
+    
     static uint32_t pow_uint32_t(uint8_t m, uint8_t n);
     void dcSet();
     void dcClr();
@@ -46,5 +57,3 @@ class OLED {
     void spiConfig();
     void gpioConfig();
 };
-
-extern OLED g_oled;

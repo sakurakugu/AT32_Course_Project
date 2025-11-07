@@ -404,4 +404,6 @@ void setup_scr_setting_app(lv_ui *ui)
     //Update current screen layout.
     lv_obj_update_layout(ui->setting_app);
 
+    //Init events for screen.
+    events_init_setting_app(ui);
 }

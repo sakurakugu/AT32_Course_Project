@@ -48,3 +48,4 @@ void update_volume_icon(lv_ui *ui, uint8_t volume) {
         // lv_obj_clear_flag(ui->screen_voice_off, LV_OBJ_FLAG_HIDDEN);
     }
 }
+

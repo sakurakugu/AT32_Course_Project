@@ -440,7 +440,7 @@ static void TaskLED(void *pvParameters) {
 static void TaskKeys(void *pvParameters) {
     (void)pvParameters;
     for (;;) {
-        uint8_t keyvalue = g_key.get();
+        uint8_t keyvalue = Key::GetInstance().get();
         if (keyvalue == KEY_1_DOWN) {
             g_beep.keyTone();
             printf("KEY_1_DOWN - 切换空调状态\r\n");

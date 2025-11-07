@@ -664,4 +664,6 @@ void setup_scr_calculator_app(lv_ui *ui)
     //Update current screen layout.
     lv_obj_update_layout(ui->calculator_app);
 
+    //Init events for screen.
+    events_init_calculator_app(ui);
 }

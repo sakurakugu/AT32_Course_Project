@@ -244,4 +244,6 @@ void setup_scr_deepseek_app(lv_ui *ui)
     //Update current screen layout.
     lv_obj_update_layout(ui->deepseek_app);
 
+    //Init events for screen.
+    events_init_deepseek_app(ui);
 }

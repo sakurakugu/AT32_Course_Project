@@ -102,7 +102,8 @@
         "cstdio": "c",
         "cstdlib": "c",
         "cstring": "c",
-        "cwchar": "c"
+        "cwchar": "c",
+        "gui_guider.h": "c"
     },
     "search.useIgnoreFiles": false, // 禁用git忽略文件
     "search.exclude": { // 排除搜索范围

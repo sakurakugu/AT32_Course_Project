@@ -58,16 +58,16 @@ void Board::Init(void) {
 #endif
     delay_init();
     adc_config();
-    iic_init();    /* 初始化I2C接口，用于LM75温度传感器 */
+    iic_init(); /* 初始化I2C接口，用于LM75温度传感器 */
     // g_eep_lm75.init(); /* 初始化I2C接口，用于LM75温度传感器 */
-    g_key.init();      /* 按键初始化，要放在滴答定时器之前，因为按钮检测是通过滴答定时器扫描 */
-    bsp_InitTimer(); /* 初始化滴答定时器 */
+    Key::GetInstance().init(); /* 按键初始化，要放在滴答定时器之前，因为按钮检测是通过滴答定时器扫描 */
+    bsp_InitTimer();           /* 初始化滴答定时器 */
     uart_print_init(115200);
     // bsp_InitESP12();
-    g_oled.init();  /* 初始化OLED屏幕 */
-    g_beep.init();  /* 初始化蜂鸣器 */
-    bsp_InitUart(); /* 初始化串口 */
-                    // bsp_InitDWT();      /* 初始化DWT时钟周期计数器 */
+    OLED::GetInstance().init(); /* 初始化OLED屏幕 */
+    g_beep.init();              /* 初始化蜂鸣器 */
+    bsp_InitUart();             /* 初始化串口 */
+                                // bsp_InitDWT();      /* 初始化DWT时钟周期计数器 */
 
     /* configure led in at_start_board */
     at32_led_init(LED_Green);
@@ -76,8 +76,8 @@ void Board::Init(void) {
     at32_led_off(LED_Yellow);
 
     /* 初始化OLED显示 */
-    g_oled.clear();                                      /* 清屏 */
-    g_oled.showString(0, 0, (uint8_t *)"2023030103024"); /* 在(0,0)位置显示字符串 */
+    OLED::GetInstance().clear();                                      /* 清屏 */
+    OLED::GetInstance().showString(0, 0, (uint8_t *)"2023030103024"); /* 在(0,0)位置显示字符串 */
 }
 
 extern "C" {
@@ -183,7 +183,6 @@ uint16_t analogRead(void) {
 gpio_type *led_gpio_port[LED_NUM] = {LED_Green_GPIO, LED_Yellow_GPIO};
 uint16_t led_gpio_pin[LED_NUM] = {LED_Green_PIN, LED_Yellow_PIN};
 crm_periph_clock_type led_gpio_crm_clk[LED_NUM] = {LED_Yellow_GPIO_CRM_CLK, LED_Yellow_GPIO_CRM_CLK};
-
 
 /* support printf function, usemicrolib is unnecessary */
 #if (__ARMCC_VERSION > 6000000)
@@ -414,7 +413,6 @@ void at32_led_toggle(led_type led) {
         led_gpio_port[led]->odt ^= led_gpio_pin[led];
 }
 
-
 /*
 *********************************************************************************************************
 *	函 数 名: bsp_RunPer10ms
@@ -425,7 +423,7 @@ void at32_led_toggle(led_type led) {
 *********************************************************************************************************
 */
 void bsp_RunPer10ms(void) {
-    g_key.scan10ms();
+    Key::GetInstance().scan10ms();
     g_beep.process();
 }
 

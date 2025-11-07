@@ -147,12 +147,19 @@ typedef struct {
     uint8_t Read2;              /* 缓冲区读指针2 */
 } KEY_FIFO_T;
 
-#define HARD_KEY_NUM        8               /* 实体按键个数 */
-#define KEY_COUNT           8               /* 8个独立键 */
+#define HARD_KEY_NUM 8 /* 实体按键个数 */
+#define KEY_COUNT 8    /* 8个独立键 */
 
 class Key {
   public:
-    Key();
+    static Key &GetInstance() {
+        static Key instance;
+        return instance;
+    }
+    // 删除拷贝构造函数和赋值运算符
+    Key(const Key &) = delete;
+    Key &operator=(const Key &) = delete;
+
     void init();
     void scan10ms();
     void scan1ms();
@@ -164,6 +171,7 @@ class Key {
     void clear();
 
   private:
+    Key();
     KEY_T btn[KEY_COUNT] = {0};
     KEY_FIFO_T fifo{};
 
@@ -174,5 +182,3 @@ class Key {
     void detect_key(uint8_t i);
     void detect_fast(uint8_t i);
 };
-
-extern Key g_key;

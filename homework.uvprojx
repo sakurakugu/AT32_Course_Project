@@ -444,14 +444,14 @@
               <FilePath>.\src\board\key\key.cpp</FilePath>
             </File>
             <File>
-              <FileName>lcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\board\lcd\lcd.c</FilePath>
+              <FileName>lcd.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\board\lcd\lcd.cpp</FilePath>
             </File>
             <File>
-              <FileName>touch_gt911.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\board\lcd\touch_gt911.c</FilePath>
+              <FileName>touch_gt911.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\board\lcd\touch_gt911.cpp</FilePath>
             </File>
             <File>
               <FileName>oled.cpp</FileName>
@@ -2480,11 +2480,6 @@
               <FileName>lv_font_SourceHanSerifSC_Regular_18.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_18.c</FilePath>
-            </File>
-            <File>
-              <FileName>myFont.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gui\myFont.c</FilePath>
             </File>
           </Files>
         </Group>

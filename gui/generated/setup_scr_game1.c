@@ -33,4 +33,6 @@ void setup_scr_game1(lv_ui *ui)
     //Update current screen layout.
     lv_obj_update_layout(ui->game1);
 
+    //Init events for screen.
+    events_init_game1(ui);
 }

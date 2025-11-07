@@ -287,6 +287,3 @@ void Key::detect_fast(uint8_t i) {
         pBtn->RepeatCount = 0;
     }
 }
-
-/* 单例实例 */
-Key g_key;

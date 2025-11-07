@@ -278,4 +278,6 @@ void setup_scr_music_app(lv_ui *ui)
     //Update current screen layout.
     lv_obj_update_layout(ui->music_app);
 
+    //Init events for screen.
+    events_init_music_app(ui);
 }

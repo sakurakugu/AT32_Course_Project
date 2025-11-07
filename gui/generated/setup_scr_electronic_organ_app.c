@@ -33,4 +33,6 @@ void setup_scr_electronic_organ_app(lv_ui *ui)
     //Update current screen layout.
     lv_obj_update_layout(ui->electronic_organ_app);
 
+    //Init events for screen.
+    events_init_electronic_organ_app(ui);
 }

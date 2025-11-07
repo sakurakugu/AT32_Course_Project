@@ -407,4 +407,6 @@ void setup_scr_smart_home_app(lv_ui *ui)
     //Update current screen layout.
     lv_obj_update_layout(ui->smart_home_app);
 
+    //Init events for screen.
+    events_init_smart_home_app(ui);
 }
