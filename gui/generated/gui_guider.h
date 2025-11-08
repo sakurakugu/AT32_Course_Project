@@ -180,7 +180,7 @@ typedef struct
 	lv_obj_t *calculator_app_btn_right_parenthesis_label;
 	lv_obj_t *calculator_app_btn_left_parenthesis;
 	lv_obj_t *calculator_app_btn_left_parenthesis_label;
-	lv_obj_t *calculator_app_ta_result;
+	lv_obj_t *calculator_app_label_1;
 	lv_obj_t *deepseek_app;
 	bool deepseek_app_del;
 	lv_obj_t *deepseek_app_status_bar;

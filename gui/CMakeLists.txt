@@ -4,7 +4,13 @@ cmake_minimum_required(VERSION 3.12.4)
 
 project(gui_guider)
 
-FILE(GLOB_RECURSE SOURCES ./custom/*.c ./generated/*.c ports/linux/mouse_cursor_icon.c ports/linux/main.c ports/linux/nxp_gg_utils.c)
+FILE(GLOB_RECURSE SOURCES
+    ./custom/*.c
+    ./generated/*.c
+    ports/linux/mouse_cursor_icon.c
+    ports/linux/main.c
+    ports/linux/nxp_gg_utils.c
+)
 
 find_package(PkgConfig)
 pkg_check_modules(PKG_WAYLAND wayland-client wayland-cursor wayland-protocols xkbcommon)

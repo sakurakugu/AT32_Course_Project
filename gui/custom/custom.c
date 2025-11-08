@@ -8,6 +8,8 @@
 #include "lvgl.h"
 #include <stdio.h>
 
+#include "../../src/app/calculator/calculator.h"
+
 /*********************
  *      宏定义
  *********************/
@@ -49,3 +51,10 @@ void update_volume_icon(lv_ui *ui, uint8_t volume) {
     }
 }
 
+// 统一的按键事件处理器：从 user_data 读取按键字符串并转交给计算器
+void calc_key_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) == LV_EVENT_CLICKED) {
+        const char *key = (const char *)lv_event_get_user_data(e);
+        calculator_input_key(key);
+    }
+}

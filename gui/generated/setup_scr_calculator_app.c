@@ -230,12 +230,12 @@ void setup_scr_calculator_app(lv_ui *ui)
     //Write codes calculator_app_btn_backspace
     ui->calculator_app_btn_backspace = lv_btn_create(ui->calculator_app_caalculator_page);
     ui->calculator_app_btn_backspace_label = lv_label_create(ui->calculator_app_btn_backspace);
-    lv_label_set_text(ui->calculator_app_btn_backspace_label, "<-");
+    lv_label_set_text(ui->calculator_app_btn_backspace_label, "⬅");
     lv_label_set_long_mode(ui->calculator_app_btn_backspace_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->calculator_app_btn_backspace_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->calculator_app_btn_backspace, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->calculator_app_btn_backspace_label, LV_PCT(100));
-    lv_obj_set_pos(ui->calculator_app_btn_backspace, 400, 85);
+    lv_obj_set_pos(ui->calculator_app_btn_backspace, 400, 84);
     lv_obj_set_size(ui->calculator_app_btn_backspace, 60, 40);
 
     //Write style for calculator_app_btn_backspace, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -246,7 +246,7 @@ void setup_scr_calculator_app(lv_ui *ui)
     lv_obj_set_style_radius(ui->calculator_app_btn_backspace, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->calculator_app_btn_backspace, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->calculator_app_btn_backspace, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->calculator_app_btn_backspace, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->calculator_app_btn_backspace, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->calculator_app_btn_backspace, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->calculator_app_btn_backspace, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
@@ -618,48 +618,77 @@ void setup_scr_calculator_app(lv_ui *ui)
     lv_obj_set_style_text_opa(ui->calculator_app_btn_left_parenthesis, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->calculator_app_btn_left_parenthesis, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes calculator_app_ta_result
-    ui->calculator_app_ta_result = lv_textarea_create(ui->calculator_app_caalculator_page);
-    lv_textarea_set_text(ui->calculator_app_ta_result, "");
-    lv_textarea_set_placeholder_text(ui->calculator_app_ta_result, "");
-    lv_textarea_set_password_bullet(ui->calculator_app_ta_result, "*");
-    lv_textarea_set_password_mode(ui->calculator_app_ta_result, false);
-    lv_textarea_set_one_line(ui->calculator_app_ta_result, false);
-    lv_textarea_set_accepted_chars(ui->calculator_app_ta_result, "");
-    lv_textarea_set_max_length(ui->calculator_app_ta_result, 32);
-#if LV_USE_KEYBOARD != 0 || LV_USE_ZH_KEYBOARD != 0
-    lv_obj_add_event_cb(ui->calculator_app_ta_result, ta_event_cb, LV_EVENT_ALL, ui->g_kb_top_layer);
-#endif
-    lv_obj_set_pos(ui->calculator_app_ta_result, 17, 20);
-    lv_obj_set_size(ui->calculator_app_ta_result, 448, 48);
+    //Write codes calculator_app_label_1
+    ui->calculator_app_label_1 = lv_label_create(ui->calculator_app);
+    lv_label_set_text(ui->calculator_app_label_1, "语法错误除零错误");
+    lv_label_set_long_mode(ui->calculator_app_label_1, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->calculator_app_label_1, 21, 40);
+    lv_obj_set_size(ui->calculator_app_label_1, 442, 35);
 
-    //Write style for calculator_app_ta_result, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->calculator_app_ta_result, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->calculator_app_ta_result, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->calculator_app_ta_result, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->calculator_app_ta_result, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->calculator_app_ta_result, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->calculator_app_ta_result, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui->calculator_app_ta_result, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_dir(ui->calculator_app_ta_result, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui->calculator_app_ta_result, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_opa(ui->calculator_app_ta_result, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_color(ui->calculator_app_ta_result, lv_color_hex(0xe6e6e6), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_side(ui->calculator_app_ta_result, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->calculator_app_ta_result, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->calculator_app_ta_result, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->calculator_app_ta_result, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->calculator_app_ta_result, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->calculator_app_ta_result, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write style for calculator_app_ta_result, Part: LV_PART_SCROLLBAR, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->calculator_app_ta_result, 255, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui->calculator_app_ta_result, lv_color_hex(0x2195f6), LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_dir(ui->calculator_app_ta_result, LV_GRAD_DIR_NONE, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->calculator_app_ta_result, 0, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    //Write style for calculator_app_label_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->calculator_app_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->calculator_app_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->calculator_app_label_1, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->calculator_app_label_1, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->calculator_app_label_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->calculator_app_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->calculator_app_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->calculator_app_label_1, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->calculator_app_label_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->calculator_app_label_1, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->calculator_app_label_1, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->calculator_app_label_1, 7, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->calculator_app_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->calculator_app_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->calculator_app_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->calculator_app_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //The custom code of calculator_app.
+    calculator_init(ui->calculator_app_label_1);
 
+    // 为所有按键绑定事件与按键值
+    static const char *K_0 = "0";
+    static const char *K_1 = "1";
+    static const char *K_2 = "2";
+    static const char *K_3 = "3";
+    static const char *K_4 = "4";
+    static const char *K_5 = "5";
+    static const char *K_6 = "6";
+    static const char *K_7 = "7";
+    static const char *K_8 = "8";
+    static const char *K_9 = "9";
+    static const char *K_ADD = "+";
+    static const char *K_SUB = "-";
+    static const char *K_MUL = "*";   // 映射 'x' 为 '*'
+    static const char *K_DIV = "/";   // 映射 '÷' 为 '/'
+    static const char *K_MOD = "%";
+    static const char *K_LP  = "(";
+    static const char *K_RP  = ")";
+    static const char *K_EQ  = "=";
+    static const char *K_CLR = "C";
+    static const char *K_BS  = "⬅";
+
+    lv_obj_add_event_cb(ui->calculator_app_btn_num_0, calc_key_event_handler, LV_EVENT_ALL, (void *)K_0);
+    lv_obj_add_event_cb(ui->calculator_app_btn_num_1, calc_key_event_handler, LV_EVENT_ALL, (void *)K_1);
+    lv_obj_add_event_cb(ui->calculator_app_btn_num_2, calc_key_event_handler, LV_EVENT_ALL, (void *)K_2);
+    lv_obj_add_event_cb(ui->calculator_app_btn_num_3, calc_key_event_handler, LV_EVENT_ALL, (void *)K_3);
+    lv_obj_add_event_cb(ui->calculator_app_btn_num_4, calc_key_event_handler, LV_EVENT_ALL, (void *)K_4);
+    lv_obj_add_event_cb(ui->calculator_app_btn_num_5, calc_key_event_handler, LV_EVENT_ALL, (void *)K_5);
+    lv_obj_add_event_cb(ui->calculator_app_btn_num_6, calc_key_event_handler, LV_EVENT_ALL, (void *)K_6);
+    lv_obj_add_event_cb(ui->calculator_app_btn_num_7, calc_key_event_handler, LV_EVENT_ALL, (void *)K_7);
+    lv_obj_add_event_cb(ui->calculator_app_btn_num_8, calc_key_event_handler, LV_EVENT_ALL, (void *)K_8);
+    lv_obj_add_event_cb(ui->calculator_app_btn_num_9, calc_key_event_handler, LV_EVENT_ALL, (void *)K_9);
+
+    lv_obj_add_event_cb(ui->calculator_app_btn_add,       calc_key_event_handler, LV_EVENT_ALL, (void *)K_ADD);
+    lv_obj_add_event_cb(ui->calculator_app_btn_subtract,  calc_key_event_handler, LV_EVENT_ALL, (void *)K_SUB);
+    lv_obj_add_event_cb(ui->calculator_app_btn_multiply,  calc_key_event_handler, LV_EVENT_ALL, (void *)K_MUL);
+    lv_obj_add_event_cb(ui->calculator_app_btn_divide,    calc_key_event_handler, LV_EVENT_ALL, (void *)K_DIV);
+    lv_obj_add_event_cb(ui->calculator_app_btn_modulus,   calc_key_event_handler, LV_EVENT_ALL, (void *)K_MOD);
+    lv_obj_add_event_cb(ui->calculator_app_btn_left_parenthesis,  calc_key_event_handler, LV_EVENT_ALL, (void *)K_LP);
+    lv_obj_add_event_cb(ui->calculator_app_btn_right_parenthesis, calc_key_event_handler, LV_EVENT_ALL, (void *)K_RP);
+    lv_obj_add_event_cb(ui->calculator_app_btn_equal,     calc_key_event_handler, LV_EVENT_ALL, (void *)K_EQ);
+    lv_obj_add_event_cb(ui->calculator_app_btn_clear,     calc_key_event_handler, LV_EVENT_ALL, (void *)K_CLR);
+    lv_obj_add_event_cb(ui->calculator_app_btn_backspace, calc_key_event_handler, LV_EVENT_ALL, (void *)K_BS);
 
     //Update current screen layout.
     lv_obj_update_layout(ui->calculator_app);

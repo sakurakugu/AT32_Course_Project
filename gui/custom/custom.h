@@ -13,10 +13,13 @@ extern "C" {
 #include "gui_guider.h"
 #include <stdio.h>
 
+// 计算器接口：供界面自定义代码调用
+#include "../../src/app/calculator/calculator.h"
+
 void custom_init(lv_ui *ui);
 
-// 更新音量图标
-void update_volume_icon(lv_ui *ui, uint8_t volume);
+void update_volume_icon(lv_ui *ui, uint8_t volume); // 更新音量图标
+void calc_key_event_handler(lv_event_t *e);  // 计算器按键事件处理器
 
 #ifdef __cplusplus
 }

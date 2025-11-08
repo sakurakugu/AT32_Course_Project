@@ -7159,7 +7159,7 @@
 			"version": 190,
 			"scrollbar_mode": "OFF",
 			"customer_code": {
-				"code_c": "",
+				"code_c": "calculator_init(ui->calculator_app_label_1);\r\n\r\n    // 为所有按键绑定事件与按键值\r\nstatic const char *K_0 = \"0\";\r\nstatic const char *K_1 = \"1\";\r\nstatic const char *K_2 = \"2\";\r\nstatic const char *K_3 = \"3\";\r\nstatic const char *K_4 = \"4\";\r\nstatic const char *K_5 = \"5\";\r\nstatic const char *K_6 = \"6\";\r\nstatic const char *K_7 = \"7\";\r\nstatic const char *K_8 = \"8\";\r\nstatic const char *K_9 = \"9\";\r\nstatic const char *K_ADD = \"+\";\r\nstatic const char *K_SUB = \"-\";\r\nstatic const char *K_MUL = \"*\";   // 映射 'x' 为 '*'\r\nstatic const char *K_DIV = \"/\";   // 映射 '÷' 为 '/'\r\nstatic const char *K_MOD = \"%\";\r\nstatic const char *K_LP  = \"(\";\r\nstatic const char *K_RP  = \")\";\r\nstatic const char *K_EQ  = \"=\";\r\nstatic const char *K_CLR = \"C\";\r\nstatic const char *K_BS  = \"⬅\";\r\n\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_0, calc_key_event_handler, LV_EVENT_ALL, (void *)K_0);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_1, calc_key_event_handler, LV_EVENT_ALL, (void *)K_1);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_2, calc_key_event_handler, LV_EVENT_ALL, (void *)K_2);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_3, calc_key_event_handler, LV_EVENT_ALL, (void *)K_3);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_4, calc_key_event_handler, LV_EVENT_ALL, (void *)K_4);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_5, calc_key_event_handler, LV_EVENT_ALL, (void *)K_5);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_6, calc_key_event_handler, LV_EVENT_ALL, (void *)K_6);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_7, calc_key_event_handler, LV_EVENT_ALL, (void *)K_7);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_8, calc_key_event_handler, LV_EVENT_ALL, (void *)K_8);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_9, calc_key_event_handler, LV_EVENT_ALL, (void *)K_9);\r\n\r\nlv_obj_add_event_cb(ui->calculator_app_btn_add,       calc_key_event_handler, LV_EVENT_ALL, (void *)K_ADD);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_subtract,  calc_key_event_handler, LV_EVENT_ALL, (void *)K_SUB);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_multiply,  calc_key_event_handler, LV_EVENT_ALL, (void *)K_MUL);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_divide,    calc_key_event_handler, LV_EVENT_ALL, (void *)K_DIV);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_modulus,   calc_key_event_handler, LV_EVENT_ALL, (void *)K_MOD);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_left_parenthesis,  calc_key_event_handler, LV_EVENT_ALL, (void *)K_LP);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_right_parenthesis, calc_key_event_handler, LV_EVENT_ALL, (void *)K_RP);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_equal,     calc_key_event_handler, LV_EVENT_ALL, (void *)K_EQ);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_clear,     calc_key_event_handler, LV_EVENT_ALL, (void *)K_CLR);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_backspace, calc_key_event_handler, LV_EVENT_ALL, (void *)K_BS);",
 				"inc_c": "",
 				"code_py": "",
 				"inc_py": "",
@@ -7170,6 +7170,106 @@
 			"visible": true,
 			"flag": [],
 			"list": [
+				{
+					"name": "label_1",
+					"id": "zvfrypth",
+					"type": "label",
+					"left": 21,
+					"top": 40,
+					"visible": true,
+					"isLock": false,
+					"flag": [],
+					"width": 442,
+					"height": 35,
+					"default_style": false,
+					"text": "语法错误除零错误",
+					"long_mode": "LV_LABEL_LONG_WRAP",
+					"is_static": false,
+					"custom_attribute": [],
+					"attribute_type": "",
+					"style": [
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_DEFAULT",
+							"disable": false,
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 0,
+							"border_opa": 255,
+							"border_color": "#2195f6",
+							"radius": 0,
+							"text_color": "#000000",
+							"text_opa": 255,
+							"font": 16,
+							"text_align": "LV_TEXT_ALIGN_RIGHT",
+							"font_family": "SourceHanSerifSC_Regular",
+							"letter_space": 0,
+							"line_space": 0,
+							"bg_color": "#ffffff",
+							"bg_grad_color": "#2195f6",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"padding_top": 7,
+							"padding_right": 0,
+							"padding_bottom": 0,
+							"padding_left": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"shadow_color": "#ffffff",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0
+						},
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_DISABLED",
+							"disable": true,
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 0,
+							"border_opa": 255,
+							"border_color": "#2195f6",
+							"radius": 0,
+							"text_color": "#000000",
+							"text_opa": 255,
+							"font": 16,
+							"font_family": "montserratMedium",
+							"text_align": "LV_TEXT_ALIGN_CENTER",
+							"letter_space": 0,
+							"line_space": 0,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_opa": 0,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"padding_top": 0,
+							"padding_right": 0,
+							"padding_bottom": 0,
+							"padding_left": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0
+						}
+					]
+				},
 				{
 					"name": "caalculator_page",
 					"id": "wexnzy6k",
@@ -7184,108 +7284,6 @@
 					"default_style": false,
 					"scrollbar_mode": "OFF",
 					"child": [
-						{
-							"name": "ta_result",
-							"id": "ngf12qiy",
-							"type": "ta",
-							"left": 17,
-							"top": 20,
-							"visible": true,
-							"isLock": false,
-							"flag": [],
-							"width": 448,
-							"height": 48,
-							"default_style": false,
-							"text": "",
-							"password_mode": false,
-							"one_line_mode": false,
-							"placeholder": "",
-							"accept_characters": "",
-							"max_len": 32,
-							"password_bullet": "*",
-							"style": [
-								{
-									"part": "LV_PART_MAIN",
-									"state": "LV_STATE_DEFAULT",
-									"disable": false,
-									"font": 12,
-									"font_family": "montserratMedium",
-									"bg_color": "#ffffff",
-									"bg_grad_color": "#ffffff",
-									"bg_opa": 255,
-									"bg_grad_dir": "LV_GRAD_DIR_NONE",
-									"bg_dither_mode": "LV_DITHER_NONE",
-									"bg_main_stop": 0,
-									"bg_grad_stop": 255,
-									"border_side": [
-										"LV_BORDER_SIDE_FULL"
-									],
-									"border_width": 2,
-									"border_color": "#e6e6e6",
-									"border_opa": 255,
-									"text_color": "#000000",
-									"text_align": "LV_TEXT_ALIGN_LEFT",
-									"letter_space": 2,
-									"shadow_color": "#2195f6",
-									"shadow_opa": 255,
-									"shadow_width": 0,
-									"shadow_spread": 0,
-									"shadow_ofs_x": 0,
-									"shadow_ofs_y": 0,
-									"padding_top": 4,
-									"padding_right": 4,
-									"padding_left": 4,
-									"radius": 4
-								},
-								{
-									"part": "LV_PART_MAIN",
-									"state": "LV_STATE_FOCUSED",
-									"disable": true,
-									"font": 12,
-									"font_family": "montserratMedium",
-									"bg_color": "#ffffff",
-									"bg_grad_color": "#ffffff",
-									"bg_opa": 255,
-									"bg_grad_dir": "LV_GRAD_DIR_NONE",
-									"bg_dither_mode": "LV_DITHER_NONE",
-									"bg_main_stop": 0,
-									"bg_grad_stop": 255,
-									"border_side": [
-										"LV_BORDER_SIDE_FULL"
-									],
-									"border_width": 2,
-									"border_color": "#e6e6e6",
-									"border_opa": 255,
-									"text_color": "#000000",
-									"shadow_color": "#2195f6",
-									"shadow_opa": 255,
-									"shadow_width": 0,
-									"shadow_spread": 0,
-									"shadow_ofs_x": 0,
-									"shadow_ofs_y": 0,
-									"padding_top": 4,
-									"padding_right": 4,
-									"padding_left": 4,
-									"radius": 4
-								},
-								{
-									"part": "LV_PART_SCROLLBAR",
-									"state": "LV_STATE_DEFAULT",
-									"disable": false,
-									"bg_color": "#2195f6",
-									"bg_opa": 255,
-									"radius": 0
-								},
-								{
-									"part": "LV_PART_SCROLLBAR",
-									"state": "LV_STATE_FOCUSED",
-									"disable": true,
-									"bg_color": "#2195f6",
-									"bg_opa": 255,
-									"radius": 0
-								}
-							]
-						},
 						{
 							"name": "btn_left_parenthesis",
 							"id": "pdfgsmrb",
@@ -7468,7 +7466,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_right_parenthesis",
@@ -7652,7 +7653,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_modulus",
@@ -7836,7 +7840,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_num_0",
@@ -8020,7 +8027,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_clear",
@@ -8204,7 +8214,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_num_7",
@@ -8388,7 +8401,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_num_4",
@@ -8572,7 +8588,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_num_1",
@@ -8756,7 +8775,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_divide",
@@ -8940,7 +8962,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_num_8",
@@ -9124,7 +9149,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_num_5",
@@ -9308,7 +9336,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_num_2",
@@ -9492,7 +9523,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_multiply",
@@ -9676,7 +9710,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_num_9",
@@ -9860,7 +9897,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_num_6",
@@ -10044,7 +10084,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_num_3",
@@ -10228,14 +10271,17 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_backspace",
 							"id": "t2kapa0s",
 							"type": "btn",
 							"left": 400,
-							"top": 85,
+							"top": 84,
 							"visible": true,
 							"isLock": false,
 							"flag": [],
@@ -10243,7 +10289,7 @@
 							"height": 40,
 							"default_style": false,
 							"long_mode": "LV_LABEL_LONG_WRAP",
-							"text": "<-",
+							"text": "⬅",
 							"toggle": false,
 							"style": [
 								{
@@ -10275,7 +10321,7 @@
 									"bg_img_recolor": "#ffffff",
 									"bg_img_recolor_opa": 0,
 									"font": 16,
-									"font_family": "montserratMedium",
+									"font_family": "SourceHanSerifSC_Regular",
 									"text_color": "#ffffff",
 									"text_opa": 255,
 									"text_align": "LV_TEXT_ALIGN_CENTER"
@@ -10412,7 +10458,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_subtract",
@@ -10596,7 +10645,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_add",
@@ -10780,7 +10832,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						},
 						{
 							"name": "btn_equal",
@@ -10964,7 +11019,10 @@
 									"text_opa": 255,
 									"text_color": "#000000"
 								}
-							]
+							],
+							"event": {
+								"widget": {}
+							}
 						}
 					],
 					"style": [
@@ -17960,7 +18018,7 @@
 														"version": 190,
 														"scrollbar_mode": "OFF",
 														"customer_code": {
-															"code_c": "",
+															"code_c": "calculator_init(ui->calculator_app_label_1);\r\n\r\n    // 为所有按键绑定事件与按键值\r\nstatic const char *K_0 = \"0\";\r\nstatic const char *K_1 = \"1\";\r\nstatic const char *K_2 = \"2\";\r\nstatic const char *K_3 = \"3\";\r\nstatic const char *K_4 = \"4\";\r\nstatic const char *K_5 = \"5\";\r\nstatic const char *K_6 = \"6\";\r\nstatic const char *K_7 = \"7\";\r\nstatic const char *K_8 = \"8\";\r\nstatic const char *K_9 = \"9\";\r\nstatic const char *K_ADD = \"+\";\r\nstatic const char *K_SUB = \"-\";\r\nstatic const char *K_MUL = \"*\";   // 映射 'x' 为 '*'\r\nstatic const char *K_DIV = \"/\";   // 映射 '÷' 为 '/'\r\nstatic const char *K_MOD = \"%\";\r\nstatic const char *K_LP  = \"(\";\r\nstatic const char *K_RP  = \")\";\r\nstatic const char *K_EQ  = \"=\";\r\nstatic const char *K_CLR = \"C\";\r\nstatic const char *K_BS  = \"⬅\";\r\n\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_0, calc_key_event_handler, LV_EVENT_ALL, (void *)K_0);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_1, calc_key_event_handler, LV_EVENT_ALL, (void *)K_1);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_2, calc_key_event_handler, LV_EVENT_ALL, (void *)K_2);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_3, calc_key_event_handler, LV_EVENT_ALL, (void *)K_3);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_4, calc_key_event_handler, LV_EVENT_ALL, (void *)K_4);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_5, calc_key_event_handler, LV_EVENT_ALL, (void *)K_5);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_6, calc_key_event_handler, LV_EVENT_ALL, (void *)K_6);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_7, calc_key_event_handler, LV_EVENT_ALL, (void *)K_7);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_8, calc_key_event_handler, LV_EVENT_ALL, (void *)K_8);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_9, calc_key_event_handler, LV_EVENT_ALL, (void *)K_9);\r\n\r\nlv_obj_add_event_cb(ui->calculator_app_btn_add,       calc_key_event_handler, LV_EVENT_ALL, (void *)K_ADD);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_subtract,  calc_key_event_handler, LV_EVENT_ALL, (void *)K_SUB);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_multiply,  calc_key_event_handler, LV_EVENT_ALL, (void *)K_MUL);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_divide,    calc_key_event_handler, LV_EVENT_ALL, (void *)K_DIV);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_modulus,   calc_key_event_handler, LV_EVENT_ALL, (void *)K_MOD);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_left_parenthesis,  calc_key_event_handler, LV_EVENT_ALL, (void *)K_LP);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_right_parenthesis, calc_key_event_handler, LV_EVENT_ALL, (void *)K_RP);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_equal,     calc_key_event_handler, LV_EVENT_ALL, (void *)K_EQ);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_clear,     calc_key_event_handler, LV_EVENT_ALL, (void *)K_CLR);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_backspace, calc_key_event_handler, LV_EVENT_ALL, (void *)K_BS);",
 															"inc_c": "",
 															"code_py": "",
 															"inc_py": "",
@@ -17971,6 +18029,106 @@
 														"visible": true,
 														"flag": [],
 														"list": [
+															{
+																"name": "label_1",
+																"id": "zvfrypth",
+																"type": "label",
+																"left": 21,
+																"top": 40,
+																"visible": true,
+																"isLock": false,
+																"flag": [],
+																"width": 442,
+																"height": 35,
+																"default_style": false,
+																"text": "语法错误除零错误",
+																"long_mode": "LV_LABEL_LONG_WRAP",
+																"is_static": false,
+																"custom_attribute": [],
+																"attribute_type": "",
+																"style": [
+																	{
+																		"part": "LV_PART_MAIN",
+																		"state": "LV_STATE_DEFAULT",
+																		"disable": false,
+																		"border_side": [
+																			"LV_BORDER_SIDE_FULL"
+																		],
+																		"border_width": 0,
+																		"border_opa": 255,
+																		"border_color": "#2195f6",
+																		"radius": 0,
+																		"text_color": "#000000",
+																		"text_opa": 255,
+																		"font": 16,
+																		"text_align": "LV_TEXT_ALIGN_RIGHT",
+																		"font_family": "SourceHanSerifSC_Regular",
+																		"letter_space": 0,
+																		"line_space": 0,
+																		"bg_color": "#ffffff",
+																		"bg_grad_color": "#2195f6",
+																		"bg_opa": 255,
+																		"bg_grad_dir": "LV_GRAD_DIR_NONE",
+																		"bg_dither_mode": "LV_DITHER_NONE",
+																		"bg_main_stop": 0,
+																		"bg_grad_stop": 255,
+																		"padding_top": 7,
+																		"padding_right": 0,
+																		"padding_bottom": 0,
+																		"padding_left": 0,
+																		"bg_img_src": "",
+																		"bg_img_opa": 255,
+																		"bg_img_recolor": "#ffffff",
+																		"bg_img_recolor_opa": 0,
+																		"shadow_color": "#ffffff",
+																		"shadow_opa": 255,
+																		"shadow_width": 0,
+																		"shadow_spread": 0,
+																		"shadow_ofs_x": 0,
+																		"shadow_ofs_y": 0
+																	},
+																	{
+																		"part": "LV_PART_MAIN",
+																		"state": "LV_STATE_DISABLED",
+																		"disable": true,
+																		"border_side": [
+																			"LV_BORDER_SIDE_FULL"
+																		],
+																		"border_width": 0,
+																		"border_opa": 255,
+																		"border_color": "#2195f6",
+																		"radius": 0,
+																		"text_color": "#000000",
+																		"text_opa": 255,
+																		"font": 16,
+																		"font_family": "montserratMedium",
+																		"text_align": "LV_TEXT_ALIGN_CENTER",
+																		"letter_space": 0,
+																		"line_space": 0,
+																		"bg_color": "#2195f6",
+																		"bg_grad_color": "#2195f6",
+																		"bg_opa": 0,
+																		"bg_grad_dir": "LV_GRAD_DIR_NONE",
+																		"bg_dither_mode": "LV_DITHER_NONE",
+																		"bg_main_stop": 0,
+																		"bg_grad_stop": 255,
+																		"padding_top": 0,
+																		"padding_right": 0,
+																		"padding_bottom": 0,
+																		"padding_left": 0,
+																		"bg_img_src": "",
+																		"bg_img_opa": 255,
+																		"bg_img_recolor": "#ffffff",
+																		"bg_img_recolor_opa": 0,
+																		"shadow_color": "#2195f6",
+																		"shadow_opa": 255,
+																		"shadow_width": 0,
+																		"shadow_spread": 0,
+																		"shadow_ofs_x": 0,
+																		"shadow_ofs_y": 0
+																	}
+																]
+															},
 															{
 																"name": "caalculator_page",
 																"id": "wexnzy6k",
@@ -17985,108 +18143,6 @@
 																"default_style": false,
 																"scrollbar_mode": "OFF",
 																"child": [
-																	{
-																		"name": "ta_result",
-																		"id": "ngf12qiy",
-																		"type": "ta",
-																		"left": 17,
-																		"top": 20,
-																		"visible": true,
-																		"isLock": false,
-																		"flag": [],
-																		"width": 448,
-																		"height": 48,
-																		"default_style": false,
-																		"text": "",
-																		"password_mode": false,
-																		"one_line_mode": false,
-																		"placeholder": "",
-																		"accept_characters": "",
-																		"max_len": 32,
-																		"password_bullet": "*",
-																		"style": [
-																			{
-																				"part": "LV_PART_MAIN",
-																				"state": "LV_STATE_DEFAULT",
-																				"disable": false,
-																				"font": 12,
-																				"font_family": "montserratMedium",
-																				"bg_color": "#ffffff",
-																				"bg_grad_color": "#ffffff",
-																				"bg_opa": 255,
-																				"bg_grad_dir": "LV_GRAD_DIR_NONE",
-																				"bg_dither_mode": "LV_DITHER_NONE",
-																				"bg_main_stop": 0,
-																				"bg_grad_stop": 255,
-																				"border_side": [
-																					"LV_BORDER_SIDE_FULL"
-																				],
-																				"border_width": 2,
-																				"border_color": "#e6e6e6",
-																				"border_opa": 255,
-																				"text_color": "#000000",
-																				"text_align": "LV_TEXT_ALIGN_LEFT",
-																				"letter_space": 2,
-																				"shadow_color": "#2195f6",
-																				"shadow_opa": 255,
-																				"shadow_width": 0,
-																				"shadow_spread": 0,
-																				"shadow_ofs_x": 0,
-																				"shadow_ofs_y": 0,
-																				"padding_top": 4,
-																				"padding_right": 4,
-																				"padding_left": 4,
-																				"radius": 4
-																			},
-																			{
-																				"part": "LV_PART_MAIN",
-																				"state": "LV_STATE_FOCUSED",
-																				"disable": true,
-																				"font": 12,
-																				"font_family": "montserratMedium",
-																				"bg_color": "#ffffff",
-																				"bg_grad_color": "#ffffff",
-																				"bg_opa": 255,
-																				"bg_grad_dir": "LV_GRAD_DIR_NONE",
-																				"bg_dither_mode": "LV_DITHER_NONE",
-																				"bg_main_stop": 0,
-																				"bg_grad_stop": 255,
-																				"border_side": [
-																					"LV_BORDER_SIDE_FULL"
-																				],
-																				"border_width": 2,
-																				"border_color": "#e6e6e6",
-																				"border_opa": 255,
-																				"text_color": "#000000",
-																				"shadow_color": "#2195f6",
-																				"shadow_opa": 255,
-																				"shadow_width": 0,
-																				"shadow_spread": 0,
-																				"shadow_ofs_x": 0,
-																				"shadow_ofs_y": 0,
-																				"padding_top": 4,
-																				"padding_right": 4,
-																				"padding_left": 4,
-																				"radius": 4
-																			},
-																			{
-																				"part": "LV_PART_SCROLLBAR",
-																				"state": "LV_STATE_DEFAULT",
-																				"disable": false,
-																				"bg_color": "#2195f6",
-																				"bg_opa": 255,
-																				"radius": 0
-																			},
-																			{
-																				"part": "LV_PART_SCROLLBAR",
-																				"state": "LV_STATE_FOCUSED",
-																				"disable": true,
-																				"bg_color": "#2195f6",
-																				"bg_opa": 255,
-																				"radius": 0
-																			}
-																		]
-																	},
 																	{
 																		"name": "btn_left_parenthesis",
 																		"id": "pdfgsmrb",
@@ -18269,7 +18325,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_right_parenthesis",
@@ -18453,7 +18512,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_modulus",
@@ -18637,7 +18699,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_num_0",
@@ -18821,7 +18886,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_clear",
@@ -19005,7 +19073,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_num_7",
@@ -19189,7 +19260,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_num_4",
@@ -19373,7 +19447,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_num_1",
@@ -19557,7 +19634,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_divide",
@@ -19741,7 +19821,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_num_8",
@@ -19925,7 +20008,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_num_5",
@@ -20109,7 +20195,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_num_2",
@@ -20293,7 +20382,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_multiply",
@@ -20477,7 +20569,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_num_9",
@@ -20661,7 +20756,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_num_6",
@@ -20845,7 +20943,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_num_3",
@@ -21029,14 +21130,17 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_backspace",
 																		"id": "t2kapa0s",
 																		"type": "btn",
 																		"left": 400,
-																		"top": 85,
+																		"top": 84,
 																		"visible": true,
 																		"isLock": false,
 																		"flag": [],
@@ -21044,7 +21148,7 @@
 																		"height": 40,
 																		"default_style": false,
 																		"long_mode": "LV_LABEL_LONG_WRAP",
-																		"text": "<-",
+																		"text": "⬅",
 																		"toggle": false,
 																		"style": [
 																			{
@@ -21076,7 +21180,7 @@
 																				"bg_img_recolor": "#ffffff",
 																				"bg_img_recolor_opa": 0,
 																				"font": 16,
-																				"font_family": "montserratMedium",
+																				"font_family": "SourceHanSerifSC_Regular",
 																				"text_color": "#ffffff",
 																				"text_opa": 255,
 																				"text_align": "LV_TEXT_ALIGN_CENTER"
@@ -21213,7 +21317,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_subtract",
@@ -21397,7 +21504,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_add",
@@ -21581,7 +21691,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	},
 																	{
 																		"name": "btn_equal",
@@ -21765,7 +21878,10 @@
 																				"text_opa": 255,
 																				"text_color": "#000000"
 																			}
-																		]
+																		],
+																		"event": {
+																			"widget": {}
+																		}
 																	}
 																],
 																"style": [
@@ -43151,7 +43267,7 @@
 				"version": 190,
 				"scrollbar_mode": "OFF",
 				"customer_code": {
-					"code_c": "",
+					"code_c": "calculator_init(ui->calculator_app_label_1);\r\n\r\n    // 为所有按键绑定事件与按键值\r\nstatic const char *K_0 = \"0\";\r\nstatic const char *K_1 = \"1\";\r\nstatic const char *K_2 = \"2\";\r\nstatic const char *K_3 = \"3\";\r\nstatic const char *K_4 = \"4\";\r\nstatic const char *K_5 = \"5\";\r\nstatic const char *K_6 = \"6\";\r\nstatic const char *K_7 = \"7\";\r\nstatic const char *K_8 = \"8\";\r\nstatic const char *K_9 = \"9\";\r\nstatic const char *K_ADD = \"+\";\r\nstatic const char *K_SUB = \"-\";\r\nstatic const char *K_MUL = \"*\";   // 映射 'x' 为 '*'\r\nstatic const char *K_DIV = \"/\";   // 映射 '÷' 为 '/'\r\nstatic const char *K_MOD = \"%\";\r\nstatic const char *K_LP  = \"(\";\r\nstatic const char *K_RP  = \")\";\r\nstatic const char *K_EQ  = \"=\";\r\nstatic const char *K_CLR = \"C\";\r\nstatic const char *K_BS  = \"⬅\";\r\n\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_0, calc_key_event_handler, LV_EVENT_ALL, (void *)K_0);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_1, calc_key_event_handler, LV_EVENT_ALL, (void *)K_1);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_2, calc_key_event_handler, LV_EVENT_ALL, (void *)K_2);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_3, calc_key_event_handler, LV_EVENT_ALL, (void *)K_3);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_4, calc_key_event_handler, LV_EVENT_ALL, (void *)K_4);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_5, calc_key_event_handler, LV_EVENT_ALL, (void *)K_5);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_6, calc_key_event_handler, LV_EVENT_ALL, (void *)K_6);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_7, calc_key_event_handler, LV_EVENT_ALL, (void *)K_7);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_8, calc_key_event_handler, LV_EVENT_ALL, (void *)K_8);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_num_9, calc_key_event_handler, LV_EVENT_ALL, (void *)K_9);\r\n\r\nlv_obj_add_event_cb(ui->calculator_app_btn_add,       calc_key_event_handler, LV_EVENT_ALL, (void *)K_ADD);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_subtract,  calc_key_event_handler, LV_EVENT_ALL, (void *)K_SUB);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_multiply,  calc_key_event_handler, LV_EVENT_ALL, (void *)K_MUL);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_divide,    calc_key_event_handler, LV_EVENT_ALL, (void *)K_DIV);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_modulus,   calc_key_event_handler, LV_EVENT_ALL, (void *)K_MOD);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_left_parenthesis,  calc_key_event_handler, LV_EVENT_ALL, (void *)K_LP);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_right_parenthesis, calc_key_event_handler, LV_EVENT_ALL, (void *)K_RP);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_equal,     calc_key_event_handler, LV_EVENT_ALL, (void *)K_EQ);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_clear,     calc_key_event_handler, LV_EVENT_ALL, (void *)K_CLR);\r\nlv_obj_add_event_cb(ui->calculator_app_btn_backspace, calc_key_event_handler, LV_EVENT_ALL, (void *)K_BS);",
 					"inc_c": "",
 					"code_py": "",
 					"inc_py": "",
@@ -45810,6 +45926,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -45998,6 +46117,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -46186,6 +46308,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -46367,13 +46492,16 @@
 								"flag": [],
 								"pos": [
 									400,
-									85
+									84
 								],
 								"size": [
 									60,
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -46405,7 +46533,7 @@
 										"bg_img_recolor": "#ffffff",
 										"bg_img_recolor_opa": 0,
 										"font": 16,
-										"font_family": "montserratMedium",
+										"font_family": "SourceHanSerifSC_Regular",
 										"text_color": "#ffffff",
 										"text_opa": 255,
 										"text_align": "LV_TEXT_ALIGN_CENTER"
@@ -46543,7 +46671,7 @@
 										"text_color": "#000000"
 									}
 								],
-								"text": "<-",
+								"text": "⬅",
 								"long_mode": "LV_LABEL_LONG_WRAP",
 								"toggle": false
 							},
@@ -46562,6 +46690,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -46750,6 +46881,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -46938,6 +47072,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -47126,6 +47263,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -47314,6 +47454,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -47502,6 +47645,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -47690,6 +47836,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -47878,6 +48027,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -48066,6 +48218,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -48254,6 +48409,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -48442,6 +48600,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -48630,6 +48791,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -48818,6 +48982,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -49006,6 +49173,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -49194,6 +49364,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -49382,6 +49555,9 @@
 									40
 								],
 								"default_style": false,
+								"event": {
+									"widget": {}
+								},
 								"text_align": "center",
 								"style": [
 									{
@@ -49554,111 +49730,6 @@
 								"text": "(",
 								"long_mode": "LV_LABEL_LONG_WRAP",
 								"toggle": false
-							},
-							{
-								"name": "calculator_app_ta_result",
-								"id": "ngf12qiy",
-								"type": "ta",
-								"visible": true,
-								"flag": [],
-								"pos": [
-									17,
-									20
-								],
-								"size": [
-									448,
-									48
-								],
-								"default_style": false,
-								"text": "",
-								"password_mode": false,
-								"one_line_mode": false,
-								"placeholder": "",
-								"accept_characters": "",
-								"max_len": 32,
-								"password_bullet": "*",
-								"style": [
-									{
-										"part": "LV_PART_MAIN",
-										"state": "LV_STATE_DEFAULT",
-										"disable": false,
-										"font": 12,
-										"font_family": "montserratMedium",
-										"bg_color": "#ffffff",
-										"bg_grad_color": "#ffffff",
-										"bg_opa": 255,
-										"bg_grad_dir": "LV_GRAD_DIR_NONE",
-										"bg_dither_mode": "LV_DITHER_NONE",
-										"bg_main_stop": 0,
-										"bg_grad_stop": 255,
-										"border_side": [
-											"LV_BORDER_SIDE_FULL"
-										],
-										"border_width": 2,
-										"border_color": "#e6e6e6",
-										"border_opa": 255,
-										"text_color": "#000000",
-										"text_align": "LV_TEXT_ALIGN_LEFT",
-										"letter_space": 2,
-										"shadow_color": "#2195f6",
-										"shadow_opa": 255,
-										"shadow_width": 0,
-										"shadow_spread": 0,
-										"shadow_ofs_x": 0,
-										"shadow_ofs_y": 0,
-										"padding_top": 4,
-										"padding_right": 4,
-										"padding_left": 4,
-										"radius": 4
-									},
-									{
-										"part": "LV_PART_MAIN",
-										"state": "LV_STATE_FOCUSED",
-										"disable": true,
-										"font": 12,
-										"font_family": "montserratMedium",
-										"bg_color": "#ffffff",
-										"bg_grad_color": "#ffffff",
-										"bg_opa": 255,
-										"bg_grad_dir": "LV_GRAD_DIR_NONE",
-										"bg_dither_mode": "LV_DITHER_NONE",
-										"bg_main_stop": 0,
-										"bg_grad_stop": 255,
-										"border_side": [
-											"LV_BORDER_SIDE_FULL"
-										],
-										"border_width": 2,
-										"border_color": "#e6e6e6",
-										"border_opa": 255,
-										"text_color": "#000000",
-										"shadow_color": "#2195f6",
-										"shadow_opa": 255,
-										"shadow_width": 0,
-										"shadow_spread": 0,
-										"shadow_ofs_x": 0,
-										"shadow_ofs_y": 0,
-										"padding_top": 4,
-										"padding_right": 4,
-										"padding_left": 4,
-										"radius": 4
-									},
-									{
-										"part": "LV_PART_SCROLLBAR",
-										"state": "LV_STATE_DEFAULT",
-										"disable": false,
-										"bg_color": "#2195f6",
-										"bg_opa": 255,
-										"radius": 0
-									},
-									{
-										"part": "LV_PART_SCROLLBAR",
-										"state": "LV_STATE_FOCUSED",
-										"disable": true,
-										"bg_color": "#2195f6",
-										"bg_opa": 255,
-										"radius": 0
-									}
-								]
 							}
 						],
 						"style": [
@@ -49684,6 +49755,109 @@
 								"padding_bottom": 0,
 								"padding_left": 0,
 								"padding_right": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0
+							}
+						]
+					},
+					{
+						"name": "calculator_app_label_1",
+						"id": "zvfrypth",
+						"type": "label",
+						"visible": true,
+						"flag": [],
+						"pos": [
+							21,
+							40
+						],
+						"size": [
+							442,
+							35
+						],
+						"default_style": false,
+						"attribute_type": "",
+						"custom_attribute": [],
+						"text": "语法错误除零错误",
+						"long_mode": "LV_LABEL_LONG_WRAP",
+						"is_static": false,
+						"style": [
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_DEFAULT",
+								"disable": false,
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 0,
+								"border_opa": 255,
+								"border_color": "#2195f6",
+								"radius": 0,
+								"text_color": "#000000",
+								"text_opa": 255,
+								"font": 16,
+								"text_align": "LV_TEXT_ALIGN_RIGHT",
+								"font_family": "SourceHanSerifSC_Regular",
+								"letter_space": 0,
+								"line_space": 0,
+								"bg_color": "#ffffff",
+								"bg_grad_color": "#2195f6",
+								"bg_opa": 255,
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"padding_top": 7,
+								"padding_right": 0,
+								"padding_bottom": 0,
+								"padding_left": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"shadow_color": "#ffffff",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0
+							},
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_DISABLED",
+								"disable": true,
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 0,
+								"border_opa": 255,
+								"border_color": "#2195f6",
+								"radius": 0,
+								"text_color": "#000000",
+								"text_opa": 255,
+								"font": 16,
+								"font_family": "montserratMedium",
+								"text_align": "LV_TEXT_ALIGN_CENTER",
+								"letter_space": 0,
+								"line_space": 0,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_opa": 0,
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"padding_top": 0,
+								"padding_right": 0,
+								"padding_bottom": 0,
+								"padding_left": 0,
 								"bg_img_src": "",
 								"bg_img_opa": 255,
 								"bg_img_recolor": "#ffffff",
