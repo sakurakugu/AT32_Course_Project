@@ -31,7 +31,7 @@ uint16_t analogRead(void);
 #define NVIC_PREEMPT_PRIORITY 4
 
 #include "timer.h"
-#include "wifi.h"
+#include "wifi.hpp"
 #include "bsp_eep_lm75.h"
 #include "bsp_uart.h"
 #include "bsp_ext_flash.h"

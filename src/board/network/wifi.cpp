@@ -3,7 +3,7 @@
  * @file wifi.c
  */
 
-#include "wifi.h"
+#include "wifi.hpp"
 #include "bsp_uart.h"
 #include "timer.h"
 // logger

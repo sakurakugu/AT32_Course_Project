@@ -10,25 +10,7 @@
 
 #include "../../src/app/calculator/calculator.h"
 
-/*********************
- *      宏定义
- *********************/
-
-/**********************
- *      类型定义
- **********************/
-
-/**********************
- *  STATIC 函数原型
- **********************/
-
-/**********************
- *  STATIC 变量
- **********************/
-
-/**
- * Create a demo application
- */
+volatile uint8_t wifi_reconnect_requested;
 
 void custom_init(lv_ui *ui) {
     /* Add your codes here */
@@ -58,3 +40,24 @@ void calc_key_event_handler(lv_event_t *e) {
         calculator_input_key(key);
     }
 }
+
+// 点击“连接”按钮事件：读取输入->触发异步连接->成功后写EEPROM
+void wifi_link_btn_event_handler(lv_event_t *e) {
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui) return;
+
+    const char *ssid_text = lv_textarea_get_text(ui->setting_app_wifi_name_input);
+    const char *pwd_text = lv_textarea_get_text(ui->setting_app_wifi_password_input);
+
+    if (!ssid_text || !pwd_text) return;
+
+    // 复制到运行时缓冲，并更新全局凭据指针
+    strncpy(wifi_ssid, ssid_text, sizeof(wifi_ssid) - 1);
+    strncpy(wifi_password, pwd_text, sizeof(wifi_password) - 1);
+    wifi_ssid[sizeof(wifi_ssid) - 1] = '\0';
+    wifi_password[sizeof(wifi_password) - 1] = '\0';
+
+    // 由后台任务异步完成连接，避免阻塞UI
+    wifi_reconnect_requested = 1;
+}
+

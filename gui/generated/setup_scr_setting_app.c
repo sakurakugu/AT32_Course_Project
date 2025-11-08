@@ -597,7 +597,8 @@ void setup_scr_setting_app(lv_ui *ui)
     lv_obj_set_style_radius(ui->setting_app_sync_net_time_sw, 10, LV_PART_KNOB|LV_STATE_DEFAULT);
 
     //The custom code of setting_app.
-
+    // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）
+    lv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
 
     //Update current screen layout.
     lv_obj_update_layout(ui->setting_app);

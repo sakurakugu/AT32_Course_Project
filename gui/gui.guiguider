@@ -1380,8 +1380,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "home_app1"
+			]
 		},
 		{
 			"name": "home_app2",
@@ -2352,8 +2351,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "home_app2"
+			]
 		},
 		{
 			"name": "status_app",
@@ -2825,8 +2823,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "status_app"
+			]
 		},
 		{
 			"name": "weather_app",
@@ -5426,8 +5423,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "weather_app"
+			]
 		},
 		{
 			"name": "music_app",
@@ -6206,8 +6202,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "music_app"
+			]
 		},
 		{
 			"name": "smart_home_app",
@@ -7155,8 +7150,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "smart_home_app"
+			]
 		},
 		{
 			"name": "calculator_app",
@@ -11440,8 +11434,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "calculator_app"
+			]
 		},
 		{
 			"name": "deepseek_app",
@@ -12050,8 +12043,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "deepseek_app"
+			]
 		},
 		{
 			"name": "setting_app",
@@ -12060,7 +12052,7 @@
 			"version": 190,
 			"scrollbar_mode": "OFF",
 			"customer_code": {
-				"code_c": "",
+				"code_c": "    // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）\r\nlv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);",
 				"inc_c": "",
 				"code_py": "",
 				"inc_py": "",
@@ -12633,7 +12625,10 @@
 											"radius": 0
 										}
 									],
-									"dropToGap": false
+									"dropToGap": false,
+									"event": {
+										"widget": {}
+									}
 								},
 								{
 									"name": "wifi_name_text",
@@ -14179,8 +14174,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "setting_app"
+			]
 		},
 		{
 			"name": "electronic_organ_app",
@@ -14229,8 +14223,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "electronic_organ_app"
+			]
 		},
 		{
 			"name": "game1",
@@ -17411,7 +17404,7 @@
 														"version": 190,
 														"scrollbar_mode": "OFF",
 														"customer_code": {
-															"code_c": "",
+															"code_c": "    // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）\r\nlv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);",
 															"inc_c": "",
 															"code_py": "",
 															"inc_py": "",
@@ -17984,7 +17977,10 @@
 																						"radius": 0
 																					}
 																				],
-																				"dropToGap": false
+																				"dropToGap": false,
+																				"event": {
+																					"widget": {}
+																				}
 																			},
 																			{
 																				"name": "wifi_name_text",
@@ -55111,7 +55107,7 @@
 				"version": 190,
 				"scrollbar_mode": "OFF",
 				"customer_code": {
-					"code_c": "",
+					"code_c": "    // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）\r\nlv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);",
 					"inc_c": "",
 					"code_py": "",
 					"inc_py": "",
@@ -57931,6 +57927,9 @@
 											32
 										],
 										"default_style": false,
+										"event": {
+											"widget": {}
+										},
 										"text": "",
 										"password_mode": false,
 										"one_line_mode": true,

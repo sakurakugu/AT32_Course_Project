@@ -4,22 +4,23 @@
 #include "at32f435_437_clock.h"
 #include "at32f435_437_misc.h"
 #include "beep.h"
-#include "wifi.h"
 #include "board.h"
-#include "timer.h"
+#include "board/bsp_eep_lm75.h"
 #include "config.h"
 #include "custom.h"
 #include "events_init.h"
 #include "gui_guider.h"
+#include "key.h"
 #include "lcd.hpp"
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
-#include "touch.hpp"
 #include "lv_tick_custom.h"
 #include "lvgl.h"
-#include "key.h"
-#include "oled.h"
 #include "music.h"
+#include "oled.h"
+#include "timer.h"
+#include "touch.hpp"
+#include "wifi.hpp"
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -98,8 +99,6 @@ uint8_t consecutive_heartbeat_failures = 0; // 连续心跳失败次数
 #define MAX_HEARTBEAT_FAILURES 3            // 最大连续心跳失败次数
 #define CONNECTION_RETRY_INTERVAL 300000    // 5分钟重连间隔
 
-// WiFi异步连接请求标志（由心跳或启动时触发）
-volatile uint8_t wifi_reconnect_requested = 1;
 
 // 心跳包发送函数
 void send_heartbeat() {
@@ -260,13 +259,13 @@ void reset_connection_status(void) {
     last_heartbeat_response_time = Timer_GetTickCount();
 }
 
-void tlink_init_wifi(void) {
+void tlink_init_wifi() {
     char testStr[] = "9B0Y5S576WNBR380";
     comSendBuf(COM3, (uint8_t *)"+++", 3);
     // printf("\r\n 发送AT指令: AT\r\n");
     delay_ms1(1000);
 
-    auto& wifi = Wifi::GetInstance();
+    auto &wifi = Wifi::GetInstance();
 
     wifi.sendAT("AT");
     if (wifi.waitResponse("OK", 5000) != 1) {
@@ -283,12 +282,12 @@ void tlink_init_wifi(void) {
     }
 
     // 使用库函数进行AP连接，避免手动AT并统一处理应答
-    if (wifi.joinAP(wifi_name, wifi_password, 15000) != 1) {
+    if (wifi.joinAP(wifi_ssid, wifi_password, 15000) != 1) {
         printf("\r\n CWJAP fail\r\n");
         delay_ms1(1000);
     }
     wifi.sendAT("AT+CIPSTART=\"TCP\",\"tcp.tlink.io\",8647");
-    if (wifi.waitResponse("OK", 5000) != 1) {   
+    if (wifi.waitResponse("OK", 5000) != 1) {
         printf("\r\n CIPSTART fail\r\n");
     }
 
@@ -304,6 +303,72 @@ void tlink_init_wifi(void) {
     printf("\r\n 服务器已连接!\r\n");
     comSendBuf(COM3, (uint8_t *)testStr, strlen(testStr));
     delay_ms1(4000);
+}
+
+static bool wifi_save_credentials_to_eeprom(const char *ssid, const char *pwd) {
+    if (!ssid || !pwd) return false;
+    size_t ssid_len = strlen(ssid);
+    size_t pwd_len = strlen(pwd);
+    if (ssid_len > 32 || pwd_len > 64) return false;
+
+    uint8_t ssid_buf[33] = {0};
+    uint8_t pwd_buf[65] = {0};
+    memcpy(ssid_buf, ssid, ssid_len);
+    memcpy(pwd_buf, pwd, pwd_len);
+
+    eep_write(WIFI_EEP_ADDR_SSID, ssid_buf, sizeof(ssid_buf));
+    eep_write(WIFI_EEP_ADDR_PASSWORD, pwd_buf, sizeof(pwd_buf));
+    return true;
+}
+
+static bool wifi_load_credentials_from_eeprom(char *ssid_out, size_t ssid_out_size, char *pwd_out,
+                                              size_t pwd_out_size) {
+    if (!ssid_out || !pwd_out)
+        return false;
+    if (ssid_out_size < 33 || pwd_out_size < 65)
+        return false;
+
+    uint8_t ssid_buf[33] = {0};
+    uint8_t pwd_buf[65] = {0};
+
+    eep_read(WIFI_EEP_ADDR_SSID, ssid_buf, sizeof(ssid_buf));
+    eep_read(WIFI_EEP_ADDR_PASSWORD, pwd_buf, sizeof(pwd_buf));
+
+    // 简单校验：非空
+    if (ssid_buf[0] == '\0') return false;
+
+    memcpy(ssid_out, ssid_buf, 33);
+    memcpy(pwd_out, pwd_buf, 65);
+    return true;
+}
+
+static bool wifi_connect(const char *ssid, const char *pwd, uint16_t timeout_ms = 15000) {
+    if (!ssid || !pwd) return false;
+    auto &wifi = Wifi::GetInstance();
+
+    wifi.sendAT("AT");
+    wifi.waitResponse("OK", 1000);
+    wifi.sendAT("ATE0");
+    wifi.waitResponse("OK", 1000);
+
+    if (wifi.setWiFiMode(1) != 1) {
+        printf("\r\n CWMODE fail\r\n");
+        return false;
+    }
+
+    if (wifi.joinAP(ssid, pwd, timeout_ms) != 1) {
+        printf("\r\n CWJAP fail\r\n");
+        return false;
+    }
+    return true;
+}
+
+// 在设置页面显示已连接的Wi‑Fi名称
+static void update_wifi_name_label(lv_ui *ui, const char *ssid) {
+    if (!ui || !ssid) return;
+    char label_text[80];
+    snprintf(label_text, sizeof(label_text), "Wifi名称: %s", ssid);
+    lv_label_set_text(ui->setting_app_wifi_name_text, label_text);
 }
 
 // 检测心跳包 函数
@@ -479,11 +544,24 @@ static void TaskWiFi(void *pvParameters) {
     (void)pvParameters;
     for (;;) {
         if (wifi_reconnect_requested) {
-            printf("\r\n开始WiFi连接（异步）...\r\n");
-            tlink_init_wifi();
-            reset_connection_status();
-            printf("\r\nWiFi连接完成，心跳机制启动\r\n");
+            printf("wifi名称：%s\r\n", wifi_ssid);
+            printf("wifi密码：%s\r\n", wifi_password);
+            printf("\r\n开始WiFi连接...\r\n");
+            // 仅连接到路由器，不建立到Tlink的TCP
+            bool ok = wifi_connect(wifi_ssid, wifi_password, 15000);
+            if (ok) {
+                printf("\r\nWiFi已连接: %s\r\n", wifi_ssid);
+                update_wifi_name_label(&guider_ui, wifi_ssid);
+                wifi_save_credentials_to_eeprom(wifi_ssid, wifi_password);
+            } else {
+                printf("\r\nWiFi连接失败\r\n");
+            }
             wifi_reconnect_requested = 0;
+            // // 原有路径：同时建立到Tlink服务器的连接
+            // tlink_init_wifi();
+            // reset_connection_status();
+            // printf("\r\nWiFi+Tlink连接完成，心跳机制启动\r\n");
+            // wifi_reconnect_requested = 0;
         }
         vTaskDelay(pdMS_TO_TICKS(100));
     }
@@ -495,14 +573,14 @@ Application::~Application() {}
 void Application::Start() {
     uint16_t i;
     // bsp_Init();
-    auto& board = Board::GetInstance();
+    auto &board = Board::GetInstance();
     board.Init();
 
 #if USING_EXT_FLASH
     ext_flash_init();
 #endif
 
-    auto& wifi = Wifi::GetInstance();
+    auto &wifi = Wifi::GetInstance();
     wifi.sendAT("AT");
     if (wifi.waitResponse("OK", 50) == 1) {
         printf("\r\n ESP12 OK\r\n");
@@ -523,6 +601,14 @@ void Application::Start() {
     setup_ui(&guider_ui);
     events_init(&guider_ui);
     custom_init(&guider_ui);
+
+    // 从EEPROM加载上次保存的Wi‑Fi凭据并自动连接
+    if (wifi_load_credentials_from_eeprom(wifi_ssid, sizeof(wifi_ssid), wifi_password, sizeof(wifi_password))) {
+        lv_textarea_set_text(guider_ui.setting_app_wifi_name_input, wifi_ssid);
+        lv_textarea_set_text(guider_ui.setting_app_wifi_password_input, wifi_password);
+        update_wifi_name_label(&guider_ui, wifi_ssid);
+        wifi_reconnect_requested = 1; // 启动后台自动连接Wi‑Fi
+    }
 
     // 异步WiFi连接任务在后台进行连接，不阻塞UI
 

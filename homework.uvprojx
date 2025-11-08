@@ -473,6 +473,11 @@
               <FileType>8</FileType>
               <FilePath>.\src\board\network\wifi.cpp</FilePath>
             </File>
+            <File>
+              <FileName>wifi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\board\network\wifi.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
