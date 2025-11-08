@@ -11,7 +11,7 @@
 #include "custom.h"
 #include "events_init.h"
 #include "gui_guider.h"
-#include "lcd.h"
+#include "lcd.hpp"
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
 #include "touch.hpp"
