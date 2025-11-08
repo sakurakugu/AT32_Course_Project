@@ -2255,11 +2255,6 @@
               <FilePath>.\gui\lvgl\src\extra\widgets\carousel\lv_carousel.c</FilePath>
             </File>
             <File>
-              <FileName>lv_zh_keyboard.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gui\lvgl\src\extra\widgets\keyboard\lv_zh_keyboard.c</FilePath>
-            </File>
-            <File>
               <FileName>lv_dclock.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\lvgl\src\extra\widgets\dclock\lv_dclock.c</FilePath>
@@ -2474,19 +2469,24 @@
               <FilePath>.\gui\generated\guider_fonts\lv_font_montserratMedium_16.c</FilePath>
             </File>
             <File>
+              <FileName>lv_font_montserratMedium_18.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\guider_fonts\lv_font_montserratMedium_18.c</FilePath>
+            </File>
+            <File>
               <FileName>lv_font_montserratMedium_64.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\guider_fonts\lv_font_montserratMedium_64.c</FilePath>
             </File>
             <File>
+              <FileName>lv_font_SourceHanSerifSC_Regular_12.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_12.c</FilePath>
+            </File>
+            <File>
               <FileName>lv_font_SourceHanSerifSC_Regular_16.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_16.c</FilePath>
-            </File>
-            <File>
-              <FileName>lv_font_SourceHanSerifSC_Regular_18.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gui\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_18.c</FilePath>
             </File>
           </Files>
         </Group>

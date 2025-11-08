@@ -260,43 +260,45 @@ void reset_connection_status(void) {
     last_heartbeat_response_time = Timer_GetTickCount();
 }
 
-void esp12_init_wifi(void) {
+void tlink_init_wifi(void) {
     char testStr[] = "9B0Y5S576WNBR380";
     comSendBuf(COM3, (uint8_t *)"+++", 3);
     // printf("\r\n 发送AT指令: AT\r\n");
     delay_ms1(1000);
 
-    g_wifi.sendAT("AT");
-    if (g_wifi.waitResponse("OK", 5000) != 1) {
+    auto& wifi = Wifi::GetInstance();
+
+    wifi.sendAT("AT");
+    if (wifi.waitResponse("OK", 5000) != 1) {
         printf("\r\n AT fail!\r\n");
         delay_ms1(1000);
     }
-    g_wifi.sendAT("ATE0");
-    if (g_wifi.waitResponse("OK", 50) != 1) {
+    wifi.sendAT("ATE0");
+    if (wifi.waitResponse("OK", 50) != 1) {
         printf("\r\n ATE0 fail\r\n");
     }
 
-    if (g_wifi.setWiFiMode(1) != 1) {
+    if (wifi.setWiFiMode(1) != 1) {
         printf("\r\n CWMODE fail\r\n");
     }
 
     // 使用库函数进行AP连接，避免手动AT并统一处理应答
-    if (g_wifi.joinAP(wifi_name, wifi_password, 15000) != 1) {
+    if (wifi.joinAP(wifi_name, wifi_password, 15000) != 1) {
         printf("\r\n CWJAP fail\r\n");
         delay_ms1(1000);
     }
-    g_wifi.sendAT("AT+CIPSTART=\"TCP\",\"tcp.tlink.io\",8647");
-    if (g_wifi.waitResponse("OK", 5000) != 1) {
+    wifi.sendAT("AT+CIPSTART=\"TCP\",\"tcp.tlink.io\",8647");
+    if (wifi.waitResponse("OK", 5000) != 1) {   
         printf("\r\n CIPSTART fail\r\n");
     }
 
-    g_wifi.sendAT("AT+CIPMODE=1");
-    if (g_wifi.waitResponse("OK", 1000) != 1) {
+    wifi.sendAT("AT+CIPMODE=1");
+    if (wifi.waitResponse("OK", 1000) != 1) {
         printf("\r\n CIPMODE fail\r\n");
     }
 
-    g_wifi.sendAT("AT+CIPSEND");
-    if (g_wifi.waitResponse("OK", 1000) != 1) {
+    wifi.sendAT("AT+CIPSEND");
+    if (wifi.waitResponse("OK", 1000) != 1) {
         printf("\r\n CIPSEND fail\r\n");
     }
     printf("\r\n 服务器已连接!\r\n");
@@ -478,7 +480,7 @@ static void TaskWiFi(void *pvParameters) {
     for (;;) {
         if (wifi_reconnect_requested) {
             printf("\r\n开始WiFi连接（异步）...\r\n");
-            esp12_init_wifi();
+            tlink_init_wifi();
             reset_connection_status();
             printf("\r\nWiFi连接完成，心跳机制启动\r\n");
             wifi_reconnect_requested = 0;
@@ -500,9 +502,10 @@ void Application::Start() {
     ext_flash_init();
 #endif
 
-    g_wifi.sendAT("AT");
-    if (g_wifi.waitResponse("OK", 50) == 1) {
-        printf("\r\n ESP12 resp OK\r\n");
+    auto& wifi = Wifi::GetInstance();
+    wifi.sendAT("AT");
+    if (wifi.waitResponse("OK", 50) == 1) {
+        printf("\r\n ESP12 OK\r\n");
         delay_ms(1000);
     }
 
@@ -528,7 +531,8 @@ void Application::Start() {
     update_adc_display(&guider_ui);
 
     // 创建FreeRTOS任务
-    xTaskCreate(TaskLVGL, "lvgl", 1024, NULL, tskIDLE_PRIORITY + 2, NULL);
+    // 增大 LVGL 任务栈深度，避免在显示键盘等复杂布局时栈溢出
+    xTaskCreate(TaskLVGL, "lvgl", 2048, NULL, tskIDLE_PRIORITY + 2, NULL);
     xTaskCreate(TaskWiFi, "wifi", 1024, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskHeartbeat, "heartbeat", 1024, NULL, tskIDLE_PRIORITY + 3, NULL);
     xTaskCreate(TaskADC, "adc", 512, NULL, tskIDLE_PRIORITY + 1, NULL);

@@ -201,8 +201,8 @@ void setup_scr_music_app(lv_ui *ui)
     ui->music_app_list_1_item0 = lv_list_add_btn(ui->music_app_list_1, LV_SYMBOL_SAVE, "save");
     ui->music_app_list_1_item1 = lv_list_add_btn(ui->music_app_list_1, LV_SYMBOL_SAVE, "save_1");
     ui->music_app_list_1_item2 = lv_list_add_btn(ui->music_app_list_1, LV_SYMBOL_SAVE, "save_2");
-    lv_obj_set_pos(ui->music_app_list_1, 34, 52);
-    lv_obj_set_size(ui->music_app_list_1, 187, 205);
+    lv_obj_set_pos(ui->music_app_list_1, 26, 46);
+    lv_obj_set_size(ui->music_app_list_1, 175, 232);
     lv_obj_set_scrollbar_mode(ui->music_app_list_1, LV_SCROLLBAR_MODE_OFF);
 
     //Write style state: LV_STATE_DEFAULT for &style_music_app_list_1_main_main_default

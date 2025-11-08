@@ -202,19 +202,34 @@ typedef struct
 	lv_obj_t *setting_app_voice_off;
 	lv_obj_t *setting_app_time;
 	lv_obj_t *setting_app_date;
-	lv_obj_t *setting_app_cont_1;
-	lv_obj_t *setting_app_imgbtn_6;
-	lv_obj_t *setting_app_imgbtn_6_label;
-	lv_obj_t *setting_app_imgbtn_5;
-	lv_obj_t *setting_app_imgbtn_5_label;
-	lv_obj_t *setting_app_imgbtn_4;
-	lv_obj_t *setting_app_imgbtn_4_label;
-	lv_obj_t *setting_app_imgbtn_3;
-	lv_obj_t *setting_app_imgbtn_3_label;
-	lv_obj_t *setting_app_imgbtn_2;
-	lv_obj_t *setting_app_imgbtn_2_label;
-	lv_obj_t *setting_app_imgbtn_1;
-	lv_obj_t *setting_app_imgbtn_1_label;
+	lv_obj_t *setting_app_setting_page;
+	lv_obj_t *setting_app_setting_page_sidebar_page;
+	lv_obj_t *setting_app_setting_page_subpage_1;
+	lv_obj_t *setting_app_setting_page_cont_1;
+	lv_obj_t *setting_app_setting_page_label_1;
+	lv_obj_t *setting_app_setting_page_subpage_2;
+	lv_obj_t *setting_app_setting_page_cont_2;
+	lv_obj_t *setting_app_setting_page_label_2;
+	lv_obj_t *setting_app_setting_page_subpage_3;
+	lv_obj_t *setting_app_setting_page_cont_3;
+	lv_obj_t *setting_app_setting_page_label_3;
+	lv_obj_t *setting_app_setting_page_subpage_4;
+	lv_obj_t *setting_app_setting_page_cont_4;
+	lv_obj_t *setting_app_setting_page_label_4;
+	lv_obj_t *setting_app_placeholder_1;
+	lv_obj_t *setting_app_wifi_name_text;
+	lv_obj_t *setting_app_wifi_name_input;
+	lv_obj_t *setting_app_wifi_password_text;
+	lv_obj_t *setting_app_wifi_password_input;
+	lv_obj_t *setting_app_placeholder_2;
+	lv_obj_t *setting_app_wifi_link_btn;
+	lv_obj_t *setting_app_wifi_link_btn_label;
+	lv_obj_t *setting_app_light_text;
+	lv_obj_t *setting_app_light_slider;
+	lv_obj_t *setting_app_sound_text;
+	lv_obj_t *setting_app_sound_slider;
+	lv_obj_t *setting_app_sync_net_time_text;
+	lv_obj_t *setting_app_sync_net_time_sw;
 	lv_obj_t *electronic_organ_app;
 	bool electronic_organ_app_del;
 	lv_obj_t *game1;
@@ -308,7 +323,8 @@ LV_FONT_DECLARE(lv_font_montserratMedium_14)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_64)
-LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_18)
+LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_12)
+LV_FONT_DECLARE(lv_font_montserratMedium_18)
 
 
 #ifdef __cplusplus

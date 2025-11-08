@@ -455,5 +455,3 @@ uint8_t Wifi::joinAP(const char *_ssid, const char *_pwd, uint16_t _timeout) {
 void Wifi::quitAP() {
     sendAT("AT+ CWQAP");
 }
-
-Wifi g_wifi;

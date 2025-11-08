@@ -1777,7 +1777,7 @@
             #define LV_USE_ZH_KEYBOARD 0
         #endif
     #else
-        #define LV_USE_ZH_KEYBOARD   1
+        #define LV_USE_ZH_KEYBOARD   0
     #endif
 #endif
 #if LV_USE_ZH_KEYBOARD

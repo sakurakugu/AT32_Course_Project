@@ -47,6 +47,13 @@ enum {
 
 class Wifi {
   public:
+    static Wifi &GetInstance() {
+        static Wifi instance;
+        return instance;
+    }
+    Wifi(const Wifi &) = delete;
+    Wifi &operator=(const Wifi &) = delete;
+
     void init();
     void sendAT(const char *cmd);
     uint8_t waitResponse(const char *ack_str, uint16_t us_timeout);
@@ -68,6 +75,8 @@ class Wifi {
     uint8_t getLocalIP(char *ip, char *mac);
     uint8_t joinAP(const char *ssid, const char *pwd, uint16_t timeout);
     void quitAP();
+
+  private:
+    Wifi() = default;
 };
 
-extern Wifi g_wifi;
