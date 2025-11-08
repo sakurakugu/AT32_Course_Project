@@ -242,12 +242,8 @@ void lcd_windows_set(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yen
 void lcd_cursor_set(uint16_t xpos, uint16_t ypos);
 void lcd_direction(uint8_t direction);
 uint16_t lcd_id_read(void);
-void lcd_char_show(uint16_t x, uint16_t y, uint8_t num, uint8_t size, uint8_t mode);
-void lcd_string_show(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t size, uint8_t *p);
 void lcd_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t color);
 void lcd_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color);
-void lcd_num_show(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t size, int32_t num, uint8_t num_bit);
-void lcd_float_num_show(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t size, float num, uint8_t num_bit);
 
 #ifdef __cplusplus
 }

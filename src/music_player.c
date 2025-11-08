@@ -263,20 +263,7 @@ void music_play(void) {
     /* play mp3 */
     while (mp3_get_name((uint8_t *)MUSIC_DIR, music_name, index) == SUCCESS) {
         printf("music_name:%s  %d\r\n", music_name, index++);
-        //      printf()
-        //      strcpy((char *)name_buf,"A:/MUSIC/");
-        //      strcat((char *)name_buf,(const char*)file_music_info.fname);
 
-        //      /* display the number of music files */
-        //      sprintf((char *)buf, "%02d/%02d", index + 1, mp3_number);
-        //      lcd_string_show(10, 110, 200, 24, 24, &music_name);
-
-        //      /* show music name */
-        //      lcd_fill(10, 145, 319, 160 + 24, BLACK);
-        //      lcd_string_show(10, 145, 319, 24, 24, (uint8_t *)file_music_info.fname);
-        //
-        //      lcd_fill(10, 240, 319, 470, BLACK);
-        //
         audio_info.music_type = music_file_format_get(music_name);
 
         /* play music */
