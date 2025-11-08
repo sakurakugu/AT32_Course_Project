@@ -10,6 +10,9 @@
 #include <stdio.h>
 #include <string.h>
 
+// 来自应用的串口接收保护标志
+extern volatile uint8_t g_com3_guard;
+
 // 心跳包相关变量
 uint32_t heartbeat_timer = 0;
 bool connection_status = 0; // 0: 未连接, 1: 已连接
@@ -84,6 +87,11 @@ void IoT::ParseJson(char *cmd) {
 // 处理接收到的数据
 void IoT::Process_Received_Data() {
     uint8_t received_data;
+
+    // 若存在串口接收保护，跳过读取，避免与HTTP流程抢占
+    if (g_com3_guard) {
+        return;
+    }
 
     while (comGetChar(COM3, &received_data)) {
         // 处理心跳响应

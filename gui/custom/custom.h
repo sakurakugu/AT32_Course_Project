@@ -14,10 +14,18 @@ extern "C" {
 #include "gui_guider.h"
 #include <stdio.h>
 
+#include "../../src/config/config.h"
 #include "../../src/app/calculator/calculator.h" // 计算器接口：供界面自定义代码调用
 #include "../../src/board/network/wifi.h"
 
 extern volatile uint8_t wifi_reconnect_requested; // WiFi异步连接请求标志（由心跳或启动时触发）
+
+// 全局变量：状态栏日期标签（用于更新日期）
+extern lv_obj_t *g_status_bar_date;
+// 全局变量：时间小时、分钟、秒（用于更新时间）
+extern int g_time_hour_value;
+extern int g_time_min_value;
+extern int g_time_sec_value;
 
 void custom_init(lv_ui *ui);
 

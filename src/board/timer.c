@@ -196,7 +196,7 @@ void bsp_StopTimer(uint8_t _id) {
 
     if (_id >= TMR_COUNT) {
         /* 打印出错的源代码文件名、函数名称 */
-        printf("Error: file %s, function %s()\r\n", __FILE__, __FUNCTION__);
+        printf("错误: 文件 %s, 函数 %s()\r\n", __FILE__, __FUNCTION__);
         while (1)
             ; /* 参数异常，死机等待看门狗复位 */
     }

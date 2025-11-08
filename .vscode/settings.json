@@ -120,7 +120,11 @@
         "optional": "cpp",
         "xtr1common": "cpp",
         "ratio": "cpp",
-        "*.rh": "cpp"
+        "*.rh": "cpp",
+        "setting.hpp": "c",
+        "setting.h": "c",
+        "net_time_sync.h": "c",
+        "set": "cpp"
     },
     "search.useIgnoreFiles": false, // 禁用git忽略文件
     "search.exclude": { // 排除搜索范围

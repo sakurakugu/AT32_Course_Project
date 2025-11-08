@@ -33,6 +33,9 @@ lv_ui guider_ui;
 
 __IO uint32_t time_cnt = 0;
 
+// 串口COM3接收保护：为避免HTTP响应被其他任务抢占
+volatile uint8_t g_com3_guard = 0;
+
 // 检查心跳包响应
 
 // 获取连接状态字符串
