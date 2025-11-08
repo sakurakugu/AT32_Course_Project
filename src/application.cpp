@@ -5,9 +5,9 @@
 #include "at32f435_437_clock.h"
 #include "at32f435_437_misc.h"
 #include "beep.h"
-#include "color_led.h"
 #include "board.h"
 #include "board/bsp_eep_lm75.h"
+#include "color_led.h"
 #include "config.h"
 #include "custom.h"
 #include "events_init.h"
@@ -31,52 +31,9 @@
 
 lv_ui guider_ui;
 
-
 __IO uint32_t time_cnt = 0;
 
 // 检查心跳包响应
-
-
-// 处理接收到的数据
-void process_received_data() {
-    uint8_t received_data;
-
-    while (comGetChar(COM3, &received_data)) {
-        // 处理心跳响应
-        if (heartbeat_sent && received_data == 'A') {
-            printf("\r\n收到心跳响应: A\r\n");
-            connection_status = 1;
-            heartbeat_sent = 0;
-            consecutive_heartbeat_failures = 0;
-            last_heartbeat_response_time = Timer_GetTickCount();
-            continue;
-        }
-
-        // 处理JSON命令
-        if (received_data == '[') {
-            // 开始接收命令
-            command_index = 0;
-            command_buffer[command_index++] = received_data;
-            command_ready = 0;
-        } else if (received_data == ']' && command_index > 0) {
-            // 命令接收完成
-            command_buffer[command_index++] = received_data;
-            command_buffer[command_index] = '\0';
-            command_ready = 1;
-        } else if (command_index > 0 && command_index < sizeof(command_buffer) - 1) {
-            // 继续接收命令内容
-            command_buffer[command_index++] = received_data;
-        }
-
-        // 如果命令准备好了，解析它
-        if (command_ready) {
-            auto &iot = IoT::GetInstance();
-            iot.ParseJson(command_buffer);
-            command_ready = 0;
-            command_index = 0;
-        }
-    }
-}
 
 // 获取连接状态字符串
 const char *get_connection_status_string(void) {
@@ -222,26 +179,6 @@ static void update_wifi_name_label(lv_ui *ui, const char *ssid) {
     lv_label_set_text(ui->setting_app_wifi_name_text, label_text);
 }
 
-// 检测心跳包 函数
-void check_heartbeat_response(void) {
-    process_received_data();
-
-    // 检查心跳响应超时
-    if (heartbeat_sent && Timer_PassedDelay(last_heartbeat_response_time, HEARTBEAT_TIMEOUT)) {
-        // printf("\r\n心跳响应超时 (失败次数: %d)\r\n", consecutive_heartbeat_failures + 1);
-        heartbeat_sent = 0;
-        consecutive_heartbeat_failures++;
-
-        if (consecutive_heartbeat_failures >= MAX_HEARTBEAT_FAILURES) {
-            if (connection_status == 1) {
-                printf("\r\n连续%d次心跳失败，连接断开\r\n", MAX_HEARTBEAT_FAILURES);
-                connection_status = 0;
-                connection_lost_time = Timer_GetTickCount();
-            }
-        }
-    }
-}
-
 /**
  * @brief  main function.
  * @param  none
@@ -296,7 +233,7 @@ static void TaskHeartbeat(void *pvParameters) {
     TickType_t lastHeartbeatTick = xTaskGetTickCount();
     for (;;) {
         // 处理心跳响应与命令
-        check_heartbeat_response();
+        IoT::GetInstance().Check_Heartbeat();
 
         // 检查是否需要重连
         if (should_reconnect()) {
@@ -468,9 +405,9 @@ void Application::Start() {
     // 增大 LVGL 任务栈深度，避免在显示键盘等复杂布局时栈溢出
     xTaskCreate(TaskLVGL, "lvgl", 2048, NULL, tskIDLE_PRIORITY + 2, NULL);
     xTaskCreate(TaskWiFi, "wifi", 1024, NULL, tskIDLE_PRIORITY + 1, NULL);
-    xTaskCreate(TaskHeartbeat, "heartbeat", 1024, NULL, tskIDLE_PRIORITY + 3, NULL);
+    // xTaskCreate(TaskHeartbeat, "heartbeat", 1024, NULL, tskIDLE_PRIORITY + 3, NULL);
     xTaskCreate(TaskADC, "adc", 512, NULL, tskIDLE_PRIORITY + 1, NULL);
-    xTaskCreate(TaskStatus, "status", 768, NULL, tskIDLE_PRIORITY + 1, NULL);
+    // xTaskCreate(TaskStatus, "status", 768, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskLED, "led", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskKeys, "keys", 512, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskMusic, "music", 512, NULL, tskIDLE_PRIORITY + 1, NULL);

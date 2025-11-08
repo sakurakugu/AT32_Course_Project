@@ -30,6 +30,7 @@ uint8_t lm75_temp = 0;       // lm75温度值
 uint16_t adc_value = 0;      // adc值
 uint8_t lighting_status = 0; // 照明状态 (LED_YELLOW)
 
+
 void IoT::ParseJson(char *cmd) {
     printf("\r\n收到命令: %s\r\n", cmd);
 
@@ -78,6 +79,66 @@ void IoT::ParseJson(char *cmd) {
     }
 
     cJSON_Delete(root);
+}
+
+// 处理接收到的数据
+void IoT::Process_Received_Data() {
+    uint8_t received_data;
+
+    while (comGetChar(COM3, &received_data)) {
+        // 处理心跳响应
+        if (heartbeat_sent && received_data == 'A') {
+            printf("\r\n收到心跳响应: A\r\n");
+            connection_status = 1;
+            heartbeat_sent = 0;
+            consecutive_heartbeat_failures = 0;
+            last_heartbeat_response_time = Timer_GetTickCount();
+            continue;
+        }
+
+        // 处理JSON命令
+        if (received_data == '[') {
+            // 开始接收命令
+            command_index = 0;
+            command_buffer[command_index++] = received_data;
+            command_ready = 0;
+        } else if (received_data == ']' && command_index > 0) {
+            // 命令接收完成
+            command_buffer[command_index++] = received_data;
+            command_buffer[command_index] = '\0';
+            command_ready = 1;
+        } else if (command_index > 0 && command_index < sizeof(command_buffer) - 1) {
+            // 继续接收命令内容
+            command_buffer[command_index++] = received_data;
+        }
+
+        // 如果命令准备好了，解析它
+        if (command_ready) {
+            ParseJson(command_buffer);
+            command_ready = 0;
+            command_index = 0;
+        }
+    }
+}
+
+// 检测心跳包 函数
+void IoT::Check_Heartbeat() {
+    Process_Received_Data();
+
+    // 检查心跳响应超时
+    if (heartbeat_sent && Timer_PassedDelay(last_heartbeat_response_time, HEARTBEAT_TIMEOUT)) {
+        // printf("\r\n心跳响应超时 (失败次数: %d)\r\n", consecutive_heartbeat_failures + 1);
+        heartbeat_sent = 0;
+        consecutive_heartbeat_failures++;
+
+        if (consecutive_heartbeat_failures >= MAX_HEARTBEAT_FAILURES) {
+            if (connection_status == 1) {
+                printf("\r\n连续%d次心跳失败，连接断开\r\n", MAX_HEARTBEAT_FAILURES);
+                connection_status = 0;
+                connection_lost_time = Timer_GetTickCount();
+            }
+        }
+    }
 }
 
 // 心跳包发送函数

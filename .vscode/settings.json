@@ -119,7 +119,8 @@
         "xfacet": "cpp",
         "optional": "cpp",
         "xtr1common": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "*.rh": "cpp"
     },
     "search.useIgnoreFiles": false, // 禁用git忽略文件
     "search.exclude": { // 排除搜索范围
