@@ -34,6 +34,7 @@ void setup_scr_home_app1(lv_ui *ui)
     lv_obj_set_pos(ui->home_app1_status_bar, 0, 0);
     lv_obj_set_size(ui->home_app1_status_bar, 480, 16);
     lv_obj_set_scrollbar_mode(ui->home_app1_status_bar, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_flag(ui->home_app1_status_bar, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for home_app1_status_bar, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->home_app1_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);

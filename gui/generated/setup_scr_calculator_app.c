@@ -16,9 +16,6 @@
 
 
 
-int calculator_app_time_min_value = 25;
-int calculator_app_time_hour_value = 11;
-int calculator_app_time_sec_value = 50;
 void setup_scr_calculator_app(lv_ui *ui)
 {
     //Write codes calculator_app
@@ -28,117 +25,6 @@ void setup_scr_calculator_app(lv_ui *ui)
 
     //Write style for calculator_app, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->calculator_app, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes calculator_app_status_bar
-    ui->calculator_app_status_bar = lv_obj_create(ui->calculator_app);
-    lv_obj_set_pos(ui->calculator_app_status_bar, 0, 0);
-    lv_obj_set_size(ui->calculator_app_status_bar, 480, 16);
-    lv_obj_set_scrollbar_mode(ui->calculator_app_status_bar, LV_SCROLLBAR_MODE_OFF);
-
-    //Write style for calculator_app_status_bar, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->calculator_app_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->calculator_app_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->calculator_app_status_bar, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui->calculator_app_status_bar, lv_color_hex(0x333333), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_dir(ui->calculator_app_status_bar, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->calculator_app_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->calculator_app_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->calculator_app_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->calculator_app_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->calculator_app_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes calculator_app_wifi
-    ui->calculator_app_wifi = lv_img_create(ui->calculator_app_status_bar);
-    lv_obj_add_flag(ui->calculator_app_wifi, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->calculator_app_wifi, &_wifi_alpha_16x16);
-    lv_img_set_pivot(ui->calculator_app_wifi, 50,50);
-    lv_img_set_angle(ui->calculator_app_wifi, 0);
-    lv_obj_set_pos(ui->calculator_app_wifi, 456, 0);
-    lv_obj_set_size(ui->calculator_app_wifi, 16, 16);
-
-    //Write style for calculator_app_wifi, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_img_recolor_opa(ui->calculator_app_wifi, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_img_opa(ui->calculator_app_wifi, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->calculator_app_wifi, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->calculator_app_wifi, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes calculator_app_voice_on
-    ui->calculator_app_voice_on = lv_img_create(ui->calculator_app_status_bar);
-    lv_obj_add_flag(ui->calculator_app_voice_on, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->calculator_app_voice_on, &_voice_on_alpha_16x16);
-    lv_img_set_pivot(ui->calculator_app_voice_on, 50,50);
-    lv_img_set_angle(ui->calculator_app_voice_on, 0);
-    lv_obj_set_pos(ui->calculator_app_voice_on, 434, 0);
-    lv_obj_set_size(ui->calculator_app_voice_on, 16, 16);
-    lv_obj_add_flag(ui->calculator_app_voice_on, LV_OBJ_FLAG_HIDDEN);
-
-    //Write style for calculator_app_voice_on, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_img_recolor_opa(ui->calculator_app_voice_on, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_img_opa(ui->calculator_app_voice_on, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->calculator_app_voice_on, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->calculator_app_voice_on, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes calculator_app_voice_off
-    ui->calculator_app_voice_off = lv_img_create(ui->calculator_app_status_bar);
-    lv_obj_add_flag(ui->calculator_app_voice_off, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->calculator_app_voice_off, &_voice_off_alpha_16x16);
-    lv_img_set_pivot(ui->calculator_app_voice_off, 50,50);
-    lv_img_set_angle(ui->calculator_app_voice_off, 0);
-    lv_obj_set_pos(ui->calculator_app_voice_off, 434, 0);
-    lv_obj_set_size(ui->calculator_app_voice_off, 16, 16);
-
-    //Write style for calculator_app_voice_off, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_img_recolor_opa(ui->calculator_app_voice_off, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_img_opa(ui->calculator_app_voice_off, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->calculator_app_voice_off, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->calculator_app_voice_off, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes calculator_app_time
-    static bool calculator_app_time_timer_enabled = false;
-    ui->calculator_app_time = lv_dclock_create(ui->calculator_app_status_bar, "11:25");
-    if (!calculator_app_time_timer_enabled) {
-        lv_timer_create(calculator_app_time_timer, 1000, NULL);
-        calculator_app_time_timer_enabled = true;
-    }
-    lv_obj_set_pos(ui->calculator_app_time, 220, 0);
-    lv_obj_set_size(ui->calculator_app_time, 46, 16);
-
-    //Write style for calculator_app_time, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_radius(ui->calculator_app_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->calculator_app_time, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->calculator_app_time, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->calculator_app_time, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->calculator_app_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->calculator_app_time, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->calculator_app_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->calculator_app_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->calculator_app_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->calculator_app_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->calculator_app_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->calculator_app_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes calculator_app_date
-    ui->calculator_app_date = lv_label_create(ui->calculator_app_status_bar);
-    lv_label_set_text(ui->calculator_app_date, "2023/07/31");
-    lv_obj_set_style_text_align(ui->calculator_app_date, LV_TEXT_ALIGN_CENTER, 0);
-    lv_obj_add_flag(ui->calculator_app_date, LV_OBJ_FLAG_CLICKABLE);
-    lv_obj_add_event_cb(ui->calculator_app_date, calculator_app_date_event_handler, LV_EVENT_ALL, NULL);
-    lv_obj_set_pos(ui->calculator_app_date, 0, 1);
-    lv_obj_set_size(ui->calculator_app_date, 112, 16);
-
-    //Write style for calculator_app_date, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->calculator_app_date, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->calculator_app_date, &lv_font_montserratMedium_14, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->calculator_app_date, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->calculator_app_date, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->calculator_app_date, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->calculator_app_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui->calculator_app_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->calculator_app_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->calculator_app_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->calculator_app_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->calculator_app_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->calculator_app_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes calculator_app_caalculator_page
     ui->calculator_app_caalculator_page = lv_obj_create(ui->calculator_app);

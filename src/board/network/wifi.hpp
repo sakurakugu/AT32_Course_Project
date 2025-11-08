@@ -1,11 +1,7 @@
-/*
-*********************************************************************************************************
-*
-*	模块名称 : ESP12 串口WIFI模块驱动程序
-*	文件名称 : bsp_uart_esp12.h
-*
-*********************************************************************************************************
-*/
+/**
+ * @brief ESP12 串口WIFI模块驱动程序
+ * 
+ */
 
 #pragma once
 #include <stdint.h>
@@ -27,29 +23,33 @@
 #define WIFI_EEP_ADDR_SSID     ((uint16_t)0x0000)   // 33字节：以'\0'结尾
 #define WIFI_EEP_ADDR_PASSWORD ((uint16_t)0x0040)   // 65字节：以'\0'结尾
 
-/* 串口设备结构体 */
-typedef struct {
-    char ssid[33];   /* SSID是一个无线局域网络（WLAN）的名称。SSID是区分大小写的文本字符串，最大长度32个字符 */
-    uint8_t ecn;     /* 加密方式
-                         0   OPEN
-                         1   WEP
-                         2   WPA_PSK
-                         3   WPA2_PSK
-                         4   WPA_WPA2_PSK
-                     */
-    int32_t rssi;    /* 信号强度 */
-    uint8_t mac[20]; /* MAC地址字符串*/
-    uint8_t ch;      /* 信道 */
-} WIFI_AP_T;
-
 /* 加密方式 */
-enum {
+enum WIFI_ECN {
     ECN_OPEN = 0,
     ECN_WEP = 1,
     ECN_WPA_PSK = 2,
     ECN_WPA2_PSK = 3,
     ECN_WPA_WPA2_PSK = 4,
 };
+
+/**
+ * @brief 串口设备结构体
+ *  ecn:加密方式
+ *    0   OPEN
+ *    1   WEP
+ *    2   WPA_PSK
+ *    3   WPA2_PSK
+ *    4   WPA_WPA2_PSK               
+ */
+typedef struct {
+    char ssid[33];   /* SSID是一个无线局域网络（WLAN）的名称。SSID是区分大小写的文本字符串，最大长度32个字符 */
+    uint8_t ecn;     /* 加密方式 */
+    int32_t rssi;    /* 信号强度 */
+    uint8_t mac[20]; /* MAC地址字符串*/
+    uint8_t ch;      /* 信道 */
+} WIFI_AP_T;
+
+
 
 class Wifi {
   public:
@@ -61,26 +61,26 @@ class Wifi {
     Wifi &operator=(const Wifi &) = delete;
 
     void init();
-    void sendAT(const char *cmd);
-    uint8_t waitResponse(const char *ack_str, uint16_t us_timeout);
-    uint16_t readLine(char *buffer, uint16_t size, uint16_t us_timeout);
+    void sendAT(const char *cmd); // 发送AT指令
+    uint8_t waitResponse(const char *ack_str, uint16_t us_timeout); // 等待响应
+    uint16_t readLine(char *buffer, uint16_t size, uint16_t us_timeout); // 读取一行数据
 
-    uint8_t setWiFiMode(uint8_t mode);
-    uint8_t enableCIPMUX(uint8_t mode);
+    uint8_t setWiFiMode(uint8_t mode); // 设置WiFi模式
+    uint8_t enableCIPMUX(uint8_t mode); // 启用CIPMUX模式
 
-    uint8_t setAPIP(const char *ip);
-    uint8_t setAPNamePass(const char *name, const char *pwd, uint8_t ch, uint8_t ecn);
+    uint8_t setAPIP(const char *ip); // 设置AP IP地址
+    uint8_t setAPNamePass(const char *name, const char *pwd, uint8_t ch, uint8_t ecn); // 设置AP名称和密码
 
-    uint8_t createTCPServer(uint16_t port);
-    uint8_t createUDPServer(uint8_t id, uint16_t localPort);
-    uint8_t linkTCPServer(uint8_t id, const char *server_ip, uint16_t port);
+    uint8_t createTCPServer(uint16_t port); // 创建TCP服务器
+    uint8_t createUDPServer(uint8_t id, uint16_t localPort); // 创建UDP服务器
+    uint8_t linkTCPServer(uint8_t id, const char *server_ip, uint16_t port); // 连接TCP服务器
 
-    void sendTcpUdp(uint8_t id, uint8_t *data, uint16_t len);
-    void closeTcpUdp(uint8_t id);
+    void sendTcpUdp(uint8_t id, uint8_t *data, uint16_t len); // 发送TCP/UDP数据
+    void closeTcpUdp(uint8_t id); // 关闭TCP/UDP连接
 
-    uint8_t getLocalIP(char *ip, char *mac);
-    uint8_t joinAP(const char *ssid, const char *pwd, uint16_t timeout);
-    void quitAP();
+    uint8_t getLocalIP(char *ip, char *mac); // 获取本地IP地址和MAC地址
+    uint8_t joinAP(const char *ssid, const char *pwd, uint16_t timeout); // 加入AP
+    void quitAP(); // 退出AP
 
   private:
     Wifi() = default;

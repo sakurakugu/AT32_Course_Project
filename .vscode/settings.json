@@ -111,7 +111,15 @@
         "touch_c_api.h": "c",
         "touch.h": "c",
         "lcd.hpp": "c",
-        "calculator.h": "c"
+        "calculator.h": "c",
+        "__bit_reference": "c",
+        "lv_dclock.h": "c",
+        "iomanip": "cpp",
+        "streambuf": "cpp",
+        "xfacet": "cpp",
+        "optional": "cpp",
+        "xtr1common": "cpp",
+        "ratio": "cpp"
     },
     "search.useIgnoreFiles": false, // 禁用git忽略文件
     "search.exclude": { // 排除搜索范围

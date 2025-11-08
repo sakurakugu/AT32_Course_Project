@@ -64,7 +64,7 @@ void eep_read(uint16_t mem_address, uint8_t *pdata, uint16_t size) {
     i2c_memory_read(&hi2cx, I2C_MEM_ADDR_WIDIH_16, 0xA0, mem_address, pdata, size, I2C_TIMEOUT);
 }
 
-uint8_t lm75_read(void) {
+uint8_t LM75::Read() {
     i2c_memory_read(&hi2cx, I2C_MEM_ADDR_WIDIH_8, 0x92, 0, lm75_buf, 2, I2C_TIMEOUT);
     return lm75_buf[0];
 }

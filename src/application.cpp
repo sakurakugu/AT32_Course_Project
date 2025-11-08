@@ -1,9 +1,11 @@
 #include "application.h"
 
+#include "IoT.hpp"
 #include "at32f435_437_board.h"
 #include "at32f435_437_clock.h"
 #include "at32f435_437_misc.h"
 #include "beep.h"
+#include "color_led.h"
 #include "board.h"
 #include "board/bsp_eep_lm75.h"
 #include "config.h"
@@ -29,168 +31,11 @@
 
 lv_ui guider_ui;
 
-tmr_output_config_type tmr_oc_init_structure;
-
-void PWM_init(void) {
-    uint16_t ccr1_val = 333;
-    uint16_t ccr2_val = 249;
-    uint16_t ccr3_val = 166;
-    uint16_t prescalervalue = 0;
-
-    gpio_init_type gpio_init_struct;
-    crm_periph_clock_enable(CRM_TMR3_PERIPH_CLOCK, TRUE);
-    crm_periph_clock_enable(CRM_GPIOC_PERIPH_CLOCK, TRUE);
-
-    gpio_default_para_init(&gpio_init_struct);
-    gpio_init_struct.gpio_pins = GPIO_PINS_6 | GPIO_PINS_7 | GPIO_PINS_8;
-    gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
-    gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
-    gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
-    gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
-    gpio_init(GPIOC, &gpio_init_struct);
-
-    gpio_pin_mux_config(GPIOC, GPIO_PINS_SOURCE6, GPIO_MUX_2);
-    gpio_pin_mux_config(GPIOC, GPIO_PINS_SOURCE7, GPIO_MUX_2);
-    gpio_pin_mux_config(GPIOC, GPIO_PINS_SOURCE8, GPIO_MUX_2);
-
-    /* compute the prescaler value */
-
-    prescalervalue = (uint16_t)((crm_clocks_freq_struct.apb1_freq * 2) / 24000000) - 1;
-
-    /* tmr3 time base configuration */
-    tmr_base_init(TMR3, 665, prescalervalue);
-    tmr_cnt_dir_set(TMR3, TMR_COUNT_UP);
-    tmr_clock_source_div_set(TMR3, TMR_CLOCK_DIV1);
-
-    tmr_output_default_para_init(&tmr_oc_init_structure);
-    tmr_oc_init_structure.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
-    tmr_oc_init_structure.oc_idle_state = FALSE;
-    tmr_oc_init_structure.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
-    tmr_oc_init_structure.oc_output_state = TRUE;
-    tmr_output_channel_config(TMR3, TMR_SELECT_CHANNEL_1, &tmr_oc_init_structure);
-    tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_1, 665);
-    tmr_output_channel_buffer_enable(TMR3, TMR_SELECT_CHANNEL_1, TRUE);
-
-    tmr_output_channel_config(TMR3, TMR_SELECT_CHANNEL_2, &tmr_oc_init_structure);
-    tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_2, 0);
-    tmr_output_channel_buffer_enable(TMR3, TMR_SELECT_CHANNEL_2, TRUE);
-
-    tmr_output_channel_config(TMR3, TMR_SELECT_CHANNEL_3, &tmr_oc_init_structure);
-    tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_3, 665);
-    tmr_output_channel_buffer_enable(TMR3, TMR_SELECT_CHANNEL_3, TRUE);
-
-    tmr_period_buffer_enable(TMR3, TRUE);
-
-    /* tmr enable counter */
-    tmr_counter_enable(TMR3, TRUE);
-}
 
 __IO uint32_t time_cnt = 0;
 
-// 心跳包相关变量
-uint32_t heartbeat_timer = 0;
-uint8_t connection_status = 0; // 0: 未连接, 1: 已连接
-uint32_t last_heartbeat_response_time = 0;
-uint8_t heartbeat_sent = 0;                 // 标记是否已发送心跳包等待响应
-uint32_t connection_lost_time = 0;          // 连接丢失时间
-uint8_t consecutive_heartbeat_failures = 0; // 连续心跳失败次数
-#define HEARTBEAT_INTERVAL 55000            // 55秒心跳间隔
-#define HEARTBEAT_TIMEOUT 5000              // 5秒心跳响应超时
-#define MAX_HEARTBEAT_FAILURES 3            // 最大连续心跳失败次数
-#define CONNECTION_RETRY_INTERVAL 300000    // 5分钟重连间隔
-
-
-// 心跳包发送函数
-void send_heartbeat() {
-    printf("\r\n发送心跳包: Q\r\n");
-    comSendBuf(COM3, (uint8_t *)"Q", 1);
-    heartbeat_sent = 1; // 标记已发送心跳包
-    last_heartbeat_response_time = Timer_GetTickCount();
-}
-
 // 检查心跳包响应
-// 添加设备状态变量
-uint8_t lm75_temp = 0;       // lm75温度值
-uint16_t adc_value = 0;      // adc值
-uint8_t aircon_status = 0;   // 空调状态 (LED_GREEN)
-uint8_t lighting_status = 0; // 照明状态 (LED_YELLOW)
 
-// 命令解析缓冲区
-char command_buffer[256];
-uint8_t command_index = 0;
-uint8_t command_ready = 0;
-
-// 状态上报定时器
-uint32_t send_timer = 0;
-
-// LED控制函数
-void control_aircon(uint8_t status) {
-    aircon_status = status;
-    if (status) {
-        at32_led_on(LED_GREEN);
-        printf("\r\n空调已开启 (LED_GREEN ON)\r\n");
-    } else {
-        at32_led_off(LED_GREEN);
-        printf("\r\n空调已关闭 (LED_GREEN OFF)\r\n");
-    }
-}
-
-void control_lighting(uint8_t status) {
-    lighting_status = status;
-    if (status) {
-        at32_led_on(LED_Yellow);
-        printf("\r\n照明已开启 (LED_YELLOW ON)\r\n");
-    } else {
-        at32_led_off(LED_Yellow);
-        printf("\r\n照明已关闭 (LED_YELLOW OFF)\r\n");
-    }
-}
-
-// 获取连接状态
-uint8_t get_connection_status(void) {
-    return connection_status;
-}
-
-// 发送状态上报
-char TlinkCommandStr[20];
-void send_status_report() {
-    lm75_temp = lm75_read();  // 读取lm75温度值
-    adc_value = analogRead(); // 读取ADC值
-    sprintf(TlinkCommandStr, "#%d,%d,%d,%d#", lm75_temp, adc_value, aircon_status, lighting_status);
-
-    printf("\r\n上报状态: %s\r\n", TlinkCommandStr);
-
-    if (get_connection_status()) {
-        comSendBuf(COM3, (uint8_t *)TlinkCommandStr, strlen(TlinkCommandStr));
-    } else {
-        printf("连接断开，状态未上报\r\n");
-    }
-}
-
-// JSON解析
-void parse_command(char *cmd) {
-    printf("\r\n收到命令: %s\r\n", cmd);
-
-    // 查找aircon_switch命令
-    if (strstr(cmd, "aircon_switch") != NULL) {
-        if (strstr(cmd, "\"switch\":1") != NULL) {
-            control_aircon(1);
-        } else if (strstr(cmd, "\"switch\":0") != NULL) {
-            control_aircon(0);
-        }
-        send_timer = 25000;
-    }
-
-    // 查找lighting_switch命令
-    if (strstr(cmd, "lighting_switch") != NULL) {
-        if (strstr(cmd, "\"switch\":1") != NULL) {
-            control_lighting(1);
-        } else if (strstr(cmd, "\"switch\":0") != NULL) {
-            control_lighting(0);
-        }
-        send_timer = 25000;
-    }
-}
 
 // 处理接收到的数据
 void process_received_data() {
@@ -225,7 +70,8 @@ void process_received_data() {
 
         // 如果命令准备好了，解析它
         if (command_ready) {
-            parse_command(command_buffer);
+            auto &iot = IoT::GetInstance();
+            iot.ParseJson(command_buffer);
             command_ready = 0;
             command_index = 0;
         }
@@ -306,10 +152,12 @@ void tlink_init_wifi() {
 }
 
 static bool wifi_save_credentials_to_eeprom(const char *ssid, const char *pwd) {
-    if (!ssid || !pwd) return false;
+    if (!ssid || !pwd)
+        return false;
     size_t ssid_len = strlen(ssid);
     size_t pwd_len = strlen(pwd);
-    if (ssid_len > 32 || pwd_len > 64) return false;
+    if (ssid_len > 32 || pwd_len > 64)
+        return false;
 
     uint8_t ssid_buf[33] = {0};
     uint8_t pwd_buf[65] = {0};
@@ -335,7 +183,8 @@ static bool wifi_load_credentials_from_eeprom(char *ssid_out, size_t ssid_out_si
     eep_read(WIFI_EEP_ADDR_PASSWORD, pwd_buf, sizeof(pwd_buf));
 
     // 简单校验：非空
-    if (ssid_buf[0] == '\0') return false;
+    if (ssid_buf[0] == '\0')
+        return false;
 
     memcpy(ssid_out, ssid_buf, 33);
     memcpy(pwd_out, pwd_buf, 65);
@@ -343,7 +192,8 @@ static bool wifi_load_credentials_from_eeprom(char *ssid_out, size_t ssid_out_si
 }
 
 static bool wifi_connect(const char *ssid, const char *pwd, uint16_t timeout_ms = 15000) {
-    if (!ssid || !pwd) return false;
+    if (!ssid || !pwd)
+        return false;
     auto &wifi = Wifi::GetInstance();
 
     wifi.sendAT("AT");
@@ -365,7 +215,8 @@ static bool wifi_connect(const char *ssid, const char *pwd, uint16_t timeout_ms 
 
 // 在设置页面显示已连接的Wi‑Fi名称
 static void update_wifi_name_label(lv_ui *ui, const char *ssid) {
-    if (!ui || !ssid) return;
+    if (!ui || !ssid)
+        return;
     char label_text[80];
     snprintf(label_text, sizeof(label_text), "Wifi名称: %s", ssid);
     lv_label_set_text(ui->setting_app_wifi_name_text, label_text);
@@ -457,7 +308,7 @@ static void TaskHeartbeat(void *pvParameters) {
         if ((xTaskGetTickCount() - lastHeartbeatTick) >= pdMS_TO_TICKS(HEARTBEAT_INTERVAL)) {
             lastHeartbeatTick = xTaskGetTickCount();
             if (connection_status) {
-                send_heartbeat();
+                IoT::GetInstance().Send_Heartbeat();
             }
         }
 
@@ -487,8 +338,8 @@ static void TaskStatus(void *pvParameters) {
         printf("%s\r\n", TlinkCommandStr);
 
         // 连接状态下上报当前状态
-        if (get_connection_status()) {
-            send_status_report();
+        if (connection_status) {
+            IoT::GetInstance().Send_Status_Report();
         } else {
             printf("连接断开，数据未发送\r\n");
         }
@@ -511,15 +362,12 @@ static void TaskKeys(void *pvParameters) {
         uint8_t keyvalue = Key::GetInstance().get();
         if (keyvalue == KEY_1_DOWN) {
             g_beep.keyTone();
-            printf("KEY_1_DOWN - 切换空调状态\r\n");
-            control_aircon(!aircon_status);
-            send_status_report();
         }
         if (keyvalue == KEY_2_DOWN) {
             g_beep.keyTone();
             printf("KEY_2_DOWN - 切换照明状态\r\n");
-            control_lighting(!lighting_status);
-            send_status_report();
+            IoT::GetInstance().Control_Lighting(!lighting_status);
+            IoT::GetInstance().Send_Status_Report();
         }
         if (keyvalue == KEY_3_DOWN) {
             g_beep.keyTone();

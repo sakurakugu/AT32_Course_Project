@@ -10,8 +10,9 @@ extern "C" {
 #include "at32f435_437_board.h"
 #include "at32f435_437_clock.h"
 #include "bsp_ext_flash.h"
-#include "key.h"
-#include "oled.h"
+#include "key/key.h"
+#include "led/oled.h"
+#include "led/color_led.h"
 #define ESP12_DEBUG 0
 
 #define ERROR_HANDLER() Error_Handler(__FILE__, __LINE__);
@@ -75,4 +76,5 @@ class Board {
 
     // Button *button_;      // 声明按键
     // LcdDisplay *display_; // 声明液晶屏
+    Color_Led *color_led_; // 声明颜色LED
 };

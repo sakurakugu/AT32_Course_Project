@@ -77,16 +77,6 @@ typedef enum
 
 #endif
 
-/* compatibility aliases for projects using alternate LED names */
-#ifndef LED_GREEN
-#define LED_GREEN LED_Green
-#endif
-
-#ifndef LED_YELLO
-/* note: keep the original misspelled macro to match existing code */
-#define LED_YELLO LED_Yellow
-#endif
-
 /**************** define print uart ******************/
 #define PRINT_UART                       USART1
 #define PRINT_UART_CRM_CLK               CRM_USART1_PERIPH_CLOCK

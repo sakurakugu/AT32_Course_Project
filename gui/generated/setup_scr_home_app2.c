@@ -16,9 +16,6 @@
 
 
 
-int home_app2_time_min_value = 25;
-int home_app2_time_hour_value = 11;
-int home_app2_time_sec_value = 50;
 void setup_scr_home_app2(lv_ui *ui)
 {
     //Write codes home_app2
@@ -28,117 +25,6 @@ void setup_scr_home_app2(lv_ui *ui)
 
     //Write style for home_app2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->home_app2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes home_app2_status_bar
-    ui->home_app2_status_bar = lv_obj_create(ui->home_app2);
-    lv_obj_set_pos(ui->home_app2_status_bar, 0, 0);
-    lv_obj_set_size(ui->home_app2_status_bar, 480, 16);
-    lv_obj_set_scrollbar_mode(ui->home_app2_status_bar, LV_SCROLLBAR_MODE_OFF);
-
-    //Write style for home_app2_status_bar, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->home_app2_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->home_app2_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->home_app2_status_bar, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui->home_app2_status_bar, lv_color_hex(0x333333), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_dir(ui->home_app2_status_bar, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->home_app2_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->home_app2_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->home_app2_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->home_app2_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->home_app2_status_bar, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes home_app2_wifi
-    ui->home_app2_wifi = lv_img_create(ui->home_app2_status_bar);
-    lv_obj_add_flag(ui->home_app2_wifi, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->home_app2_wifi, &_wifi_alpha_16x16);
-    lv_img_set_pivot(ui->home_app2_wifi, 50,50);
-    lv_img_set_angle(ui->home_app2_wifi, 0);
-    lv_obj_set_pos(ui->home_app2_wifi, 456, 0);
-    lv_obj_set_size(ui->home_app2_wifi, 16, 16);
-
-    //Write style for home_app2_wifi, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_wifi, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_img_opa(ui->home_app2_wifi, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->home_app2_wifi, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->home_app2_wifi, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes home_app2_voice_on
-    ui->home_app2_voice_on = lv_img_create(ui->home_app2_status_bar);
-    lv_obj_add_flag(ui->home_app2_voice_on, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->home_app2_voice_on, &_voice_on_alpha_16x16);
-    lv_img_set_pivot(ui->home_app2_voice_on, 50,50);
-    lv_img_set_angle(ui->home_app2_voice_on, 0);
-    lv_obj_set_pos(ui->home_app2_voice_on, 434, 0);
-    lv_obj_set_size(ui->home_app2_voice_on, 16, 16);
-    lv_obj_add_flag(ui->home_app2_voice_on, LV_OBJ_FLAG_HIDDEN);
-
-    //Write style for home_app2_voice_on, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_voice_on, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_img_opa(ui->home_app2_voice_on, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->home_app2_voice_on, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->home_app2_voice_on, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes home_app2_voice_off
-    ui->home_app2_voice_off = lv_img_create(ui->home_app2_status_bar);
-    lv_obj_add_flag(ui->home_app2_voice_off, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->home_app2_voice_off, &_voice_off_alpha_16x16);
-    lv_img_set_pivot(ui->home_app2_voice_off, 50,50);
-    lv_img_set_angle(ui->home_app2_voice_off, 0);
-    lv_obj_set_pos(ui->home_app2_voice_off, 434, 0);
-    lv_obj_set_size(ui->home_app2_voice_off, 16, 16);
-
-    //Write style for home_app2_voice_off, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_voice_off, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_img_opa(ui->home_app2_voice_off, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->home_app2_voice_off, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->home_app2_voice_off, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes home_app2_time
-    static bool home_app2_time_timer_enabled = false;
-    ui->home_app2_time = lv_dclock_create(ui->home_app2_status_bar, "11:25");
-    if (!home_app2_time_timer_enabled) {
-        lv_timer_create(home_app2_time_timer, 1000, NULL);
-        home_app2_time_timer_enabled = true;
-    }
-    lv_obj_set_pos(ui->home_app2_time, 220, 0);
-    lv_obj_set_size(ui->home_app2_time, 46, 16);
-
-    //Write style for home_app2_time, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_radius(ui->home_app2_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->home_app2_time, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->home_app2_time, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->home_app2_time, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->home_app2_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->home_app2_time, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->home_app2_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->home_app2_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->home_app2_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->home_app2_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->home_app2_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->home_app2_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes home_app2_date
-    ui->home_app2_date = lv_label_create(ui->home_app2_status_bar);
-    lv_label_set_text(ui->home_app2_date, "2023/07/31");
-    lv_obj_set_style_text_align(ui->home_app2_date, LV_TEXT_ALIGN_CENTER, 0);
-    lv_obj_add_flag(ui->home_app2_date, LV_OBJ_FLAG_CLICKABLE);
-    lv_obj_add_event_cb(ui->home_app2_date, home_app2_date_event_handler, LV_EVENT_ALL, NULL);
-    lv_obj_set_pos(ui->home_app2_date, 0, 1);
-    lv_obj_set_size(ui->home_app2_date, 112, 16);
-
-    //Write style for home_app2_date, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->home_app2_date, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->home_app2_date, &lv_font_montserratMedium_14, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->home_app2_date, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->home_app2_date, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->home_app2_date, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->home_app2_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui->home_app2_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->home_app2_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->home_app2_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->home_app2_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->home_app2_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->home_app2_date, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes home_app2_home_page
     ui->home_app2_home_page = lv_obj_create(ui->home_app2);

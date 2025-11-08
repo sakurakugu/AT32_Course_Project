@@ -414,9 +414,9 @@
               <FilePath>.\src\board\board.cpp</FilePath>
             </File>
             <File>
-              <FileName>bsp_eep_lm75.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\board\bsp_eep_lm75.c</FilePath>
+              <FileName>bsp_eep_lm75.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\board\bsp_eep_lm75.cpp</FilePath>
             </File>
             <File>
               <FileName>bsp_queue.c</FileName>
@@ -478,6 +478,11 @@
               <FileType>1</FileType>
               <FilePath>.\src\board\network\wifi.c</FilePath>
             </File>
+            <File>
+              <FileName>color_led.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\board\led\color_led.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -487,6 +492,21 @@
               <FileName>calculator.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\app\calculator\calculator.c</FilePath>
+            </File>
+            <File>
+              <FileName>IoT.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\app\IoT\IoT.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>setting.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\app\setting\setting.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>setting.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\app\setting\setting.c</FilePath>
             </File>
           </Files>
         </Group>

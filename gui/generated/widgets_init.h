@@ -27,34 +27,6 @@ void home_app1_time_timer(lv_timer_t *timer);
 void home_app1_date_event_handler(lv_event_t *e);
 void home_app1_date_calendar_event_handler(lv_event_t *e);
 void home_app1_date_init_calendar(lv_obj_t *obj, char * s);
-void home_app2_time_timer(lv_timer_t *timer);
-void home_app2_date_event_handler(lv_event_t *e);
-void home_app2_date_calendar_event_handler(lv_event_t *e);
-void home_app2_date_init_calendar(lv_obj_t *obj, char * s);
-void weather_app_time_timer(lv_timer_t *timer);
-void weather_app_date_event_handler(lv_event_t *e);
-void weather_app_date_calendar_event_handler(lv_event_t *e);
-void weather_app_date_init_calendar(lv_obj_t *obj, char * s);
-void music_app_time_timer(lv_timer_t *timer);
-void music_app_date_event_handler(lv_event_t *e);
-void music_app_date_calendar_event_handler(lv_event_t *e);
-void music_app_date_init_calendar(lv_obj_t *obj, char * s);
-void smart_home_app_time_timer(lv_timer_t *timer);
-void smart_home_app_date_event_handler(lv_event_t *e);
-void smart_home_app_date_calendar_event_handler(lv_event_t *e);
-void smart_home_app_date_init_calendar(lv_obj_t *obj, char * s);
-void calculator_app_time_timer(lv_timer_t *timer);
-void calculator_app_date_event_handler(lv_event_t *e);
-void calculator_app_date_calendar_event_handler(lv_event_t *e);
-void calculator_app_date_init_calendar(lv_obj_t *obj, char * s);
-void deepseek_app_time_timer(lv_timer_t *timer);
-void deepseek_app_date_event_handler(lv_event_t *e);
-void deepseek_app_date_calendar_event_handler(lv_event_t *e);
-void deepseek_app_date_init_calendar(lv_obj_t *obj, char * s);
-void setting_app_time_timer(lv_timer_t *timer);
-void setting_app_date_event_handler(lv_event_t *e);
-void setting_app_date_calendar_event_handler(lv_event_t *e);
-void setting_app_date_init_calendar(lv_obj_t *obj, char * s);
 
 #ifdef __cplusplus
 }

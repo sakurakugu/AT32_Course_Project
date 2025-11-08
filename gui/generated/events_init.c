@@ -15,6 +15,7 @@
 #include "freemaster_client.h"
 #endif
 
+#include "custom.h"
 
 static void home_app1_event_handler (lv_event_t *e)
 {
@@ -39,7 +40,7 @@ static void home_app1_event_handler (lv_event_t *e)
         case LV_DIR_BOTTOM:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.status_app, guider_ui.status_app_del, &guider_ui.home_app1_del, setup_scr_status_app, LV_SCR_LOAD_ANIM_OVER_BOTTOM, 200, 200, false, true);
+            nav_to(&guider_ui, &guider_ui.status_app, guider_ui.status_app_del, setup_scr_status_app, LV_SCR_LOAD_ANIM_OVER_BOTTOM, 200, 200);
             break;
         }
         default:
@@ -58,7 +59,7 @@ static void home_app1_setting_app_icon_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        ui_load_scr_animation(&guider_ui, &guider_ui.setting_app, guider_ui.setting_app_del, &guider_ui.home_app1_del, setup_scr_setting_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200, false, true);
+        nav_to(&guider_ui, &guider_ui.setting_app, guider_ui.setting_app_del, setup_scr_setting_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);
         break;
     }
     default:
@@ -72,7 +73,7 @@ static void home_app1_deepseek_app_icon_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        ui_load_scr_animation(&guider_ui, &guider_ui.deepseek_app, guider_ui.deepseek_app_del, &guider_ui.home_app1_del, setup_scr_deepseek_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200, false, true);
+        nav_to(&guider_ui, &guider_ui.deepseek_app, guider_ui.deepseek_app_del, setup_scr_deepseek_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);
         break;
     }
     default:
@@ -86,7 +87,7 @@ static void home_app1_calculator_app_icon_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        ui_load_scr_animation(&guider_ui, &guider_ui.calculator_app, guider_ui.calculator_app_del, &guider_ui.home_app1_del, setup_scr_calculator_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200, false, true);
+        nav_to(&guider_ui, &guider_ui.calculator_app, guider_ui.calculator_app_del, setup_scr_calculator_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);
         break;
     }
     default:
@@ -100,7 +101,7 @@ static void home_app1_smart_home_app_icon_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        ui_load_scr_animation(&guider_ui, &guider_ui.smart_home_app, guider_ui.smart_home_app_del, &guider_ui.home_app1_del, setup_scr_smart_home_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200, false, true);
+        nav_to(&guider_ui, &guider_ui.smart_home_app, guider_ui.smart_home_app_del, setup_scr_smart_home_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);
         break;
     }
     default:
@@ -114,7 +115,7 @@ static void home_app1_music_app_icon_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        ui_load_scr_animation(&guider_ui, &guider_ui.music_app, guider_ui.music_app_del, &guider_ui.home_app1_del, setup_scr_music_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200, false, true);
+        nav_to(&guider_ui, &guider_ui.music_app, guider_ui.music_app_del, setup_scr_music_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);
         break;
     }
     default:
@@ -128,7 +129,7 @@ static void home_app1_weather_app_icon_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        ui_load_scr_animation(&guider_ui, &guider_ui.weather_app, guider_ui.weather_app_del, &guider_ui.home_app1_del, setup_scr_weather_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200, false, true);
+        nav_to(&guider_ui, &guider_ui.weather_app, guider_ui.weather_app_del, setup_scr_weather_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);
         break;
     }
     default:
@@ -183,7 +184,7 @@ static void home_app2_imgbtn_1_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        ui_load_scr_animation(&guider_ui, &guider_ui.electronic_organ_app, guider_ui.electronic_organ_app_del, &guider_ui.home_app2_del, setup_scr_electronic_organ_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200, false, true);
+        nav_to(&guider_ui, &guider_ui.electronic_organ_app, guider_ui.electronic_organ_app_del, setup_scr_electronic_organ_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);
         break;
     }
     default:
@@ -208,7 +209,7 @@ static void status_app_event_handler (lv_event_t *e)
         case LV_DIR_TOP:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.home_app1, guider_ui.home_app1_del, &guider_ui.status_app_del, setup_scr_home_app1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200, false, true);
+            nav_back(&guider_ui);
             break;
         }
         default:
@@ -237,13 +238,13 @@ static void weather_app_event_handler (lv_event_t *e)
         case LV_DIR_LEFT:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.home_app1, guider_ui.home_app1_del, &guider_ui.weather_app_del, setup_scr_home_app1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200, false, true);
+            nav_back(&guider_ui);
             break;
         }
         case LV_DIR_RIGHT:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.home_app1, guider_ui.home_app1_del, &guider_ui.weather_app_del, setup_scr_home_app1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200, false, true);
+            nav_back(&guider_ui);
             break;
         }
         default:
@@ -287,13 +288,13 @@ static void music_app_event_handler (lv_event_t *e)
         case LV_DIR_LEFT:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.home_app1, guider_ui.home_app1_del, &guider_ui.music_app_del, setup_scr_home_app1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200, false, true);
+            nav_back(&guider_ui);
             break;
         }
         case LV_DIR_RIGHT:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.home_app1, guider_ui.home_app1_del, &guider_ui.music_app_del, setup_scr_home_app1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200, false, true);
+            nav_back(&guider_ui);
             break;
         }
         default:
@@ -322,13 +323,13 @@ static void smart_home_app_event_handler (lv_event_t *e)
         case LV_DIR_LEFT:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.home_app1, guider_ui.home_app1_del, &guider_ui.smart_home_app_del, setup_scr_home_app1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200, false, true);
+            nav_back(&guider_ui);
             break;
         }
         case LV_DIR_RIGHT:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.home_app1, guider_ui.home_app1_del, &guider_ui.smart_home_app_del, setup_scr_home_app1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200, false, true);
+            nav_back(&guider_ui);
             break;
         }
         default:
@@ -357,13 +358,13 @@ static void calculator_app_event_handler (lv_event_t *e)
         case LV_DIR_LEFT:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.home_app1, guider_ui.home_app1_del, &guider_ui.calculator_app_del, setup_scr_home_app1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200, false, true);
+            nav_back(&guider_ui);
             break;
         }
         case LV_DIR_RIGHT:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.home_app1, guider_ui.home_app1_del, &guider_ui.calculator_app_del, setup_scr_home_app1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200, false, true);
+            nav_back(&guider_ui);
             break;
         }
         default:
@@ -392,13 +393,13 @@ static void deepseek_app_event_handler (lv_event_t *e)
         case LV_DIR_LEFT:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.home_app1, guider_ui.home_app1_del, &guider_ui.deepseek_app_del, setup_scr_home_app1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200, false, true);
+            nav_back(&guider_ui);
             break;
         }
         case LV_DIR_RIGHT:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.home_app1, guider_ui.home_app1_del, &guider_ui.deepseek_app_del, setup_scr_home_app1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200, false, true);
+            nav_back(&guider_ui);
             break;
         }
         default:
@@ -427,13 +428,13 @@ static void setting_app_event_handler (lv_event_t *e)
         case LV_DIR_LEFT:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.home_app1, guider_ui.home_app1_del, &guider_ui.setting_app_del, setup_scr_home_app1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200, false, true);
+            nav_back(&guider_ui);
             break;
         }
         case LV_DIR_RIGHT:
         {
             lv_indev_wait_release(lv_indev_get_act());
-            ui_load_scr_animation(&guider_ui, &guider_ui.home_app1, guider_ui.home_app1_del, &guider_ui.setting_app_del, setup_scr_home_app1, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200, false, true);
+            nav_back(&guider_ui);
             break;
         }
         default:

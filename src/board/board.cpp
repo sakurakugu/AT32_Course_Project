@@ -3,6 +3,7 @@
 #include "bsp_uart.h"
 #include "key/key.h"
 #include "led/oled.h"
+#include "led/color_led.h"
 #include "sound/beep.h"
 #include "timer.h"
 // #include "wifi.hpp"
@@ -37,6 +38,7 @@ int _write(int fd, char *pbuffer, int size) {
 
 Board::Board() {
     // 初始化板级资源
+    color_led_ = &Color_Led::GetInstance(); 
 }
 
 Board::~Board() {
@@ -68,7 +70,7 @@ void Board::Init(void) {
     g_beep.init();              /* 初始化蜂鸣器 */
     bsp_InitUart();             /* 初始化串口 */
                                 // bsp_InitDWT();      /* 初始化DWT时钟周期计数器 */
-
+    color_led_->Init();
     /* configure led in at_start_board */
     at32_led_init(LED_Green);
     at32_led_init(LED_Yellow);
@@ -168,6 +170,11 @@ void adc_config(void) {
         ;
 }
 
+/**
+ * @brief  读取 adc 值
+ * @param  none
+ * @retval adc 值
+ */
 uint16_t analogRead(void) {
     adc_ordinary_software_trigger_enable(ADC1, TRUE);
     while (adc_flag_get(ADC1, ADC_OCCE_FLAG) == RESET)

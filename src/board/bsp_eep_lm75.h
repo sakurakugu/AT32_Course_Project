@@ -1,6 +1,6 @@
 
 
-//
+#pragma once
 
 #define I2C_TIMEOUT 0xFFFFFFF
 
@@ -30,12 +30,34 @@
 
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 void iic_init(void);
 void eep_write(uint16_t mem_address, uint8_t *pdata, uint16_t size);
 void eep_read(uint16_t mem_address, uint8_t *pdata, uint16_t size);
-uint8_t lm75_read(void);
 
 /* expose common i2c buffers for application use */
 extern uint8_t eep_write_buf[16];
 extern uint8_t eep_read_buf[32];
 extern uint8_t lm75_buf[2];
+#ifdef __cplusplus
+}
+#endif
+
+class LM75 {
+  public:
+    static LM75 &GetInstance() {
+        static LM75 instance;
+        return instance;
+    }
+    // 删除拷贝构造函数和赋值运算符
+    LM75(const LM75 &) = delete;
+    LM75 &operator=(const LM75 &) = delete;
+
+    uint8_t Read();
+
+  private:
+    LM75() = default;
+    ~LM75() = default;
+};
