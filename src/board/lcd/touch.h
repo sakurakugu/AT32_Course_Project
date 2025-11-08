@@ -99,11 +99,12 @@ typedef enum {
 #define GT_INT_HIGH() gpio_bits_set(GT_INT_GPIO_PORT, GT_INT_GPIO_PIN)
 #define GT_INT_READ() gpio_input_data_bit_read(GT_INT_GPIO_PORT, GT_INT_GPIO_PIN)
 
+typedef confirm_state bool_type;
 
 /**
  * @brief touch exported functions
  */
-error_status touch_read_xy(uint16_t *x, uint16_t *y);
+bool_type touch_read_xy(uint16_t *x, uint16_t *y);
 
 #ifdef __cplusplus
 }

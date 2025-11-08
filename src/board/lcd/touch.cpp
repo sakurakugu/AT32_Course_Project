@@ -584,11 +584,11 @@ bool Touch::Adjust() {
     return true;
 }
 
-bool Touch::Read(uint16_t &x, uint16_t &y) {
+bool_type Touch::Read(uint16_t &x, uint16_t &y) {
     uint8_t buf[4];
     uint8_t temp = 0;
     uint8_t mode, num = 0;
-    bool pressed = false;
+    bool_type pressed = FALSE;
 
     /* read touch point status */
     gt9111_reg_read(GT_STS_REG, &mode, 1);
@@ -658,7 +658,7 @@ bool Touch::Read(uint16_t &x, uint16_t &y) {
     }
 
     if (num) {
-        pressed = true;
+        pressed = TRUE;
     }
 
     return pressed;
@@ -673,8 +673,8 @@ extern "C" {
  *         - SUCCESS.
  *         - ERROR.
  */
-error_status touch_read_xy(uint16_t *x, uint16_t *y) {
-    return Touch::GetInstance().Read(*x, *y) ? SUCCESS : ERROR;
+bool_type touch_read_xy(uint16_t *x, uint16_t *y) {
+    return Touch::GetInstance().Read(*x, *y);
 }
 
 } // extern "C"

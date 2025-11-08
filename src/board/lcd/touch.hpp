@@ -17,7 +17,7 @@ class Touch {
     Touch &operator=(const Touch &) = delete;
 
     bool Init(touch_scan_type direction);
-    bool Read(uint16_t &x, uint16_t &y);
+    bool_type Read(uint16_t &x, uint16_t &y);
     bool Adjust();
 
   private:
