@@ -1,14 +1,14 @@
-#include "music.h"
+#include "music.hpp"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "beep.h"
 
 /* 音高表：music_arrX 中的数值作为索引，映射到实际频率 */
 static const uint16_t note_freqs[] = {
-    REST,
-    L1, L2, L3, L4, L5, L6, L7,
-    M1, M2, M3, M4, M5, M6, M7,
-    H1, H2, H3, H4, H5, H6, H7,
+    Tone::REST,
+    Tone::L1, Tone::L2, Tone::L3, Tone::L4, Tone::L5, Tone::L6, Tone::L7,
+    Tone::M1, Tone::M2, Tone::M3, Tone::M4, Tone::M5, Tone::M6, Tone::M7,
+    Tone::H1, Tone::H2, Tone::H3, Tone::H4, Tone::H5, Tone::H6, Tone::H7,
 };
 
 // 红尘情歌
@@ -77,7 +77,7 @@ volatile int music_resume = 0;
 volatile int music_playing = 0;
 
 /* 播放一首歌：从 music_arr1 / time_arr1 读取音符索引与时值 */
-static void play_one_song(void) {
+void Music::play_one_song() {
     size_t total = sizeof(time_arr1) / sizeof(time_arr1[0]);
     /* 起始索引由全局 music_index 控制，可从头或从中间继续 */
     for (; music_index < (int)total; ++music_index) {
@@ -131,7 +131,7 @@ void TaskMusic(void *pvParameters) {
         }
 
         if (music_playing) {
-            play_one_song();
+            Music::GetInstance().play_one_song();
         } else {
             /* 空闲，降低占用 */
             vTaskDelay(pdMS_TO_TICKS(50));
@@ -139,7 +139,3 @@ void TaskMusic(void *pvParameters) {
     }
 }
 
-/* 保留旧接口，避免外部引用报错；现已不再使用 */
-void music_process(void) {
-    /* 已迁移为 TaskMusic 任务 */
-}

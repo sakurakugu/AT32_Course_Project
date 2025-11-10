@@ -4,7 +4,7 @@
  */
 
 #include "wifi.hpp"
-#include "bsp_uart.h"
+#include "uart.h"
 #include "timer.h"
 // logger
 #include <stdio.h>

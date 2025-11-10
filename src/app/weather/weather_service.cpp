@@ -1,7 +1,7 @@
 #include "weather_service.hpp"
 
 #include "../board/network/wifi.hpp"
-#include "bsp_uart.h"
+#include "uart.h"
 #include "cJSON.h"
 #include "../../gui/generated/gui_guider.h"
 #include <stdio.h>

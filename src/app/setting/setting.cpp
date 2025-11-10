@@ -1,7 +1,7 @@
 #include "setting.hpp"
 #include "../board/lcd/lcd.h"
 #include "../network/wifi.hpp"
-#include "bsp_uart.h"
+#include "uart.h"
 #include "lvgl.h"
 #include <stdio.h>
 #include <string.h>

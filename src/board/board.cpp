@@ -1,6 +1,6 @@
 #include "board.h"
 #include "bsp_eep_lm75.h"
-#include "bsp_uart.h"
+#include "uart.h"
 #include "key/key.h"
 #include "led/led.h"
 #include "led/color_led.h"

@@ -419,9 +419,9 @@
               <FilePath>.\src\board\timer.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_uart.c</FileName>
+              <FileName>uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\src\board\bsp_uart.c</FilePath>
+              <FilePath>.\src\board\uart\uart.c</FilePath>
             </File>
             <File>
               <FileName>bsp_ext_flash.c</FileName>

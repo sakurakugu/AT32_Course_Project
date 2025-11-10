@@ -1,6 +1,6 @@
 #include "IoT.hpp"
 
-#include "bsp_uart.h"
+#include "uart.h"
 #include "board.h"
 #include "bsp_eep_lm75.h"
 #include "at32f435_437_board.h"
