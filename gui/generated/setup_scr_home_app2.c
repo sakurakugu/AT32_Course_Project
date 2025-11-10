@@ -50,7 +50,6 @@ void setup_scr_home_app2(lv_ui *ui)
     //Write codes home_app2_imgbtn_6
     ui->home_app2_imgbtn_6 = lv_imgbtn_create(ui->home_app2_home_page);
     lv_obj_add_flag(ui->home_app2_imgbtn_6, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->home_app2_imgbtn_6, LV_IMGBTN_STATE_RELEASED, NULL, &_setting_app_alpha_80x80, NULL);
     ui->home_app2_imgbtn_6_label = lv_label_create(ui->home_app2_imgbtn_6);
     lv_label_set_text(ui->home_app2_imgbtn_6_label, "");
     lv_label_set_long_mode(ui->home_app2_imgbtn_6_label, LV_LABEL_LONG_WRAP);
@@ -91,7 +90,6 @@ void setup_scr_home_app2(lv_ui *ui)
     //Write codes home_app2_imgbtn_5
     ui->home_app2_imgbtn_5 = lv_imgbtn_create(ui->home_app2_home_page);
     lv_obj_add_flag(ui->home_app2_imgbtn_5, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->home_app2_imgbtn_5, LV_IMGBTN_STATE_RELEASED, NULL, &_deepseek_alpha_80x80, NULL);
     ui->home_app2_imgbtn_5_label = lv_label_create(ui->home_app2_imgbtn_5);
     lv_label_set_text(ui->home_app2_imgbtn_5_label, "");
     lv_label_set_long_mode(ui->home_app2_imgbtn_5_label, LV_LABEL_LONG_WRAP);
@@ -132,7 +130,6 @@ void setup_scr_home_app2(lv_ui *ui)
     //Write codes home_app2_imgbtn_4
     ui->home_app2_imgbtn_4 = lv_imgbtn_create(ui->home_app2_home_page);
     lv_obj_add_flag(ui->home_app2_imgbtn_4, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->home_app2_imgbtn_4, LV_IMGBTN_STATE_RELEASED, NULL, &_calculator_app_alpha_80x80, NULL);
     ui->home_app2_imgbtn_4_label = lv_label_create(ui->home_app2_imgbtn_4);
     lv_label_set_text(ui->home_app2_imgbtn_4_label, "");
     lv_label_set_long_mode(ui->home_app2_imgbtn_4_label, LV_LABEL_LONG_WRAP);
@@ -173,7 +170,7 @@ void setup_scr_home_app2(lv_ui *ui)
     //Write codes home_app2_imgbtn_3
     ui->home_app2_imgbtn_3 = lv_imgbtn_create(ui->home_app2_home_page);
     lv_obj_add_flag(ui->home_app2_imgbtn_3, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->home_app2_imgbtn_3, LV_IMGBTN_STATE_RELEASED, NULL, &_smart_home_app_alpha_80x80, NULL);
+    lv_imgbtn_set_src(ui->home_app2_imgbtn_3, LV_IMGBTN_STATE_RELEASED, NULL, &_oscilloscope_app_alpha_80x80, NULL);
     ui->home_app2_imgbtn_3_label = lv_label_create(ui->home_app2_imgbtn_3);
     lv_label_set_text(ui->home_app2_imgbtn_3_label, "");
     lv_label_set_long_mode(ui->home_app2_imgbtn_3_label, LV_LABEL_LONG_WRAP);
@@ -214,7 +211,7 @@ void setup_scr_home_app2(lv_ui *ui)
     //Write codes home_app2_imgbtn_2
     ui->home_app2_imgbtn_2 = lv_imgbtn_create(ui->home_app2_home_page);
     lv_obj_add_flag(ui->home_app2_imgbtn_2, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->home_app2_imgbtn_2, LV_IMGBTN_STATE_RELEASED, NULL, &_music_app_alpha_80x80, NULL);
+    lv_imgbtn_set_src(ui->home_app2_imgbtn_2, LV_IMGBTN_STATE_RELEASED, NULL, &_drawing_app_alpha_80x80, NULL);
     ui->home_app2_imgbtn_2_label = lv_label_create(ui->home_app2_imgbtn_2);
     lv_label_set_text(ui->home_app2_imgbtn_2_label, "");
     lv_label_set_long_mode(ui->home_app2_imgbtn_2_label, LV_LABEL_LONG_WRAP);
@@ -255,7 +252,7 @@ void setup_scr_home_app2(lv_ui *ui)
     //Write codes home_app2_imgbtn_1
     ui->home_app2_imgbtn_1 = lv_imgbtn_create(ui->home_app2_home_page);
     lv_obj_add_flag(ui->home_app2_imgbtn_1, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->home_app2_imgbtn_1, LV_IMGBTN_STATE_RELEASED, NULL, &_weather_app_alpha_80x80, NULL);
+    lv_imgbtn_set_src(ui->home_app2_imgbtn_1, LV_IMGBTN_STATE_RELEASED, NULL, &_electronic_organ_app_alpha_80x80, NULL);
     ui->home_app2_imgbtn_1_label = lv_label_create(ui->home_app2_imgbtn_1);
     lv_label_set_text(ui->home_app2_imgbtn_1_label, "");
     lv_label_set_long_mode(ui->home_app2_imgbtn_1_label, LV_LABEL_LONG_WRAP);

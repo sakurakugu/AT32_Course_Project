@@ -5,6 +5,7 @@
 #include "bsp_eep_lm75.h"
 #include "at32f435_437_board.h"
 #include "timer.h"
+#include "board/led/led.h"
 #include <cJSON.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -176,10 +177,10 @@ void IoT::Send_Status_Report() {
 void IoT::Control_Lighting(uint8_t status) {
     lighting_status = status;
     if (status) {
-        at32_led_on(LED_Yellow);
-        printf("\r\n照明已开启 (LED_YELLOW ON)\r\n");
+        LED::GetInstance().On(LED_Green);
+        printf("\r\n照明已开启 (LED_GREEN ON)\r\n");
     } else {
-        at32_led_off(LED_Yellow);
-        printf("\r\n照明已关闭 (LED_YELLOW OFF)\r\n");
+        LED::GetInstance().Off(LED_Green);
+        printf("\r\n照明已关闭 (LED_GREEN OFF)\r\n");
     }
 }

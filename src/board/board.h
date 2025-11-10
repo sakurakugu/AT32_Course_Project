@@ -48,10 +48,6 @@ void Error_Handler(char *file, uint32_t line);
 
 void adc_config(void);
 uint16_t analogRead(void);
-void at32_led_init(led_type led);
-void at32_led_on(led_type led);
-void at32_led_off(led_type led);
-void at32_led_toggle(led_type led);
 void delay_ms(uint16_t nms);
 /* delay function */
 }

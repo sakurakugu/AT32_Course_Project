@@ -135,3 +135,12 @@ SD卡读卡器
   I2C1 SDA      PB7  
   TP INT        PE3  
   TP RS         PD11 
+
+
+
+
+
+# 参考与引用
+[音频播放](https://github.com/AmberHeart/STM32F407_Buzzer_Muisc_Player)
+[天气API](https://www.seniverse.com/)
+[时间同步](https://quan.suning.com/)

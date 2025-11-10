@@ -337,9 +337,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>AT32F435VGT7, AT_START_F435_V1, USE_STDPERIPH_DRIVER,AT_SURF_F437_V1,HAVE_CONFIG_H,LV_LVGL_H_INCLUDE_SIMPLE</Define>
+              <Define>AT32F435VGT7, AT_START_F435_V1, USE_STDPERIPH_DRIVER,AT_SURF_F437_V1,HAVE_CONFIG_H,LV_LVGL_H_INCLUDE_SIMPLE, KEIL_COMPILE</Define>
               <Undefine></Undefine>
-              <IncludePath>.\lib\at32f435_437_board;.\lib\cJSON;.\lib\cmsis\cm4\core_support;.\lib\cmsis\cm4\device_support;.\lib\drivers\inc;.\lib\FreeRTOS\include;.\lib\FreeRTOS\portable\GCC\ARM_CM4F;.\lib\middlewares\i2c_application_library;.\lib\middlewares\3rd_party\fatfs\source;.\lib\at_surf_f437_board;.\gui\lvgl;.\gui\custom;.\gui\generated\guider_customer_fonts;.\gui\generated\guider_fonts;.\gui\generated\images;.\gui\generated;.\src;.\src\app\weather;.\src\app\music;.\src\app\IoT;.\src\app\calculator;.\src\app\setting;.\src\board;.\src\board\key;.\src\board\lcd;.\src\board\led;.\src\board\network;.\src\board\sound;.\src\config;.\src\config\lvgl;.\src\config\lvgl\porting;.\src\util</IncludePath>
+              <IncludePath>.\lib\at32f435_437_board;.\lib\cJSON;.\lib\cmsis\cm4\core_support;.\lib\cmsis\cm4\device_support;.\lib\drivers\inc;.\lib\FreeRTOS\include;.\lib\FreeRTOS\portable\GCC\ARM_CM4F;.\lib\middlewares\i2c_application_library;.\lib\middlewares\3rd_party\fatfs\source;.\lib\at_surf_f437_board;.\gui\lvgl;.\gui\custom;.\gui\generated\guider_customer_fonts;.\gui\generated\guider_fonts;.\gui\generated\images;.\gui\generated;.\src;.\src\app\weather;.\src\app\music;.\src\app\IoT;.\src\app\calculator;.\src\app\setting;.\src\app\weather;.\src\board;.\src\board\key;.\src\board\lcd;.\src\board\led;.\src\board\network;.\src\board\sound;.\src\board\uart;.\src\config;.\src\config\lvgl;.\src\config\lvgl\porting;.\src\util</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -387,11 +387,6 @@
               <FileName>main.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>src\main.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>lv_tick_custom.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>src\lv_tick_custom.c</FilePath>
             </File>
             <File>
               <FileName>application.cpp</FileName>
@@ -459,6 +454,11 @@
               <FilePath>.\src\board\led\oled_font.cpp</FilePath>
             </File>
             <File>
+              <FileName>led.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\board\led\led.cpp</FilePath>
+            </File>
+            <File>
               <FileName>beep.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\board\sound\beep.cpp</FilePath>
@@ -502,6 +502,11 @@
               <FileName>music.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\app\music\music.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>weather_service.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\app\weather\weather_service.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -2300,6 +2305,11 @@
               <FilePath>.\src\config\lvgl\porting\lv_port_indev.c</FilePath>
             </File>
             <File>
+              <FileName>lv_tick_custom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\config\lvgl\lv_tick_custom.c</FilePath>
+            </File>
+            <File>
               <FileName>custom.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\custom\custom.c</FilePath>
@@ -2588,14 +2598,49 @@
               <FilePath>.\gui\generated\images\_calculator_app_alpha_80x80.c</FilePath>
             </File>
             <File>
-              <FileName>_deepseek_alpha_80x80.c</FileName>
+              <FileName>_deepseek_app_alpha_80x80.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\generated\images\_deepseek_alpha_80x80.c</FilePath>
+              <FilePath>.\gui\generated\images\_deepseek_app_alpha_80x80.c</FilePath>
+            </File>
+            <File>
+              <FileName>_drawing_app_alpha_80x80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_drawing_app_alpha_80x80.c</FilePath>
+            </File>
+            <File>
+              <FileName>_electronic_organ_app_alpha_80x80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_electronic_organ_app_alpha_80x80.c</FilePath>
             </File>
             <File>
               <FileName>_music_app_alpha_80x80.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\images\_music_app_alpha_80x80.c</FilePath>
+            </File>
+            <File>
+              <FileName>_music_next_song_alpha_16x16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_music_next_song_alpha_16x16.c</FilePath>
+            </File>
+            <File>
+              <FileName>_music_pause_alpha_16x16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_music_pause_alpha_16x16.c</FilePath>
+            </File>
+            <File>
+              <FileName>_music_player_alpha_16x16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_music_player_alpha_16x16.c</FilePath>
+            </File>
+            <File>
+              <FileName>_music_prev_song_alpha_16x16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_music_prev_song_alpha_16x16.c</FilePath>
+            </File>
+            <File>
+              <FileName>_oscilloscope_app_alpha_80x80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_oscilloscope_app_alpha_80x80.c</FilePath>
             </File>
             <File>
               <FileName>_setting_app_alpha_80x80.c</FileName>

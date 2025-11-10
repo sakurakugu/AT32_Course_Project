@@ -57,26 +57,6 @@ extern "C" {
 #error "please select first the board at-start device used in your application (in at32f435_437_board.h file)"
 #endif
 
-/******************** define led ********************/
-typedef enum
-{
-  LED_Green                                   = 0,
-  LED_Yellow                                   = 1,
-} led_type;
-
-#define LED_NUM                          2
-
-#if defined (AT_START_F435_V1) || defined (AT_START_F437_V1)
-#define LED_Green_PIN                         GPIO_PINS_12
-#define LED_Green_GPIO                        GPIOC
-#define LED_Green_GPIO_CRM_CLK                CRM_GPIOC_PERIPH_CLOCK
-
-#define LED_Yellow_PIN                         GPIO_PINS_9
-#define LED_Yellow_GPIO                        GPIOC
-#define LED_Yellow_GPIO_CRM_CLK                CRM_GPIOC_PERIPH_CLOCK
-
-#endif
-
 /**************** define print uart ******************/
 #define PRINT_UART                       USART1
 #define PRINT_UART_CRM_CLK               CRM_USART1_PERIPH_CLOCK
@@ -113,12 +93,6 @@ typedef enum
 
 /******************** functions ********************/
 void at32_board_init(void);
-
-/* led operation function */
-void at32_led_init(led_type led);
-void at32_led_on(led_type led);
-void at32_led_off(led_type led);
-void at32_led_toggle(led_type led);
 
 /* button operation function */
 void at32_button_init(void);

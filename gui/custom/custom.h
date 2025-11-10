@@ -14,7 +14,6 @@ extern "C" {
 #include "gui_guider.h"
 #include <stdio.h>
 
-#include "../../src/config/config.h"
 #include "../../src/app/calculator/calculator.h" // 计算器接口：供界面自定义代码调用
 #include "../../src/board/network/wifi.h"
 

@@ -7,6 +7,7 @@
 #include "beep.h"
 #include "board.h"
 #include "board/bsp_eep_lm75.h"
+#include "board/led/led.h"
 #include "color_led.h"
 #include "config.h"
 #include "custom.h"
@@ -291,7 +292,7 @@ static void TaskStatus(void *pvParameters) {
 static void TaskLED(void *pvParameters) {
     (void)pvParameters;
     for (;;) {
-        at32_led_toggle(LED_Yellow);
+        LED::GetInstance().Toggle(LED_Yellow);
         vTaskDelay(pdMS_TO_TICKS(200));
     }
 }

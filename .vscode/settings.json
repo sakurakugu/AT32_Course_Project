@@ -5,10 +5,9 @@
         "at32f435_437.h": "c",
         "eep_lm75.h": "c",
         "i2c_application.h": "c",
-        "bsp.h": "c",
         "at32f435_437_conf.h": "c",
         "bsp_eep_lm75.h": "c",
-        "bsp_uart.h": "c",
+        "uart.h": "c",
         "bsp_esp12.h": "c",
         "ostream": "cpp",
         "xlocale": "cpp",
@@ -28,7 +27,6 @@
         "xmemory": "c",
         "xstring": "c",
         "string.h": "c",
-        "bsp_gt911.h": "c",
         "bsp_oled.h": "c",
         "istream": "cpp",
         "ios": "cpp",
@@ -37,7 +35,6 @@
         "cstddef": "c",
         "limits": "c",
         "lv_port_indev_template.h": "c",
-        "bsp_oledfont.h": "c",
         "algorithm": "c",
         "lcd.h": "c",
         "stdbool.h": "c",
@@ -72,7 +69,6 @@
         "locale": "c",
         "lv_tick_custom.h": "c",
         "__node_handle": "c",
-        "bsp_touch_gt911.h": "c",
         "lv_port_indev.h": "c",
         "lv_port_fs.h": "c",
         "lv_port_disp.h": "c",
@@ -124,7 +120,10 @@
         "setting.hpp": "c",
         "setting.h": "c",
         "net_time_sync.h": "c",
-        "set": "cpp"
+        "set": "cpp",
+        "weather.h": "c",
+        "uart.hpp": "c",
+        "concepts": "cpp"
     },
     "search.useIgnoreFiles": false, // 禁用git忽略文件
     "search.exclude": { // 排除搜索范围

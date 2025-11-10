@@ -16,6 +16,9 @@
 #endif
 
 #include "custom.h"
+#ifdef KEIL_COMPILE
+#include "../../src/app/weather/weather.h"
+#endif
 
 static void home_app1_event_handler (lv_event_t *e)
 {
@@ -263,7 +266,16 @@ static void weather_app_update_weather_btn_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-
+#ifdef KEIL_COMPILE
+        // 点击更新天气：后台发起一次网络请求并刷新界面
+        bool ok = weather_update_ui();
+        if (!ok) {
+            // 简单错误反馈：在更新时间标签显示失败
+            if (lv_obj_is_valid(guider_ui.weather_app_updatetime)) {
+                lv_label_set_text(guider_ui.weather_app_updatetime, "上次更新时间：获取失败");
+            }
+        }
+#endif
         break;
     }
     default:
