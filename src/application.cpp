@@ -1,7 +1,6 @@
 #include "application.h"
 
 #include "IoT.hpp"
-#include "at32f435_437_board.h"
 #include "at32f435_437_clock.h"
 #include "at32f435_437_misc.h"
 #include "beep.h"

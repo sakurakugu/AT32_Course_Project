@@ -1,25 +1,20 @@
 #include "board.h"
 #include "bsp_eep_lm75.h"
-#include "uart.h"
 #include "key/key.h"
-#include "led/led.h"
 #include "led/color_led.h"
+#include "led/led.h"
 #include "led/oled.h"
 #include "sound/beep.h"
 #include "timer.h"
+#include "uart.h"
+#include "delay.h"
 // #include "wifi.hpp"
 
 // #include "FreeRTOS.h"
 // #include "task.h"
 
-#define STEP_DELAY_MS 50
-
 extern "C" {
 #include "at32f435_437_clock.h"
-
-/* delay variable */
-static __IO uint32_t fac_us;
-static __IO uint32_t fac_ms;
 
 /**
  * @brief  retargets the c library printf function to the usart.
@@ -65,11 +60,11 @@ void Board::Init(void) {
     // g_eep_lm75.init(); /* 初始化I2C接口，用于LM75温度传感器 */
     Key::GetInstance().init(); /* 按键初始化，要放在滴答定时器之前，因为按钮检测是通过滴答定时器扫描 */
     bsp_InitTimer();           /* 初始化滴答定时器 */
-    uart_print_init(115200);
+    // uart_print_init(115200);
     // bsp_InitESP12();
+    bsp_InitUart();             /* 初始化串口 */
     OLED::GetInstance().init(); /* 初始化OLED屏幕 */
     g_beep.init();              /* 初始化蜂鸣器 */
-    bsp_InitUart();             /* 初始化串口 */
                                 // bsp_InitDWT();      /* 初始化DWT时钟周期计数器 */
     color_led_->Init();
     auto &led = LED::GetInstance();
@@ -183,10 +178,6 @@ uint16_t analogRead(void) {
     return adc_ordinary_conversion_data_get(ADC1);
 }
 
-// static void at32_led_init(led_type led);
-
-#define STEP_DELAY_MS 50
-
 /* support printf function, usemicrolib is unnecessary */
 #if (__ARMCC_VERSION > 6000000)
 __asm(".global __use_no_semihosting\n\t");
@@ -242,109 +233,6 @@ int _write(int fd, char *pbuffer, int size) {
     return size;
 }
 #endif
-
-/**
- * @brief  initialize uart
- * @param  baudrate: uart baudrate
- * @retval none
- */
-void uart_print_init(uint32_t baudrate) {
-    gpio_init_type gpio_init_struct;
-
-#if defined(__GNUC__) && !defined(__clang__)
-    setvbuf(stdout, NULL, _IONBF, 0);
-#endif
-
-    /* enable the uart and gpio clock */
-    crm_periph_clock_enable(PRINT_UART_CRM_CLK, TRUE);
-    crm_periph_clock_enable(PRINT_UART_TX_GPIO_CRM_CLK, TRUE);
-
-    gpio_default_para_init(&gpio_init_struct);
-
-    /* configure the uart tx pin */
-    gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
-    gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
-    gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
-    gpio_init_struct.gpio_pins = PRINT_UART_TX_PIN;
-    gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
-    gpio_init(PRINT_UART_TX_GPIO, &gpio_init_struct);
-
-    gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
-    gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
-    gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
-    gpio_init_struct.gpio_pins = PRINT_UART_RX_PIN;
-    gpio_init_struct.gpio_pull = GPIO_PULL_UP;
-    gpio_init(PRINT_UART_RX_GPIO, &gpio_init_struct);
-
-    gpio_pin_mux_config(PRINT_UART_TX_GPIO, PRINT_UART_TX_PIN_SOURCE, PRINT_UART_TX_PIN_MUX_NUM);
-    gpio_pin_mux_config(PRINT_UART_RX_GPIO, PRINT_UART_RX_PIN_SOURCE, PRINT_UART_RX_PIN_MUX_NUM);
-    /* config usart nvic interrupt */
-    nvic_priority_group_config(NVIC_PRIORITY_GROUP_4);
-    nvic_irq_enable(USART1_IRQn, 0, 0);
-
-    /* configure uart param */
-    usart_init(PRINT_UART, baudrate, USART_DATA_8BITS, USART_STOP_1_BIT);
-    usart_transmitter_enable(PRINT_UART, TRUE);
-    usart_receiver_enable(PRINT_UART, TRUE);
-    usart_interrupt_enable(PRINT_UART, USART_RDBF_INT, TRUE);
-    usart_enable(PRINT_UART, TRUE);
-}
-
-/**
- * @brief  inserts a delay time.
- * @param  nms: specifies the delay time length, in milliseconds.
- * @retval none
- */
-void delay_ms(uint16_t nms) {
-    uint32_t temp = 0;
-    while (nms) {
-        if (nms > STEP_DELAY_MS) {
-            SysTick->LOAD = (uint32_t)(STEP_DELAY_MS * fac_ms);
-            nms -= STEP_DELAY_MS;
-        } else {
-            SysTick->LOAD = (uint32_t)(nms * fac_ms);
-            nms = 0;
-        }
-        SysTick->VAL = 0x00;
-        SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
-        do {
-            temp = SysTick->CTRL;
-        } while ((temp & 0x01) && !(temp & (1 << 16)));
-
-        SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
-        SysTick->VAL = 0x00;
-    }
-}
-
-/**
- * @brief  initialize delay function
- * @param  none
- * @retval none
- */
-void delay_init() {
-    /* configure systick */
-    systick_clock_source_config(SYSTICK_CLOCK_SOURCE_AHBCLK_NODIV);
-    fac_us = system_core_clock / (1000000U);
-    fac_ms = fac_us * (1000U);
-}
-
-/**
- * @brief  inserts a delay time.
- * @param  nus: specifies the delay time length, in microsecond.
- * @retval none
- */
-void delay_us(uint32_t nus) {
-    uint32_t temp = 0;
-    SysTick->LOAD = (uint32_t)(nus * fac_us);
-    SysTick->VAL = 0x00;
-    SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
-    do {
-        temp = SysTick->CTRL;
-    } while ((temp & 0x01) && !(temp & (1 << 16)));
-
-    SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
-    SysTick->VAL = 0x00;
-}
 
 /*
 *********************************************************************************************************

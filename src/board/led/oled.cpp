@@ -2,9 +2,9 @@
 // C++ OLED 类实现 + C 兼容接口包装
 
 #include "oled.h"
-#include "at32f435_437_board.h"
 #include "at32f435_437_clock.h"
 #include "at32f435_437_gpio.h"
+#include "delay.h"
 #include "oled_font.h"
 
 void OLED::init() {
@@ -290,4 +290,3 @@ void OLED::gpioConfig() {
     gpio_initstructure.gpio_pins = GPIO_PINS_6;
     gpio_init(GPIOD, &gpio_initstructure);
 }
-

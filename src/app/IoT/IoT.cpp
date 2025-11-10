@@ -3,7 +3,6 @@
 #include "uart.h"
 #include "board.h"
 #include "bsp_eep_lm75.h"
-#include "at32f435_437_board.h"
 #include "timer.h"
 #include "board/led/led.h"
 #include <cJSON.h>

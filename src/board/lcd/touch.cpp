@@ -25,7 +25,7 @@
  */
 
 #include "touch.hpp"
-#include "at32f435_437_board.h"
+#include "delay.h"
 #include <stdio.h>
 #include <string.h>
 

@@ -60,7 +60,6 @@
         "__locale": "c",
         "music.h": "c",
         "stdint.h": "c",
-        "at32f435_437_board.h": "c",
         "print": "c",
         "ctime": "c",
         "chrono": "c",
@@ -123,7 +122,12 @@
         "set": "cpp",
         "weather.h": "c",
         "uart.hpp": "c",
-        "concepts": "cpp"
+        "concepts": "cpp",
+        "at32f435_437_board.h": "c",
+        "at32f435_437_misc.h": "c",
+        "freertos.h": "c",
+        "task.h": "c",
+        "delay.h": "c"
     },
     "search.useIgnoreFiles": false, // 禁用git忽略文件
     "search.exclude": { // 排除搜索范围

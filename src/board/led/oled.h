@@ -1,6 +1,6 @@
 #pragma once
 
-#include "at32f435_437_board.h"
+#include <stdint.h>
 
 #define OLED_CMD 0
 #define OLED_DATA 1

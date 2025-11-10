@@ -26,7 +26,7 @@
  */
 
 #include "lcd.hpp"
-#include "at32f435_437_board.h"
+#include "delay.h"
 
 lcd_device_type lcddev;
 
@@ -658,27 +658,69 @@ uint16_t LCD::id_read() {
 
 // C interface wrappers to keep compatibility with lcd.h
 extern "C" {
-void xmc_init(void) { LCD::GetInstance().xmc_init(); }
-uint16_t lcd_read(void) { return LCD::GetInstance().read(); }
-void lcd_reg_write(uint16_t data) { LCD::GetInstance().reg_write(data); }
-void lcd_data_write(uint16_t data) { LCD::GetInstance().data_write(data); }
-uint16_t lcd_data_read(void) { return LCD::GetInstance().data_read(); }
-void lcd_command_write(uint16_t lcd_comm, uint16_t lcd_regvalue) { LCD::GetInstance().command_write(lcd_comm, lcd_regvalue); }
-void lcd_command_read(uint16_t lcd_comm, uint8_t *rval, int32_t n) { LCD::GetInstance().command_read(lcd_comm, rval, n); }
-void lcd_ram_prepare_write(void) { LCD::GetInstance().ram_prepare_write(); }
-void lcd_ram_prepare_read(void) { LCD::GetInstance().ram_prepare_read(); }
-void lcd_data_16bit_write(uint16_t data) { LCD::GetInstance().data_16bit_write(data); }
-uint16_t color_to_565(uint8_t r, uint8_t g, uint8_t b) { return LCD::GetInstance().color_to_565(r, g, b); }
-uint16_t lcd_data_16bit_read(void) { return LCD::GetInstance().data_16bit_read(); }
-void lcd_point_draw(uint16_t x, uint16_t y, uint16_t color) { LCD::GetInstance().point_draw(x, y, color); }
-uint16_t lcd_point_read(uint16_t x, uint16_t y) { return LCD::GetInstance().point_read(x, y); }
-void lcd_draw_line(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color) { LCD::GetInstance().draw_line(x_start, y_start, x_end, y_end, color); }
-void lcd_clear(uint16_t color) { LCD::GetInstance().clear(color); }
-void lcd_init(lcd_display_type direction) { LCD::GetInstance().init(direction); }
-void lcd_windows_set(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yend) { LCD::GetInstance().windows_set(xstar, ystar, xend, yend); }
-void lcd_cursor_set(uint16_t xpos, uint16_t ypos) { LCD::GetInstance().cursor_set(xpos, ypos); }
-void lcd_direction(uint8_t direction) { LCD::GetInstance().direction(direction); }
-uint16_t lcd_id_read(void) { return LCD::GetInstance().id_read(); }
+void xmc_init(void) {
+    LCD::GetInstance().xmc_init();
+}
+uint16_t lcd_read(void) {
+    return LCD::GetInstance().read();
+}
+void lcd_reg_write(uint16_t data) {
+    LCD::GetInstance().reg_write(data);
+}
+void lcd_data_write(uint16_t data) {
+    LCD::GetInstance().data_write(data);
+}
+uint16_t lcd_data_read(void) {
+    return LCD::GetInstance().data_read();
+}
+void lcd_command_write(uint16_t lcd_comm, uint16_t lcd_regvalue) {
+    LCD::GetInstance().command_write(lcd_comm, lcd_regvalue);
+}
+void lcd_command_read(uint16_t lcd_comm, uint8_t *rval, int32_t n) {
+    LCD::GetInstance().command_read(lcd_comm, rval, n);
+}
+void lcd_ram_prepare_write(void) {
+    LCD::GetInstance().ram_prepare_write();
+}
+void lcd_ram_prepare_read(void) {
+    LCD::GetInstance().ram_prepare_read();
+}
+void lcd_data_16bit_write(uint16_t data) {
+    LCD::GetInstance().data_16bit_write(data);
+}
+uint16_t color_to_565(uint8_t r, uint8_t g, uint8_t b) {
+    return LCD::GetInstance().color_to_565(r, g, b);
+}
+uint16_t lcd_data_16bit_read(void) {
+    return LCD::GetInstance().data_16bit_read();
+}
+void lcd_point_draw(uint16_t x, uint16_t y, uint16_t color) {
+    LCD::GetInstance().point_draw(x, y, color);
+}
+uint16_t lcd_point_read(uint16_t x, uint16_t y) {
+    return LCD::GetInstance().point_read(x, y);
+}
+void lcd_draw_line(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color) {
+    LCD::GetInstance().draw_line(x_start, y_start, x_end, y_end, color);
+}
+void lcd_clear(uint16_t color) {
+    LCD::GetInstance().clear(color);
+}
+void lcd_init(lcd_display_type direction) {
+    LCD::GetInstance().init(direction);
+}
+void lcd_windows_set(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yend) {
+    LCD::GetInstance().windows_set(xstar, ystar, xend, yend);
+}
+void lcd_cursor_set(uint16_t xpos, uint16_t ypos) {
+    LCD::GetInstance().cursor_set(xpos, ypos);
+}
+void lcd_direction(uint8_t direction) {
+    LCD::GetInstance().direction(direction);
+}
+uint16_t lcd_id_read(void) {
+    return LCD::GetInstance().id_read();
+}
 }
 
 /**
@@ -730,4 +772,3 @@ void lcd_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t
         }
     }
 }
-

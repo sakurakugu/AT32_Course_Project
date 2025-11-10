@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>AT32F435VGT7, AT_START_F435_V1, USE_STDPERIPH_DRIVER,AT_SURF_F437_V1,HAVE_CONFIG_H,LV_LVGL_H_INCLUDE_SIMPLE, KEIL_COMPILE</Define>
               <Undefine></Undefine>
-              <IncludePath>.\lib\at32f435_437_board;.\lib\cJSON;.\lib\cmsis\cm4\core_support;.\lib\cmsis\cm4\device_support;.\lib\drivers\inc;.\lib\FreeRTOS\include;.\lib\FreeRTOS\portable\GCC\ARM_CM4F;.\lib\middlewares\i2c_application_library;.\lib\middlewares\3rd_party\fatfs\source;.\lib\at_surf_f437_board;.\gui\lvgl;.\gui\custom;.\gui\generated\guider_customer_fonts;.\gui\generated\guider_fonts;.\gui\generated\images;.\gui\generated;.\src;.\src\app\weather;.\src\app\music;.\src\app\IoT;.\src\app\calculator;.\src\app\setting;.\src\app\weather;.\src\board;.\src\board\key;.\src\board\lcd;.\src\board\led;.\src\board\network;.\src\board\sound;.\src\board\uart;.\src\config;.\src\config\lvgl;.\src\config\lvgl\porting;.\src\util</IncludePath>
+              <IncludePath>.\lib\cJSON;.\lib\cmsis\cm4\core_support;.\lib\cmsis\cm4\device_support;.\lib\drivers\inc;.\lib\FreeRTOS\include;.\lib\FreeRTOS\portable\GCC\ARM_CM4F;.\lib\middlewares\i2c_application_library;.\lib\middlewares\3rd_party\fatfs\source;.\gui\lvgl;.\gui\custom;.\gui\generated\guider_customer_fonts;.\gui\generated\guider_fonts;.\gui\generated\images;.\gui\generated;.\src;.\src\app\weather;.\src\app\music;.\src\app\IoT;.\src\app\calculator;.\src\app\setting;.\src\app\weather;.\src\board;.\src\board\key;.\src\board\lcd;.\src\board\led;.\src\board\network;.\src\board\sound;.\src\board\uart;.\src\config;.\src\config\lvgl;.\src\config\lvgl\porting;.\src\util</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -396,6 +396,36 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>src/app</GroupName>
+          <Files>
+            <File>
+              <FileName>calculator.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\app\calculator\calculator.c</FilePath>
+            </File>
+            <File>
+              <FileName>IoT.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\app\IoT\IoT.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>setting.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\app\setting\setting.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>music.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\app\music\music.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>weather_service.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\app\weather\weather_service.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>src/board</GroupName>
           <Files>
             <File>
@@ -419,9 +449,9 @@
               <FilePath>.\src\board\timer.c</FilePath>
             </File>
             <File>
-              <FileName>uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\board\uart\uart.c</FilePath>
+              <FileName>uart.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\board\uart\uart.cpp</FilePath>
             </File>
             <File>
               <FileName>bsp_ext_flash.c</FileName>
@@ -481,32 +511,12 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>src/app</GroupName>
+          <GroupName>src/util</GroupName>
           <Files>
             <File>
-              <FileName>calculator.c</FileName>
+              <FileName>delay.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\src\app\calculator\calculator.c</FilePath>
-            </File>
-            <File>
-              <FileName>IoT.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\app\IoT\IoT.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>setting.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\app\setting\setting.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>music.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\app\music\music.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>weather_service.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\app\weather\weather_service.cpp</FilePath>
+              <FilePath>.\src\util\delay.c</FilePath>
             </File>
           </Files>
         </Group>

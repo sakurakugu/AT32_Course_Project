@@ -7,7 +7,6 @@
 #include <string.h>
 
 extern "C" {
-#include "at32f435_437_board.h"
 #include "at32f435_437_clock.h"
 #include "bsp_ext_flash.h"
 #include "key/key.h"
@@ -39,12 +38,9 @@ uint16_t analogRead(void);
 
 
 /* 提供给其他C文件调用的函数 */
-void bsp_Init(void);
 void delay_us(uint32_t nus);
 // void System_Init(void);
-
 // void bsp_GetCpuID(uint32_t *_id);
-void Error_Handler(char *file, uint32_t line);
 
 void adc_config(void);
 uint16_t analogRead(void);

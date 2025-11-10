@@ -15,9 +15,29 @@
 extern "C" {
 #endif
 
+/* 仅启用需要的串口 FIFO（USART1 调试、USART3 WiFi） */
+#define UART1_FIFO_EN 1
 #define UART3_FIFO_EN 1
 
-/**************** define print uart ******************/
+#ifdef UART1_FIFO_EN
+/* 打印串口（USART1） */
+#define PRINT_UART USART1
+#define PRINT_UART_CRM_CLK CRM_USART1_PERIPH_CLOCK
+#define PRINT_UART_TX_PIN GPIO_PINS_6
+#define PRINT_UART_TX_GPIO GPIOB
+#define PRINT_UART_TX_GPIO_CRM_CLK CRM_GPIOB_PERIPH_CLOCK
+#define PRINT_UART_TX_PIN_SOURCE GPIO_PINS_SOURCE6
+#define PRINT_UART_TX_PIN_MUX_NUM GPIO_MUX_7
+/* add rx pin defines to support bsp.c uart_print_init */
+#define PRINT_UART_RX_PIN GPIO_PINS_7
+#define PRINT_UART_RX_GPIO GPIOB
+#define PRINT_UART_RX_GPIO_CRM_CLK CRM_GPIOB_PERIPH_CLOCK
+#define PRINT_UART_RX_PIN_SOURCE GPIO_PINS_SOURCE7
+#define PRINT_UART_RX_PIN_MUX_NUM GPIO_MUX_7
+#endif
+
+/* USART3 作为 WiFi 模块串口（ESP12） */
+#ifdef UART3_FIFO_EN
 #define ESP12_UART USART3
 #define ESP12_UART_CRM_CLK CRM_USART3_PERIPH_CLOCK
 #define ESP12_UART_TX_PIN GPIO_PINS_10
@@ -31,6 +51,7 @@ extern "C" {
 #define ESP12_UART_RX_GPIO_CRM_CLK CRM_GPIOC_PERIPH_CLOCK
 #define ESP12_UART_RX_PIN_SOURCE GPIO_PINS_SOURCE11
 #define ESP12_UART_RX_PIN_MUX_NUM GPIO_MUX_7
+#endif
 
 /* PB2 控制RS485芯片的发送开启 */
 #define RS485_TXEN_GPIO_CLK_ENABLE() __HAL_RCC_GPIOB_CLK_ENABLE()
@@ -53,32 +74,19 @@ typedef enum {
 } COM_PORT_E;
 
 /* 定义串口波特率和FIFO缓冲区大小，分为发送缓冲区和接收缓冲区, 支持全双工 */
-#if UART3_FIFO_EN == 1
-#define UART3_BAUD 9600
-#define UART3_TX_BUF_SIZE 1 * 1024
-#define UART3_RX_BUF_SIZE 1 * 1024
+/* USART1（调试串口）FIFO 参数 */
+#if UART1_FIFO_EN == 1
+#define UART1_BAUD 115200
+#define UART1_TX_BUF_SIZE (1 * 1024)
+#define UART1_RX_BUF_SIZE (1 * 1024)
 #endif
 
-/* 串口设备结构体 */
-typedef struct {
-    usart_type *uart;        /* STM32内部串口设备指针 */
-    uint8_t *pTxBuf;         /* 发送缓冲区 */
-    uint8_t *pRxBuf;         /* 接收缓冲区 */
-    uint16_t usTxBufSize;    /* 发送缓冲区大小 */
-    uint16_t usRxBufSize;    /* 接收缓冲区大小 */
-    __IO uint16_t usTxWrite; /* 发送缓冲区写指针 */
-    __IO uint16_t usTxRead;  /* 发送缓冲区读指针 */
-    __IO uint16_t usTxCount; /* 等待发送的数据个数 */
-
-    __IO uint16_t usRxWrite; /* 接收缓冲区写指针 */
-    __IO uint16_t usRxRead;  /* 接收缓冲区读指针 */
-    __IO uint16_t usRxCount; /* 还未读取的新数据个数 */
-
-    void (*SendBefor)(void);          /* 开始发送之前的回调函数指针（主要用于RS485切换到发送模式） */
-    void (*SendOver)(void);           /* 发送完毕的回调函数指针（主要用于RS485将发送模式切换为接收模式） */
-    void (*ReciveNew)(uint8_t _byte); /* 串口收到数据的回调函数指针 */
-    uint8_t Sending;                  /* 正在发送中 */
-} UART_T;
+/* USART3（WiFi串口）FIFO 参数 */
+#if UART3_FIFO_EN == 1
+#define UART3_BAUD 115200
+#define UART3_TX_BUF_SIZE (1 * 1024)
+#define UART3_RX_BUF_SIZE (1 * 1024)
+#endif
 
 void bsp_InitUart(void);
 void comSendBuf(COM_PORT_E _ucPort, uint8_t *_ucaBuf, uint16_t _usLen);
@@ -87,17 +95,67 @@ uint8_t comGetChar(COM_PORT_E _ucPort, uint8_t *_pByte);
 void comSendBuf(COM_PORT_E _ucPort, uint8_t *_ucaBuf, uint16_t _usLen);
 void comClearTxFifo(COM_PORT_E _ucPort);
 void comClearRxFifo(COM_PORT_E _ucPort);
-void comSetBaud(COM_PORT_E _ucPort, uint32_t _BaudRate);
 
-void USART_SetBaudRate(usart_type *USARTx, uint32_t BaudRate);
-void bsp_SetUartParam(usart_type *Instance, uint32_t BaudRate, uint32_t Parity, uint32_t Mode);
-
-void RS485_SendBuf(uint8_t *_ucaBuf, uint16_t _usLen);
-void RS485_SendStr(char *_pBuf);
-void RS485_SetBaud(uint32_t _baud);
-uint8_t UartTxEmpty(COM_PORT_E _ucPort);
 void esp12_uart_init(uint32_t baudrate);
+void uart_print_init(uint32_t baudrate);
 
 #ifdef __cplusplus
 }
 #endif
+
+class Uart {
+  public:
+    /* 通过外部提供的环形缓冲区进行构造，避免动态内存分配 */
+    Uart(usart_type *usart, uint8_t *tx_buf, uint16_t tx_buf_size, uint8_t *rx_buf, uint16_t rx_buf_size);
+
+    /* 配置串口基本参数并使能收发与接收中断 */
+    void begin(uint32_t baudrate);
+
+    /* 发送 API */
+    void sendBuf(const uint8_t *buf, uint16_t len);
+    void sendChar(uint8_t byte);
+
+    /* 接收 API（非阻塞，返回 1 表示读到数据） */
+    uint8_t getChar(uint8_t *out_byte);
+
+    /* FIFO 管理 */
+    void clearTx();
+    void clearRx();
+    uint8_t txEmpty() const; /* 1=空，0=非空 */
+
+    /* 可选回调（例如 RS485 用途） */
+    void setCallbacks(void (*SendBefor)(void), void (*SendOver)(void), void (*ReciveNew)(uint8_t));
+
+    /* 中断处理入口 */
+    void onIRQ();
+
+    /* 访问底层 usart 寄存器指针 */
+    usart_type *instance() const { return uart_; }
+
+  private:
+    /* 禁止拷贝 */
+    Uart(const Uart &) = delete;
+    Uart &operator=(const Uart &) = delete;
+
+    /* 内部工具：关/开全局中断（与原实现保持一致） */
+    inline void disableIRQ() const { __set_PRIMASK(1); }
+    inline void enableIRQ() const { __set_PRIMASK(0); }
+
+    usart_type *uart_; // STM32内部串口设备指针
+    uint8_t *tx_buf_;  // 发送缓冲区
+    uint8_t *rx_buf_;  // 接收缓冲区
+    uint16_t tx_size_; // 发送缓冲区大小
+    uint16_t rx_size_; // 接收缓冲区大小
+
+    volatile uint16_t tx_write_; // 发送缓冲区写指针
+    volatile uint16_t tx_read_;  // 发送缓冲区读指针
+    volatile uint16_t tx_count_; // 等待发送的数据个数
+
+    volatile uint16_t rx_write_; // 接收缓冲区写指针
+    volatile uint16_t rx_read_;  // 接收缓冲区读指针
+    volatile uint16_t rx_count_; // 还未读取的新数据个数
+
+    void (*SendBefor_)(void) = nullptr;    // 开始发送之前的回调函数指针（主要用于RS485切换到发送模式）
+    void (*SendOver_)(void) = nullptr;     // 发送完毕的回调函数指针（主要用于RS485将发送模式切换为接收模式）
+    void (*ReciveNew_)(uint8_t) = nullptr; // 串口收到数据的回调函数指针
+};
