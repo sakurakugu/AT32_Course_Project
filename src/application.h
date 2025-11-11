@@ -1,10 +1,10 @@
 #pragma once
 
 #include "FreeRTOS.h"
+#include "logger.h"
+#include "mutex.h"
 #include "task.h"
 #include <functional>
-#include "mutex.h"
-
 
 class Application {
   public:
@@ -17,16 +17,15 @@ class Application {
     Application &operator=(const Application &) = delete;
 
     void Start();
-    void Reboot(); // 重启设备
+    void Reboot();       // 重启设备
     void OnClockTimer(); // 统一定时任务入口（由10ms节拍回调）
-    
+
     Application();
     ~Application();
-  private:
 
+  private:
     // mutex mutex_; // 互斥锁
 
     // void Schedule(std::function<void()> callback); // 添加异步任务到主循环
     // void MainEventLoop();                          // 主事件循环
 };
-

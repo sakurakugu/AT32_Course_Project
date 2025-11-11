@@ -28,6 +28,7 @@
 #include "delay.h"
 #include <stdio.h>
 #include <string.h>
+#include "logger.h"
 
 i2c_handle_type hi2c_gt;
 
@@ -530,7 +531,7 @@ bool Touch::Init(touch_scan_type direction) {
 
     temp[3] = 0;
     temp[4] = 0;
-    printf("CTP ID: %s\r\n", temp);
+    LOGI("CTP ID: %s\r\n", temp);
 
     if (strcmp((char *)temp, "911") == 0) {
         temp[0] = 0x02;
@@ -540,11 +541,11 @@ bool Touch::Init(touch_scan_type direction) {
 
         /* 读取 GT_CFG_REG 寄存器 */
         gt911_reg_read(GT_CFG_REG, temp, 1);
-        printf("GT911 默认配置版本: 0x%02X\r\n", temp[0]);
+        LOGI("GT911 默认配置版本: 0x%02X\r\n", temp[0]);
 
         /* 如果默认版本相对较低，更新 FLASH 配置 */
         if (temp[0] <= 0x41) {
-            printf("更新 GT911 配置...\r\n");
+            LOGI("更新 GT911 配置...\r\n");
 
             /* 更新并保存配置 */
             gt911_send_cfg(1);
@@ -559,7 +560,7 @@ bool Touch::Init(touch_scan_type direction) {
 
         status = true;
     } else {
-        printf("GT911 未检测到, PID 读取: %s\r\n", temp);
+        LOGI("GT911 未检测到, PID 读取: %s\r\n", temp);
     }
 
     return status;

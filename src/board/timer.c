@@ -4,6 +4,7 @@
  */
 
 #include "timer.h"
+#include "logger.h"
 
 /* 开关全局中断的宏 */
 #define ENABLE_INT() __set_PRIMASK(0)  /* 开启全局中断 */
@@ -133,7 +134,7 @@ static void bsp_SoftTimerDec(SOFT_TMR *_tmr) {
 void bsp_StartTimer(uint8_t _id, uint32_t _period) {
     if (_id >= TMR_COUNT) {
         /* 打印出错的源代码文件名、函数名称 */
-        printf("Error: file %s, function %s()\r\n", __FILE__, __FUNCTION__);
+        LOGI("Error: file %s, function %s()\r\n", __FILE__, __FUNCTION__);
         while (1)
             ; /* 参数异常，死机等待看门狗复位 */
     }
@@ -160,7 +161,7 @@ void bsp_StartAutoTimer(uint8_t _id, uint32_t _period) {
 
     if (_id >= TMR_COUNT) {
         /* 打印出错的源代码文件名、函数名称 */
-        printf("Error: file %s, function %s()\r\n", __FILE__, __FUNCTION__);
+        LOGI("Error: file %s, function %s()\r\n", __FILE__, __FUNCTION__);
         while (1)
             ; /* 参数异常，死机等待看门狗复位 */
     }
@@ -186,7 +187,7 @@ void bsp_StopTimer(uint8_t _id) {
 
     if (_id >= TMR_COUNT) {
         /* 打印出错的源代码文件名、函数名称 */
-        printf("错误: 文件 %s, 函数 %s()\r\n", __FILE__, __FUNCTION__);
+        LOGI("错误: 文件 %s, 函数 %s()\r\n", __FILE__, __FUNCTION__);
         while (1)
             ; /* 参数异常，死机等待看门狗复位 */
     }

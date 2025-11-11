@@ -125,9 +125,26 @@ bool WeatherService::parse_and_apply_current(lv_ui *ui, const char *http_resp) {
     else
         body += 4;
 
+    // 调试：打印部分正文（避免过长）
+    {
+        int body_len = (int)strlen(body);
+        int preview_len = body_len > 256 ? 256 : body_len;
+        char preview[270];
+        memset(preview, 0, sizeof(preview));
+        if (preview_len > 0) {
+            memcpy(preview, body, preview_len);
+        }
+        LOGD("当前天气 JSON 正文长度=%d 预览=\"%s%s\"",
+             body_len,
+             preview_len > 0 ? preview : "",
+             body_len > preview_len ? "..." : "");
+    }
+
     cJSON *root = cJSON_Parse(body);
-    if (!root)
+    if (!root) {
+        LOGE("当前天气 JSON 解析失败（cJSON_Parse 返回 NULL）");
         return false;
+    }
 
     bool ok = false;
     cJSON *results = cJSON_GetObjectItemCaseSensitive(root, "results");
@@ -148,6 +165,9 @@ bool WeatherService::parse_and_apply_current(lv_ui *ui, const char *http_resp) {
                     if (cJSON_IsString(path) && path->valuestring)
                         city = path->valuestring;
                 }
+                if (!city) {
+                    LOGW("当前天气：location 字段存在，但未找到有效城市名称(name/path)");
+                }
             }
 
             const char *weather_text = NULL;
@@ -157,10 +177,24 @@ bool WeatherService::parse_and_apply_current(lv_ui *ui, const char *http_resp) {
                 cJSON *temp = cJSON_GetObjectItemCaseSensitive(now, "temperature");
                 if (cJSON_IsString(text)) weather_text = text->valuestring;
                 if (cJSON_IsString(temp)) temperature = temp->valuestring;
+                if (!weather_text || !temperature) {
+                    LOGW("当前天气：now 字段存在，但 text(%s) 或 temperature(%s) 缺失",
+                         weather_text ? "ok" : "null",
+                         temperature ? "ok" : "null");
+                }
             }
 
             const char *update_time = NULL;
             if (cJSON_IsString(last_update)) update_time = last_update->valuestring;
+            if (!update_time) {
+                LOGW("当前天气：last_update 字段缺失或非字符串");
+            }
+
+            LOGD("当前天气解析结果：city=\"%s\" temp=\"%s\" text=\"%s\" update=\"%s\"",
+                 city ? city : "",
+                 temperature ? temperature : "",
+                 weather_text ? weather_text : "",
+                 update_time ? update_time : "");
 
             // 更新 LVGL 标签
             if (city && lv_obj_is_valid(ui->weather_app_city)) {
@@ -186,7 +220,11 @@ bool WeatherService::parse_and_apply_current(lv_ui *ui, const char *http_resp) {
             }
 
             ok = true;
+            LOGI("当前天气解析并应用 UI 成功");
         }
+    }
+    if (!ok) {
+        LOGE("当前天气解析失败：未找到期望的 results[0] 结构");
     }
 
     cJSON_Delete(root);
@@ -204,9 +242,26 @@ bool WeatherService::parse_and_apply_daily(lv_ui *ui, const char *http_resp) {
     else
         body += 4;
 
+    // 调试：打印部分正文（避免过长）
+    {
+        int body_len = (int)strlen(body);
+        int preview_len = body_len > 256 ? 256 : body_len;
+        char preview[270];
+        memset(preview, 0, sizeof(preview));
+        if (preview_len > 0) {
+            memcpy(preview, body, preview_len);
+        }
+        LOGD("每日预报 JSON 正文长度=%d 预览=\"%s%s\"",
+             body_len,
+             preview_len > 0 ? preview : "",
+             body_len > preview_len ? "..." : "");
+    }
+
     cJSON *root = cJSON_Parse(body);
-    if (!root)
+    if (!root) {
+        LOGE("每日预报 JSON 解析失败（cJSON_Parse 返回 NULL）");
         return false;
+    }
 
     bool ok = false;
     cJSON *results = cJSON_GetObjectItemCaseSensitive(root, "results");
@@ -231,6 +286,13 @@ bool WeatherService::parse_and_apply_daily(lv_ui *ui, const char *http_resp) {
                     if (cJSON_IsString(jn)) text_night = jn->valuestring;
                     if (cJSON_IsString(jh)) high = jh->valuestring;
                     if (cJSON_IsString(jl)) low = jl->valuestring;
+
+                    LOGD("第%d天：text_day=\"%s\" text_night=\"%s\" high=\"%s\" low=\"%s\"",
+                         i + 1,
+                         text_day ? text_day : "",
+                         text_night ? text_night : "",
+                         high ? high : "",
+                         low ? low : "");
 
                     // 选择对应的 UI 控件
                     lv_obj_t **label_text_day = nullptr;
@@ -270,8 +332,12 @@ bool WeatherService::parse_and_apply_daily(lv_ui *ui, const char *http_resp) {
                     }
                 }
                 ok = true;
+                LOGI("每日预报解析并应用 UI 成功");
             }
         }
+    }
+    if (!ok) {
+        LOGE("每日预报解析失败：未找到期望的 results[0].daily 数组");
     }
 
     cJSON_Delete(root);
@@ -294,6 +360,7 @@ bool WeatherService::UpdateWeather(lv_ui *ui) {
              API_KEY_WEATHER, "ip");
     if (http_get_seniverse(path, resp, sizeof(resp))) {
         ok1 = parse_and_apply_current(ui, resp);
+        LOGI("当前天气解析结果：%s", ok1 ? "成功" : "失败");
     } else {
         LOGE("天气请求失败：可能是无网络或 API 密钥无效");
     }
@@ -307,6 +374,7 @@ bool WeatherService::UpdateWeather(lv_ui *ui) {
              API_KEY_WEATHER, "ip");
     if (http_get_seniverse(path, resp, sizeof(resp))) {
         ok2 = parse_and_apply_daily(ui, resp);
+        LOGI("每日预报解析结果：%s", ok2 ? "成功" : "失败");
     } else {
         LOGE("天气请求失败：可能是无网络或 API 密钥无效");
     }

@@ -182,7 +182,6 @@ void lv_port_indev_init(void) {
 /*Initialize your touchpad*/
 static void touchpad_init(void) {
     /*Your code comes here*/
-    // printf("LVGL indev: touchpad init\r\n");
 }
 
 /*Will be called by the library to read the touchpad*/
@@ -198,12 +197,10 @@ static void touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data) {
         data->state = LV_INDEV_STATE_PR;
         last_x = data->point.x;
         last_y = data->point.y;
-        // printf("Touch 按压: (%d,%d)\r\n", data->point.x, data->point.y);
     } else {
         data->point.x = last_x;
         data->point.y = last_y;
         data->state = LV_INDEV_STATE_REL;
-        // printf("Touch 释放: (%d,%d)\r\n", data->point.x, data->point.y);
     }
 }
 

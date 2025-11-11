@@ -1,6 +1,9 @@
 # 所有日志文件
 *.log
 
+# 系统文件
+Thumbs.db
+
 # 编译输出
 build/
 *.a

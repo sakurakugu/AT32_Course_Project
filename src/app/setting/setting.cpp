@@ -1,12 +1,12 @@
 #include "setting.hpp"
 #include "../board/lcd/lcd.h"
 #include "../network/wifi.hpp"
-#include "uart.h"
+#include "logger.h"
 #include "lvgl.h"
+#include "uart.h"
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-
-#include <stdint.h>
 
 // 来自应用的串口接收保护标志
 extern volatile uint8_t g_com3_guard;
@@ -36,7 +36,7 @@ extern lv_obj_t *g_status_bar_date;
 bool Setting::sync_network_time(bool sync) {
     auto &wifi = Wifi::GetInstance();
 
-    printf("开始同步网络时间\n");
+    LOGI("开始同步网络时间\n");
 
     // 保护COM3接收，避免IoT任务抢占HTTP响应
     g_com3_guard = 1;
@@ -49,17 +49,16 @@ bool Setting::sync_network_time(bool sync) {
     }
 
     // 构造 HTTP GET 请求：苏宁系统时间接口（增加常见头以避免403）
-    const char *req =
-        "GET /getSysTime.do HTTP/1.1\r\n"
-        "Host: quan.suning.com\r\n"
-        "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)\r\n"
-        "Accept: application/json\r\n"
-        "Accept-Encoding: identity\r\n"
-        "Accept-Language: zh-CN,zh;q=0.9\r\n"
-        "Origin: http://quan.suning.com\r\n"
-        "Referer: http://quan.suning.com/\r\n"
-        "Cache-Control: no-cache\r\n"
-        "Connection: close\r\n\r\n";
+    const char *req = "GET /getSysTime.do HTTP/1.1\r\n"
+                      "Host: quan.suning.com\r\n"
+                      "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)\r\n"
+                      "Accept: application/json\r\n"
+                      "Accept-Encoding: identity\r\n"
+                      "Accept-Language: zh-CN,zh;q=0.9\r\n"
+                      "Origin: http://quan.suning.com\r\n"
+                      "Referer: http://quan.suning.com/\r\n"
+                      "Cache-Control: no-cache\r\n"
+                      "Connection: close\r\n\r\n";
     char cmd[32];
     sprintf(cmd, "AT+CIPSEND=%d", (int)strlen(req));
     wifi.sendAT(cmd);
@@ -98,7 +97,7 @@ bool Setting::sync_network_time(bool sync) {
         // 关闭连接并报告错误
         wifi.sendAT("AT+CIPCLOSE");
         wifi.waitResponse("OK", 2000);
-        printf("HTTP状态非200，响应前200字节: %.*s\n", 200, resp);
+        LOGI("HTTP状态非200，响应前200字节: %.*s\n", 200, resp);
         g_com3_guard = 0;
         return false;
     }
@@ -113,7 +112,7 @@ bool Setting::sync_network_time(bool sync) {
 
     if (!ok) {
         // 打印响应片段帮助定位问题
-        printf("解析网络时间失败，响应前200字节: %.*s\n", 200, resp);
+        LOGI("解析网络时间失败，响应前200字节: %.*s\n", 200, resp);
         return false;
     }
 
@@ -121,7 +120,7 @@ bool Setting::sync_network_time(bool sync) {
     apply_time_to_all(hour, min, sec);
     apply_date_labels(year, month, day);
 
-    printf("同步网络时间成功：%04d-%02d-%02d %02d:%02d:%02d\n", year, month, day, hour, min, sec);
+    LOGI("同步网络时间成功：%04d-%02d-%02d %02d:%02d:%02d\n", year, month, day, hour, min, sec);
     g_com3_guard = 0;
     return true;
 }

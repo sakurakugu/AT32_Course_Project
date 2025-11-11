@@ -68,45 +68,45 @@ void reset_connection_status(void) {
 void tlink_init_wifi() {
     char testStr[] = "9B0Y5S576WNBR380";
     comSendBuf(COM3, (uint8_t *)"+++", 3);
-    // printf("\r\n 发送AT指令: AT\r\n");
+    // LOGI("\r\n 发送AT指令: AT\r\n");
     delay_ms(1000);
 
     auto &wifi = Wifi::GetInstance();
 
     wifi.sendAT("AT");
     if (wifi.waitResponse("OK", 5000) != 1) {
-        printf("\r\n AT fail!\r\n");
+        LOGE("\r\n AT fail!\r\n");
         delay_ms(1000);
     }
     wifi.sendAT("ATE0");
     if (wifi.waitResponse("OK", 50) != 1) {
-        printf("\r\n ATE0 fail\r\n");
+        LOGE("\r\n ATE0 fail\r\n");
     }
 
     if (wifi.setWiFiMode(1) != 1) {
-        printf("\r\n CWMODE fail\r\n");
+        LOGE("\r\n CWMODE fail\r\n");
     }
 
     // 使用库函数进行AP连接，避免手动AT并统一处理应答
     if (wifi.joinAP(wifi_ssid, wifi_password, 15000) != 1) {
-        printf("\r\n CWJAP fail\r\n");
+        LOGE("\r\n CWJAP fail\r\n");
         delay_ms(1000);
     }
     wifi.sendAT("AT+CIPSTART=\"TCP\",\"tcp.tlink.io\",8647");
     if (wifi.waitResponse("OK", 5000) != 1) {
-        printf("\r\n CIPSTART fail\r\n");
+        LOGE("\r\n CIPSTART fail\r\n");
     }
 
     wifi.sendAT("AT+CIPMODE=1");
     if (wifi.waitResponse("OK", 1000) != 1) {
-        printf("\r\n CIPMODE fail\r\n");
+        LOGE("\r\n CIPMODE fail\r\n");
     }
 
     wifi.sendAT("AT+CIPSEND");
     if (wifi.waitResponse("OK", 1000) != 1) {
-        printf("\r\n CIPSEND fail\r\n");
+        LOGE("\r\n CIPSEND fail\r\n");
     }
-    printf("\r\n 服务器已连接!\r\n");
+    LOGI("\r\n 服务器已连接!\r\n");
     comSendBuf(COM3, (uint8_t *)testStr, strlen(testStr));
     delay_ms(4000);
 }
@@ -162,12 +162,12 @@ static bool wifi_connect(const char *ssid, const char *pwd, uint16_t timeout_ms 
     wifi.waitResponse("OK", 1000);
 
     if (wifi.setWiFiMode(1) != 1) {
-        printf("\r\n CWMODE fail\r\n");
+        LOGE("\r\n CWMODE fail\r\n");
         return false;
     }
 
     if (wifi.joinAP(ssid, pwd, timeout_ms) != 1) {
-        printf("\r\n CWJAP fail\r\n");
+        LOGE("\r\n CWJAP fail\r\n");
         return false;
     }
     return true;
@@ -240,7 +240,7 @@ static void TaskHeartbeat(void *pvParameters) {
 
         // 检查是否需要重连
         if (should_reconnect()) {
-            printf("\r\n检测到连接断开超过5分钟，尝试重连...\r\n");
+            LOGI("\r\n检测到连接断开超过5分钟，尝试重连...\r\n");
             wifi_reconnect_requested = 1;
         }
 
@@ -272,16 +272,16 @@ static void TaskStatus(void *pvParameters) {
     (void)pvParameters;
     for (;;) {
         // 显示连接状态
-        printf(" [%s]", get_connection_status_string());
+        LOGI(" [%s]", get_connection_status_string());
 
         // 打印上一轮的状态字符串（兼容原逻辑）
-        printf("%s\r\n", TlinkCommandStr);
+        LOGI("%s\r\n", TlinkCommandStr);
 
         // 连接状态下上报当前状态
         if (connection_status) {
             IoT::GetInstance().Send_Status_Report();
         } else {
-            printf("连接断开，数据未发送\r\n");
+            LOGI("连接断开，数据未发送\r\n");
         }
 
         vTaskDelay(pdMS_TO_TICKS(30000));
@@ -305,19 +305,19 @@ static void TaskKeys(void *pvParameters) {
         }
         if (keyvalue == KEY_2_DOWN) {
             g_beep.keyTone();
-            printf("KEY_2_DOWN - 切换照明状态\r\n");
+            LOGI("KEY_2_DOWN - 切换照明状态\r\n");
             IoT::GetInstance().Control_Lighting(!lighting_status);
             IoT::GetInstance().Send_Status_Report();
         }
         if (keyvalue == KEY_3_DOWN) {
             g_beep.keyTone();
             if (!music_playing) {
-                printf("KEY_3_DOWN - 开始播放音乐\r\n");
+                LOGI("KEY_3_DOWN - 开始播放音乐\r\n");
                 music_start = 1;  /* 由音乐任务消费 */
                 music_resume = 0; /* 确保处于播放状态 */
             } else {
                 music_resume = !music_resume;
-                printf("KEY_3_DOWN - %s播放\r\n", music_resume ? "暂停" : "继续");
+                LOGI("KEY_3_DOWN - %s播放\r\n", music_resume ? "暂停" : "继续");
                 if (music_resume) {
                     g_beep.disableOutput(); /* 立即静音 */
                 }
@@ -332,23 +332,23 @@ static void TaskWiFi(void *pvParameters) {
     (void)pvParameters;
     for (;;) {
         if (wifi_reconnect_requested) {
-            printf("wifi名称：%s\r\n", wifi_ssid);
-            printf("wifi密码：%s\r\n", wifi_password);
-            printf("\r\n开始WiFi连接...\r\n");
+            LOGD("wifi名称：%s\r\n", wifi_ssid);
+            LOGD("wifi密码：%s\r\n", wifi_password);
+            LOGI("\r\n开始WiFi连接...\r\n");
             // 仅连接到路由器，不建立到Tlink的TCP
             bool ok = wifi_connect(wifi_ssid, wifi_password, 15000);
             if (ok) {
-                printf("\r\nWiFi已连接: %s\r\n", wifi_ssid);
+                LOGI("\r\nWiFi已连接: %s\r\n", wifi_ssid);
                 update_wifi_name_label(&guider_ui, wifi_ssid);
                 wifi_save_credentials_to_eeprom(wifi_ssid, wifi_password);
             } else {
-                printf("\r\nWiFi连接失败\r\n");
+                LOGI("\r\nWiFi连接失败\r\n");
             }
             wifi_reconnect_requested = 0;
             // // 原有路径：同时建立到Tlink服务器的连接
             // tlink_init_wifi();
             // reset_connection_status();
-            // printf("\r\nWiFi+Tlink连接完成，心跳机制启动\r\n");
+            // LOGI("\r\nWiFi+Tlink连接完成，心跳机制启动\r\n");
             // wifi_reconnect_requested = 0;
         }
         vTaskDelay(pdMS_TO_TICKS(100));
@@ -374,7 +374,7 @@ void Application::Start() {
 
     wifi.sendAT("AT");
     if (wifi.waitResponse("OK", 50) == 1) {
-        printf("\r\n ESP12 OK\r\n");
+        LOGI("\r\n ESP12 OK\r\n");
         delay_ms(1000);
     }
 
@@ -418,7 +418,7 @@ void Application::Start() {
     xTaskCreate(TaskKeys, "keys", 512, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskMusic, "music", 512, NULL, tskIDLE_PRIORITY + 1, NULL);
 
-    printf("FreeRTOS任务创建完成\r\n");
+    LOGI("FreeRTOS任务创建完成\r\n");
     // 启动调度器，不会返回
     vTaskStartScheduler();
 
@@ -430,7 +430,7 @@ void Application::Start() {
  * @brief 重启设备
  */
 void Application::Reboot() {
-    printf("正在重启...\r\n");
+    LOGI("正在重启...\r\n");
     nvic_system_reset();
 }
 
