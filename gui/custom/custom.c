@@ -215,6 +215,15 @@ void status_bar_init(lv_ui *ui) {
     }
 }
 
+void status_bar_set_visible(bool visible) {
+    if (!lv_obj_is_valid(g_status_bar)) return;
+    if (visible) {
+        lv_obj_clear_flag(g_status_bar, LV_OBJ_FLAG_HIDDEN);
+    } else {
+        lv_obj_add_flag(g_status_bar, LV_OBJ_FLAG_HIDDEN);
+    }
+}
+
 // ===============================
 // 导航栈与辅助函数
 // ===============================
@@ -379,6 +388,7 @@ void nav_back(lv_ui *ui) {
 // 音乐播放器事件实现
 // ===============================
 
+#ifdef KEIL_COMPILE
 // 列表项点击：根据点击项设置曲目并开始播放
 void music_list_item_event_handler(lv_event_t *e) {
     if (lv_event_get_code(e) != LV_EVENT_CLICKED)
@@ -573,6 +583,7 @@ void electronic_organ_btnm_event_handler(lv_event_t *e) {
         beep_start(5, 1, 1);
     }
 }
+#endif
 
 // ===============================
 // 画板事件实现
@@ -606,16 +617,18 @@ void drawing_board_canvas_event_cb(lv_event_t *e) {
     lv_obj_get_coords(canvas, &a);
     int32_t x = p.x - a.x1;
     int32_t y = p.y - a.y1;
+    lv_coord_t obj_w = lv_obj_get_width(canvas);
+    lv_coord_t obj_h = lv_obj_get_height(canvas);
 
     // 越界保护
     if (x < 0)
         x = 0;
-    else if (x >= DRAW_CANVAS_W)
-        x = DRAW_CANVAS_W - 1;
+    else if (x >= obj_w)
+        x = obj_w - 1;
     if (y < 0)
         y = 0;
-    else if (y >= DRAW_CANVAS_H)
-        y = DRAW_CANVAS_H - 1;
+    else if (y >= obj_h)
+        y = obj_h - 1;
 
     switch (code) {
     case LV_EVENT_PRESSED: {

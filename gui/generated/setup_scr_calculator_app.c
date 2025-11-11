@@ -529,30 +529,6 @@ void setup_scr_calculator_app(lv_ui *ui)
     lv_obj_set_style_pad_left(ui->calculator_app_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->calculator_app_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes calculator_app_placeholder_16px
-    ui->calculator_app_placeholder_16px = lv_label_create(ui->calculator_app);
-    lv_label_set_text(ui->calculator_app_placeholder_16px, "内存不足，无法创建画布");
-    lv_label_set_long_mode(ui->calculator_app_placeholder_16px, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->calculator_app_placeholder_16px, 147, 252);
-    lv_obj_set_size(ui->calculator_app_placeholder_16px, 192, 15);
-    lv_obj_add_flag(ui->calculator_app_placeholder_16px, LV_OBJ_FLAG_HIDDEN);
-
-    //Write style for calculator_app_placeholder_16px, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->calculator_app_placeholder_16px, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->calculator_app_placeholder_16px, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->calculator_app_placeholder_16px, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->calculator_app_placeholder_16px, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->calculator_app_placeholder_16px, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->calculator_app_placeholder_16px, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui->calculator_app_placeholder_16px, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->calculator_app_placeholder_16px, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->calculator_app_placeholder_16px, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->calculator_app_placeholder_16px, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->calculator_app_placeholder_16px, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->calculator_app_placeholder_16px, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->calculator_app_placeholder_16px, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->calculator_app_placeholder_16px, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
     //The custom code of calculator_app.
     calculator_init(ui->calculator_app_label_1);
 

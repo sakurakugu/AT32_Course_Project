@@ -2677,6 +2677,11 @@
               <FileType>1</FileType>
               <FilePath>.\gui\generated\images\_wifi_alpha_16x16.c</FilePath>
             </File>
+            <File>
+              <FileName>_color_led_alpha_80x80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_color_led_alpha_80x80.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

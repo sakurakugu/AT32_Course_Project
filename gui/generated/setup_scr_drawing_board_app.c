@@ -28,15 +28,15 @@ void setup_scr_drawing_board_app(lv_ui *ui)
 
     //Write codes drawing_board_app_tools_panel
     ui->drawing_board_app_tools_panel = lv_obj_create(ui->drawing_board_app);
-    lv_obj_set_pos(ui->drawing_board_app_tools_panel, 360, 0);
-    lv_obj_set_size(ui->drawing_board_app_tools_panel, 120, 320);
+    lv_obj_set_pos(ui->drawing_board_app_tools_panel, 320, 16);
+    lv_obj_set_size(ui->drawing_board_app_tools_panel, 160, 304);
     lv_obj_set_scrollbar_mode(ui->drawing_board_app_tools_panel, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for drawing_board_app_tools_panel, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->drawing_board_app_tools_panel, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->drawing_board_app_tools_panel, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui->drawing_board_app_tools_panel, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui->drawing_board_app_tools_panel, lv_color_hex(0x2b2b2b), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->drawing_board_app_tools_panel, lv_color_hex(0x202020), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui->drawing_board_app_tools_panel, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_top(ui->drawing_board_app_tools_panel, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui->drawing_board_app_tools_panel, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -46,7 +46,7 @@ void setup_scr_drawing_board_app(lv_ui *ui)
 
     //Write codes drawing_board_app_colorwheel
     ui->drawing_board_app_colorwheel = lv_colorwheel_create(ui->drawing_board_app_tools_panel, true);
-    lv_obj_set_pos(ui->drawing_board_app_colorwheel, 0, 0);
+    lv_obj_set_pos(ui->drawing_board_app_colorwheel, 25, 9);
     lv_obj_set_size(ui->drawing_board_app_colorwheel, 100, 100);
 
     //Write style for drawing_board_app_colorwheel, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -57,8 +57,8 @@ void setup_scr_drawing_board_app(lv_ui *ui)
     lv_slider_set_range(ui->drawing_board_app_width_slider, 1, 30);
     lv_slider_set_mode(ui->drawing_board_app_width_slider, LV_SLIDER_MODE_NORMAL);
     lv_slider_set_value(ui->drawing_board_app_width_slider, 4, LV_ANIM_OFF);
-    lv_obj_set_pos(ui->drawing_board_app_width_slider, 0, 140);
-    lv_obj_set_size(ui->drawing_board_app_width_slider, 100, 16);
+    lv_obj_set_pos(ui->drawing_board_app_width_slider, 7, 148);
+    lv_obj_set_size(ui->drawing_board_app_width_slider, 130, 16);
 
     //Write style for drawing_board_app_width_slider, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->drawing_board_app_width_slider, 81, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -88,7 +88,7 @@ void setup_scr_drawing_board_app(lv_ui *ui)
     lv_obj_align(ui->drawing_board_app_btn_clear_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->drawing_board_app_btn_clear, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->drawing_board_app_btn_clear_label, LV_PCT(100));
-    lv_obj_set_pos(ui->drawing_board_app_btn_clear, 25, 175);
+    lv_obj_set_pos(ui->drawing_board_app_btn_clear, 45, 192);
     lv_obj_set_size(ui->drawing_board_app_btn_clear, 58, 27);
 
     //Write style for drawing_board_app_btn_clear, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -111,7 +111,7 @@ void setup_scr_drawing_board_app(lv_ui *ui)
     lv_obj_align(ui->drawing_board_app_btn_nav_back_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->drawing_board_app_btn_nav_back, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->drawing_board_app_btn_nav_back_label, LV_PCT(100));
-    lv_obj_set_pos(ui->drawing_board_app_btn_nav_back, 25, 266);
+    lv_obj_set_pos(ui->drawing_board_app_btn_nav_back, 45, 248);
     lv_obj_set_size(ui->drawing_board_app_btn_nav_back, 58, 27);
 
     //Write style for drawing_board_app_btn_nav_back, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -126,6 +126,51 @@ void setup_scr_drawing_board_app(lv_ui *ui)
     lv_obj_set_style_text_opa(ui->drawing_board_app_btn_nav_back, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->drawing_board_app_btn_nav_back, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
+    //Write codes drawing_board_app_canvas_container
+    ui->drawing_board_app_canvas_container = lv_obj_create(ui->drawing_board_app);
+    lv_obj_set_pos(ui->drawing_board_app_canvas_container, 0, 16);
+    lv_obj_set_size(ui->drawing_board_app_canvas_container, 320, 304);
+    lv_obj_set_scrollbar_mode(ui->drawing_board_app_canvas_container, LV_SCROLLBAR_MODE_OFF);
+
+    //Write style for drawing_board_app_canvas_container, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->drawing_board_app_canvas_container, 20, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->drawing_board_app_canvas_container, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->drawing_board_app_canvas_container, lv_color_hex(0x2b2b2b), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->drawing_board_app_canvas_container, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->drawing_board_app_canvas_container, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->drawing_board_app_canvas_container, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->drawing_board_app_canvas_container, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->drawing_board_app_canvas_container, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->drawing_board_app_canvas_container, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->drawing_board_app_canvas_container, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->drawing_board_app_canvas_container, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->drawing_board_app_canvas_container, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->drawing_board_app_canvas_container, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes drawing_board_app_dialog_box
+    ui->drawing_board_app_dialog_box = lv_label_create(ui->drawing_board_app_canvas_container);
+    lv_label_set_text(ui->drawing_board_app_dialog_box, "内存不足，无法创建画布");
+    lv_label_set_long_mode(ui->drawing_board_app_dialog_box, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->drawing_board_app_dialog_box, 43, 222);
+    lv_obj_set_size(ui->drawing_board_app_dialog_box, 192, 18);
+    lv_obj_add_flag(ui->drawing_board_app_dialog_box, LV_OBJ_FLAG_HIDDEN);
+
+    //Write style for drawing_board_app_dialog_box, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->drawing_board_app_dialog_box, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->drawing_board_app_dialog_box, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->drawing_board_app_dialog_box, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->drawing_board_app_dialog_box, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
     //The custom code of drawing_board_app.
     drawing_board_ctx_t *ctx = &s_drawing_ctx;
     ctx->last_valid = false;
@@ -135,21 +180,32 @@ void setup_scr_drawing_board_app(lv_ui *ui)
     lv_obj_add_event_cb(ui->drawing_board_app, drawing_board_app_delete_cb, LV_EVENT_DELETE, ctx);
 
     // 画布（左侧）
-    ctx->canvas = lv_canvas_create(ui->drawing_board_app);
+    ctx->canvas = lv_canvas_create(ui->drawing_board_app_canvas_container);
     lv_obj_set_pos(ctx->canvas, 0, 0);
+    lv_obj_set_style_border_width(ctx->canvas, 0, 0); // 隐藏边框
     lv_obj_set_size(ctx->canvas, DRAW_CANVAS_W, DRAW_CANVAS_H);
     lv_obj_add_flag(ctx->canvas, LV_OBJ_FLAG_CLICKABLE);
-    // 运行时分配画布缓冲
-    ctx->canvas_buf = (lv_color_t *)lv_mem_alloc(DRAW_CANVAS_W * DRAW_CANVAS_H * sizeof(lv_color_t));
+    // 运行时分配画布缓冲：如果失败则按高度降级
+    int canvas_w = DRAW_CANVAS_W;
+    int canvas_h = DRAW_CANVAS_H;
+    int alloc_h = canvas_h;
+    DRAW_CANVAS_COLOR *buf = NULL;
+    while (alloc_h >= 80) {
+        size_t need = (size_t)canvas_w * (size_t)alloc_h * sizeof(DRAW_CANVAS_COLOR);
+        buf = (DRAW_CANVAS_COLOR *)lv_mem_alloc(need);
+        if (buf) break;
+        alloc_h /= 2;
+    }
+    ctx->canvas_buf = buf;
     if (ctx->canvas_buf) {
-        lv_canvas_set_buffer(ctx->canvas, ctx->canvas_buf, DRAW_CANVAS_W, DRAW_CANVAS_H, LV_IMG_CF_TRUE_COLOR);
+        if (alloc_h != canvas_h) {
+            lv_obj_set_size(ctx->canvas, canvas_w, alloc_h);
+        }
+        lv_canvas_set_buffer(ctx->canvas, ctx->canvas_buf, canvas_w, alloc_h, LV_IMG_CF_TRUE_COLOR);
         lv_canvas_fill_bg(ctx->canvas, lv_color_white(), LV_OPA_COVER);
     } else {
         // 分配失败时给出提示并禁止绘图
-        lv_obj_add_flag(ctx->canvas, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_t *warn = lv_label_create(ui->drawing_board_app);
-        lv_label_set_text(warn, "内存不足，无法创建画布");
-        lv_obj_align(warn, LV_ALIGN_TOP_LEFT, 6, 6);
+        lv_obj_clear_flag(ui->drawing_board_app_dialog_box, LV_OBJ_FLAG_HIDDEN);
     }
     lv_obj_set_style_border_width(ctx->canvas, 1, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_color(ctx->canvas, lv_color_hex(0x888888), LV_PART_MAIN | LV_STATE_DEFAULT);

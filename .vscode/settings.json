@@ -131,7 +131,8 @@
         "delay.h": "c",
         "__verbose_abort": "cpp",
         "wifi.h": "c",
-        "widgets_init.h": "c"
+        "widgets_init.h": "c",
+        "xlocmes": "c"
     },
     "search.useIgnoreFiles": false, // 禁用git忽略文件
     "search.exclude": { // 排除搜索范围

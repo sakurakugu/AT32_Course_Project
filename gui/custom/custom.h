@@ -12,8 +12,8 @@ extern "C" {
 #endif
 
 #include "gui_guider.h"
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 #include "../../src/app/calculator/calculator.h" // 计算器接口：供界面自定义代码调用
 #include "../../src/board/network/wifi.h"
@@ -34,23 +34,23 @@ void calc_key_event_handler(lv_event_t *e);         // 计算器按键事件处�
 void wifi_link_btn_event_handler(lv_event_t *e);    // 绑定点击“wifi连接”按钮事件
 
 // 音乐播放器事件
-void music_list_item_event_handler(lv_event_t *e);   // 列表项点击播放对应歌曲
-void music_prev_btn_event_handler(lv_event_t *e);    // 切换到上一首（循环）
-void music_next_btn_event_handler(lv_event_t *e);    // 切换到下一首（循环）
+void music_list_item_event_handler(lv_event_t *e);      // 列表项点击播放对应歌曲
+void music_prev_btn_event_handler(lv_event_t *e);       // 切换到上一首（循环）
+void music_next_btn_event_handler(lv_event_t *e);       // 切换到下一首（循环）
 void music_play_pause_btn_event_handler(lv_event_t *e); // 播放/暂停切换
 
-// 设置页事件：亮度滑块、声音滑块、同步网络时间开关
 #ifdef KEIL_COMPILE
+// 设置页事件：亮度滑块、声音滑块、同步网络时间开关
 void setting_app_light_slider_event_handler(lv_event_t *e);
 void setting_app_sync_net_time_sw_event_handler(lv_event_t *e);
-#endif
-
 // 电子琴：按钮矩阵事件（点击后按音发声）
 void electronic_organ_btnm_event_handler(lv_event_t *e);
+#endif
+
 
 // ——— 导航与状态栏统一 ———
-// 统一状态栏初始化（放在顶层图层），在 custom_init 中调用
-void status_bar_init(lv_ui *ui);
+void status_bar_init(lv_ui *ui);           // 统一状态栏初始化（放在顶层图层），在 custom_init 中调用
+void status_bar_set_visible(bool visible); // 控制状态栏显隐
 
 // 导航：进入新页面（自动将当前页面压栈），以及返回上一个页面
 void nav_to(lv_ui *ui,                    // ui
@@ -67,23 +67,25 @@ void nav_back(lv_ui *ui);
 // 画布
 
 // 画板实现：绘图画布 + 颜色选择 + 笔宽设置 + 清空
-#define DRAW_CANVAS_W 360
-#define DRAW_CANVAS_H 320
-
+// 注：为支持 lv_canvas_draw_line/rect，需要使用 TRUE_COLOR 画布缓冲。
+// 缓冲类型统一按字节指针管理。
+#define DRAW_CANVAS_W 280
+#define DRAW_CANVAS_H 264
+#define DRAW_CANVAS_COLOR lv_color_t
 typedef struct drawing_board_ctx_s {
-    lv_obj_t *canvas;       // 绘图画布
-    lv_color_t *canvas_buf; // 运行时分配的画布缓冲
-    lv_point_t last_pt; // 上一个绘图点
-    bool last_valid;    // 上一个点是否有效
+    lv_obj_t *canvas;        // 绘图画布
+    DRAW_CANVAS_COLOR *canvas_buf; // 运行时分配的画布缓冲（内存不足，这里用 1位颜色）
+    lv_point_t last_pt;      // 上一个绘图点
+    bool last_valid;         // 上一个点是否有效
 } drawing_board_ctx_t;
 
 extern drawing_board_ctx_t s_drawing_ctx;
 
-void drawing_board_app_delete_cb(lv_event_t *e); // 删除画布
+void drawing_board_app_delete_cb(lv_event_t *e);   // 删除画布
 void drawing_board_canvas_event_cb(lv_event_t *e); // 画布点击事件
-void drawing_board_clear_event_cb(lv_event_t *e); // 清空画布
-void drawing_board_width_event_cb(lv_event_t *e); // 笔宽选择事件
-void drawing_board_color_event_cb(lv_event_t *e); // 颜色选择事件
+void drawing_board_clear_event_cb(lv_event_t *e);  // 清空画布
+void drawing_board_width_event_cb(lv_event_t *e);  // 笔宽选择事件
+void drawing_board_color_event_cb(lv_event_t *e);  // 颜色选择事件
 
 #ifdef __cplusplus
 }

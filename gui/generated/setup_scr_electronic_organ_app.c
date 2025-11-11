@@ -64,8 +64,10 @@ void setup_scr_electronic_organ_app(lv_ui *ui)
     lv_obj_set_style_shadow_width(ui->electronic_organ_app_e_organ_btnm, 0, LV_PART_ITEMS|LV_STATE_DEFAULT);
 
     //The custom code of electronic_organ_app.
+#ifdef KEIL_COMPILE
     // 电子琴按钮矩阵：点击后按音发声
     lv_obj_add_event_cb(guider_ui.electronic_organ_app_e_organ_btnm, electronic_organ_btnm_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
+#endif
 
     //Update current screen layout.
     lv_obj_update_layout(ui->electronic_organ_app);

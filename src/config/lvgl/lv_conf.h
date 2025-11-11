@@ -48,10 +48,10 @@
  *=========================*/
 
 /*1: use custom malloc/free, 0: use the built-in `lv_mem_alloc()` and `lv_mem_free()`*/
-#define LV_MEM_CUSTOM 0
+#define LV_MEM_CUSTOM 1
 #if LV_MEM_CUSTOM == 0
     /*Size of the memory available for `lv_mem_alloc()` in bytes (>= 2kB)*/
-    #define LV_MEM_SIZE (64 * 1024U)          /*[bytes]*/
+    #define LV_MEM_SIZE (64 * 1024U)         /*[bytes]*/
 
     /*Set an address for the memory pool instead of allocating it as a normal array. Can be in external SRAM too.*/
     #define LV_MEM_ADR 0     /*0: unused*/
@@ -60,12 +60,12 @@
         #undef LV_MEM_POOL_INCLUDE
         #undef LV_MEM_POOL_ALLOC
     #endif
-
 #else       /*LV_MEM_CUSTOM*/
-    #define LV_MEM_CUSTOM_INCLUDE <stdlib.h>   /*Header for the dynamic memory function*/
-    #define LV_MEM_CUSTOM_ALLOC   mymalloc1//malloc
-    #define LV_MEM_CUSTOM_FREE    myfree1 //free
-    #define LV_MEM_CUSTOM_REALLOC myrealloc1//realloc
+    /* Use FreeRTOS-backed LVGL memory adapter */
+    #define LV_MEM_CUSTOM_INCLUDE "../../../../src/config/lvgl/porting/lv_port_mem.h"
+    #define LV_MEM_CUSTOM_ALLOC   lv_port_malloc
+    #define LV_MEM_CUSTOM_FREE    lv_port_free
+    #define LV_MEM_CUSTOM_REALLOC lv_port_realloc
 #endif     /*LV_MEM_CUSTOM*/
 
 /*Number of the intermediate memory buffer used during rendering and other internal processing mechanisms.

@@ -5,6 +5,8 @@
 #include "../../util/logger.h"
 #include "../board/network/wifi.hpp"
 #include "cJSON.h"
+#include "delay.h"
+#include "timer.h"
 #include "uart.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,6 +20,131 @@ extern lv_ui guider_ui;
 
 // 统一的 Host 名称（心知天气正式 API 域名）
 static const char *kHost = "api.seniverse.com";
+
+// 尝试依据 HTTP 响应中的 Content-Length 精准提取 JSON 正文；
+// 若失败，再退化为“从第一个 '{' 到 'CLOSED' 前最近的 '}'”的方式。
+// 返回 true 表示提取成功，结果写入 out（以 NUL 结尾）。
+static bool extract_json_segment(const char *in, char *out, int out_size) {
+    if (!in || !out || out_size <= 1) return false;
+
+    // 1) 优先解析 Content-Length
+    const char *cl = strstr(in, "Content-Length:");
+    int body_len = -1;
+    if (cl) {
+        cl += strlen("Content-Length:");
+        // 跳过空格
+        while (*cl == ' ' || *cl == '\t') ++cl;
+        // 读取十进制数字
+        int val = 0;
+        const char *p = cl;
+        while (*p >= '0' && *p <= '9') {
+            val = val * 10 + (*p - '0');
+            ++p;
+        }
+        if (val > 0) body_len = val;
+    }
+
+    if (body_len > 0) {
+        // 在包含正文的 +IPD 段后面，正文通常紧随 ':' 之后开始
+        const char *ipd = nullptr;
+        const char *search_from = cl ? cl : in;
+        // 使用最后一次出现的 "+IPD," 更稳妥，避免命中头部段
+        const char *last_ipd = nullptr;
+        const char *tmp = search_from;
+        while ((tmp = strstr(tmp, "+IPD,")) != nullptr) {
+            last_ipd = tmp;
+            tmp += 5; // 跳过 "+IPD,"
+        }
+        ipd = last_ipd ? last_ipd : strstr(search_from, "+IPD,");
+
+        const char *start = nullptr;
+        if (ipd) {
+            const char *colon = strchr(ipd, ':');
+            if (colon) {
+                start = colon + 1; // 正文起点（通常就是 '{'）
+            }
+        }
+        if (!start) {
+            // 退化：直接找第一个 '{'
+            start = strchr(in, '{');
+        }
+        if (start && body_len > 0) {
+            // 仅当可用数据达到 Content-Length 时才判定成功；否则回退到括号策略
+            int available = (int)strlen(start);
+            if (available >= body_len) {
+                int copy_len = body_len;
+                if (copy_len >= out_size) copy_len = out_size - 1;
+                memcpy(out, start, copy_len);
+                out[copy_len] = '\0';
+                LOGD("按 Content-Length 提取 JSON 成功，Content-Length=%d", body_len);
+                return true;
+            } else {
+                // 可用数据不足，说明组合的响应未包含完整正文；回退到 '{'..'}' 提取
+                LOGW("Content-Length=%d，但可用仅=%d，回退到括号提取", body_len, available);
+            }
+        }
+    }
+
+    // 2) 退化方案：从第一个 '{' 到最后一个 '}' 并尽量平衡括号
+    const char *start = strchr(in, '{');
+    if (!start) return false;
+
+    // 策略：找到使括号尽可能平衡的最长子串
+    const char *best_end = nullptr;
+    int best_balance = 9999; // 最小不平衡度
+    int brace_count = 0;
+    
+    const char *p = start;
+    while (*p) {
+        if (*p == '{') {
+            brace_count++;
+        } else if (*p == '}') {
+            brace_count--;
+            // 记录每个可能的结束位置
+            int balance = brace_count < 0 ? -brace_count : brace_count;
+            if (balance < best_balance || 
+                (balance == best_balance && (!best_end || p > best_end))) {
+                best_balance = balance;
+                best_end = p;
+            }
+            // 如果完美平衡且不是第一个'}'，这可能是完整JSON
+            if (brace_count == 0 && p > start) {
+                best_end = p;
+                best_balance = 0;
+                // 继续搜索，可能有更长的完整JSON
+            }
+        }
+        // 遇到CLOSED或ERROR等模组输出，停止搜索
+        if (strncmp(p, "CLOSED", 6) == 0 || strncmp(p, "ERROR", 5) == 0) {
+            break;
+        }
+        p++;
+    }
+    
+    if (!best_end || best_end < start) {
+        LOGW("未找到有效的JSON结束符'}'");
+        return false;
+    }
+    
+    int len = (int)(best_end - start + 1);
+    if (len <= 0) return false;
+    if (len >= out_size) {
+        LOGE("JSON 长度=%d 超过缓冲区大小=%d，无法提取", len, out_size);
+        return false;
+    }
+    memcpy(out, start, len);
+    out[len] = '\0';
+    
+    // 报告括号平衡情况
+    if (best_balance != 0) {
+        LOGW("JSON 括号不平衡 (差值=%d)，但这是最佳匹配", best_balance);
+    } else {
+        LOGD("JSON 括号完美平衡");
+    }
+    
+    LOGD("按 '{'..'}' 退化提取 JSON 成功，长度=%d", len);
+    return true;
+}
 
 // 发送 HTTP GET 到指定路径，返回完整响应（含头部），在 out 中
 bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int resp_out_size) {
@@ -79,25 +206,122 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
     // 等到数据到来
     wifi.waitResponse("+IPD", 8000);
 
-    // 读取响应（逐行叠加）
+    // 先快速读取HTTP头部,提取Content-Length
+    int content_length = -1;
     int pos = 0;
     char line[512];
     memset(resp_out, 0, resp_out_size);
-    while (1) {
+    
+    // 阶段1: 读取头部并提取Content-Length
+    for (int i = 0; i < 20; ++i) { // 最多读20行头部
         uint16_t n = wifi.readLine(line, sizeof(line), 1500);
-        if (n == 0)
+        if (n == 0) break;
+        
+        if (pos + (int)n >= resp_out_size - 1) {
+            LOGW("响应缓冲区即将溢出(头部阶段)");
             break;
-        if (pos + (int)n >= resp_out_size - 1)
-            break;
+        }
         memcpy(resp_out + pos, line, n);
         pos += n;
-        if (strstr(line, "CLOSED"))
+        
+        // 解析Content-Length
+        if (content_length < 0 && strstr(line, "Content-Length:")) {
+            const char *cl = strstr(line, "Content-Length:");
+            cl += strlen("Content-Length:");
+            while (*cl == ' ' || *cl == '\t') ++cl;
+            int val = 0;
+            while (*cl >= '0' && *cl <= '9') {
+                val = val * 10 + (*cl - '0');
+                ++cl;
+            }
+            if (val > 0) {
+                content_length = val;
+                LOGD("检测到 Content-Length=%d", content_length);
+            }
+        }
+        
+        // 检测到空行(\r\n\r\n)表示头部结束
+        if (n == 2 && line[0] == '\r' && line[1] == '\n') {
+            LOGD("HTTP头部读取完成,pos=%d", pos);
             break;
+        }
+    }
+
+    // 阶段2: 根据Content-Length精确读取正文
+    if (content_length > 0) {
+        int body_start = pos;
+        int body_received = 0;
+        int target_total = pos + content_length;
+        
+        LOGD("开始接收正文: 需要%d字节, 目标总长度=%d", content_length, target_total);
+        
+        int no_data_count = 0;
+        uint32_t last_recv_tick = Timer_GetTickCount();
+        const uint32_t MAX_WAIT_MS = 15000; // 总超时15秒
+        
+        while (pos < target_total && pos < resp_out_size - 1) {
+            // 检查总超时
+            if (Timer_GetTickCount() - last_recv_tick > MAX_WAIT_MS) {
+                LOGW("正文接收总超时,已收%d/%d字节", pos - body_start, content_length);
+                break;
+            }
+            
+            uint16_t n = wifi.readLine(line, sizeof(line), 3000); // 单次读取超时3秒
+            if (n == 0) {
+                no_data_count++;
+                if (no_data_count > 3) { // 连续3次无数据则放弃
+                    LOGW("正文接收超时(无数据),已收%d/%d字节", pos - body_start, content_length);
+                    break;
+                }
+                continue;
+            }
+            no_data_count = 0;
+            last_recv_tick = Timer_GetTickCount(); // 重置超时计时
+            
+            if (pos + (int)n >= resp_out_size - 1) {
+                LOGW("响应缓冲区即将溢出(正文阶段)");
+                break;
+            }
+            memcpy(resp_out + pos, line, n);
+            pos += n;
+            body_received = pos - body_start;
+            
+            // 检查是否接收完整
+            if (body_received >= content_length) {
+                LOGD("正文接收完整: %d/%d字节", body_received, content_length);
+                break;
+            }
+        }
+    } else {
+        // 回退到原来的逻辑: 继续读取直到CLOSED
+        LOGW("未检测到Content-Length,使用回退方案");
+        int no_data_count = 0;
+        bool closed_seen = false;
+        while (1) {
+            uint16_t n = wifi.readLine(line, sizeof(line), 1500);
+            if (n == 0) {
+                no_data_count++;
+                if (closed_seen && no_data_count >= 2) break;
+                if (no_data_count > 5) break;
+                continue;
+            }
+            no_data_count = 0;
+            
+            if (pos + (int)n >= resp_out_size - 1) break;
+            memcpy(resp_out + pos, line, n);
+            pos += n;
+            if (strstr(line, "CLOSED")) {
+                closed_seen = true;
+                LOGD("检测到CLOSED");
+            }
+        }
     }
 
     // 仅在读取完成后统一添加字符串终止符，避免中间嵌入 NUL 破坏后续 strstr/strchr
     if (pos < resp_out_size)
         resp_out[pos] = '\0';
+    
+    LOGD("HTTP 响应总长度=%d 字节", pos);
 
     // 关闭连接
     wifi.sendAT("AT+CIPCLOSE");
@@ -118,12 +342,16 @@ bool WeatherService::parse_and_apply_current(lv_ui *ui, const char *http_resp) {
     if (!ui || !http_resp)
         return false;
 
-    // 跳过头部
-    const char *body = strstr(http_resp, "\r\n\r\n");
-    if (!body)
-        body = http_resp;
-    else
-        body += 4;
+    // 提取纯 JSON 正文（优先按 Content-Length，失败则退化）
+    // 当前天气接口响应通常不超过1KB
+    char json_buf[1024];
+    const char *body = nullptr;
+    if (extract_json_segment(http_resp, json_buf, sizeof(json_buf))) {
+        body = json_buf;
+    } else {
+        LOGE("无法提取有效 JSON 正文（Content-Length / 退化均失败）");
+        return false;
+    }
 
     // 调试：打印部分正文（避免过长）
     {
@@ -142,7 +370,23 @@ bool WeatherService::parse_and_apply_current(lv_ui *ui, const char *http_resp) {
 
     cJSON *root = cJSON_Parse(body);
     if (!root) {
-        LOGE("当前天气 JSON 解析失败（cJSON_Parse 返回 NULL）");
+        const char *err_ptr = cJSON_GetErrorPtr();
+        if (err_ptr) {
+            LOGE("当前天气 JSON 解析失败，错误位置附近: %.30s", err_ptr);
+        } else {
+            LOGE("当前天气 JSON 解析失败（cJSON_Parse 返回 NULL）");
+        }
+        // 输出完整JSON用于调试（分段输出避免日志截断）
+        int body_len = (int)strlen(body);
+        LOGD("=== JSON 调试输出开始 (总长%d) ===", body_len);
+        for (int i = 0; i < body_len; i += 200) {
+            int chunk_len = (body_len - i) > 200 ? 200 : (body_len - i);
+            char chunk[201];
+            memcpy(chunk, body + i, chunk_len);
+            chunk[chunk_len] = '\0';
+            LOGD("[%d-%d]: %s", i, i + chunk_len - 1, chunk);
+        }
+        LOGD("=== JSON 调试输出结束 ===");
         return false;
     }
 
@@ -236,11 +480,16 @@ bool WeatherService::parse_and_apply_daily(lv_ui *ui, const char *http_resp) {
     if (!ui || !http_resp)
         return false;
 
-    const char *body = strstr(http_resp, "\r\n\r\n");
-    if (!body)
-        body = http_resp;
-    else
-        body += 4;
+    // 提取纯 JSON 正文（优先按 Content-Length，失败则退化）
+    // 3天预报接口响应通常在1-1.5KB左右
+    char json_buf[1536];
+    const char *body = nullptr;
+    if (extract_json_segment(http_resp, json_buf, sizeof(json_buf))) {
+        body = json_buf;
+    } else {
+        LOGE("无法提取有效 JSON 正文（Content-Length / 退化均失败）");
+        return false;
+    }
 
     // 调试：打印部分正文（避免过长）
     {
@@ -259,7 +508,23 @@ bool WeatherService::parse_and_apply_daily(lv_ui *ui, const char *http_resp) {
 
     cJSON *root = cJSON_Parse(body);
     if (!root) {
-        LOGE("每日预报 JSON 解析失败（cJSON_Parse 返回 NULL）");
+        const char *err_ptr = cJSON_GetErrorPtr();
+        if (err_ptr) {
+            LOGE("每日预报 JSON 解析失败，错误位置附近: %.30s", err_ptr);
+        } else {
+            LOGE("每日预报 JSON 解析失败（cJSON_Parse 返回 NULL）");
+        }
+        // 输出完整JSON用于调试（分段输出避免日志截断）
+        int body_len = (int)strlen(body);
+        LOGD("=== JSON 调试输出开始 (总长%d) ===", body_len);
+        for (int i = 0; i < body_len; i += 200) {
+            int chunk_len = (body_len - i) > 200 ? 200 : (body_len - i);
+            char chunk[201];
+            memcpy(chunk, body + i, chunk_len);
+            chunk[chunk_len] = '\0';
+            LOGD("[%d-%d]: %s", i, i + chunk_len - 1, chunk);
+        }
+        LOGD("=== JSON 调试输出结束 ===");
         return false;
     }
 
@@ -348,7 +613,7 @@ bool WeatherService::UpdateWeather(lv_ui *ui) {
     if (!ui)
         return false;
 
-    char resp[4096];
+    char resp[2048]; // HTTP响应缓冲区(包含头部+正文)
     char path[256];
 
     // 当前天气
