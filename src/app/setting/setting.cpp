@@ -1,5 +1,5 @@
 #include "setting.hpp"
-#include "../board/lcd/lcd.h"
+#include "../board/lcd/lcd.hpp"
 #include "../network/wifi.hpp"
 #include "logger.h"
 #include "lvgl.h"
@@ -180,9 +180,5 @@ void Setting::apply_date_labels(int year, int month, int day) {
 }
 
 void Setting::backlight_set_percent(uint8_t percent) {
-    if (percent == 0) {
-        LCD_BL_LOW();
-    } else {
-        LCD_BL_HIGH();
-    }
+    LCD::GetInstance().backlight_set_percent(percent);
 }

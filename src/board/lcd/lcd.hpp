@@ -41,6 +41,14 @@ class LCD {
     uint16_t color_to_565(uint8_t r, uint8_t g, uint8_t b);         // 将 RGB 转换为 565 格式
     uint16_t data_16bit_read();                                     // 读取 16 位数据
 
+    // 背光控制
+    void backlight_init_pwm();                   // 初始化背光 PWM
+    void backlight_set_percent(uint8_t percent); // 设置背光亮度百分比（0..100），0=关闭，100=最亮
+
   private:
     LCD() = default;
+
+    uint16_t m_backlight_period = 100; // 10kHz @ 1MHz timer clock // 背光周期
+    uint16_t m_prescaler = 0; // 预分频器
+    bool m_backlight_initialized = false; // 背光是否初始化
 };

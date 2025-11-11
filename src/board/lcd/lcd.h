@@ -209,6 +209,9 @@ extern uint16_t BACK_COLOR;
 #define LCD_BL_GPIO_CLK             CRM_GPIOA_PERIPH_CLOCK
 #define LCD_BL_GPIO_PIN             GPIO_PINS_8
 #define LCD_BL_GPIO_PORT            GPIOA
+// 背光PWM：PA8 -> TMR1_CH1 (AF1)
+#define LCD_BL_GPIO_PINS_SOURCE     GPIO_PINS_SOURCE8
+#define LCD_BL_GPIO_MUX             GPIO_MUX_1
 
 #define LCD_RESET_GPIO_CLK          CRM_GPIOE_PERIPH_CLOCK
 #define LCD_RESET_GPIO_PIN          GPIO_PINS_5

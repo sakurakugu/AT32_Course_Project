@@ -158,14 +158,14 @@ void LCD::xmc_init() {
 
     gpio_init_struct.gpio_pins = LCD_A16_GPIO_PIN;
     gpio_init(LCD_A16_GPIO_PORT, &gpio_init_struct);
-
-    /* lcd BL  configuration */
-    gpio_init_struct.gpio_pins = LCD_BL_GPIO_PIN;
-    gpio_init_struct.gpio_mode = GPIO_MODE_OUTPUT;
-    gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
-    gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
-    gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
-    gpio_init(LCD_BL_GPIO_PORT, &gpio_init_struct);
+    // /* lcd BL  configuration */
+    // gpio_init_struct.gpio_pins = LCD_BL_GPIO_PIN;
+    // gpio_init_struct.gpio_mode = GPIO_MODE_OUTPUT;
+    // gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
+    // gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
+    // gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
+    // gpio_init(LCD_BL_GPIO_PORT, &gpio_init_struct);
+    // 背光由独立的 PWM 驱动模块初始化
 
     /* lcd rst  configuration */
     gpio_init_struct.gpio_pins = LCD_RESET_GPIO_PIN;
@@ -564,7 +564,9 @@ void LCD::init(lcd_display_type direction_) {
 
     direction(direction_);
     delay_ms(10);
-    LCD_BL_HIGH();
+    // 初始化背光PWM并设置默认亮度（80%）
+    backlight_init_pwm();
+    backlight_set_percent(80);
     delay_ms(10);
 }
 
@@ -771,4 +773,64 @@ void lcd_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t
             lcd_data_16bit_write(color[i * width + j]);
         }
     }
+}
+
+void LCD::backlight_init_pwm(void) {
+    if (m_backlight_initialized) return;
+
+    // Enable clocks
+    crm_periph_clock_enable(CRM_TMR1_PERIPH_CLOCK, TRUE);
+    crm_periph_clock_enable(LCD_BL_GPIO_CLK, TRUE);
+
+    // Configure PA8 as TIM1_CH1 (alternate function)
+    gpio_init_type gpio_init_struct;
+    gpio_default_para_init(&gpio_init_struct);
+    gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
+    gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
+    gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
+    gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
+    gpio_init_struct.gpio_pins = LCD_BL_GPIO_PIN;
+    gpio_init(LCD_BL_GPIO_PORT, &gpio_init_struct);
+    gpio_pin_mux_config(LCD_BL_GPIO_PORT, LCD_BL_GPIO_PINS_SOURCE, LCD_BL_GPIO_MUX);
+
+    // Timer base: 1MHz tick -> 10kHz PWM (period=100)
+    crm_clocks_freq_type clocks = {0};
+    crm_clocks_freq_get(&clocks);
+    m_prescaler = (uint16_t)((clocks.apb2_freq * 2) / 1000000) - 1; // 1MHz
+
+    tmr_base_init(TMR1, (uint16_t)(m_backlight_period - 1), m_prescaler);
+    tmr_cnt_dir_set(TMR1, TMR_COUNT_UP);
+    tmr_clock_source_div_set(TMR1, TMR_CLOCK_DIV1);
+
+    // PWM channel config
+    tmr_output_config_type oc;
+    tmr_output_default_para_init(&oc);
+    oc.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+    oc.oc_idle_state = FALSE;
+    oc.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
+    oc.oc_output_state = TRUE;
+
+    tmr_output_channel_config(TMR1, TMR_SELECT_CHANNEL_1, &oc);
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, 0);
+    tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_1, TRUE);
+    tmr_period_buffer_enable(TMR1, TRUE);
+
+    // Advanced timer output enable (MOE)
+    tmr_output_enable(TMR1, TRUE);
+
+    // Start timer
+    tmr_counter_enable(TMR1, TRUE);
+
+    m_backlight_initialized = true;
+}
+
+void LCD::backlight_set_percent(uint8_t percent) {
+    if (!m_backlight_initialized) {
+        backlight_init_pwm();
+    }
+    if (percent > 100) percent = 100;
+
+    uint16_t arr = (uint16_t)(m_backlight_period - 1);
+    uint16_t duty = (uint16_t)((arr * percent) / 100);
+    tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, duty);
 }
