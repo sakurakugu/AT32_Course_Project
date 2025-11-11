@@ -2893,7 +2893,7 @@
 
   <Group>
     <GroupName>lvgl/gui</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -3232,18 +3232,6 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\gui\generated\images\_deepseek_app_alpha_80x80.c</PathWithFileName>
-      <FilenameWithoutPath>_deepseek_app_alpha_80x80.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>13</GroupNumber>
-      <FileNumber>244</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
       <PathWithFileName>.\gui\generated\images\_drawing_app_alpha_80x80.c</PathWithFileName>
       <FilenameWithoutPath>_drawing_app_alpha_80x80.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
@@ -3251,7 +3239,7 @@
     </File>
     <File>
       <GroupNumber>13</GroupNumber>
-      <FileNumber>245</FileNumber>
+      <FileNumber>244</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3263,7 +3251,7 @@
     </File>
     <File>
       <GroupNumber>13</GroupNumber>
-      <FileNumber>246</FileNumber>
+      <FileNumber>245</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3275,7 +3263,7 @@
     </File>
     <File>
       <GroupNumber>13</GroupNumber>
-      <FileNumber>247</FileNumber>
+      <FileNumber>246</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3287,7 +3275,7 @@
     </File>
     <File>
       <GroupNumber>13</GroupNumber>
-      <FileNumber>248</FileNumber>
+      <FileNumber>247</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3299,7 +3287,7 @@
     </File>
     <File>
       <GroupNumber>13</GroupNumber>
-      <FileNumber>249</FileNumber>
+      <FileNumber>248</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3311,7 +3299,7 @@
     </File>
     <File>
       <GroupNumber>13</GroupNumber>
-      <FileNumber>250</FileNumber>
+      <FileNumber>249</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3323,7 +3311,7 @@
     </File>
     <File>
       <GroupNumber>13</GroupNumber>
-      <FileNumber>251</FileNumber>
+      <FileNumber>250</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3335,7 +3323,7 @@
     </File>
     <File>
       <GroupNumber>13</GroupNumber>
-      <FileNumber>252</FileNumber>
+      <FileNumber>251</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3347,7 +3335,7 @@
     </File>
     <File>
       <GroupNumber>13</GroupNumber>
-      <FileNumber>253</FileNumber>
+      <FileNumber>252</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3359,7 +3347,7 @@
     </File>
     <File>
       <GroupNumber>13</GroupNumber>
-      <FileNumber>254</FileNumber>
+      <FileNumber>253</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3371,7 +3359,7 @@
     </File>
     <File>
       <GroupNumber>13</GroupNumber>
-      <FileNumber>255</FileNumber>
+      <FileNumber>254</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3383,7 +3371,7 @@
     </File>
     <File>
       <GroupNumber>13</GroupNumber>
-      <FileNumber>256</FileNumber>
+      <FileNumber>255</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3395,7 +3383,7 @@
     </File>
     <File>
       <GroupNumber>13</GroupNumber>
-      <FileNumber>257</FileNumber>
+      <FileNumber>256</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3415,7 +3403,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>14</GroupNumber>
-      <FileNumber>258</FileNumber>
+      <FileNumber>257</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

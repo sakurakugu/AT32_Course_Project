@@ -1,8 +1,8 @@
 {
     "files.associations": {
         "*.dbclient-js": "javascript",
-        "*.json5": "json5",
         "*.json": "jsonc",
+        "*.json5": "json5",
         "at32f435_437.h": "c",
         "eep_lm75.h": "c",
         "i2c_application.h": "c",
@@ -130,7 +130,8 @@
         "task.h": "c",
         "delay.h": "c",
         "__verbose_abort": "cpp",
-        "wifi.h": "c"
+        "wifi.h": "c",
+        "widgets_init.h": "c"
     },
     "search.useIgnoreFiles": false, // 禁用git忽略文件
     "search.exclude": { // 排除搜索范围

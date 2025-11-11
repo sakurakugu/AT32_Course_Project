@@ -10,9 +10,9 @@
 #include <string.h>
 
 #include "../../src/app/calculator/calculator.h"
-#include "../lvgl/src/extra/widgets/dclock/lv_dclock.h"
-#include "../../src/app/music/music.h" // 音乐模块控制标志与曲目定义
+#include "../../src/app/music/music.h"  // 音乐模块控制标志与曲目定义
 #include "../../src/board/sound/beep.h" // 蜂鸣器接口：设定频率并发声
+#include "../lvgl/src/extra/widgets/dclock/lv_dclock.h"
 
 #ifdef KEIL_COMPILE
 // 背光、音量、网络时间同步接口
@@ -400,9 +400,9 @@ void music_list_item_event_handler(lv_event_t *e) {
     }
 
     music_song_id = sel;
-    music_resume = 0;   // 确保为播放状态
-    music_playing = 0;  // 终止当前曲目（若在播放）
-    music_start = 1;    // 触发播放任务从头开始
+    music_resume = 0;  // 确保为播放状态
+    music_playing = 0; // 终止当前曲目（若在播放）
+    music_start = 1;   // 触发播放任务从头开始
 
     // 播放按钮状态更新为“播放中”（显示暂停图标）
     if (lv_obj_is_valid(ui->music_app_imgbtn_4)) {
@@ -479,29 +479,88 @@ void electronic_organ_btnm_event_handler(lv_event_t *e) {
     lv_obj_t *btnm = lv_event_get_target(e);
     uint16_t id = lv_btnmatrix_get_selected_btn(btnm);
     const char *txt = lv_btnmatrix_get_btn_text(btnm, id);
-    if (!txt || !txt[0]) return;
+    if (!txt || !txt[0])
+        return;
 
     uint16_t freq = 0;
     int n = (txt[1] >= '0' && txt[1] <= '7') ? (txt[1] - '0') : 0;
-    if (n < 1 || n > 7) return;
+    if (n < 1 || n > 7)
+        return;
 
     switch (txt[0]) {
     case 'L':
         switch (n) {
-        case 1: freq = TONE_L1; break; case 2: freq = TONE_L2; break; case 3: freq = TONE_L3; break;
-        case 4: freq = TONE_L4; break; case 5: freq = TONE_L5; break; case 6: freq = TONE_L6; break; case 7: freq = TONE_L7; break;
+        case 1:
+            freq = TONE_L1;
+            break;
+        case 2:
+            freq = TONE_L2;
+            break;
+        case 3:
+            freq = TONE_L3;
+            break;
+        case 4:
+            freq = TONE_L4;
+            break;
+        case 5:
+            freq = TONE_L5;
+            break;
+        case 6:
+            freq = TONE_L6;
+            break;
+        case 7:
+            freq = TONE_L7;
+            break;
         }
         break;
     case 'M':
         switch (n) {
-        case 1: freq = TONE_M1; break; case 2: freq = TONE_M2; break; case 3: freq = TONE_M3; break;
-        case 4: freq = TONE_M4; break; case 5: freq = TONE_M5; break; case 6: freq = TONE_M6; break; case 7: freq = TONE_M7; break;
+        case 1:
+            freq = TONE_M1;
+            break;
+        case 2:
+            freq = TONE_M2;
+            break;
+        case 3:
+            freq = TONE_M3;
+            break;
+        case 4:
+            freq = TONE_M4;
+            break;
+        case 5:
+            freq = TONE_M5;
+            break;
+        case 6:
+            freq = TONE_M6;
+            break;
+        case 7:
+            freq = TONE_M7;
+            break;
         }
         break;
     case 'H':
         switch (n) {
-        case 1: freq = TONE_H1; break; case 2: freq = TONE_H2; break; case 3: freq = TONE_H3; break;
-        case 4: freq = TONE_H4; break; case 5: freq = TONE_H5; break; case 6: freq = TONE_H6; break; case 7: freq = TONE_H7; break;
+        case 1:
+            freq = TONE_H1;
+            break;
+        case 2:
+            freq = TONE_H2;
+            break;
+        case 3:
+            freq = TONE_H3;
+            break;
+        case 4:
+            freq = TONE_H4;
+            break;
+        case 5:
+            freq = TONE_H5;
+            break;
+        case 6:
+            freq = TONE_H6;
+            break;
+        case 7:
+            freq = TONE_H7;
+            break;
         }
         break;
     default:
@@ -513,4 +572,111 @@ void electronic_organ_btnm_event_handler(lv_event_t *e) {
         // 点击发音：短促按键音（50ms）
         beep_start(5, 1, 1);
     }
+}
+
+// ===============================
+// 画板事件实现
+// ===============================
+
+drawing_board_ctx_t s_drawing_ctx; // 单屏上下文
+
+// 屏幕删除时释放画布缓冲
+void drawing_board_app_delete_cb(lv_event_t *e) {
+    drawing_board_ctx_t *ctx = (drawing_board_ctx_t *)lv_event_get_user_data(e);
+    if (ctx && ctx->canvas_buf) {
+        lv_mem_free(ctx->canvas_buf);
+        ctx->canvas_buf = NULL;
+    }
+}
+
+void drawing_board_canvas_event_cb(lv_event_t *e) {
+    drawing_board_ctx_t *ctx = (drawing_board_ctx_t *)lv_event_get_user_data(e);
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t *canvas = lv_event_get_target(e);
+
+    lv_indev_t *indev = lv_indev_get_act();
+    if (!indev)
+        return;
+
+    lv_point_t p;
+    lv_indev_get_point(indev, &p);
+
+    // 转换为画布局部坐标
+    lv_area_t a;
+    lv_obj_get_coords(canvas, &a);
+    int32_t x = p.x - a.x1;
+    int32_t y = p.y - a.y1;
+
+    // 越界保护
+    if (x < 0)
+        x = 0;
+    else if (x >= DRAW_CANVAS_W)
+        x = DRAW_CANVAS_W - 1;
+    if (y < 0)
+        y = 0;
+    else if (y >= DRAW_CANVAS_H)
+        y = DRAW_CANVAS_H - 1;
+
+    switch (code) {
+    case LV_EVENT_PRESSED: {
+        ctx->last_pt.x = x;
+        ctx->last_pt.y = y;
+        ctx->last_valid = true;
+
+        // 画一个圆点，作为起笔
+        lv_draw_rect_dsc_t rect_dsc;
+        lv_draw_rect_dsc_init(&rect_dsc);
+        rect_dsc.bg_color = lv_colorwheel_get_rgb(guider_ui.drawing_board_app_colorwheel);
+        rect_dsc.radius = lv_slider_get_value(guider_ui.drawing_board_app_width_slider) / 2;
+        rect_dsc.bg_opa = LV_OPA_COVER;
+        int32_t r = rect_dsc.radius;
+        if (r < 1)
+            r = 1;
+        lv_canvas_draw_rect(ctx->canvas, x - r, y - r, r * 2, r * 2, &rect_dsc);
+        break;
+    }
+    case LV_EVENT_PRESSING: {
+        if (!ctx->last_valid)
+            break;
+        // 画上一个点到当前点的线段
+        lv_draw_line_dsc_t line_dsc;
+        lv_draw_line_dsc_init(&line_dsc);
+        line_dsc.color = lv_colorwheel_get_rgb(guider_ui.drawing_board_app_colorwheel);
+        line_dsc.width = lv_slider_get_value(guider_ui.drawing_board_app_width_slider);
+        line_dsc.round_start = 1;
+        line_dsc.round_end = 1;
+
+        lv_point_t p1 = ctx->last_pt;
+        lv_point_t p2 = {(lv_coord_t)x, (lv_coord_t)y};
+
+        // 使用 LVGL 画线 API（传入点数组与点数）
+        lv_point_t pts[2] = {p1, p2};
+        lv_canvas_draw_line(ctx->canvas, pts, 2, &line_dsc);
+
+        ctx->last_pt = p2;
+        break;
+    }
+    case LV_EVENT_RELEASED: {
+        ctx->last_valid = false;
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void drawing_board_clear_event_cb(lv_event_t *e) {
+    drawing_board_ctx_t *ctx = (drawing_board_ctx_t *)lv_event_get_user_data(e);
+    // 清空为白色背景
+    lv_canvas_fill_bg(ctx->canvas, lv_color_white(), LV_OPA_COVER);
+}
+
+void drawing_board_width_event_cb(lv_event_t *e) {
+    // 这里无需立即作画，仅在按压时读取值即可；此处可更新显示或做范围保护
+    LV_UNUSED(e);
+}
+
+void drawing_board_color_event_cb(lv_event_t *e) {
+    // 颜色变化同样在作画事件中实时读取；保留回调以备扩展
+    LV_UNUSED(e);
 }

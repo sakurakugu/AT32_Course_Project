@@ -64,6 +64,27 @@ void nav_to(lv_ui *ui,                    // ui
 
 void nav_back(lv_ui *ui);
 
+// 画布
+
+// 画板实现：绘图画布 + 颜色选择 + 笔宽设置 + 清空
+#define DRAW_CANVAS_W 360
+#define DRAW_CANVAS_H 320
+
+typedef struct drawing_board_ctx_s {
+    lv_obj_t *canvas;       // 绘图画布
+    lv_color_t *canvas_buf; // 运行时分配的画布缓冲
+    lv_point_t last_pt; // 上一个绘图点
+    bool last_valid;    // 上一个点是否有效
+} drawing_board_ctx_t;
+
+extern drawing_board_ctx_t s_drawing_ctx;
+
+void drawing_board_app_delete_cb(lv_event_t *e); // 删除画布
+void drawing_board_canvas_event_cb(lv_event_t *e); // 画布点击事件
+void drawing_board_clear_event_cb(lv_event_t *e); // 清空画布
+void drawing_board_width_event_cb(lv_event_t *e); // 笔宽选择事件
+void drawing_board_color_event_cb(lv_event_t *e); // 颜色选择事件
+
 #ifdef __cplusplus
 }
 #endif

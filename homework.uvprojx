@@ -2608,11 +2608,6 @@
               <FilePath>.\gui\generated\images\_calculator_app_alpha_80x80.c</FilePath>
             </File>
             <File>
-              <FileName>_deepseek_app_alpha_80x80.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gui\generated\images\_deepseek_app_alpha_80x80.c</FilePath>
-            </File>
-            <File>
               <FileName>_drawing_app_alpha_80x80.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\images\_drawing_app_alpha_80x80.c</FilePath>

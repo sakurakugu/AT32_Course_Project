@@ -206,7 +206,6 @@ void setup_scr_home_app1(lv_ui *ui)
     //Write codes home_app1_deepseek_app_icon
     ui->home_app1_deepseek_app_icon = lv_imgbtn_create(ui->home_app1_home_page);
     lv_obj_add_flag(ui->home_app1_deepseek_app_icon, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->home_app1_deepseek_app_icon, LV_IMGBTN_STATE_RELEASED, NULL, &_deepseek_app_alpha_80x80, NULL);
     ui->home_app1_deepseek_app_icon_label = lv_label_create(ui->home_app1_deepseek_app_icon);
     lv_label_set_text(ui->home_app1_deepseek_app_icon_label, "");
     lv_label_set_long_mode(ui->home_app1_deepseek_app_icon_label, LV_LABEL_LONG_WRAP);
