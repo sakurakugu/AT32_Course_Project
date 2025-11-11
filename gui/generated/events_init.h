@@ -28,7 +28,7 @@ void events_init_calculator_app(lv_ui *ui);
 void events_init_deepseek_app(lv_ui *ui);
 void events_init_setting_app(lv_ui *ui);
 void events_init_electronic_organ_app(lv_ui *ui);
-void events_init_game1(lv_ui *ui);
+void events_init_drawing_board_app(lv_ui *ui);
 void events_init_game2(lv_ui *ui);
 void events_init_game3(lv_ui *ui);
 void events_init_game4(lv_ui *ui);

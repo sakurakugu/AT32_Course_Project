@@ -1,14 +1,18 @@
 #include "music.hpp"
 #include "FreeRTOS.h"
 #include "task.h"
-#include "beep.h"
+#include "beep.hpp"
 
 /* 音高表：music_arrX 中的数值作为索引，映射到实际频率 */
 static const uint16_t note_freqs[] = {
-    Tone::REST,
-    Tone::L1, Tone::L2, Tone::L3, Tone::L4, Tone::L5, Tone::L6, Tone::L7,
-    Tone::M1, Tone::M2, Tone::M3, Tone::M4, Tone::M5, Tone::M6, Tone::M7,
-    Tone::H1, Tone::H2, Tone::H3, Tone::H4, Tone::H5, Tone::H6, Tone::H7,
+    TONE_REST,
+    TONE_L1, TONE_L2, TONE_L3, TONE_L4, TONE_L5, TONE_L6, TONE_L7,
+    TONE_M1, TONE_M2, TONE_M3, TONE_M4, TONE_M5, TONE_M6, TONE_M7,
+    TONE_H1, TONE_H2, TONE_H3, TONE_H4, TONE_H5, TONE_H6, TONE_H7,
+    // Tone::REST,
+    // Tone::L1, Tone::L2, Tone::L3, Tone::L4, Tone::L5, Tone::L6, Tone::L7,
+    // Tone::M1, Tone::M2, Tone::M3, Tone::M4, Tone::M5, Tone::M6, Tone::M7,
+    // Tone::H1, Tone::H2, Tone::H3, Tone::H4, Tone::H5, Tone::H6, Tone::H7,
 };
 
 // 红尘情歌

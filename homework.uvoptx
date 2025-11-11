@@ -253,7 +253,7 @@
 
   <Group>
     <GroupName>src/app</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -321,7 +321,7 @@
 
   <Group>
     <GroupName>src/board</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -2893,7 +2893,7 @@
 
   <Group>
     <GroupName>lvgl/gui</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -2976,8 +2976,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\gui\generated\setup_scr_game1.c</PathWithFileName>
-      <FilenameWithoutPath>setup_scr_game1.c</FilenameWithoutPath>
+      <PathWithFileName>.\gui\generated\setup_scr_drawing_board_app.c</PathWithFileName>
+      <FilenameWithoutPath>setup_scr_drawing_board_app.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

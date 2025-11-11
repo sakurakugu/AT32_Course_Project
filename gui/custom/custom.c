@@ -7,10 +7,12 @@
 #include "custom.h"
 #include "lvgl.h"
 #include <stdio.h>
+#include <string.h>
 
 #include "../../src/app/calculator/calculator.h"
 #include "../lvgl/src/extra/widgets/dclock/lv_dclock.h"
 #include "../../src/app/music/music.h" // 音乐模块控制标志与曲目定义
+#include "../../src/board/sound/beep.h" // 蜂鸣器接口：设定频率并发声
 
 #ifdef KEIL_COMPILE
 // 背光、音量、网络时间同步接口
@@ -237,7 +239,7 @@ void setup_scr_calculator_app(lv_ui *ui);
 void setup_scr_deepseek_app(lv_ui *ui);
 void setup_scr_setting_app(lv_ui *ui);
 void setup_scr_electronic_organ_app(lv_ui *ui);
-void setup_scr_game1(lv_ui *ui);
+void setup_scr_drawing_board_app(lv_ui *ui);
 void setup_scr_game2(lv_ui *ui);
 void setup_scr_game3(lv_ui *ui);
 void setup_scr_game4(lv_ui *ui);
@@ -306,10 +308,10 @@ static bool get_meta_for_obj(lv_ui *ui, lv_obj_t *obj, ScreenMeta *out) {
         out->setup = setup_scr_electronic_organ_app;
         return true;
     }
-    if (obj == ui->game1) {
-        out->obj_pp = &ui->game1;
-        out->del_flag_p = &ui->game1_del;
-        out->setup = setup_scr_game1;
+    if (obj == ui->drawing_board_app) {
+        out->obj_pp = &ui->drawing_board_app;
+        out->del_flag_p = &ui->drawing_board_app_del;
+        out->setup = setup_scr_drawing_board_app;
         return true;
     }
     if (obj == ui->game2) {
@@ -466,5 +468,49 @@ void music_play_pause_btn_event_handler(lv_event_t *e) {
         if (!music_playing) {
             music_start = 1; // 从头开始播放当前选曲
         }
+    }
+}
+
+// 电子琴：按钮矩阵点击发声
+void electronic_organ_btnm_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_VALUE_CHANGED)
+        return;
+
+    lv_obj_t *btnm = lv_event_get_target(e);
+    uint16_t id = lv_btnmatrix_get_selected_btn(btnm);
+    const char *txt = lv_btnmatrix_get_btn_text(btnm, id);
+    if (!txt || !txt[0]) return;
+
+    uint16_t freq = 0;
+    int n = (txt[1] >= '0' && txt[1] <= '7') ? (txt[1] - '0') : 0;
+    if (n < 1 || n > 7) return;
+
+    switch (txt[0]) {
+    case 'L':
+        switch (n) {
+        case 1: freq = TONE_L1; break; case 2: freq = TONE_L2; break; case 3: freq = TONE_L3; break;
+        case 4: freq = TONE_L4; break; case 5: freq = TONE_L5; break; case 6: freq = TONE_L6; break; case 7: freq = TONE_L7; break;
+        }
+        break;
+    case 'M':
+        switch (n) {
+        case 1: freq = TONE_M1; break; case 2: freq = TONE_M2; break; case 3: freq = TONE_M3; break;
+        case 4: freq = TONE_M4; break; case 5: freq = TONE_M5; break; case 6: freq = TONE_M6; break; case 7: freq = TONE_M7; break;
+        }
+        break;
+    case 'H':
+        switch (n) {
+        case 1: freq = TONE_H1; break; case 2: freq = TONE_H2; break; case 3: freq = TONE_H3; break;
+        case 4: freq = TONE_H4; break; case 5: freq = TONE_H5; break; case 6: freq = TONE_H6; break; case 7: freq = TONE_H7; break;
+        }
+        break;
+    default:
+        break;
+    }
+
+    if (freq > 0) {
+        beep_setFreq(freq);
+        // 点击发音：短促按键音（50ms）
+        beep_start(5, 1, 1);
     }
 }

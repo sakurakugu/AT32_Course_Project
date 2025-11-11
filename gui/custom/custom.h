@@ -13,6 +13,7 @@ extern "C" {
 
 #include "gui_guider.h"
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "../../src/app/calculator/calculator.h" // 计算器接口：供界面自定义代码调用
 #include "../../src/board/network/wifi.h"
@@ -43,6 +44,9 @@ void music_play_pause_btn_event_handler(lv_event_t *e); // 播放/暂停切换
 void setting_app_light_slider_event_handler(lv_event_t *e);
 void setting_app_sync_net_time_sw_event_handler(lv_event_t *e);
 #endif
+
+// 电子琴：按钮矩阵事件（点击后按音发声）
+void electronic_organ_btnm_event_handler(lv_event_t *e);
 
 // ——— 导航与状态栏统一 ———
 // 统一状态栏初始化（放在顶层图层），在 custom_init 中调用

@@ -208,87 +208,87 @@ void setup_scr_home_app2(lv_ui *ui)
     lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_3, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
     lv_obj_set_style_img_opa(ui->home_app2_imgbtn_3, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
-    //Write codes home_app2_imgbtn_2
-    ui->home_app2_imgbtn_2 = lv_imgbtn_create(ui->home_app2_home_page);
-    lv_obj_add_flag(ui->home_app2_imgbtn_2, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->home_app2_imgbtn_2, LV_IMGBTN_STATE_RELEASED, NULL, &_drawing_app_alpha_80x80, NULL);
-    ui->home_app2_imgbtn_2_label = lv_label_create(ui->home_app2_imgbtn_2);
-    lv_label_set_text(ui->home_app2_imgbtn_2_label, "");
-    lv_label_set_long_mode(ui->home_app2_imgbtn_2_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->home_app2_imgbtn_2_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->home_app2_imgbtn_2, 0, LV_STATE_DEFAULT);
-    lv_obj_set_pos(ui->home_app2_imgbtn_2, 200, 50);
-    lv_obj_set_size(ui->home_app2_imgbtn_2, 80, 80);
+    //Write codes home_app2_drawing_board_icon
+    ui->home_app2_drawing_board_icon = lv_imgbtn_create(ui->home_app2_home_page);
+    lv_obj_add_flag(ui->home_app2_drawing_board_icon, LV_OBJ_FLAG_CHECKABLE);
+    lv_imgbtn_set_src(ui->home_app2_drawing_board_icon, LV_IMGBTN_STATE_RELEASED, NULL, &_drawing_app_alpha_80x80, NULL);
+    ui->home_app2_drawing_board_icon_label = lv_label_create(ui->home_app2_drawing_board_icon);
+    lv_label_set_text(ui->home_app2_drawing_board_icon_label, "");
+    lv_label_set_long_mode(ui->home_app2_drawing_board_icon_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->home_app2_drawing_board_icon_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->home_app2_drawing_board_icon, 0, LV_STATE_DEFAULT);
+    lv_obj_set_pos(ui->home_app2_drawing_board_icon, 200, 50);
+    lv_obj_set_size(ui->home_app2_drawing_board_icon, 80, 80);
 
-    //Write style for home_app2_imgbtn_2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_2, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_2, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->home_app2_imgbtn_2, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->home_app2_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->home_app2_imgbtn_2, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for home_app2_drawing_board_icon, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->home_app2_drawing_board_icon, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->home_app2_drawing_board_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->home_app2_drawing_board_icon, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->home_app2_drawing_board_icon, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->home_app2_drawing_board_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->home_app2_drawing_board_icon, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->home_app2_drawing_board_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write style for home_app2_imgbtn_2, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_2, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_2, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    //Write style for home_app2_drawing_board_icon, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_drawing_board_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_img_opa(ui->home_app2_drawing_board_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_color(ui->home_app2_drawing_board_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_font(ui->home_app2_drawing_board_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_opa(ui->home_app2_drawing_board_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_shadow_width(ui->home_app2_drawing_board_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
 
-    //Write style for home_app2_imgbtn_2, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_2, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_2, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    //Write style for home_app2_drawing_board_icon, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_drawing_board_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_img_opa(ui->home_app2_drawing_board_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(ui->home_app2_drawing_board_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_font(ui->home_app2_drawing_board_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_opa(ui->home_app2_drawing_board_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_shadow_width(ui->home_app2_drawing_board_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 
-    //Write style for home_app2_imgbtn_2, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_2, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_2, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    //Write style for home_app2_drawing_board_icon, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_drawing_board_icon, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    lv_obj_set_style_img_opa(ui->home_app2_drawing_board_icon, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
-    //Write codes home_app2_imgbtn_1
-    ui->home_app2_imgbtn_1 = lv_imgbtn_create(ui->home_app2_home_page);
-    lv_obj_add_flag(ui->home_app2_imgbtn_1, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->home_app2_imgbtn_1, LV_IMGBTN_STATE_RELEASED, NULL, &_electronic_organ_app_alpha_80x80, NULL);
-    ui->home_app2_imgbtn_1_label = lv_label_create(ui->home_app2_imgbtn_1);
-    lv_label_set_text(ui->home_app2_imgbtn_1_label, "");
-    lv_label_set_long_mode(ui->home_app2_imgbtn_1_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->home_app2_imgbtn_1_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->home_app2_imgbtn_1, 0, LV_STATE_DEFAULT);
-    lv_obj_set_pos(ui->home_app2_imgbtn_1, 70, 50);
-    lv_obj_set_size(ui->home_app2_imgbtn_1, 80, 80);
+    //Write codes home_app2_electronic_organ_icon
+    ui->home_app2_electronic_organ_icon = lv_imgbtn_create(ui->home_app2_home_page);
+    lv_obj_add_flag(ui->home_app2_electronic_organ_icon, LV_OBJ_FLAG_CHECKABLE);
+    lv_imgbtn_set_src(ui->home_app2_electronic_organ_icon, LV_IMGBTN_STATE_RELEASED, NULL, &_electronic_organ_app_alpha_80x80, NULL);
+    ui->home_app2_electronic_organ_icon_label = lv_label_create(ui->home_app2_electronic_organ_icon);
+    lv_label_set_text(ui->home_app2_electronic_organ_icon_label, "");
+    lv_label_set_long_mode(ui->home_app2_electronic_organ_icon_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->home_app2_electronic_organ_icon_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->home_app2_electronic_organ_icon, 0, LV_STATE_DEFAULT);
+    lv_obj_set_pos(ui->home_app2_electronic_organ_icon, 70, 50);
+    lv_obj_set_size(ui->home_app2_electronic_organ_icon, 80, 80);
 
-    //Write style for home_app2_imgbtn_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_1, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_1, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->home_app2_imgbtn_1, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->home_app2_imgbtn_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->home_app2_imgbtn_1, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for home_app2_electronic_organ_icon, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->home_app2_electronic_organ_icon, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->home_app2_electronic_organ_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->home_app2_electronic_organ_icon, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->home_app2_electronic_organ_icon, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->home_app2_electronic_organ_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->home_app2_electronic_organ_icon, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->home_app2_electronic_organ_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write style for home_app2_imgbtn_1, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_1, 0, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_1, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_1, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_1, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_1, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_1, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    //Write style for home_app2_electronic_organ_icon, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_electronic_organ_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_img_opa(ui->home_app2_electronic_organ_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_color(ui->home_app2_electronic_organ_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_font(ui->home_app2_electronic_organ_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_opa(ui->home_app2_electronic_organ_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_shadow_width(ui->home_app2_electronic_organ_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
 
-    //Write style for home_app2_imgbtn_1, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_1, 0, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_1, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_1, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_1, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_1, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_1, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    //Write style for home_app2_electronic_organ_icon, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_electronic_organ_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_img_opa(ui->home_app2_electronic_organ_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(ui->home_app2_electronic_organ_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_font(ui->home_app2_electronic_organ_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_opa(ui->home_app2_electronic_organ_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_shadow_width(ui->home_app2_electronic_organ_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 
-    //Write style for home_app2_imgbtn_1, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_1, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_1, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    //Write style for home_app2_electronic_organ_icon, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_electronic_organ_icon, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    lv_obj_set_style_img_opa(ui->home_app2_electronic_organ_icon, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
     //The custom code of home_app2.
 

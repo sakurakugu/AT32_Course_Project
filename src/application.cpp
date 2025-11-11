@@ -3,7 +3,7 @@
 #include "IoT.hpp"
 #include "at32f435_437_clock.h"
 #include "at32f435_437_misc.h"
-#include "beep.h"
+#include "beep.hpp"
 #include "board.h"
 #include "board/bsp_eep_lm75.h"
 #include "board/led/led.h"

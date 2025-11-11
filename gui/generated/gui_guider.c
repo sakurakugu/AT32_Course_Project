@@ -85,7 +85,7 @@ void init_scr_del_flag(lv_ui *ui)
     ui->deepseek_app_del = true;
     ui->setting_app_del = true;
     ui->electronic_organ_app_del = true;
-    ui->game1_del = true;
+    ui->drawing_board_app_del = true;
     ui->game2_del = true;
     ui->game3_del = true;
     ui->game4_del = true;

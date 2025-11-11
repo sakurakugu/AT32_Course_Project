@@ -1404,7 +1404,7 @@
 					"scrollbar_mode": "OFF",
 					"child": [
 						{
-							"name": "imgbtn_1",
+							"name": "electronic_organ_icon",
 							"id": "7j1wqy6y",
 							"type": "imgbtn",
 							"left": 70,
@@ -1509,7 +1509,7 @@
 							}
 						},
 						{
-							"name": "imgbtn_2",
+							"name": "drawing_board_icon",
 							"id": "vwfq981b",
 							"type": "imgbtn",
 							"left": 200,
@@ -1590,7 +1590,28 @@
 									"image_recolor_opa": 0,
 									"image_opa": 255
 								}
-							]
+							],
+							"event": {
+								"widget": {
+									"clicked": {
+										"condition": [],
+										"action": [
+											{
+												"dst": "custom_code",
+												"bindCondi": "",
+												"actionList": {
+													"custom_code": {
+														"inc_c": "",
+														"code_c": "        nav_to(&guider_ui, &guider_ui.drawing_board_app, guider_ui.drawing_board_app_del, setup_scr_drawing_board_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
+														"inc_py": "",
+														"code_py": ""
+													}
+												}
+											}
+										]
+									}
+								}
+							}
 						},
 						{
 							"name": "imgbtn_3",
@@ -11493,7 +11514,7 @@
 			"version": 190,
 			"scrollbar_mode": "OFF",
 			"customer_code": {
-				"code_c": "",
+				"code_c": "    // 电子琴按钮矩阵：点击后按音发声\r\n    lv_obj_add_event_cb(guider_ui.electronic_organ_app_e_organ_btnm, electronic_organ_btnm_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);",
 				"inc_c": "",
 				"code_py": "",
 				"inc_py": "",
@@ -11503,16 +11524,231 @@
 			"height": 320,
 			"visible": true,
 			"flag": [],
-			"list": [],
+			"list": [
+				{
+					"name": "e_organ_btnm",
+					"id": "6wd8bkxh",
+					"type": "btnm",
+					"left": 0,
+					"top": 95,
+					"visible": true,
+					"isLock": false,
+					"flag": [],
+					"width": 480,
+					"height": 225,
+					"default_style": false,
+					"text_map": [
+						{
+							"item": "L1,L2,L3,L4,L5,L6,L7"
+						},
+						{
+							"item": "M1,M2,M3,M4,M5,M6,M7"
+						},
+						{
+							"item": "H1,H2,H3,H4,H5,H6,H7"
+						}
+					],
+					"style": [
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_DEFAULT",
+							"disable": false,
+							"bg_color": "#ffffff",
+							"bg_grad_color": "#ffffff",
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_color": "#c9c9c9",
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 1,
+							"border_opa": 255,
+							"padding_top": 16,
+							"padding_bottom": 16,
+							"padding_left": 16,
+							"padding_right": 16,
+							"padding_row": 8,
+							"padding_column": 8,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"radius": 4,
+							"bg_opa": 255
+						},
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_FOCUSED",
+							"disable": true,
+							"bg_color": "#ffffff",
+							"bg_grad_color": "#ffffff",
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_color": "#c9c9c9",
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 1,
+							"border_opa": 255,
+							"padding_top": 16,
+							"padding_bottom": 16,
+							"padding_left": 16,
+							"padding_right": 16,
+							"padding_row": 8,
+							"padding_column": 8,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"radius": 4,
+							"bg_opa": 255
+						},
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_DISABLED",
+							"disable": true,
+							"bg_color": "#ffffff",
+							"bg_grad_color": "#ffffff",
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_color": "#c9c9c9",
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 1,
+							"border_opa": 255,
+							"padding_top": 16,
+							"padding_bottom": 16,
+							"padding_left": 16,
+							"padding_right": 16,
+							"padding_row": 8,
+							"padding_column": 8,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"radius": 4,
+							"bg_opa": 255
+						},
+						{
+							"part": "LV_PART_ITEMS",
+							"state": "LV_STATE_DEFAULT",
+							"disable": false,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"text_color": "#ffffff",
+							"border_color": "#c9c9c9",
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 1,
+							"border_opa": 255,
+							"font": 16,
+							"font_family": "montserratMedium",
+							"radius": 4,
+							"bg_opa": 255,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0
+						},
+						{
+							"part": "LV_PART_ITEMS",
+							"state": "LV_STATE_PRESSED",
+							"disable": true,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"text_color": "#ffffff",
+							"border_color": "#c9c9c9",
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 1,
+							"border_opa": 255,
+							"font": 12,
+							"font_family": "montserratMedium",
+							"radius": 4,
+							"bg_opa": 255,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0
+						}
+					],
+					"undefined": [
+						{
+							"item": "L1,L2,L3,L4,L5,L6,0"
+						},
+						{
+							"item": "4,5,6,0,0,0,0"
+						},
+						{
+							"item": "7,8,9,0,0,0,0"
+						}
+					]
+				}
+			],
 			"event": {
 				"widget": {
 					"gesture_left": {
 						"condition": [],
-						"action": []
+						"action": [
+							{
+								"dst": "custom_code",
+								"bindCondi": "",
+								"actionList": {
+									"custom_code": {
+										"inc_c": "",
+										"code_c": "nav_back(&guider_ui);",
+										"inc_py": "",
+										"code_py": ""
+									}
+								}
+							}
+						]
 					},
 					"gesture_right": {
 						"condition": [],
-						"action": []
+						"action": [
+							{
+								"dst": "custom_code",
+								"bindCondi": "",
+								"actionList": {
+									"custom_code": {
+										"inc_c": "",
+										"code_c": "nav_back(&guider_ui);",
+										"inc_py": "",
+										"code_py": ""
+									}
+								}
+							}
+						]
 					}
 				}
 			},
@@ -11536,7 +11772,7 @@
 			]
 		},
 		{
-			"name": "game1",
+			"name": "drawing_board_app",
 			"id": "1bvpcv3b",
 			"type": "scr",
 			"version": 190,
@@ -11557,11 +11793,37 @@
 				"widget": {
 					"gesture_left": {
 						"condition": [],
-						"action": []
+						"action": [
+							{
+								"dst": "custom_code",
+								"bindCondi": "",
+								"actionList": {
+									"custom_code": {
+										"inc_c": "",
+										"code_c": "nav_back(&guider_ui);",
+										"inc_py": "",
+										"code_py": ""
+									}
+								}
+							}
+						]
 					},
 					"gesture_right": {
 						"condition": [],
-						"action": []
+						"action": [
+							{
+								"dst": "custom_code",
+								"bindCondi": "",
+								"actionList": {
+									"custom_code": {
+										"inc_c": "",
+										"code_c": "nav_back(&guider_ui);",
+										"inc_py": "",
+										"code_py": ""
+									}
+								}
+							}
+						]
 					}
 				}
 			},
@@ -11606,11 +11868,37 @@
 				"widget": {
 					"gesture_left": {
 						"condition": [],
-						"action": []
+						"action": [
+							{
+								"dst": "custom_code",
+								"bindCondi": "",
+								"actionList": {
+									"custom_code": {
+										"inc_c": "",
+										"code_c": "nav_back(&guider_ui);",
+										"inc_py": "",
+										"code_py": ""
+									}
+								}
+							}
+						]
 					},
 					"gesture_right": {
 						"condition": [],
-						"action": []
+						"action": [
+							{
+								"dst": "custom_code",
+								"bindCondi": "",
+								"actionList": {
+									"custom_code": {
+										"inc_c": "",
+										"code_c": "nav_back(&guider_ui);",
+										"inc_py": "",
+										"code_py": ""
+									}
+								}
+							}
+						]
 					}
 				}
 			},
@@ -11655,11 +11943,37 @@
 				"widget": {
 					"gesture_left": {
 						"condition": [],
-						"action": []
+						"action": [
+							{
+								"dst": "custom_code",
+								"bindCondi": "",
+								"actionList": {
+									"custom_code": {
+										"inc_c": "",
+										"code_c": "nav_back(&guider_ui);",
+										"inc_py": "",
+										"code_py": ""
+									}
+								}
+							}
+						]
 					},
 					"gesture_right": {
 						"condition": [],
-						"action": []
+						"action": [
+							{
+								"dst": "custom_code",
+								"bindCondi": "",
+								"actionList": {
+									"custom_code": {
+										"inc_c": "",
+										"code_c": "nav_back(&guider_ui);",
+										"inc_py": "",
+										"code_py": ""
+									}
+								}
+							}
+						]
 					}
 				}
 			},
@@ -11704,11 +12018,37 @@
 				"widget": {
 					"gesture_left": {
 						"condition": [],
-						"action": []
+						"action": [
+							{
+								"dst": "custom_code",
+								"bindCondi": "",
+								"actionList": {
+									"custom_code": {
+										"inc_c": "",
+										"code_c": "nav_back(&guider_ui);",
+										"inc_py": "",
+										"code_py": ""
+									}
+								}
+							}
+						]
 					},
 					"gesture_right": {
 						"condition": [],
-						"action": []
+						"action": [
+							{
+								"dst": "custom_code",
+								"bindCondi": "",
+								"actionList": {
+									"custom_code": {
+										"inc_c": "",
+										"code_c": "nav_back(&guider_ui);",
+										"inc_py": "",
+										"code_py": ""
+									}
+								}
+							}
+						]
 					}
 				}
 			},
@@ -11753,11 +12093,37 @@
 				"widget": {
 					"gesture_left": {
 						"condition": [],
-						"action": []
+						"action": [
+							{
+								"dst": "custom_code",
+								"bindCondi": "",
+								"actionList": {
+									"custom_code": {
+										"inc_c": "",
+										"code_c": "nav_back(&guider_ui);",
+										"inc_py": "",
+										"code_py": ""
+									}
+								}
+							}
+						]
 					},
 					"gesture_right": {
 						"condition": [],
-						"action": []
+						"action": [
+							{
+								"dst": "custom_code",
+								"bindCondi": "",
+								"actionList": {
+									"custom_code": {
+										"inc_c": "",
+										"code_c": "nav_back(&guider_ui);",
+										"inc_py": "",
+										"code_py": ""
+									}
+								}
+							}
+						]
 					}
 				}
 			},
@@ -11870,7 +12236,7 @@
 												"scrollbar_mode": "OFF",
 												"child": [
 													{
-														"name": "imgbtn_1",
+														"name": "electronic_organ_icon",
 														"id": "7j1wqy6y",
 														"type": "imgbtn",
 														"left": 70,
@@ -11975,7 +12341,7 @@
 														}
 													},
 													{
-														"name": "imgbtn_2",
+														"name": "drawing_board_icon",
 														"id": "vwfq981b",
 														"type": "imgbtn",
 														"left": 200,
@@ -12056,7 +12422,28 @@
 																"image_recolor_opa": 0,
 																"image_opa": 255
 															}
-														]
+														],
+														"event": {
+															"widget": {
+																"clicked": {
+																	"condition": [],
+																	"action": [
+																		{
+																			"dst": "custom_code",
+																			"bindCondi": "",
+																			"actionList": {
+																				"custom_code": {
+																					"inc_c": "",
+																					"code_c": "        nav_to(&guider_ui, &guider_ui.drawing_board_app, guider_ui.drawing_board_app_del, setup_scr_drawing_board_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
+																					"inc_py": "",
+																					"code_py": ""
+																				}
+																			}
+																		}
+																	]
+																}
+															}
+														}
 													},
 													{
 														"name": "imgbtn_3",
@@ -12547,7 +12934,7 @@
 												"scrollbar_mode": "OFF",
 												"child": [
 													{
-														"name": "imgbtn_1",
+														"name": "electronic_organ_icon",
 														"id": "7j1wqy6y",
 														"type": "imgbtn",
 														"left": 70,
@@ -12652,7 +13039,7 @@
 														}
 													},
 													{
-														"name": "imgbtn_2",
+														"name": "drawing_board_icon",
 														"id": "vwfq981b",
 														"type": "imgbtn",
 														"left": 200,
@@ -12733,7 +13120,28 @@
 																"image_recolor_opa": 0,
 																"image_opa": 255
 															}
-														]
+														],
+														"event": {
+															"widget": {
+																"clicked": {
+																	"condition": [],
+																	"action": [
+																		{
+																			"dst": "custom_code",
+																			"bindCondi": "",
+																			"actionList": {
+																				"custom_code": {
+																					"inc_c": "",
+																					"code_c": "        nav_to(&guider_ui, &guider_ui.drawing_board_app, guider_ui.drawing_board_app_del, setup_scr_drawing_board_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
+																					"inc_py": "",
+																					"code_py": ""
+																				}
+																			}
+																		}
+																	]
+																}
+															}
+														}
 													},
 													{
 														"name": "imgbtn_3",
@@ -16981,7 +17389,7 @@
 								]
 							},
 							{
-								"name": "home_app2_imgbtn_2",
+								"name": "home_app2_drawing_board_icon",
 								"id": "vwfq981b",
 								"type": "imgbtn",
 								"visible": true,
@@ -16995,6 +17403,27 @@
 									80
 								],
 								"default_style": false,
+								"event": {
+									"widget": {
+										"clicked": {
+											"condition": [],
+											"action": [
+												{
+													"dst": "custom_code",
+													"bindCondi": "",
+													"actionList": {
+														"custom_code": {
+															"inc_c": "",
+															"code_c": "        nav_to(&guider_ui, &guider_ui.drawing_board_app, guider_ui.drawing_board_app_del, setup_scr_drawing_board_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
+															"inc_py": "",
+															"code_py": ""
+														}
+													}
+												}
+											]
+										}
+									}
+								},
 								"toggle": true,
 								"text_align": "center",
 								"text": "",
@@ -17076,7 +17505,7 @@
 								]
 							},
 							{
-								"name": "home_app2_imgbtn_1",
+								"name": "home_app2_electronic_organ_icon",
 								"id": "7j1wqy6y",
 								"type": "imgbtn",
 								"visible": true,
@@ -27058,7 +27487,7 @@
 				"version": 190,
 				"scrollbar_mode": "OFF",
 				"customer_code": {
-					"code_c": "",
+					"code_c": "    // 电子琴按钮矩阵：点击后按音发声\r\n    lv_obj_add_event_cb(guider_ui.electronic_organ_app_e_organ_btnm, electronic_organ_btnm_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);",
 					"inc_c": "",
 					"code_py": "",
 					"inc_py": "",
@@ -27072,11 +27501,37 @@
 					"widget": {
 						"gesture_left": {
 							"condition": [],
-							"action": []
+							"action": [
+								{
+									"dst": "custom_code",
+									"bindCondi": "",
+									"actionList": {
+										"custom_code": {
+											"inc_c": "",
+											"code_c": "nav_back(&guider_ui);",
+											"inc_py": "",
+											"code_py": ""
+										}
+									}
+								}
+							]
 						},
 						"gesture_right": {
 							"condition": [],
-							"action": []
+							"action": [
+								{
+									"dst": "custom_code",
+									"bindCondi": "",
+									"actionList": {
+										"custom_code": {
+											"inc_c": "",
+											"code_c": "nav_back(&guider_ui);",
+											"inc_py": "",
+											"code_py": ""
+										}
+									}
+								}
+							]
 						}
 					}
 				},
@@ -27102,10 +27557,195 @@
 					480,
 					320
 				],
-				"widgets": []
+				"widgets": [
+					{
+						"name": "electronic_organ_app_e_organ_btnm",
+						"id": "6wd8bkxh",
+						"type": "btnm",
+						"visible": true,
+						"flag": [],
+						"pos": [
+							0,
+							95
+						],
+						"size": [
+							480,
+							225
+						],
+						"default_style": false,
+						"text_map": [
+							{
+								"item": "L1,L2,L3,L4,L5,L6,L7"
+							},
+							{
+								"item": "M1,M2,M3,M4,M5,M6,M7"
+							},
+							{
+								"item": "H1,H2,H3,H4,H5,H6,H7"
+							}
+						],
+						"item_size": [
+							56,
+							58
+						],
+						"style": [
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_DEFAULT",
+								"disable": false,
+								"bg_color": "#ffffff",
+								"bg_grad_color": "#ffffff",
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_color": "#c9c9c9",
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 1,
+								"border_opa": 255,
+								"padding_top": 16,
+								"padding_bottom": 16,
+								"padding_left": 16,
+								"padding_right": 16,
+								"padding_row": 8,
+								"padding_column": 8,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"radius": 4,
+								"bg_opa": 255
+							},
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_FOCUSED",
+								"disable": true,
+								"bg_color": "#ffffff",
+								"bg_grad_color": "#ffffff",
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_color": "#c9c9c9",
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 1,
+								"border_opa": 255,
+								"padding_top": 16,
+								"padding_bottom": 16,
+								"padding_left": 16,
+								"padding_right": 16,
+								"padding_row": 8,
+								"padding_column": 8,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"radius": 4,
+								"bg_opa": 255
+							},
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_DISABLED",
+								"disable": true,
+								"bg_color": "#ffffff",
+								"bg_grad_color": "#ffffff",
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_color": "#c9c9c9",
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 1,
+								"border_opa": 255,
+								"padding_top": 16,
+								"padding_bottom": 16,
+								"padding_left": 16,
+								"padding_right": 16,
+								"padding_row": 8,
+								"padding_column": 8,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"radius": 4,
+								"bg_opa": 255
+							},
+							{
+								"part": "LV_PART_ITEMS",
+								"state": "LV_STATE_DEFAULT",
+								"disable": false,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"text_color": "#ffffff",
+								"border_color": "#c9c9c9",
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 1,
+								"border_opa": 255,
+								"font": 16,
+								"font_family": "montserratMedium",
+								"radius": 4,
+								"bg_opa": 255,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0
+							},
+							{
+								"part": "LV_PART_ITEMS",
+								"state": "LV_STATE_PRESSED",
+								"disable": true,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"text_color": "#ffffff",
+								"border_color": "#c9c9c9",
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 1,
+								"border_opa": 255,
+								"font": 12,
+								"font_family": "montserratMedium",
+								"radius": 4,
+								"bg_opa": 255,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0
+							}
+						]
+					}
+				]
 			},
 			{
-				"name": "game1",
+				"name": "drawing_board_app",
 				"id": "1bvpcv3b",
 				"type": "scr",
 				"version": 190,
@@ -27125,11 +27765,37 @@
 					"widget": {
 						"gesture_left": {
 							"condition": [],
-							"action": []
+							"action": [
+								{
+									"dst": "custom_code",
+									"bindCondi": "",
+									"actionList": {
+										"custom_code": {
+											"inc_c": "",
+											"code_c": "nav_back(&guider_ui);",
+											"inc_py": "",
+											"code_py": ""
+										}
+									}
+								}
+							]
 						},
 						"gesture_right": {
 							"condition": [],
-							"action": []
+							"action": [
+								{
+									"dst": "custom_code",
+									"bindCondi": "",
+									"actionList": {
+										"custom_code": {
+											"inc_c": "",
+											"code_c": "nav_back(&guider_ui);",
+											"inc_py": "",
+											"code_py": ""
+										}
+									}
+								}
+							]
 						}
 					}
 				},
@@ -27178,11 +27844,37 @@
 					"widget": {
 						"gesture_left": {
 							"condition": [],
-							"action": []
+							"action": [
+								{
+									"dst": "custom_code",
+									"bindCondi": "",
+									"actionList": {
+										"custom_code": {
+											"inc_c": "",
+											"code_c": "nav_back(&guider_ui);",
+											"inc_py": "",
+											"code_py": ""
+										}
+									}
+								}
+							]
 						},
 						"gesture_right": {
 							"condition": [],
-							"action": []
+							"action": [
+								{
+									"dst": "custom_code",
+									"bindCondi": "",
+									"actionList": {
+										"custom_code": {
+											"inc_c": "",
+											"code_c": "nav_back(&guider_ui);",
+											"inc_py": "",
+											"code_py": ""
+										}
+									}
+								}
+							]
 						}
 					}
 				},
@@ -27231,11 +27923,37 @@
 					"widget": {
 						"gesture_left": {
 							"condition": [],
-							"action": []
+							"action": [
+								{
+									"dst": "custom_code",
+									"bindCondi": "",
+									"actionList": {
+										"custom_code": {
+											"inc_c": "",
+											"code_c": "nav_back(&guider_ui);",
+											"inc_py": "",
+											"code_py": ""
+										}
+									}
+								}
+							]
 						},
 						"gesture_right": {
 							"condition": [],
-							"action": []
+							"action": [
+								{
+									"dst": "custom_code",
+									"bindCondi": "",
+									"actionList": {
+										"custom_code": {
+											"inc_c": "",
+											"code_c": "nav_back(&guider_ui);",
+											"inc_py": "",
+											"code_py": ""
+										}
+									}
+								}
+							]
 						}
 					}
 				},
@@ -27284,11 +28002,37 @@
 					"widget": {
 						"gesture_left": {
 							"condition": [],
-							"action": []
+							"action": [
+								{
+									"dst": "custom_code",
+									"bindCondi": "",
+									"actionList": {
+										"custom_code": {
+											"inc_c": "",
+											"code_c": "nav_back(&guider_ui);",
+											"inc_py": "",
+											"code_py": ""
+										}
+									}
+								}
+							]
 						},
 						"gesture_right": {
 							"condition": [],
-							"action": []
+							"action": [
+								{
+									"dst": "custom_code",
+									"bindCondi": "",
+									"actionList": {
+										"custom_code": {
+											"inc_c": "",
+											"code_c": "nav_back(&guider_ui);",
+											"inc_py": "",
+											"code_py": ""
+										}
+									}
+								}
+							]
 						}
 					}
 				},
@@ -27337,11 +28081,37 @@
 					"widget": {
 						"gesture_left": {
 							"condition": [],
-							"action": []
+							"action": [
+								{
+									"dst": "custom_code",
+									"bindCondi": "",
+									"actionList": {
+										"custom_code": {
+											"inc_c": "",
+											"code_c": "nav_back(&guider_ui);",
+											"inc_py": "",
+											"code_py": ""
+										}
+									}
+								}
+							]
 						},
 						"gesture_right": {
 							"condition": [],
-							"action": []
+							"action": [
+								{
+									"dst": "custom_code",
+									"bindCondi": "",
+									"actionList": {
+										"custom_code": {
+											"inc_c": "",
+											"code_c": "nav_back(&guider_ui);",
+											"inc_py": "",
+											"code_py": ""
+										}
+									}
+								}
+							]
 						}
 					}
 				},

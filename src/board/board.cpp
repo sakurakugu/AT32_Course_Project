@@ -5,7 +5,7 @@
 #include "led/color_led.h"
 #include "led/led.h"
 #include "led/oled.h"
-#include "sound/beep.h"
+#include "sound/beep.hpp"
 #include "timer.h"
 #include "uart.h"
 // #include "wifi.hpp"

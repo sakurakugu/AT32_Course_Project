@@ -2360,9 +2360,9 @@
               <FilePath>.\gui\generated\setup_scr_electronic_organ_app.c</FilePath>
             </File>
             <File>
-              <FileName>setup_scr_game1.c</FileName>
+              <FileName>setup_scr_drawing_board_app.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\generated\setup_scr_game1.c</FilePath>
+              <FilePath>.\gui\generated\setup_scr_drawing_board_app.c</FilePath>
             </File>
             <File>
               <FileName>setup_scr_game2.c</FileName>

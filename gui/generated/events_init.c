@@ -181,7 +181,21 @@ static void home_app2_event_handler (lv_event_t *e)
     }
 }
 
-static void home_app2_imgbtn_1_event_handler (lv_event_t *e)
+static void home_app2_drawing_board_icon_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        nav_to(&guider_ui, &guider_ui.drawing_board_app, guider_ui.drawing_board_app_del, setup_scr_drawing_board_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void home_app2_electronic_organ_icon_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
@@ -198,7 +212,8 @@ static void home_app2_imgbtn_1_event_handler (lv_event_t *e)
 void events_init_home_app2 (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->home_app2, home_app2_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->home_app2_imgbtn_1, home_app2_imgbtn_1_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->home_app2_drawing_board_icon, home_app2_drawing_board_icon_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->home_app2_electronic_organ_icon, home_app2_electronic_organ_icon_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void status_app_event_handler (lv_event_t *e)
@@ -475,11 +490,13 @@ static void electronic_organ_app_event_handler (lv_event_t *e)
         case LV_DIR_LEFT:
         {
             lv_indev_wait_release(lv_indev_get_act());
+            nav_back(&guider_ui);
             break;
         }
         case LV_DIR_RIGHT:
         {
             lv_indev_wait_release(lv_indev_get_act());
+            nav_back(&guider_ui);
             break;
         }
         default:
@@ -497,7 +514,7 @@ void events_init_electronic_organ_app (lv_ui *ui)
     lv_obj_add_event_cb(ui->electronic_organ_app, electronic_organ_app_event_handler, LV_EVENT_ALL, ui);
 }
 
-static void game1_event_handler (lv_event_t *e)
+static void drawing_board_app_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
@@ -508,11 +525,13 @@ static void game1_event_handler (lv_event_t *e)
         case LV_DIR_LEFT:
         {
             lv_indev_wait_release(lv_indev_get_act());
+            nav_back(&guider_ui);
             break;
         }
         case LV_DIR_RIGHT:
         {
             lv_indev_wait_release(lv_indev_get_act());
+            nav_back(&guider_ui);
             break;
         }
         default:
@@ -525,9 +544,9 @@ static void game1_event_handler (lv_event_t *e)
     }
 }
 
-void events_init_game1 (lv_ui *ui)
+void events_init_drawing_board_app (lv_ui *ui)
 {
-    lv_obj_add_event_cb(ui->game1, game1_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->drawing_board_app, drawing_board_app_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void game2_event_handler (lv_event_t *e)
@@ -541,11 +560,13 @@ static void game2_event_handler (lv_event_t *e)
         case LV_DIR_LEFT:
         {
             lv_indev_wait_release(lv_indev_get_act());
+            nav_back(&guider_ui);
             break;
         }
         case LV_DIR_RIGHT:
         {
             lv_indev_wait_release(lv_indev_get_act());
+            nav_back(&guider_ui);
             break;
         }
         default:
@@ -574,11 +595,13 @@ static void game3_event_handler (lv_event_t *e)
         case LV_DIR_LEFT:
         {
             lv_indev_wait_release(lv_indev_get_act());
+            nav_back(&guider_ui);
             break;
         }
         case LV_DIR_RIGHT:
         {
             lv_indev_wait_release(lv_indev_get_act());
+            nav_back(&guider_ui);
             break;
         }
         default:
@@ -607,11 +630,13 @@ static void game4_event_handler (lv_event_t *e)
         case LV_DIR_LEFT:
         {
             lv_indev_wait_release(lv_indev_get_act());
+            nav_back(&guider_ui);
             break;
         }
         case LV_DIR_RIGHT:
         {
             lv_indev_wait_release(lv_indev_get_act());
+            nav_back(&guider_ui);
             break;
         }
         default:
@@ -640,11 +665,13 @@ static void game5_event_handler (lv_event_t *e)
         case LV_DIR_LEFT:
         {
             lv_indev_wait_release(lv_indev_get_act());
+            nav_back(&guider_ui);
             break;
         }
         case LV_DIR_RIGHT:
         {
             lv_indev_wait_release(lv_indev_get_act());
+            nav_back(&guider_ui);
             break;
         }
         default:
