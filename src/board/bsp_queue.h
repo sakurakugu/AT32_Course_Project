@@ -7,18 +7,13 @@
  * Maintain a buffer of data in a circular buffer or queue.
  *
  *************************************************************************/
-#if !defined(INCLUDED_QUEUE_H)
-#define INCLUDED_QUEUE_H
-
-// #include "zscdefine.h"
-
-#define false 0
-#define true 1
+#pragma once
+#include <stdint.h>
+#include <stdbool.h>
 
 // Type definitions for queue operations
 typedef unsigned char  BYTE;   /* 8-bit unsigned integer */
 typedef unsigned short WORD;   /* 16-bit unsigned integer */
-typedef unsigned long  U32;    /* 32-bit unsigned integer */
 
 // declare the queue data type
 typedef void volatile *Queue;
@@ -41,14 +36,14 @@ typedef void volatile *Queue;
 // This will ensure word alignment of the allocated data
 #define QUEUE_ALLOCATE_DATA(name, dataLen)                                                                             \
     volatile BYTE QueueData_##name[(dataLen) + 1];                                                                     \
-    volatile U32 QueueStruct_##name[QUEUE_INTERNAL_SIZE];
+    volatile uint32_t QueueStruct_##name[QUEUE_INTERNAL_SIZE];
 
 //
 // Allocate Queue data for multiple queues.
 //
 #define QUEUE_ALLOCATE_MULTIPLE_DATA(name, dataLen, number)                                                            \
     volatile BYTE QueueData_##name[(number)][(dataLen) + 1];                                                           \
-    volatile U32 QueueStruct_##name[(number)][QUEUE_INTERNAL_SIZE];
+    volatile uint32_t QueueStruct_##name[(number)][QUEUE_INTERNAL_SIZE];
 
 // Initialise the Queue data
 //
@@ -126,5 +121,3 @@ extern void Queue_SaveState(Queue q, Queue_SavedState pSaveState);
 // NOTE: this will cause unpredictable results if any Push operations have
 // been preformed.
 extern void Queue_RestoreState(Queue q, Queue_SavedState pFromState);
-
-#endif // INCLUDED_QUEUE_H

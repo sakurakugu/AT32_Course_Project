@@ -43,14 +43,6 @@
 #define JOY_UP_OK KEY_8_UP
 #define JOY_LONG_OK KEY_8_LONG
 
-#define SYS_DOWN_K1K2 KEY_9_DOWN /* K1 K2 组合键 */
-#define SYS_UP_K1K2 KEY_9_UP
-#define SYS_LONG_K1K2 KEY_9_LONG
-
-#define SYS_DOWN_K2K3 KEY_10_DOWN /* K2 K3 组合键 */
-#define SYS_UP_K2K3 KEY_10_UP
-#define SYS_LONG_K2K3 KEY_10_LONG
-
 /* 按键ID, 主要用于bsp_KeyState()函数的入口参数 */
 typedef enum {
     KID_K1 = 0,
@@ -127,15 +119,6 @@ typedef enum {
     KEY_8_DOWN, /* 8键按下 */
     KEY_8_UP,   /* 8键弹起 */
     KEY_8_LONG, /* 8键长按 */
-
-    /* 组合键 */
-    KEY_9_DOWN, /* 9键按下 */
-    KEY_9_UP,   /* 9键弹起 */
-    KEY_9_LONG, /* 9键长按 */
-
-    KEY_10_DOWN, /* 10键按下 */
-    KEY_10_UP,   /* 10键弹起 */
-    KEY_10_LONG, /* 10键长按 */
 } KEY_ENUM;
 
 /* 按键FIFO用到变量 */

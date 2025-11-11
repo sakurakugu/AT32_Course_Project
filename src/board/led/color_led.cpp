@@ -1,9 +1,7 @@
-#include "color_led.h"
+#include "color_led.hpp"
 
-#include <stdint.h>
 #include "at32f435_437_gpio.h"
 #include "timer.h"
-
 
 tmr_output_config_type tmr_oc_init_structure;
 
@@ -63,4 +61,76 @@ void Color_Led::Init() {
 
     /* tmr enable counter */
     tmr_counter_enable(TMR3, TRUE);
+}
+
+/**
+ * @brief 设置RGB颜色
+ * @param r 红色分量 (0-255)
+ * @param g 绿色分量 (0-255)
+ * @param b 蓝色分量 (0-255)
+ */
+void Color_Led::SetColor(uint8_t r, uint8_t g, uint8_t b) {
+    current_r = r;
+    current_g = g;
+    current_b = b;
+
+    // 应用当前亮度
+    uint8_t adj_r = (uint8_t)((r * current_brightness) / 100);
+    uint8_t adj_g = (uint8_t)((g * current_brightness) / 100);
+    uint8_t adj_b = (uint8_t)((b * current_brightness) / 100);
+
+    // 将RGB映射到PWM的CCR值 (0-665)
+    uint16_t ccr_r = (uint16_t)((adj_r * 665) / 255);
+    uint16_t ccr_g = (uint16_t)((adj_g * 665) / 255);
+    uint16_t ccr_b = (uint16_t)((adj_b * 665) / 255);
+
+    // 设置PWM通道值
+    tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_1, ccr_r);
+    tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_2, ccr_g);
+    tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_3, ccr_b);
+}
+
+/**
+ * @brief 设置亮度
+ * @param brightness 亮度值 (0-100)
+ */
+void Color_Led::SetBrightness(uint8_t brightness) {
+    if (brightness > 100)
+        brightness = 100;
+    current_brightness = brightness;
+
+    // 重新应用当前颜色和新亮度
+    SetColor(current_r, current_g, current_b);
+}
+
+/**
+ * @brief 打开彩灯
+ */
+void Color_Led::TurnOn() {
+    tmr_counter_enable(TMR3, TRUE);
+}
+
+/**
+ * @brief 关闭彩灯
+ */
+void Color_Led::TurnOff() {
+    tmr_counter_enable(TMR3, FALSE);
+}
+
+/**
+ * C接口实现
+ */
+void Color_Led_SetColor(uint8_t r, uint8_t g, uint8_t b) {
+    Color_Led::GetInstance().SetColor(r, g, b);
+}
+
+void Color_Led_TurnOn() {
+    Color_Led::GetInstance().TurnOn();
+}
+
+/**
+ * @brief 关闭彩灯
+ */
+void Color_Led_TurnOff() {
+    Color_Led::GetInstance().TurnOff();
 }

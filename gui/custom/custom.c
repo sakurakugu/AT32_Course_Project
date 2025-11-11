@@ -17,6 +17,9 @@
 #ifdef KEIL_COMPILE
 // 背光、音量、网络时间同步接口
 #include "../../src/app/setting/setting.h"
+// 智能家居：LED 和 Color LED 控制
+#include "../../src/board/led/led.h"
+#include "../../src/board/led/color_led.h"
 #endif
 
 volatile uint8_t wifi_reconnect_requested;
@@ -693,3 +696,240 @@ void drawing_board_color_event_cb(lv_event_t *e) {
     // 颜色变化同样在作画事件中实时读取；保留回调以备扩展
     LV_UNUSED(e);
 }
+
+// ===============================
+// 智能家居事件实现
+// ===============================
+
+#ifdef KEIL_COMPILE
+// —— 通用滑动动画辅助 ——
+static void smart_home_anim_hide_ready_cb(lv_anim_t *a) {
+    lv_obj_t *obj = (lv_obj_t *)a->var;
+    if (lv_obj_is_valid(obj)) {
+        lv_obj_add_flag(obj, LV_OBJ_FLAG_HIDDEN);
+    }
+}
+
+static void smart_home_slide_in(lv_obj_t *page) {
+    if (!lv_obj_is_valid(page)) return;
+    lv_coord_t end_x = lv_obj_get_x(page);
+    lv_coord_t y = lv_obj_get_y(page);
+    lv_coord_t w = lv_obj_get_width(page);
+
+    // 从左侧外部开始，清除隐藏
+    lv_obj_clear_flag(page, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_set_pos(page, -w, y);
+
+    lv_anim_t a; lv_anim_init(&a);
+    lv_anim_set_var(&a, page);
+    lv_anim_set_values(&a, -w, end_x);
+    lv_anim_set_time(&a, 250);
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
+    lv_anim_set_exec_cb(&a, (lv_anim_exec_xcb_t)lv_obj_set_x);
+    lv_anim_start(&a);
+}
+
+static void smart_home_slide_out_and_hide(lv_obj_t *page) {
+    if (!lv_obj_is_valid(page)) return;
+    if (lv_obj_has_flag(page, LV_OBJ_FLAG_HIDDEN)) return;
+    lv_coord_t start_x = lv_obj_get_x(page);
+    lv_coord_t w = lv_obj_get_width(page);
+
+    lv_anim_t a; lv_anim_init(&a);
+    lv_anim_set_var(&a, page);
+    lv_anim_set_values(&a, start_x, -w);
+    lv_anim_set_time(&a, 200);
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_in);
+    lv_anim_set_exec_cb(&a, (lv_anim_exec_xcb_t)lv_obj_set_x);
+    lv_anim_set_ready_cb(&a, smart_home_anim_hide_ready_cb);
+    lv_anim_start(&a);
+}
+
+void smart_home_close_all_pages_with_slide(lv_ui *ui) {
+    if (!ui) return;
+    smart_home_slide_out_and_hide(ui->smart_home_app_color_led_page);
+    smart_home_slide_out_and_hide(ui->smart_home_app_led_green_page);
+    smart_home_slide_out_and_hide(ui->smart_home_app_lm75_page);
+    smart_home_slide_out_and_hide(ui->smart_home_app_ADC_page);
+    smart_home_slide_out_and_hide(ui->smart_home_app_MPU6050_page);
+    smart_home_slide_out_and_hide(ui->smart_home_app_key_page);
+}
+
+void smart_home_open_page_with_slide(lv_ui *ui, lv_obj_t *page) {
+    if (!ui || !lv_obj_is_valid(page)) return;
+    // 先关闭其他已打开页面
+    if (page != ui->smart_home_app_color_led_page) smart_home_slide_out_and_hide(ui->smart_home_app_color_led_page);
+    if (page != ui->smart_home_app_led_green_page) smart_home_slide_out_and_hide(ui->smart_home_app_led_green_page);
+    if (page != ui->smart_home_app_lm75_page)      smart_home_slide_out_and_hide(ui->smart_home_app_lm75_page);
+    if (page != ui->smart_home_app_ADC_page)       smart_home_slide_out_and_hide(ui->smart_home_app_ADC_page);
+    if (page != ui->smart_home_app_MPU6050_page)   smart_home_slide_out_and_hide(ui->smart_home_app_MPU6050_page);
+    if (page != ui->smart_home_app_key_page)       smart_home_slide_out_and_hide(ui->smart_home_app_key_page);
+
+    // 打开目标页面（左->右滑入）
+    smart_home_slide_in(page);
+}
+// IoT页面 - 彩灯图标点击事件
+void smart_home_iot_color_led_event_handler(lv_event_t *e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    if (code != LV_EVENT_CLICKED)
+        return;
+
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui)
+        return;
+    smart_home_open_page_with_slide(ui, ui->smart_home_app_color_led_page);
+}
+
+// IoT页面 - 绿灯图标点击事件
+void smart_home_iot_led_green_event_handler(lv_event_t *e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    if (code != LV_EVENT_CLICKED)
+        return;
+
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui)
+        return;
+    smart_home_open_page_with_slide(ui, ui->smart_home_app_led_green_page);
+}
+
+// IoT页面 - ADC图标点击事件
+void smart_home_iot_adc_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui) return;
+    smart_home_open_page_with_slide(ui, ui->smart_home_app_ADC_page);
+}
+
+// IoT页面 - MPU6050图标点击事件
+void smart_home_iot_mpu6050_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui) return;
+    smart_home_open_page_with_slide(ui, ui->smart_home_app_MPU6050_page);
+}
+
+// IoT页面 - LM75图标点击事件
+void smart_home_iot_lm75_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui) return;
+    smart_home_open_page_with_slide(ui, ui->smart_home_app_lm75_page);
+}
+
+// IoT页面 - 8Key图标点击事件
+void smart_home_iot_8key_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui) return;
+    smart_home_open_page_with_slide(ui, ui->smart_home_app_key_page);
+}
+
+// IoT页面点击返回按键：关闭所有子页面（统一滑出）
+void smart_home_iot_return_event_handler(lv_event_t *e) {
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui) return;
+    // 仅当原始点击目标就是背景容器时才关闭（避免子控件冒泡导致误关）
+    lv_obj_t *orig = lv_event_get_target(e);
+    if (orig != ui->smart_home_app_IoT_page) return;
+    smart_home_close_all_pages_with_slide(ui);
+}
+
+// 彩灯开关事件
+void smart_home_color_led_sw_event_handler(lv_event_t *e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    if (code != LV_EVENT_VALUE_CHANGED)
+        return;
+
+    lv_obj_t *sw = lv_event_get_target(e);
+    bool checked = lv_obj_has_state(sw, LV_STATE_CHECKED);
+
+    if (checked) {
+        // 打开彩灯
+        Color_Led_TurnOn();
+    } else {
+        // 关闭彩灯
+        Color_Led_TurnOff();
+    }
+}
+
+// 彩灯颜色选择事件
+void smart_home_color_led_cpicker_event_handler(lv_event_t *e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    if (code != LV_EVENT_VALUE_CHANGED)
+        return;
+
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui)
+        return;
+
+    lv_obj_t *cpicker = lv_event_get_target(e);
+    lv_color_t color = lv_colorwheel_get_rgb(cpicker);
+
+    // 获取RGB分量 (0-255)
+    uint8_t r = color.ch.red;
+    uint8_t g = color.ch.green;
+    uint8_t b = color.ch.blue;
+
+    // 获取当前亮度
+    int32_t brightness = 100;
+    if (lv_obj_is_valid(ui->smart_home_app_color_led_light_div_slider)) {
+        brightness = lv_slider_get_value(ui->smart_home_app_color_led_light_div_slider);
+    }
+
+    // 应用亮度调整
+    r = (uint8_t)((r * brightness) / 100);
+    g = (uint8_t)((g * brightness) / 100);
+    b = (uint8_t)((b * brightness) / 100);
+
+    // 设置颜色
+    Color_Led_SetColor(r, g, b);
+}
+
+// 彩灯亮度滑块事件
+void smart_home_color_led_light_slider_event_handler(lv_event_t *e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    if (code != LV_EVENT_VALUE_CHANGED)
+        return;
+
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui)
+        return;
+
+    lv_obj_t *slider = lv_event_get_target(e);
+    int32_t brightness = lv_slider_get_value(slider); // 0-100
+
+    // 获取当前颜色
+    lv_color_t color = lv_colorwheel_get_rgb(ui->smart_home_app_color_led_cpicker);
+
+    // 获取RGB分量
+    uint8_t r = color.ch.red;
+    uint8_t g = color.ch.green;
+    uint8_t b = color.ch.blue;
+
+    // 应用亮度调整
+    r = (uint8_t)((r * brightness) / 100);
+    g = (uint8_t)((g * brightness) / 100);
+    b = (uint8_t)((b * brightness) / 100);
+
+    // 设置颜色
+    Color_Led_SetColor(r, g, b);
+}
+
+// 绿灯开关事件
+void smart_home_led_green_sw_event_handler(lv_event_t *e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    if (code != LV_EVENT_VALUE_CHANGED)
+        return;
+
+    lv_obj_t *sw = lv_event_get_target(e);
+    bool checked = lv_obj_has_state(sw, LV_STATE_CHECKED);
+
+    if (checked) {
+        // 打开绿灯
+        LED_On(LED_Green);
+    } else {
+        // 关闭绿灯
+        LED_Off(LED_Green);
+    }
+}
+#endif

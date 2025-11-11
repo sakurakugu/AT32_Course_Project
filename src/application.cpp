@@ -1,18 +1,20 @@
 #include "application.h"
 
 #include "IoT.hpp"
+#include "app/setting/setting.h" // for sync_network_time
 #include "at32f435_437_clock.h"
 #include "at32f435_437_misc.h"
 #include "beep.hpp"
 #include "board.h"
 #include "board/bsp_eep_lm75.h"
 #include "board/led/led.h"
-#include "color_led.h"
+#include "color_led.hpp"
 #include "config.h"
 #include "custom.h"
 #include "events_init.h"
 #include "gui_guider.h"
 #include "key.h"
+#include "led.hpp"
 #include "lcd.hpp"
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
@@ -20,7 +22,6 @@
 #include "lvgl.h"
 #include "music.h"
 #include "oled.h"
-#include "app/setting/setting.h" // for sync_network_time
 #include "timer.h"
 #include "touch.hpp"
 #include "wifi.hpp"
@@ -225,8 +226,8 @@ static void TaskKeys(void *pvParameters);
 static void TaskWiFi(void *pvParameters);
 
 // Wi‑Fi重试与时间同步状态
-static uint32_t last_wifi_retry_time = 0;   // 最近一次失败后记录的时间戳（ms）
-static bool time_sync_done = false;          // 成功同步过一次网络时间后置1
+static uint32_t last_wifi_retry_time = 0; // 最近一次失败后记录的时间戳（ms）
+static bool time_sync_done = false;       // 成功同步过一次网络时间后置1
 
 // FreeRTOS任务实现
 static void TaskLVGL(void *pvParameters) {

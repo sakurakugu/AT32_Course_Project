@@ -16,23 +16,15 @@ typedef enum {
 #define LED_Yellow_GPIO GPIOC
 #define LED_Yellow_GPIO_CRM_CLK CRM_GPIOC_PERIPH_CLOCK
 
-class LED {
-  public:
-    static LED &GetInstance() {
-        static LED instance;
-        return instance;
-    }
-    // 删除拷贝构造函数和赋值运算符
-    LED(const LED &) = delete;
-    LED &operator=(const LED &) = delete;
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-    void Init(led_type led);
-    void On(led_type led);
-    void Off(led_type led);
-    void Toggle(led_type led);
+// extern void LED_Init(led_type led);
+extern void LED_On(led_type led);
+extern void LED_Off(led_type led);
+// extern void LED_Toggle(led_type led);
 
-  private:
-    LED() = default;
-    ~LED() = default;
-    uint8_t led_pin;
-};
+#ifdef __cplusplus
+}
+#endif

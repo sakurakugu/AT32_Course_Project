@@ -46,11 +46,11 @@ void bsp_StartAutoTimer(uint8_t _id, uint32_t _period); // 启动自动重载定
 void bsp_StopTimer(uint8_t _id);                        // 停止一个定时器。
 uint8_t bsp_CheckTimer(uint8_t _id);                    // 检测定时器是否到期。
 
-void tone(int freq);
-void toneOff(void);
-void timer5_init(void);
-void bsp_InitHardTimer(void);
-void bsp_StartHardTimer(uint8_t _CC, uint32_t _uiTimeOut, void *_pCallBack);
+// void tone(int freq);
+// void toneOff(void);
+// void timer5_init(void);
+// void bsp_InitHardTimer(void);
+// void bsp_StartHardTimer(uint8_t _CC, uint32_t _uiTimeOut, void *_pCallBack);
 
 extern crm_clocks_freq_type crm_clocks_freq_struct; // 系统时钟频率信息缓存（由驱动更新）。
 

@@ -4,7 +4,7 @@
 #include "board.h"
 #include "bsp_eep_lm75.h"
 #include "timer.h"
-#include "board/led/led.h"
+#include "board/led/led.hpp"
 #include <cJSON.h>
 #include <stdint.h>
 #include "logger.h"

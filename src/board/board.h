@@ -11,7 +11,7 @@ extern "C" {
 #include "bsp_ext_flash.h"
 #include "key/key.h"
 #include "led/oled.h"
-#include "led/color_led.h"
+#include "led/color_led.hpp"
 #define ESP12_DEBUG 0
 
 #define ERROR_HANDLER() Error_Handler(__FILE__, __LINE__);

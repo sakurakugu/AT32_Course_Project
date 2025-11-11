@@ -1,4 +1,4 @@
-#include "led.h"
+#include "led.hpp"
 #include "at32f435_437_crm.h"
 #include "at32f435_437_gpio.h"
 
@@ -77,3 +77,19 @@ void LED::Toggle(led_type led) {
     if (led_gpio_pin[led])
         led_gpio_port[led]->odt ^= led_gpio_pin[led];
 }
+
+// void LED_Init(led_type led) {
+//     LED::GetInstance().Init(led);
+// }
+
+void LED_On(led_type led) {
+    LED::GetInstance().On(led);
+}
+
+void LED_Off(led_type led) {
+    LED::GetInstance().Off(led);
+}
+
+// void LED_Toggle(led_type led) {
+//     LED::GetInstance().Toggle(led);
+// }

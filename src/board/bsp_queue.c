@@ -8,8 +8,6 @@
  *
  *************************************************************************/
 #include "bsp_queue.h"
-#include <stdint.h>
-// #include "zscdefine.h"
 
 #define NULL ((void *)0)
 
