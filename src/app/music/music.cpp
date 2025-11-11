@@ -75,25 +75,48 @@ volatile int music_index = 0;
 volatile int music_timer = 0;
 volatile int music_resume = 0;
 volatile int music_playing = 0;
+volatile int music_song_id = 0;
 
-/* 播放一首歌：从 music_arr1 / time_arr1 读取音符索引与时值 */
+/* 播放一首歌：根据 music_song_id 选择曲目并播放 */
 void Music::play_one_song() {
-    size_t total = sizeof(time_arr1) / sizeof(time_arr1[0]);
+    const uint8_t *notes = nullptr;
+    const uint8_t *times = nullptr;
+    size_t total = 0;
+
+    switch ((music_song_id % 3 + 3) % 3) { // 规范到 0..2
+    case 0:
+        notes = music_arr;
+        times = time_arr;
+        total = sizeof(time_arr) / sizeof(time_arr[0]);
+        break;
+    case 1:
+        notes = music_arr1;
+        times = time_arr1;
+        total = sizeof(time_arr1) / sizeof(time_arr1[0]);
+        break;
+    case 2:
+        notes = music_arr2;
+        times = time_arr2;
+        total = sizeof(time_arr2) / sizeof(time_arr2[0]);
+        break;
+    }
+
     /* 起始索引由全局 music_index 控制，可从头或从中间继续 */
     for (; music_index < (int)total; ++music_index) {
         if (!music_playing) {
-            break; /* 被外部停止（到结尾或其他情况） */
+            break; /* 被外部停止 */
         }
 
-        /* 暂停：在暂停期间保持短延时轮询 */
+        /* 暂停：在暂停期间保持短延时轮询，并立即静音 */
         if (music_resume) {
+            g_beep.disableOutput();
             vTaskDelay(pdMS_TO_TICKS(50));
             /* 重做当前音符，不前进索引 */
             --music_index; /* for 循环会 ++，抵消保持当前 */
             continue;
         }
 
-        uint8_t note_id = music_arr1[music_index];
+        uint8_t note_id = notes[music_index];
         uint16_t freq = (note_id < (sizeof(note_freqs) / sizeof(note_freqs[0]))) ? note_freqs[note_id] : 0;
 
         if (freq == 0) {
@@ -103,11 +126,11 @@ void Music::play_one_song() {
             g_beep.enableOutput();
         }
 
-        int duration_units = time_arr1[music_index];
+        int duration_units = times[music_index];
         if (duration_units <= 0) {
             duration_units = 1;
         }
-        /* 按原设计，单位为 100ms */
+        /* 单位为 100ms */
         vTaskDelay(pdMS_TO_TICKS(duration_units * 100));
     }
 

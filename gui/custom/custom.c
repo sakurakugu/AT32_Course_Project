@@ -10,9 +10,10 @@
 
 #include "../../src/app/calculator/calculator.h"
 #include "../lvgl/src/extra/widgets/dclock/lv_dclock.h"
+#include "../../src/app/music/music.h" // 音乐模块控制标志与曲目定义
 
-// 背光、音量、网络时间同步接口
 #ifdef KEIL_COMPILE
+// 背光、音量、网络时间同步接口
 #include "../../src/app/setting/setting.h"
 #endif
 
@@ -370,4 +371,100 @@ void nav_back(lv_ui *ui) {
     bool prev_del_val = prev.del_flag_p ? *prev.del_flag_p : true;
     ui_load_scr_animation(ui, prev.obj_pp, prev_del_val, old_del, prev.setup, LV_SCR_LOAD_ANIM_MOVE_TOP, 200, 200,
                           false, true);
+}
+
+// ===============================
+// 音乐播放器事件实现
+// ===============================
+
+// 列表项点击：根据点击项设置曲目并开始播放
+void music_list_item_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui)
+        return;
+    lv_obj_t *target = lv_event_get_target(e);
+
+    int sel = 0;
+    if (target == ui->music_app_music_list_item0) {
+        sel = 0;
+    } else if (target == ui->music_app_music_list_item1) {
+        sel = 1;
+    } else if (target == ui->music_app_music_list_item2) {
+        sel = 2;
+    } else {
+        return; // 未识别的项
+    }
+
+    music_song_id = sel;
+    music_resume = 0;   // 确保为播放状态
+    music_playing = 0;  // 终止当前曲目（若在播放）
+    music_start = 1;    // 触发播放任务从头开始
+
+    // 播放按钮状态更新为“播放中”（显示暂停图标）
+    if (lv_obj_is_valid(ui->music_app_imgbtn_4)) {
+        lv_obj_clear_state(ui->music_app_imgbtn_4, LV_STATE_CHECKED);
+    }
+}
+
+// 上一首：索引减一并循环，然后重启播放
+void music_prev_btn_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui)
+        return;
+
+    music_song_id = (music_song_id + 3 - 1) % 3;
+    music_resume = 0;
+    music_playing = 0;
+    music_start = 1;
+
+    if (lv_obj_is_valid(ui->music_app_imgbtn_4)) {
+        lv_obj_clear_state(ui->music_app_imgbtn_4, LV_STATE_CHECKED);
+    }
+}
+
+// 下一首：索引加一并循环，然后重启播放
+void music_next_btn_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui)
+        return;
+
+    music_song_id = (music_song_id + 1) % 3;
+    music_resume = 0;
+    music_playing = 0;
+    music_start = 1;
+
+    if (lv_obj_is_valid(ui->music_app_imgbtn_4)) {
+        lv_obj_clear_state(ui->music_app_imgbtn_4, LV_STATE_CHECKED);
+    }
+}
+
+// 播放/暂停切换：依据按钮选中状态控制播放
+void music_play_pause_btn_event_handler(lv_event_t *e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    if (!(code == LV_EVENT_VALUE_CHANGED || code == LV_EVENT_CLICKED))
+        return;
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui)
+        return;
+    lv_obj_t *btn = lv_event_get_target(e);
+    bool checked = lv_obj_has_state(btn, LV_STATE_CHECKED);
+
+    if (checked) {
+        // 显示“播放”图标，代表当前是暂停状态
+        if (music_playing) {
+            music_resume = 1; // 进入暂停
+        }
+    } else {
+        // 显示“暂停”图标，代表当前是播放状态
+        music_resume = 0; // 取消暂停
+        if (!music_playing) {
+            music_start = 1; // 从头开始播放当前选曲
+        }
+    }
 }

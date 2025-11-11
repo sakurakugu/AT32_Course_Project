@@ -19,3 +19,8 @@ CFLAGS += "-I$(PRJ_DIR)/../src/app/calculator"
 DEPPATH += --dep-path $(PRJ_DIR)/../src/board/network
 VPATH += :$(PRJ_DIR)/../src/board/network
 CFLAGS += "-I$(PRJ_DIR)/../src/board/network"
+
+# 导入 music 头文件
+DEPPATH += --dep-path $(PRJ_DIR)/../src/app/music
+VPATH += :$(PRJ_DIR)/../src/app/music
+CFLAGS += "-I$(PRJ_DIR)/../src/app/music"

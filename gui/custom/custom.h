@@ -32,6 +32,12 @@ void update_volume_icon(lv_ui *ui, uint8_t volume); // 更新音量图标
 void calc_key_event_handler(lv_event_t *e);         // 计算器按键事件处理器
 void wifi_link_btn_event_handler(lv_event_t *e);    // 绑定点击“wifi连接”按钮事件
 
+// 音乐播放器事件
+void music_list_item_event_handler(lv_event_t *e);   // 列表项点击播放对应歌曲
+void music_prev_btn_event_handler(lv_event_t *e);    // 切换到上一首（循环）
+void music_next_btn_event_handler(lv_event_t *e);    // 切换到下一首（循环）
+void music_play_pause_btn_event_handler(lv_event_t *e); // 播放/暂停切换
+
 // 设置页事件：亮度滑块、声音滑块、同步网络时间开关
 #ifdef KEIL_COMPILE
 void setting_app_light_slider_event_handler(lv_event_t *e);

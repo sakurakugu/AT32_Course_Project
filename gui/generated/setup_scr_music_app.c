@@ -128,8 +128,8 @@ void setup_scr_music_app(lv_ui *ui)
     lv_obj_add_flag(ui->music_app_img_1, LV_OBJ_FLAG_CLICKABLE);
     lv_img_set_pivot(ui->music_app_img_1, 50,50);
     lv_img_set_angle(ui->music_app_img_1, 0);
-    lv_obj_set_pos(ui->music_app_img_1, 267, 69);
-    lv_obj_set_size(ui->music_app_img_1, 150, 150);
+    lv_obj_set_pos(ui->music_app_img_1, 263, 66);
+    lv_obj_set_size(ui->music_app_img_1, 160, 160);
 
     //Write style for music_app_img_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_img_recolor_opa(ui->music_app_img_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -139,8 +139,8 @@ void setup_scr_music_app(lv_ui *ui)
 
     //Write codes music_app_player_div
     ui->music_app_player_div = lv_obj_create(ui->music_app_music_page);
-    lv_obj_set_pos(ui->music_app_player_div, 240, 256);
-    lv_obj_set_size(ui->music_app_player_div, 216, 32);
+    lv_obj_set_pos(ui->music_app_player_div, 245, 253);
+    lv_obj_set_size(ui->music_app_player_div, 200, 21);
     lv_obj_set_scrollbar_mode(ui->music_app_player_div, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for music_app_player_div, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -278,7 +278,13 @@ void setup_scr_music_app(lv_ui *ui)
     lv_obj_set_style_img_opa(ui->music_app_imgbtn_2, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
     //The custom code of music_app.
-
+    // 绑定音乐列表与控制按钮事件
+    lv_obj_add_event_cb(guider_ui.music_app_music_list_item0, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);
+    lv_obj_add_event_cb(guider_ui.music_app_music_list_item1, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);
+    lv_obj_add_event_cb(guider_ui.music_app_music_list_item2, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);
+    lv_obj_add_event_cb(guider_ui.music_app_imgbtn_3, music_prev_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
+    lv_obj_add_event_cb(guider_ui.music_app_imgbtn_2, music_next_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
+    lv_obj_add_event_cb(guider_ui.music_app_imgbtn_4, music_play_pause_btn_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
 
     //Update current screen layout.
     lv_obj_update_layout(ui->music_app);

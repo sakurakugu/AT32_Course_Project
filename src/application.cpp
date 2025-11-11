@@ -20,6 +20,7 @@
 #include "lvgl.h"
 #include "music.h"
 #include "oled.h"
+#include "app/setting/setting.h" // for sync_network_time
 #include "timer.h"
 #include "touch.hpp"
 #include "wifi.hpp"
@@ -141,6 +142,7 @@ static bool wifi_load_credentials_from_eeprom(char *ssid_out, size_t ssid_out_si
 
     eep_read(WIFI_EEP_ADDR_SSID, ssid_buf, sizeof(ssid_buf));
     eep_read(WIFI_EEP_ADDR_PASSWORD, pwd_buf, sizeof(pwd_buf));
+    LOGD("ssid_buf: %s, pwd_buf: %s", ssid_buf, pwd_buf);
 
     // 简单校验：非空
     if (ssid_buf[0] == '\0')
@@ -221,6 +223,10 @@ static void TaskStatus(void *pvParameters);
 static void TaskLED(void *pvParameters);
 static void TaskKeys(void *pvParameters);
 static void TaskWiFi(void *pvParameters);
+
+// Wi‑Fi重试与时间同步状态
+static uint32_t last_wifi_retry_time = 0;   // 最近一次失败后记录的时间戳（ms）
+static bool time_sync_done = false;          // 成功同步过一次网络时间后置1
 
 // FreeRTOS任务实现
 static void TaskLVGL(void *pvParameters) {
@@ -338,11 +344,27 @@ static void TaskWiFi(void *pvParameters) {
             // 仅连接到路由器，不建立到Tlink的TCP
             bool ok = wifi_connect(wifi_ssid, wifi_password, 15000);
             if (ok) {
-                LOGI("\r\nWiFi已连接: %s\r\n", wifi_ssid);
+                LOGI("WiFi已连接: %s\r\n", wifi_ssid);
                 update_wifi_name_label(&guider_ui, wifi_ssid);
                 wifi_save_credentials_to_eeprom(wifi_ssid, wifi_password);
+
+                // 成功连接后，如果还未同步过时间，则执行一次网络时间同步
+                if (!time_sync_done) {
+                    bool ts_ok = sync_network_time(true);
+                    if (ts_ok) {
+                        time_sync_done = true;
+                        LOGI("网络时间已同步成功\r\n");
+                    } else {
+                        LOGI("网络时间同步失败\r\n");
+                    }
+                }
+
+                // 成功后清除重试时间戳
+                last_wifi_retry_time = 0;
             } else {
                 LOGI("\r\nWiFi连接失败\r\n");
+                // 记录失败时间，用于5分钟后自动重试
+                last_wifi_retry_time = Timer_GetTickCount();
             }
             wifi_reconnect_requested = 0;
             // // 原有路径：同时建立到Tlink服务器的连接
@@ -350,6 +372,14 @@ static void TaskWiFi(void *pvParameters) {
             // reset_connection_status();
             // LOGI("\r\nWiFi+Tlink连接完成，心跳机制启动\r\n");
             // wifi_reconnect_requested = 0;
+        }
+
+        // 如果上次连接失败，且已过重试间隔，则触发一次自动重试
+        if (!wifi_reconnect_requested && last_wifi_retry_time != 0) {
+            if (Timer_PassedDelay(last_wifi_retry_time, CONNECTION_RETRY_INTERVAL)) { // 5分钟
+                LOGI("\r\n距离上次失败已过5分钟，自动重试连接Wi‑Fi\r\n");
+                wifi_reconnect_requested = 1;
+            }
         }
         vTaskDelay(pdMS_TO_TICKS(100));
     }

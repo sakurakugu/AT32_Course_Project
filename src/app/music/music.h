@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-extern uint8_t music_arr[];  // 音乐数组（音调）
+extern uint8_t music_arr[];  // 音乐数组（红尘情歌）（音调）
 extern uint8_t time_arr[];   // 时间数组（持续时间）
 extern uint8_t music_arr1[]; // 音乐数组（荷塘月色）
 extern uint8_t time_arr1[];  // 时间数组（持续时间）
@@ -12,6 +12,7 @@ extern volatile int music_index;   // 当前播放的音符索引
 extern volatile int music_timer;   // 当前音符的持续时间（保留未用）
 extern volatile int music_resume;  // 音乐是否暂停（1=暂停，0=继续）
 extern volatile int music_playing; // 当前是否处于播放状态
+extern volatile int music_song_id; // 当前选中的歌曲索引（0=红尘情歌，1=荷塘月色，2=沉默是金）
 
 #ifdef __cplusplus
 extern "C" {
