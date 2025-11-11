@@ -1,5 +1,6 @@
 #include "board.h"
 #include "bsp_eep_lm75.h"
+#include "delay.h"
 #include "key/key.h"
 #include "led/color_led.h"
 #include "led/led.h"
@@ -7,7 +8,6 @@
 #include "sound/beep.h"
 #include "timer.h"
 #include "uart.h"
-#include "delay.h"
 // #include "wifi.hpp"
 
 // #include "FreeRTOS.h"
@@ -60,9 +60,8 @@ void Board::Init(void) {
     // g_eep_lm75.init(); /* 初始化I2C接口，用于LM75温度传感器 */
     Key::GetInstance().init(); /* 按键初始化，要放在滴答定时器之前，因为按钮检测是通过滴答定时器扫描 */
     bsp_InitTimer();           /* 初始化滴答定时器 */
-    // uart_print_init(115200);
-    // bsp_InitESP12();
-    bsp_InitUart();             /* 初始化串口 */
+                               // bsp_InitESP12();
+    uart_print_init(UART1_BAUD); // 初始化COM1串口，用于打印调试信息
     OLED::GetInstance().init(); /* 初始化OLED屏幕 */
     g_beep.init();              /* 初始化蜂鸣器 */
                                 // bsp_InitDWT();      /* 初始化DWT时钟周期计数器 */

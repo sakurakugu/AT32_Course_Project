@@ -62,24 +62,24 @@ class Wifi {
 
     void init();
     void sendAT(const char *cmd); // 发送AT指令
-    uint8_t waitResponse(const char *ack_str, uint16_t us_timeout); // 等待响应
+    bool waitResponse(const char *ack_str, uint16_t us_timeout); // 等待响应
     uint16_t readLine(char *buffer, uint16_t size, uint16_t us_timeout); // 读取一行数据
 
-    uint8_t setWiFiMode(uint8_t mode); // 设置WiFi模式
-    uint8_t enableCIPMUX(uint8_t mode); // 启用CIPMUX模式
+    bool setWiFiMode(uint8_t mode); // 设置WiFi模式
+    bool enableCIPMUX(uint8_t mode); // 启用CIPMUX模式
 
-    uint8_t setAPIP(const char *ip); // 设置AP IP地址
-    uint8_t setAPNamePass(const char *name, const char *pwd, uint8_t ch, uint8_t ecn); // 设置AP名称和密码
+    bool setAPIP(const char *ip); // 设置AP IP地址
+    bool setAPNamePass(const char *name, const char *pwd, uint8_t ch, uint8_t ecn); // 设置AP名称和密码
 
-    uint8_t createTCPServer(uint16_t port); // 创建TCP服务器
-    uint8_t createUDPServer(uint8_t id, uint16_t localPort); // 创建UDP服务器
-    uint8_t linkTCPServer(uint8_t id, const char *server_ip, uint16_t port); // 连接TCP服务器
+    bool createTCPServer(uint16_t port); // 创建TCP服务器
+    bool createUDPServer(uint8_t id, uint16_t localPort); // 创建UDP服务器
+    bool linkTCPServer(uint8_t id, const char *server_ip, uint16_t port); // 连接TCP服务器
 
     void sendTcpUdp(uint8_t id, uint8_t *data, uint16_t len); // 发送TCP/UDP数据
     void closeTcpUdp(uint8_t id); // 关闭TCP/UDP连接
 
-    uint8_t getLocalIP(char *ip, char *mac); // 获取本地IP地址和MAC地址
-    uint8_t joinAP(const char *ssid, const char *pwd, uint16_t timeout); // 加入AP
+    bool getLocalIP(char *ip, char *mac); // 获取本地IP地址和MAC地址
+    bool joinAP(const char *ssid, const char *pwd, uint16_t timeout); // 加入AP
     void quitAP(); // 退出AP
 
   private:

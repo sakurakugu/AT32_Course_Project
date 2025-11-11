@@ -41,8 +41,6 @@ typedef struct {
 
 /* 提供给其他C文件调用的函数 */
 void bsp_InitTimer(void); // 初始化软件定时器并启动 TMR6 1ms 中断。
-void bsp_DelayMS(uint32_t n);
-void bsp_DelayUS(uint32_t n);
 void bsp_StartTimer(uint8_t _id, uint32_t _period);     // 启动一次性定时器。
 void bsp_StartAutoTimer(uint8_t _id, uint32_t _period); // 启动自动重载定时器。
 void bsp_StopTimer(uint8_t _id);                        // 停止一个定时器。
@@ -51,7 +49,6 @@ uint8_t bsp_CheckTimer(uint8_t _id);                    // 检测定时器是否
 void tone(int freq);
 void toneOff(void);
 void timer5_init(void);
-void delay_ms1(uint16_t nms); // 毫秒级忙等待延时。
 void bsp_InitHardTimer(void);
 void bsp_StartHardTimer(uint8_t _CC, uint32_t _uiTimeOut, void *_pCallBack);
 

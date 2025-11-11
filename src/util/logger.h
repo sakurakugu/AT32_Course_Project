@@ -22,12 +22,6 @@
 //     }
 // }
 
-// #define LOGD(fmt, ...) Log<LogLevel::Debug>(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
-// #define LOGI(fmt, ...) Log<LogLevel::Info>(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
-// #define LOGW(fmt, ...) Log<LogLevel::Warn>(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
-// #define LOGE(fmt, ...) Log<LogLevel::Error>(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
-
-
 #pragma once
 
 #ifndef LOGGING_ENABLED
@@ -43,11 +37,6 @@
 #ifndef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_DEBUG
 #endif
-
-// #define LOGD(fmt, ...) printf("[%s][%s][%d] " fmt "\n", __FILE__, __func__, __LINE__, ##__VA_ARGS__)
-// #define LOGI(fmt, ...) printf("[%s][%s][%d] " fmt "\n", __FILE__, __func__, __LINE__, ##__VA_ARGS__)
-// #define LOGW(fmt, ...) printf("[%s][%s][%d] " fmt "\n", __FILE__, __func__, __LINE__, ##__VA_ARGS__)
-// #define LOGE(fmt, ...) printf("[%s][%s][%d] " fmt "\n", __FILE__, __func__, __LINE__, ##__VA_ARGS__)
 
 #if LOGGING_ENABLED
 
@@ -82,3 +71,7 @@
 #define LOGE(fmt, ...) ((void)0)
 #endif
 
+// #define LOGD(fmt, ...) Log<LogLevel::Debug>(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
+// #define LOGI(fmt, ...) Log<LogLevel::Info>(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
+// #define LOGW(fmt, ...) Log<LogLevel::Warn>(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
+// #define LOGE(fmt, ...) Log<LogLevel::Error>(__FILE__, __LINE__, fmt, ##__VA_ARGS__)

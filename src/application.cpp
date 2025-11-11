@@ -69,14 +69,14 @@ void tlink_init_wifi() {
     char testStr[] = "9B0Y5S576WNBR380";
     comSendBuf(COM3, (uint8_t *)"+++", 3);
     // printf("\r\n 发送AT指令: AT\r\n");
-    delay_ms1(1000);
+    delay_ms(1000);
 
     auto &wifi = Wifi::GetInstance();
 
     wifi.sendAT("AT");
     if (wifi.waitResponse("OK", 5000) != 1) {
         printf("\r\n AT fail!\r\n");
-        delay_ms1(1000);
+        delay_ms(1000);
     }
     wifi.sendAT("ATE0");
     if (wifi.waitResponse("OK", 50) != 1) {
@@ -90,7 +90,7 @@ void tlink_init_wifi() {
     // 使用库函数进行AP连接，避免手动AT并统一处理应答
     if (wifi.joinAP(wifi_ssid, wifi_password, 15000) != 1) {
         printf("\r\n CWJAP fail\r\n");
-        delay_ms1(1000);
+        delay_ms(1000);
     }
     wifi.sendAT("AT+CIPSTART=\"TCP\",\"tcp.tlink.io\",8647");
     if (wifi.waitResponse("OK", 5000) != 1) {
@@ -108,7 +108,7 @@ void tlink_init_wifi() {
     }
     printf("\r\n 服务器已连接!\r\n");
     comSendBuf(COM3, (uint8_t *)testStr, strlen(testStr));
-    delay_ms1(4000);
+    delay_ms(4000);
 }
 
 static bool wifi_save_credentials_to_eeprom(const char *ssid, const char *pwd) {
@@ -368,7 +368,10 @@ void Application::Start() {
     ext_flash_init();
 #endif
 
+    // 初始化 ESP12 的串口（USART3）与中断，确保后续 AT 指令有收发能力
     auto &wifi = Wifi::GetInstance();
+    wifi.init();
+
     wifi.sendAT("AT");
     if (wifi.waitResponse("OK", 50) == 1) {
         printf("\r\n ESP12 OK\r\n");

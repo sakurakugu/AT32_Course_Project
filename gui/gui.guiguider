@@ -1368,8 +1368,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "home_app1"
+			]
 		},
 		{
 			"name": "home_app2",
@@ -2025,8 +2024,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "home_app2"
+			]
 		},
 		{
 			"name": "status_app",

@@ -88,7 +88,6 @@ typedef enum {
 #define UART3_RX_BUF_SIZE (1 * 1024)
 #endif
 
-void bsp_InitUart(void);
 void comSendBuf(COM_PORT_E _ucPort, uint8_t *_ucaBuf, uint16_t _usLen);
 void comSendChar(COM_PORT_E _ucPort, uint8_t _ucByte);
 uint8_t comGetChar(COM_PORT_E _ucPort, uint8_t *_pByte);

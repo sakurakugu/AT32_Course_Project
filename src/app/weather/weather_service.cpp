@@ -1,10 +1,13 @@
 #include "weather_service.hpp"
 
-#include "../board/network/wifi.hpp"
-#include "uart.h"
-#include "cJSON.h"
+#include "../../config/api_key.h"
 #include "../../gui/generated/gui_guider.h"
+#include "../../util/logger.h"
+#include "../board/network/wifi.hpp"
+#include "cJSON.h"
+#include "uart.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 // 来自应用的串口接收保护标志（避免心跳任务等抢占 COM3 接收）
@@ -13,8 +16,8 @@ extern volatile uint8_t g_com3_guard;
 // 全局 UI 结构体（events 已经引用），这里直接使用以便更新控件
 extern lv_ui guider_ui;
 
-// 统一的 Host 名称
-static const char *kHost = "seniverse.yuque.com";
+// 统一的 Host 名称（心知天气正式 API 域名）
+static const char *kHost = "api.seniverse.com";
 
 // 发送 HTTP GET 到指定路径，返回完整响应（含头部），在 out 中
 bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int resp_out_size) {
@@ -27,10 +30,16 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
     g_com3_guard = 1;
 
     // 优先尝试 SSL（443），失败则回落到明文 HTTP（80）
-    wifi.sendAT("AT+CIPSTART=\"SSL\",\"seniverse.yuque.com\",443");
+    {
+        char cmd_ssl[64];
+        snprintf(cmd_ssl, sizeof(cmd_ssl), "AT+CIPSTART=\"SSL\",\"%s\",443", kHost);
+        wifi.sendAT(cmd_ssl);
+    }
     if (wifi.waitResponse("OK", 3000) != 1) {
         // 回落到 HTTP
-        wifi.sendAT("AT+CIPSTART=\"TCP\",\"seniverse.yuque.com\",80");
+        char cmd_tcp[64];
+        snprintf(cmd_tcp, sizeof(cmd_tcp), "AT+CIPSTART=\"TCP\",\"%s\",80", kHost);
+        wifi.sendAT(cmd_tcp);
         if (wifi.waitResponse("OK", 5000) != 1) {
             g_com3_guard = 0;
             return false;
@@ -65,9 +74,7 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
         g_com3_guard = 0;
         return false;
     }
-    comSendBuf(COM3,(uint8_t *)req, (uint32_t)req_len);
-
-
+    comSendBuf(COM3, (uint8_t *)req, (uint32_t)req_len);
 
     // 等到数据到来
     wifi.waitResponse("+IPD", 8000);
@@ -84,10 +91,13 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
             break;
         memcpy(resp_out + pos, line, n);
         pos += n;
-        resp_out[pos] = '\0';
         if (strstr(line, "CLOSED"))
             break;
     }
+
+    // 仅在读取完成后统一添加字符串终止符，避免中间嵌入 NUL 破坏后续 strstr/strchr
+    if (pos < resp_out_size)
+        resp_out[pos] = '\0';
 
     // 关闭连接
     wifi.sendAT("AT+CIPCLOSE");
@@ -273,17 +283,32 @@ bool WeatherService::UpdateWeather(lv_ui *ui) {
         return false;
 
     char resp[4096];
+    char path[256];
 
     // 当前天气
     bool ok1 = false;
-    if (http_get_seniverse("/hyper_data/api_v3/nyiu3t?", resp, sizeof(resp))) {
+    // 心知天气：当前天气接口
+    // 示例：https://api.seniverse.com/v3/weather/now.json?key=YOUR_KEY&location=ip&language=zh-Hans&unit=c
+    snprintf(path, sizeof(path), 
+             "/v3/weather/now.json?key=%s&location=%s&language=zh-Hans&unit=c",
+             API_KEY_WEATHER, "ip");
+    if (http_get_seniverse(path, resp, sizeof(resp))) {
         ok1 = parse_and_apply_current(ui, resp);
+    } else {
+        LOGE("天气请求失败：可能是无网络或 API 密钥无效");
     }
 
-    // 未来 15 天，取前三天
+    // 未来 3 天（今天、明天、后天）（免费版）
     bool ok2 = false;
-    if (http_get_seniverse("/hyper_data/api_v3/sl6gvt?", resp, sizeof(resp))) {
+    // 心知天气：未来每日预报接口（免费版支持 3 天）
+    // 示例：https://api.seniverse.com/v3/weather/daily.json?key=YOUR_KEY&location=ip&language=zh-Hans&unit=c&start=0&days=3
+    snprintf(path, sizeof(path),
+             "/v3/weather/daily.json?key=%s&location=%s&language=zh-Hans&unit=c&start=0&days=3",
+             API_KEY_WEATHER, "ip");
+    if (http_get_seniverse(path, resp, sizeof(resp))) {
         ok2 = parse_and_apply_daily(ui, resp);
+    } else {
+        LOGE("天气请求失败：可能是无网络或 API 密钥无效");
     }
 
     return ok1 || ok2;

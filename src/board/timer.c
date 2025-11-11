@@ -108,16 +108,6 @@ void bsp_InitTimer() {
 }
 
 /**
- * @brief 毫秒级忙等待延时。
- * @param nms 延时毫秒数。
- */
-void delay_ms1(uint16_t nms) {
-    volatile int delayTimer = Timer_GetTickCount();
-    while (!Timer_PassedDelay(delayTimer, nms))
-        ;
-}
-
-/**
  * @brief 每隔 1ms 对所有定时器变量减1，处理到期标志与自动重载。
  * @param _tmr 定时器变量指针。
  */
