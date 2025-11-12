@@ -1,7 +1,7 @@
 
 // Author: PanYanWei 潘彦玮 2023030103024
 
-#include "bsp_eep_lm75.h"
+#include "eep_lm75.h"
 #include "at32f435_437_clock.h"
 #include "i2c_application.h"
 

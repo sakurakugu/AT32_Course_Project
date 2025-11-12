@@ -1,47 +1,12 @@
 /*
-*********************************************************************************************************
 *
 *	模块名称 : 按键驱动模块
 *	文件名称 : bsp_key.h
 *
-*********************************************************************************************************
 */
 
 #pragma once
 #include <stdint.h>
-
-/* 根据应用程序的功能重命名按键宏 */
-#define KEY_DOWN_K1 KEY_1_DOWN
-#define KEY_UP_K1 KEY_1_UP
-#define KEY_LONG_K1 KEY_1_LONG
-
-#define KEY_DOWN_K2 KEY_2_DOWN
-#define KEY_UP_K2 KEY_2_UP
-#define KEY_LONG_K2 KEY_2_LONG
-
-#define KEY_DOWN_K3 KEY_3_DOWN
-#define KEY_UP_K3 KEY_3_UP
-#define KEY_LONG_K3 KEY_3_LONG
-
-#define JOY_DOWN_U KEY_4_DOWN /* 上 */
-#define JOY_UP_U KEY_4_UP
-#define JOY_LONG_U KEY_4_LONG
-
-#define JOY_DOWN_D KEY_5_DOWN /* 下 */
-#define JOY_UP_D KEY_5_UP
-#define JOY_LONG_D KEY_5_LONG
-
-#define JOY_DOWN_L KEY_6_DOWN /* 左 */
-#define JOY_UP_L KEY_6_UP
-#define JOY_LONG_L KEY_6_LONG
-
-#define JOY_DOWN_R KEY_7_DOWN /* 右 */
-#define JOY_UP_R KEY_7_UP
-#define JOY_LONG_R KEY_7_LONG
-
-#define JOY_DOWN_OK KEY_8_DOWN /* ok */
-#define JOY_UP_OK KEY_8_UP
-#define JOY_LONG_OK KEY_8_LONG
 
 /* 按键ID, 主要用于bsp_KeyState()函数的入口参数 */
 typedef enum {

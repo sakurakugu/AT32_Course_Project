@@ -6,16 +6,16 @@
 #include "at32f435_437_misc.h"
 #include "beep.hpp"
 #include "board.h"
-#include "board/bsp_eep_lm75.h"
+#include "eep_lm75.h"
 #include "board/led/led.h"
 #include "color_led.hpp"
 #include "config.h"
 #include "custom.h"
 #include "events_init.h"
 #include "gui_guider.h"
-#include "key.h"
-#include "led.hpp"
+#include "task/task_key.h"
 #include "lcd.hpp"
+#include "led.hpp"
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
 #include "lv_tick_custom.h"
@@ -222,7 +222,6 @@ static void TaskHeartbeat(void *pvParameters);
 static void TaskADC(void *pvParameters);
 static void TaskStatus(void *pvParameters);
 static void TaskLED(void *pvParameters);
-static void TaskKeys(void *pvParameters);
 static void TaskWiFi(void *pvParameters);
 
 // Wi‑Fi重试与时间同步状态
@@ -300,37 +299,6 @@ static void TaskLED(void *pvParameters) {
     for (;;) {
         LED::GetInstance().Toggle(LED_Yellow);
         vTaskDelay(pdMS_TO_TICKS(200));
-    }
-}
-
-static void TaskKeys(void *pvParameters) {
-    (void)pvParameters;
-    for (;;) {
-        uint8_t keyvalue = Key::GetInstance().get();
-        if (keyvalue == KEY_1_DOWN) {
-            g_beep.keyTone();
-        }
-        if (keyvalue == KEY_2_DOWN) {
-            g_beep.keyTone();
-            LOGI("KEY_2_DOWN - 切换照明状态\r\n");
-            IoT::GetInstance().Control_Lighting(!lighting_status);
-            IoT::GetInstance().Send_Status_Report();
-        }
-        if (keyvalue == KEY_3_DOWN) {
-            g_beep.keyTone();
-            if (!music_playing) {
-                LOGI("KEY_3_DOWN - 开始播放音乐\r\n");
-                music_start = 1;  /* 由音乐任务消费 */
-                music_resume = 0; /* 确保处于播放状态 */
-            } else {
-                music_resume = !music_resume;
-                LOGI("KEY_3_DOWN - %s播放\r\n", music_resume ? "暂停" : "继续");
-                if (music_resume) {
-                    g_beep.disableOutput(); /* 立即静音 */
-                }
-            }
-        }
-        vTaskDelay(pdMS_TO_TICKS(50));
     }
 }
 

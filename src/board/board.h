@@ -32,20 +32,16 @@ uint16_t analogRead(void);
 
 #include "timer.h"
 #include "wifi.hpp"
-#include "bsp_eep_lm75.h"
+#include "eep_lm75.h"
 #include "uart.h"
 #include "bsp_ext_flash.h"
 
 
 /* 提供给其他C文件调用的函数 */
 void delay_us(uint32_t nus);
-// void System_Init(void);
-// void bsp_GetCpuID(uint32_t *_id);
-
 void adc_config(void);
 uint16_t analogRead(void);
 void delay_ms(uint16_t nms);
-/* delay function */
 }
 
 

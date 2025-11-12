@@ -706,6 +706,10 @@ void drawing_board_color_event_cb(lv_event_t *e) {
 static void smart_home_anim_hide_ready_cb(lv_anim_t *a) {
     lv_obj_t *obj = (lv_obj_t *)a->var;
     if (lv_obj_is_valid(obj)) {
+        lv_obj_t *parent = lv_obj_get_parent(obj);
+        lv_coord_t w = lv_obj_get_width(obj);
+        lv_coord_t parent_w = lv_obj_is_valid(parent) ? lv_obj_get_width(parent) : lv_obj_get_x(obj);
+        lv_obj_set_x(obj, parent_w - w);
         lv_obj_add_flag(obj, LV_OBJ_FLAG_HIDDEN);
     }
 }
@@ -716,33 +720,34 @@ static void smart_home_slide_in(lv_obj_t *page) {
     lv_coord_t y = lv_obj_get_y(page);
     lv_coord_t w = lv_obj_get_width(page);
 
-    // 从左侧外部开始，清除隐藏
-    lv_obj_clear_flag(page, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_set_pos(page, -w, y);
+    // 从右侧外部开始，清除隐藏
+    lv_obj_clear_flag(page, LV_OBJ_FLAG_HIDDEN); // 清除隐藏标志位，确保页面可见
+    lv_obj_set_pos(page, end_x + w, y); // 设置初始位置为右侧外部，准备滑动进入
 
-    lv_anim_t a; lv_anim_init(&a);
-    lv_anim_set_var(&a, page);
-    lv_anim_set_values(&a, -w, end_x);
-    lv_anim_set_time(&a, 250);
-    lv_anim_set_path_cb(&a, lv_anim_path_ease_out);
-    lv_anim_set_exec_cb(&a, (lv_anim_exec_xcb_t)lv_obj_set_x);
-    lv_anim_start(&a);
+    lv_anim_t a; lv_anim_init(&a); // 从右侧外部开始，滑动到目标位置
+    lv_anim_set_var(&a, page); // 目标对象：要滑动的页面
+    lv_anim_set_values(&a, end_x + w, end_x); // 从右侧外部开始，滑动到目标位置
+    lv_anim_set_time(&a, 250); // 动画时间：250ms
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_out); // 动画路径：缓出
+    lv_anim_set_exec_cb(&a, (lv_anim_exec_xcb_t)lv_obj_set_x); // 动画执行回调：设置对象的 x 坐标
+    lv_anim_start(&a); // 启动动画
 }
 
 static void smart_home_slide_out_and_hide(lv_obj_t *page) {
-    if (!lv_obj_is_valid(page)) return;
-    if (lv_obj_has_flag(page, LV_OBJ_FLAG_HIDDEN)) return;
-    lv_coord_t start_x = lv_obj_get_x(page);
-    lv_coord_t w = lv_obj_get_width(page);
+    if (!lv_obj_is_valid(page)) return; // 无效页面，直接返回
+    if (lv_obj_has_flag(page, LV_OBJ_FLAG_HIDDEN)) return; // 已隐藏，无需操作
+    lv_coord_t start_x = lv_obj_get_x(page); // 获取当前页面的 x 坐标
+    lv_obj_t *parent = lv_obj_get_parent(page); // 获取父容器（假设为屏幕）
+    lv_coord_t parent_w = lv_obj_is_valid(parent) ? lv_obj_get_width(parent) : (start_x + lv_obj_get_width(page)); // 父容器宽度（如果无效，默认使用当前页面宽度）
 
-    lv_anim_t a; lv_anim_init(&a);
-    lv_anim_set_var(&a, page);
-    lv_anim_set_values(&a, start_x, -w);
-    lv_anim_set_time(&a, 200);
-    lv_anim_set_path_cb(&a, lv_anim_path_ease_in);
-    lv_anim_set_exec_cb(&a, (lv_anim_exec_xcb_t)lv_obj_set_x);
-    lv_anim_set_ready_cb(&a, smart_home_anim_hide_ready_cb);
-    lv_anim_start(&a);
+    lv_anim_t a; lv_anim_init(&a); // 初始化动画
+    lv_anim_set_var(&a, page); // 目标对象：要滑动的页面
+    lv_anim_set_values(&a, start_x, parent_w); // 从当前位置滑动到父容器宽度（右侧外部）
+    lv_anim_set_time(&a, 200); // 动画时间：200ms
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_in); // 动画路径：缓入
+    lv_anim_set_exec_cb(&a, (lv_anim_exec_xcb_t)lv_obj_set_x); // 动画执行回调：设置对象的 x 坐标
+    lv_anim_set_ready_cb(&a, smart_home_anim_hide_ready_cb); // 动画完成回调：隐藏对象
+    lv_anim_start(&a); // 启动动画
 }
 
 void smart_home_close_all_pages_with_slide(lv_ui *ui) {
@@ -765,7 +770,7 @@ void smart_home_open_page_with_slide(lv_ui *ui, lv_obj_t *page) {
     if (page != ui->smart_home_app_MPU6050_page)   smart_home_slide_out_and_hide(ui->smart_home_app_MPU6050_page);
     if (page != ui->smart_home_app_key_page)       smart_home_slide_out_and_hide(ui->smart_home_app_key_page);
 
-    // 打开目标页面（左->右滑入）
+    // 打开目标页面（右->左滑入）
     smart_home_slide_in(page);
 }
 // IoT页面 - 彩灯图标点击事件
@@ -828,9 +833,6 @@ void smart_home_iot_8key_event_handler(lv_event_t *e) {
 void smart_home_iot_return_event_handler(lv_event_t *e) {
     lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
     if (!ui) return;
-    // 仅当原始点击目标就是背景容器时才关闭（避免子控件冒泡导致误关）
-    lv_obj_t *orig = lv_event_get_target(e);
-    if (orig != ui->smart_home_app_IoT_page) return;
     smart_home_close_all_pages_with_slide(ui);
 }
 
