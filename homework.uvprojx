@@ -513,6 +513,11 @@
               <FileType>8</FileType>
               <FilePath>.\src\board\sensor\mpu6050.cpp</FilePath>
             </File>
+            <File>
+              <FileName>adc_voltage.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\board\sensor\adc_voltage.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

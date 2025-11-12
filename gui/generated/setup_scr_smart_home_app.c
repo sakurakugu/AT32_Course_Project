@@ -299,6 +299,7 @@ void setup_scr_smart_home_app(lv_ui *ui)
     lv_obj_set_size(ui->smart_home_app_color_led_page, 260, 304);
     lv_obj_set_scrollbar_mode(ui->smart_home_app_color_led_page, LV_SCROLLBAR_MODE_OFF);
     lv_obj_add_flag(ui->smart_home_app_color_led_page, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui->smart_home_app_color_led_page, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for smart_home_app_color_led_page, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->smart_home_app_color_led_page, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -502,6 +503,7 @@ void setup_scr_smart_home_app(lv_ui *ui)
     lv_obj_set_size(ui->smart_home_app_led_green_page, 260, 304);
     lv_obj_set_scrollbar_mode(ui->smart_home_app_led_green_page, LV_SCROLLBAR_MODE_OFF);
     lv_obj_add_flag(ui->smart_home_app_led_green_page, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui->smart_home_app_led_green_page, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for smart_home_app_led_green_page, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->smart_home_app_led_green_page, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -630,6 +632,7 @@ void setup_scr_smart_home_app(lv_ui *ui)
     lv_obj_set_size(ui->smart_home_app_lm75_page, 260, 304);
     lv_obj_set_scrollbar_mode(ui->smart_home_app_lm75_page, LV_SCROLLBAR_MODE_OFF);
     lv_obj_add_flag(ui->smart_home_app_lm75_page, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui->smart_home_app_lm75_page, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for smart_home_app_lm75_page, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->smart_home_app_lm75_page, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -754,6 +757,7 @@ void setup_scr_smart_home_app(lv_ui *ui)
     lv_obj_set_pos(ui->smart_home_app_ADC_page, 220, 16);
     lv_obj_set_size(ui->smart_home_app_ADC_page, 260, 304);
     lv_obj_set_scrollbar_mode(ui->smart_home_app_ADC_page, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_flag(ui->smart_home_app_ADC_page, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(ui->smart_home_app_ADC_page, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for smart_home_app_ADC_page, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -901,25 +905,25 @@ void setup_scr_smart_home_app(lv_ui *ui)
     lv_obj_set_size(ui->smart_home_app_MPU6050_name, 165, 20);
 
     //Write style for smart_home_app_MPU6050_name, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->smart_home_app_MPU6050_name, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui->smart_home_app_MPU6050_name, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->smart_home_app_MPU6050_name, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->smart_home_app_MPU6050_name, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->smart_home_app_MPU6050_name, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes smart_home_app_attitude_div
     ui->smart_home_app_attitude_div = lv_obj_create(ui->smart_home_app_MPU6050_page);
-    lv_obj_set_pos(ui->smart_home_app_attitude_div, 36, 255);
-    lv_obj_set_size(ui->smart_home_app_attitude_div, 195, 20);
+    lv_obj_set_pos(ui->smart_home_app_attitude_div, 36, 165);
+    lv_obj_set_size(ui->smart_home_app_attitude_div, 195, 100);
     lv_obj_set_scrollbar_mode(ui->smart_home_app_attitude_div, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for smart_home_app_attitude_div, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -934,10 +938,10 @@ void setup_scr_smart_home_app(lv_ui *ui)
 
     //Write codes smart_home_app_attitude_text
     ui->smart_home_app_attitude_text = lv_label_create(ui->smart_home_app_attitude_div);
-    lv_label_set_text(ui->smart_home_app_attitude_text, "当前姿态(xyz)");
+    lv_label_set_text(ui->smart_home_app_attitude_text, "当前陀螺仪");
     lv_label_set_long_mode(ui->smart_home_app_attitude_text, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->smart_home_app_attitude_text, 0, 0);
-    lv_obj_set_size(ui->smart_home_app_attitude_text, 83, 22);
+    lv_obj_set_size(ui->smart_home_app_attitude_text, 83, 19);
 
     //Write style for smart_home_app_attitude_text, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->smart_home_app_attitude_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -955,44 +959,159 @@ void setup_scr_smart_home_app(lv_ui *ui)
     lv_obj_set_style_pad_left(ui->smart_home_app_attitude_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->smart_home_app_attitude_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes smart_home_app_attitude_num
-    ui->smart_home_app_attitude_num = lv_label_create(ui->smart_home_app_attitude_div);
-    lv_label_set_text(ui->smart_home_app_attitude_num, "Label");
-    lv_label_set_long_mode(ui->smart_home_app_attitude_num, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->smart_home_app_attitude_num, 100, 0);
-    lv_obj_set_size(ui->smart_home_app_attitude_num, 100, 22);
+    //Write codes smart_home_app_attitude_text_x
+    ui->smart_home_app_attitude_text_x = lv_label_create(ui->smart_home_app_attitude_div);
+    lv_label_set_text(ui->smart_home_app_attitude_text_x, "x");
+    lv_label_set_long_mode(ui->smart_home_app_attitude_text_x, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_attitude_text_x, 19, 23);
+    lv_obj_set_size(ui->smart_home_app_attitude_text_x, 83, 19);
 
-    //Write style for smart_home_app_attitude_num, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->smart_home_app_attitude_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->smart_home_app_attitude_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->smart_home_app_attitude_num, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->smart_home_app_attitude_num, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->smart_home_app_attitude_num, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->smart_home_app_attitude_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui->smart_home_app_attitude_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->smart_home_app_attitude_num, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->smart_home_app_attitude_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->smart_home_app_attitude_num, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->smart_home_app_attitude_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->smart_home_app_attitude_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->smart_home_app_attitude_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->smart_home_app_attitude_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for smart_home_app_attitude_text_x, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_attitude_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_attitude_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_attitude_text_x, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_attitude_text_x, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_attitude_text_x, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_attitude_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_attitude_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_attitude_text_x, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_attitude_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_attitude_text_x, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_attitude_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_attitude_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_attitude_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_attitude_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes smart_home_app_attitude_text_y
+    ui->smart_home_app_attitude_text_y = lv_label_create(ui->smart_home_app_attitude_div);
+    lv_label_set_text(ui->smart_home_app_attitude_text_y, "y");
+    lv_label_set_long_mode(ui->smart_home_app_attitude_text_y, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_attitude_text_y, 19, 43);
+    lv_obj_set_size(ui->smart_home_app_attitude_text_y, 83, 22);
+
+    //Write style for smart_home_app_attitude_text_y, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_attitude_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_attitude_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_attitude_text_y, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_attitude_text_y, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_attitude_text_y, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_attitude_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_attitude_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_attitude_text_y, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_attitude_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_attitude_text_y, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_attitude_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_attitude_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_attitude_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_attitude_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes smart_home_app_attitude_text_z
+    ui->smart_home_app_attitude_text_z = lv_label_create(ui->smart_home_app_attitude_div);
+    lv_label_set_text(ui->smart_home_app_attitude_text_z, "z");
+    lv_label_set_long_mode(ui->smart_home_app_attitude_text_z, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_attitude_text_z, 19, 63);
+    lv_obj_set_size(ui->smart_home_app_attitude_text_z, 83, 19);
+
+    //Write style for smart_home_app_attitude_text_z, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_attitude_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_attitude_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_attitude_text_z, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_attitude_text_z, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_attitude_text_z, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_attitude_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_attitude_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_attitude_text_z, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_attitude_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_attitude_text_z, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_attitude_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_attitude_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_attitude_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_attitude_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes smart_home_app_attitude_num_x
+    ui->smart_home_app_attitude_num_x = lv_label_create(ui->smart_home_app_attitude_div);
+    lv_label_set_text(ui->smart_home_app_attitude_num_x, "1");
+    lv_label_set_long_mode(ui->smart_home_app_attitude_num_x, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_attitude_num_x, 116, 23);
+    lv_obj_set_size(ui->smart_home_app_attitude_num_x, 83, 19);
+
+    //Write style for smart_home_app_attitude_num_x, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_attitude_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_attitude_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_attitude_num_x, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_attitude_num_x, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_attitude_num_x, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_attitude_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_attitude_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_attitude_num_x, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_attitude_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_attitude_num_x, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_attitude_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_attitude_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_attitude_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_attitude_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes smart_home_app_attitude_num_y
+    ui->smart_home_app_attitude_num_y = lv_label_create(ui->smart_home_app_attitude_div);
+    lv_label_set_text(ui->smart_home_app_attitude_num_y, "1");
+    lv_label_set_long_mode(ui->smart_home_app_attitude_num_y, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_attitude_num_y, 117, 43);
+    lv_obj_set_size(ui->smart_home_app_attitude_num_y, 83, 19);
+
+    //Write style for smart_home_app_attitude_num_y, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_attitude_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_attitude_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_attitude_num_y, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_attitude_num_y, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_attitude_num_y, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_attitude_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_attitude_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_attitude_num_y, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_attitude_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_attitude_num_y, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_attitude_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_attitude_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_attitude_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_attitude_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes smart_home_app_attitude_num_z
+    ui->smart_home_app_attitude_num_z = lv_label_create(ui->smart_home_app_attitude_div);
+    lv_label_set_text(ui->smart_home_app_attitude_num_z, "1");
+    lv_label_set_long_mode(ui->smart_home_app_attitude_num_z, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_attitude_num_z, 117, 63);
+    lv_obj_set_size(ui->smart_home_app_attitude_num_z, 83, 19);
+
+    //Write style for smart_home_app_attitude_num_z, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_attitude_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_attitude_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_attitude_num_z, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_attitude_num_z, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_attitude_num_z, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_attitude_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_attitude_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_attitude_num_z, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_attitude_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_attitude_num_z, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_attitude_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_attitude_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_attitude_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_attitude_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes smart_home_app_accelerated_speed_div
     ui->smart_home_app_accelerated_speed_div = lv_obj_create(ui->smart_home_app_MPU6050_page);
-    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_div, 36, 205);
-    lv_obj_set_size(ui->smart_home_app_accelerated_speed_div, 195, 22);
+    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_div, 36, 65);
+    lv_obj_set_size(ui->smart_home_app_accelerated_speed_div, 195, 100);
     lv_obj_set_scrollbar_mode(ui->smart_home_app_accelerated_speed_div, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for smart_home_app_accelerated_speed_div, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->smart_home_app_accelerated_speed_div, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->smart_home_app_accelerated_speed_div, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui->smart_home_app_accelerated_speed_div, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_accelerated_speed_div, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_top(ui->smart_home_app_accelerated_speed_div, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui->smart_home_app_accelerated_speed_div, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui->smart_home_app_accelerated_speed_div, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui->smart_home_app_accelerated_speed_div, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->smart_home_app_accelerated_speed_div, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes smart_home_app_accelerated_speed_text
     ui->smart_home_app_accelerated_speed_text = lv_label_create(ui->smart_home_app_accelerated_speed_div);
@@ -1017,28 +1136,205 @@ void setup_scr_smart_home_app(lv_ui *ui)
     lv_obj_set_style_pad_left(ui->smart_home_app_accelerated_speed_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->smart_home_app_accelerated_speed_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes smart_home_app_accelerated_speed_num
-    ui->smart_home_app_accelerated_speed_num = lv_label_create(ui->smart_home_app_accelerated_speed_div);
-    lv_label_set_text(ui->smart_home_app_accelerated_speed_num, "Label");
-    lv_label_set_long_mode(ui->smart_home_app_accelerated_speed_num, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_num, 100, 0);
-    lv_obj_set_size(ui->smart_home_app_accelerated_speed_num, 100, 22);
+    //Write codes smart_home_app_accelerated_speed_text_x
+    ui->smart_home_app_accelerated_speed_text_x = lv_label_create(ui->smart_home_app_accelerated_speed_div);
+    lv_label_set_text(ui->smart_home_app_accelerated_speed_text_x, "x");
+    lv_label_set_long_mode(ui->smart_home_app_accelerated_speed_text_x, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_text_x, 19, 22);
+    lv_obj_set_size(ui->smart_home_app_accelerated_speed_text_x, 83, 19);
 
-    //Write style for smart_home_app_accelerated_speed_num, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->smart_home_app_accelerated_speed_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->smart_home_app_accelerated_speed_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->smart_home_app_accelerated_speed_num, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->smart_home_app_accelerated_speed_num, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->smart_home_app_accelerated_speed_num, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->smart_home_app_accelerated_speed_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui->smart_home_app_accelerated_speed_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->smart_home_app_accelerated_speed_num, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->smart_home_app_accelerated_speed_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->smart_home_app_accelerated_speed_num, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->smart_home_app_accelerated_speed_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->smart_home_app_accelerated_speed_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->smart_home_app_accelerated_speed_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->smart_home_app_accelerated_speed_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for smart_home_app_accelerated_speed_text_x, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_accelerated_speed_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_accelerated_speed_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_accelerated_speed_text_x, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_accelerated_speed_text_x, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_accelerated_speed_text_x, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_accelerated_speed_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_accelerated_speed_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_accelerated_speed_text_x, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_accelerated_speed_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_accelerated_speed_text_x, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_accelerated_speed_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_accelerated_speed_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_accelerated_speed_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_accelerated_speed_text_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes smart_home_app_accelerated_speed_text_y
+    ui->smart_home_app_accelerated_speed_text_y = lv_label_create(ui->smart_home_app_accelerated_speed_div);
+    lv_label_set_text(ui->smart_home_app_accelerated_speed_text_y, "y");
+    lv_label_set_long_mode(ui->smart_home_app_accelerated_speed_text_y, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_text_y, 19, 44);
+    lv_obj_set_size(ui->smart_home_app_accelerated_speed_text_y, 83, 25);
+
+    //Write style for smart_home_app_accelerated_speed_text_y, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_accelerated_speed_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_accelerated_speed_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_accelerated_speed_text_y, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_accelerated_speed_text_y, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_accelerated_speed_text_y, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_accelerated_speed_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_accelerated_speed_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_accelerated_speed_text_y, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_accelerated_speed_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_accelerated_speed_text_y, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_accelerated_speed_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_accelerated_speed_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_accelerated_speed_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_accelerated_speed_text_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes smart_home_app_accelerated_speed_text_z
+    ui->smart_home_app_accelerated_speed_text_z = lv_label_create(ui->smart_home_app_accelerated_speed_div);
+    lv_label_set_text(ui->smart_home_app_accelerated_speed_text_z, "z");
+    lv_label_set_long_mode(ui->smart_home_app_accelerated_speed_text_z, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_text_z, 19, 69);
+    lv_obj_set_size(ui->smart_home_app_accelerated_speed_text_z, 83, 19);
+
+    //Write style for smart_home_app_accelerated_speed_text_z, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_accelerated_speed_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_accelerated_speed_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_accelerated_speed_text_z, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_accelerated_speed_text_z, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_accelerated_speed_text_z, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_accelerated_speed_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_accelerated_speed_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_accelerated_speed_text_z, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_accelerated_speed_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_accelerated_speed_text_z, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_accelerated_speed_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_accelerated_speed_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_accelerated_speed_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_accelerated_speed_text_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes smart_home_app_accelerated_speed_num_x
+    ui->smart_home_app_accelerated_speed_num_x = lv_label_create(ui->smart_home_app_accelerated_speed_div);
+    lv_label_set_text(ui->smart_home_app_accelerated_speed_num_x, "1");
+    lv_label_set_long_mode(ui->smart_home_app_accelerated_speed_num_x, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_num_x, 117, 24);
+    lv_obj_set_size(ui->smart_home_app_accelerated_speed_num_x, 83, 19);
+
+    //Write style for smart_home_app_accelerated_speed_num_x, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_accelerated_speed_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_accelerated_speed_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_accelerated_speed_num_x, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_accelerated_speed_num_x, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_accelerated_speed_num_x, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_accelerated_speed_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_accelerated_speed_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_accelerated_speed_num_x, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_accelerated_speed_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_accelerated_speed_num_x, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_accelerated_speed_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_accelerated_speed_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_accelerated_speed_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_accelerated_speed_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes smart_home_app_accelerated_speed_num_y
+    ui->smart_home_app_accelerated_speed_num_y = lv_label_create(ui->smart_home_app_accelerated_speed_div);
+    lv_label_set_text(ui->smart_home_app_accelerated_speed_num_y, "1");
+    lv_label_set_long_mode(ui->smart_home_app_accelerated_speed_num_y, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_num_y, 117, 44);
+    lv_obj_set_size(ui->smart_home_app_accelerated_speed_num_y, 83, 19);
+
+    //Write style for smart_home_app_accelerated_speed_num_y, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_accelerated_speed_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_accelerated_speed_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_accelerated_speed_num_y, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_accelerated_speed_num_y, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_accelerated_speed_num_y, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_accelerated_speed_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_accelerated_speed_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_accelerated_speed_num_y, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_accelerated_speed_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_accelerated_speed_num_y, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_accelerated_speed_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_accelerated_speed_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_accelerated_speed_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_accelerated_speed_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes smart_home_app_accelerated_speed_num_z
+    ui->smart_home_app_accelerated_speed_num_z = lv_label_create(ui->smart_home_app_accelerated_speed_div);
+    lv_label_set_text(ui->smart_home_app_accelerated_speed_num_z, "1");
+    lv_label_set_long_mode(ui->smart_home_app_accelerated_speed_num_z, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_num_z, 117, 64);
+    lv_obj_set_size(ui->smart_home_app_accelerated_speed_num_z, 83, 19);
+
+    //Write style for smart_home_app_accelerated_speed_num_z, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_accelerated_speed_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_accelerated_speed_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_accelerated_speed_num_z, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_accelerated_speed_num_z, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_accelerated_speed_num_z, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_accelerated_speed_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_accelerated_speed_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_accelerated_speed_num_z, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_accelerated_speed_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_accelerated_speed_num_z, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_accelerated_speed_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_accelerated_speed_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_accelerated_speed_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_accelerated_speed_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes smart_home_app_mpu6050_temp
+    ui->smart_home_app_mpu6050_temp = lv_obj_create(ui->smart_home_app_MPU6050_page);
+    lv_obj_set_pos(ui->smart_home_app_mpu6050_temp, 36, 255);
+    lv_obj_set_size(ui->smart_home_app_mpu6050_temp, 195, 22);
+    lv_obj_set_scrollbar_mode(ui->smart_home_app_mpu6050_temp, LV_SCROLLBAR_MODE_OFF);
+
+    //Write style for smart_home_app_mpu6050_temp, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_mpu6050_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_mpu6050_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_mpu6050_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_mpu6050_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_mpu6050_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_mpu6050_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_mpu6050_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_mpu6050_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes smart_home_app_mpu6050_teemp_text
+    ui->smart_home_app_mpu6050_teemp_text = lv_label_create(ui->smart_home_app_mpu6050_temp);
+    lv_label_set_text(ui->smart_home_app_mpu6050_teemp_text, "当前温度值");
+    lv_label_set_long_mode(ui->smart_home_app_mpu6050_teemp_text, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_mpu6050_teemp_text, 0, 0);
+    lv_obj_set_size(ui->smart_home_app_mpu6050_teemp_text, 83, 22);
+
+    //Write style for smart_home_app_mpu6050_teemp_text, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_mpu6050_teemp_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_mpu6050_teemp_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_mpu6050_teemp_text, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_mpu6050_teemp_text, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_mpu6050_teemp_text, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_mpu6050_teemp_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_mpu6050_teemp_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_mpu6050_teemp_text, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_mpu6050_teemp_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_mpu6050_teemp_text, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_mpu6050_teemp_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_mpu6050_teemp_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_mpu6050_teemp_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_mpu6050_teemp_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes smart_home_app_mpu6050_teemp_num
+    ui->smart_home_app_mpu6050_teemp_num = lv_label_create(ui->smart_home_app_mpu6050_temp);
+    lv_label_set_text(ui->smart_home_app_mpu6050_teemp_num, "0°C");
+    lv_label_set_long_mode(ui->smart_home_app_mpu6050_teemp_num, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->smart_home_app_mpu6050_teemp_num, 100, 0);
+    lv_obj_set_size(ui->smart_home_app_mpu6050_teemp_num, 100, 22);
+
+    //Write style for smart_home_app_mpu6050_teemp_num, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->smart_home_app_mpu6050_teemp_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_mpu6050_teemp_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_mpu6050_teemp_num, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_mpu6050_teemp_num, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_mpu6050_teemp_num, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->smart_home_app_mpu6050_teemp_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->smart_home_app_mpu6050_teemp_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_mpu6050_teemp_num, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_mpu6050_teemp_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->smart_home_app_mpu6050_teemp_num, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->smart_home_app_mpu6050_teemp_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->smart_home_app_mpu6050_teemp_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->smart_home_app_mpu6050_teemp_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_mpu6050_teemp_num, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes smart_home_app_btn_return5
     ui->smart_home_app_btn_return5 = lv_btn_create(ui->smart_home_app_MPU6050_page);
@@ -1052,20 +1348,21 @@ void setup_scr_smart_home_app(lv_ui *ui)
     lv_obj_set_size(ui->smart_home_app_btn_return5, 34, 34);
 
     //Write style for smart_home_app_btn_return5, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->smart_home_app_btn_return5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui->smart_home_app_btn_return5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->smart_home_app_btn_return5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->smart_home_app_btn_return5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->smart_home_app_btn_return5, lv_color_hex(0x5e5e5e), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui->smart_home_app_btn_return5, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->smart_home_app_btn_return5, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->smart_home_app_btn_return5, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->smart_home_app_btn_return5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_btn_return5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes smart_home_app_key_page
     ui->smart_home_app_key_page = lv_obj_create(ui->smart_home_app);
     lv_obj_set_pos(ui->smart_home_app_key_page, 220, 16);
     lv_obj_set_size(ui->smart_home_app_key_page, 260, 304);
     lv_obj_set_scrollbar_mode(ui->smart_home_app_key_page, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_flag(ui->smart_home_app_key_page, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(ui->smart_home_app_key_page, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for smart_home_app_key_page, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
