@@ -1,6 +1,6 @@
-
-
 #pragma once
+#include <stdint.h>
+#include "i2c_application.h"
 
 #define I2C_TIMEOUT 0xFFFFFFF
 
@@ -28,8 +28,6 @@
 #define I2Cx_SDA_GPIO_PORT GPIOB
 #define I2Cx_SDA_GPIO_MUX GPIO_MUX_4
 
-#include <stdint.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -41,23 +39,7 @@ void eep_read(uint16_t mem_address, uint8_t *pdata, uint16_t size);
 extern uint8_t eep_write_buf[16];
 extern uint8_t eep_read_buf[32];
 extern uint8_t lm75_buf[2];
+extern i2c_handle_type hi2cx;
 #ifdef __cplusplus
 }
 #endif
-
-class LM75 {
-  public:
-    static LM75 &GetInstance() {
-        static LM75 instance;
-        return instance;
-    }
-    // 删除拷贝构造函数和赋值运算符
-    LM75(const LM75 &) = delete;
-    LM75 &operator=(const LM75 &) = delete;
-
-    uint8_t Read();
-
-  private:
-    LM75() = default;
-    ~LM75() = default;
-};

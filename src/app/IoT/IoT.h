@@ -24,4 +24,3 @@ extern uint8_t lighting_status; // 照明状态 (LED_YELLOW)
 #define HEARTBEAT_INTERVAL 55000            // 55秒心跳间隔
 #define HEARTBEAT_TIMEOUT 5000              // 5秒心跳响应超时
 #define MAX_HEARTBEAT_FAILURES 3            // 最大连续心跳失败次数
-#define CONNECTION_RETRY_INTERVAL 300000    // 5分钟重连间隔

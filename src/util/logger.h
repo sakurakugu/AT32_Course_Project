@@ -1,5 +1,5 @@
-// #pragma once
-// #include <stdio.h>
+#pragma once
+#include <stdio.h>
 
 // enum class LogLevel {
 //     Null = 0, // 不打印任何日志
@@ -21,8 +21,6 @@
 //         printf("\n");
 //     }
 // }
-
-#pragma once
 
 #ifndef LOGGING_ENABLED
 #define LOGGING_ENABLED 1

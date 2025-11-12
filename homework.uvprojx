@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>AT32F435VGT7, AT_START_F435_V1, USE_STDPERIPH_DRIVER,AT_SURF_F437_V1,HAVE_CONFIG_H,LV_LVGL_H_INCLUDE_SIMPLE, KEIL_COMPILE</Define>
               <Undefine></Undefine>
-              <IncludePath>.\lib\cJSON;.\lib\cmsis\cm4\core_support;.\lib\cmsis\cm4\device_support;.\lib\drivers\inc;.\lib\FreeRTOS\include;.\lib\FreeRTOS\portable\GCC\ARM_CM4F;.\lib\middlewares\i2c_application_library;.\lib\middlewares\3rd_party\fatfs\source;.\gui\lvgl;.\gui\custom;.\gui\generated\guider_customer_fonts;.\gui\generated\guider_fonts;.\gui\generated\images;.\gui\generated;.\src;.\src\app\weather;.\src\app\music;.\src\app\IoT;.\src\app\calculator;.\src\app\setting;.\src\app\weather;.\src\board;.\src\board\key;.\src\board\lcd;.\src\board\led;.\src\board\network;.\src\board\sensor;.\src\board\sound;.\src\board\uart;.\src\config;.\src\config\lvgl;.\src\config\lvgl\porting;.\src\util</IncludePath>
+              <IncludePath>.\lib\cJSON;.\lib\cmsis\cm4\core_support;.\lib\cmsis\cm4\device_support;.\lib\drivers\inc;.\lib\FreeRTOS\include;.\lib\FreeRTOS\portable\GCC\ARM_CM4F;.\lib\middlewares\i2c_application_library;.\lib\middlewares\3rd_party\fatfs\source;.\gui\lvgl;.\gui\custom;.\gui\generated\guider_customer_fonts;.\gui\generated\guider_fonts;.\gui\generated\images;.\gui\generated;.\src;.\src\app\weather;.\src\app\music;.\src\app\IoT;.\src\app\calculator;.\src\app\setting;.\src\app\weather;.\src\board;.\src\board\eeprom;.\src\board\key;.\src\board\lcd;.\src\board\led;.\src\board\network;.\src\board\sensor;.\src\board\sound;.\src\board\uart;.\src\config;.\src\config\lvgl;.\src\config\lvgl\porting;.\src\util</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -434,9 +434,9 @@
               <FilePath>.\src\board\board.cpp</FilePath>
             </File>
             <File>
-              <FileName>eep_lm75.cpp</FileName>
+              <FileName>lm75.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\board\sensor\eep_lm75.cpp</FilePath>
+              <FilePath>.\src\board\sensor\lm75.cpp</FilePath>
             </File>
             <File>
               <FileName>bsp_queue.c</FileName>
@@ -518,6 +518,11 @@
               <FileType>8</FileType>
               <FilePath>.\src\board\sensor\adc_voltage.cpp</FilePath>
             </File>
+            <File>
+              <FileName>eeprom.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\board\eeprom\eeprom.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -527,6 +532,11 @@
               <FileName>task_key.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\task\task_key.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>task_wifi.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\task\task_wifi.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -2385,9 +2395,9 @@
               <FilePath>.\gui\generated\setup_scr_drawing_board_app.c</FilePath>
             </File>
             <File>
-              <FileName>setup_scr_game2.c</FileName>
+              <FileName>setup_scr_game_minecraft.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\generated\setup_scr_game2.c</FilePath>
+              <FilePath>.\gui\generated\setup_scr_game_minecraft.c</FilePath>
             </File>
             <File>
               <FileName>setup_scr_game3.c</FileName>
@@ -2661,6 +2671,16 @@
               <FileName>_music_prev_song_alpha_16x16.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\images\_music_prev_song_alpha_16x16.c</FilePath>
+            </File>
+            <File>
+              <FileName>_music_record_alpha_160x160.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_music_record_alpha_160x160.c</FilePath>
+            </File>
+            <File>
+              <FileName>_music_stylus_alpha_26x126.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_music_stylus_alpha_26x126.c</FilePath>
             </File>
             <File>
               <FileName>_oscilloscope_app_alpha_80x80.c</FileName>

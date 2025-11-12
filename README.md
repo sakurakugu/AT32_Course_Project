@@ -144,3 +144,8 @@ SD卡读卡器
 [音频播放](https://github.com/AmberHeart/STM32F407_Buzzer_Muisc_Player)
 [天气API](https://www.seniverse.com/)
 [时间同步](https://quan.suning.com/)
+[我的世界游戏](https://github.com/zjsss900/ESPC32C3_ARDUINO_Raycasting_minecraft)
+[Tlink物联网](https://tlink.io/)
+[图标](https://www.iconfont.cn/)
+[应用图标](https://www.bing.com/?mkt=zh-CN)
+[物联网图标](https://www.doubao.com/chat/)

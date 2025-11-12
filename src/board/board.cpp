@@ -1,5 +1,6 @@
 #include "board.h"
-#include "eep_lm75.h"
+#include "lm75.h"
+#include "eeprom.h"
 #include "delay.h"
 #include "led/color_led.hpp"
 #include "led/led.hpp"

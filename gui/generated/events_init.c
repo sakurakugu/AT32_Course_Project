@@ -727,41 +727,6 @@ void events_init_drawing_board_app (lv_ui *ui)
     lv_obj_add_event_cb(ui->drawing_board_app_btn_nav_back, drawing_board_app_btn_nav_back_event_handler, LV_EVENT_ALL, ui);
 }
 
-static void game2_event_handler (lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-    case LV_EVENT_GESTURE:
-    {
-        lv_dir_t dir = lv_indev_get_gesture_dir(lv_indev_get_act());
-        switch(dir) {
-        case LV_DIR_LEFT:
-        {
-            lv_indev_wait_release(lv_indev_get_act());
-            nav_back(&guider_ui);
-            break;
-        }
-        case LV_DIR_RIGHT:
-        {
-            lv_indev_wait_release(lv_indev_get_act());
-            nav_back(&guider_ui);
-            break;
-        }
-        default:
-            break;
-        }
-        break;
-    }
-    default:
-        break;
-    }
-}
-
-void events_init_game2 (lv_ui *ui)
-{
-    lv_obj_add_event_cb(ui->game2, game2_event_handler, LV_EVENT_ALL, ui);
-}
-
 static void game3_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);

@@ -1,6 +1,7 @@
 
 GEN_CSRCS += $(notdir $(wildcard $(PRJ_DIR)/custom/*.c))
 
+# 这些仅用于在gui guider中成功编译，keil中不需要编写这些
 # 导入 calculator app 源文件
 GEN_CSRCS += $(notdir $(wildcard $(PRJ_DIR)/../src/app/calculator/*.c))
 # 导入 wifi 源文件

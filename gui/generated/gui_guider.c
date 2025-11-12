@@ -86,7 +86,7 @@ void init_scr_del_flag(lv_ui *ui)
     ui->setting_app_del = true;
     ui->electronic_organ_app_del = true;
     ui->drawing_board_app_del = true;
-    ui->game2_del = true;
+    ui->game_minecraft_del = true;
     ui->game3_del = true;
     ui->game4_del = true;
     ui->game5_del = true;

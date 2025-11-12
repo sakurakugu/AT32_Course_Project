@@ -16,23 +16,21 @@
 
 
 
-void setup_scr_game2(lv_ui *ui)
+void setup_scr_game_minecraft(lv_ui *ui)
 {
-    //Write codes game2
-    ui->game2 = lv_obj_create(NULL);
-    lv_obj_set_size(ui->game2, 480, 320);
-    lv_obj_set_scrollbar_mode(ui->game2, LV_SCROLLBAR_MODE_OFF);
+    //Write codes game_minecraft
+    ui->game_minecraft = lv_obj_create(NULL);
+    lv_obj_set_size(ui->game_minecraft, 480, 320);
+    lv_obj_set_scrollbar_mode(ui->game_minecraft, LV_SCROLLBAR_MODE_OFF);
 
-    //Write style for game2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->game2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for game_minecraft, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->game_minecraft, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 
-    //The custom code of game2.
+    //The custom code of game_minecraft.
 
 
     //Update current screen layout.
-    lv_obj_update_layout(ui->game2);
+    lv_obj_update_layout(ui->game_minecraft);
 
-    //Init events for screen.
-    events_init_game2(ui);
 }

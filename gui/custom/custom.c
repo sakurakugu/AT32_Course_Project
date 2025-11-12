@@ -18,11 +18,9 @@
 // 背光、音量、网络时间同步接口
 #include "../../src/app/setting/setting.h"
 // 智能家居：LED 和 Color LED 控制
-#include "../../src/board/led/led.h"
 #include "../../src/board/led/color_led.h"
+#include "../../src/board/led/led.h"
 #endif
-
-volatile uint8_t wifi_reconnect_requested;
 
 void custom_init(lv_ui *ui) {
     // 初始化统一状态栏与导航栈
@@ -219,7 +217,8 @@ void status_bar_init(lv_ui *ui) {
 }
 
 void status_bar_set_visible(bool visible) {
-    if (!lv_obj_is_valid(g_status_bar)) return;
+    if (!lv_obj_is_valid(g_status_bar))
+        return;
     if (visible) {
         lv_obj_clear_flag(g_status_bar, LV_OBJ_FLAG_HIDDEN);
     } else {
@@ -252,7 +251,7 @@ void setup_scr_deepseek_app(lv_ui *ui);
 void setup_scr_setting_app(lv_ui *ui);
 void setup_scr_electronic_organ_app(lv_ui *ui);
 void setup_scr_drawing_board_app(lv_ui *ui);
-void setup_scr_game2(lv_ui *ui);
+void setup_scr_game_minecraft(lv_ui *ui);
 void setup_scr_game3(lv_ui *ui);
 void setup_scr_game4(lv_ui *ui);
 void setup_scr_game5(lv_ui *ui);
@@ -326,10 +325,10 @@ static bool get_meta_for_obj(lv_ui *ui, lv_obj_t *obj, ScreenMeta *out) {
         out->setup = setup_scr_drawing_board_app;
         return true;
     }
-    if (obj == ui->game2) {
-        out->obj_pp = &ui->game2;
-        out->del_flag_p = &ui->game2_del;
-        out->setup = setup_scr_game2;
+    if (obj == ui->game_minecraft) {
+        out->obj_pp = &ui->game_minecraft;
+        out->del_flag_p = &ui->game_minecraft_del;
+        out->setup = setup_scr_game_minecraft;
         return true;
     }
     if (obj == ui->game3) {
@@ -392,6 +391,20 @@ void nav_back(lv_ui *ui) {
 // ===============================
 
 #ifdef KEIL_COMPILE
+
+static void anim_img_angle_exec(void *var, int32_t v) {
+    lv_img_set_angle((lv_obj_t *)var, v);
+}
+
+static void stylus_to_play_ready_cb(lv_anim_t *a) {
+    (void)a;
+    if (!lv_obj_is_valid(guider_ui.music_app_music_recode))
+        return;
+    lv_anim_del(guider_ui.music_app_music_recode, anim_img_angle_exec);
+    ui_animation(guider_ui.music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
+                 0, anim_img_angle_exec, NULL, NULL, NULL);
+}
+
 // 列表项点击：根据点击项设置曲目并开始播放
 void music_list_item_event_handler(lv_event_t *e) {
     if (lv_event_get_code(e) != LV_EVENT_CLICKED)
@@ -421,6 +434,16 @@ void music_list_item_event_handler(lv_event_t *e) {
     if (lv_obj_is_valid(ui->music_app_imgbtn_4)) {
         lv_obj_clear_state(ui->music_app_imgbtn_4, LV_STATE_CHECKED);
     }
+
+    if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+        lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
+                     anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
+    } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
+        lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
+                     0, anim_img_angle_exec, NULL, NULL, NULL);
+    }
 }
 
 // 上一首：索引减一并循环，然后重启播放
@@ -438,6 +461,16 @@ void music_prev_btn_event_handler(lv_event_t *e) {
 
     if (lv_obj_is_valid(ui->music_app_imgbtn_4)) {
         lv_obj_clear_state(ui->music_app_imgbtn_4, LV_STATE_CHECKED);
+    }
+
+    if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+        lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
+                     anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
+    } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
+        lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
+                     0, anim_img_angle_exec, NULL, NULL, NULL);
     }
 }
 
@@ -457,9 +490,18 @@ void music_next_btn_event_handler(lv_event_t *e) {
     if (lv_obj_is_valid(ui->music_app_imgbtn_4)) {
         lv_obj_clear_state(ui->music_app_imgbtn_4, LV_STATE_CHECKED);
     }
+
+    if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+        lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
+                     anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
+    } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
+        lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
+                     0, anim_img_angle_exec, NULL, NULL, NULL);
+    }
 }
 
-// 播放/暂停切换：依据按钮选中状态控制播放
 void music_play_pause_btn_event_handler(lv_event_t *e) {
     lv_event_code_t code = lv_event_get_code(e);
     if (!(code == LV_EVENT_VALUE_CHANGED || code == LV_EVENT_CLICKED))
@@ -471,15 +513,31 @@ void music_play_pause_btn_event_handler(lv_event_t *e) {
     bool checked = lv_obj_has_state(btn, LV_STATE_CHECKED);
 
     if (checked) {
-        // 显示“播放”图标，代表当前是暂停状态
         if (music_playing) {
-            music_resume = 1; // 进入暂停
+            music_resume = 1;
+        }
+        if (lv_obj_is_valid(ui->music_app_music_recode)) {
+            lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+        }
+        if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+            lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+            int32_t cur = lv_img_get_angle(ui->music_app_music_stylus);
+            ui_animation(ui->music_app_music_stylus, 400, 0, cur, -240, lv_anim_path_ease_in_out, 0, 0, 0, 0,
+                         anim_img_angle_exec, NULL, NULL, NULL);
         }
     } else {
-        // 显示“暂停”图标，代表当前是播放状态
-        music_resume = 0; // 取消暂停
+        music_resume = 0;
         if (!music_playing) {
-            music_start = 1; // 从头开始播放当前选曲
+            music_start = 1;
+        }
+        if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+            lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+            ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
+                         anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
+        } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
+            lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+            ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0,
+                         0, 0, anim_img_angle_exec, NULL, NULL, NULL);
         }
     }
 }
@@ -715,43 +773,51 @@ static void smart_home_anim_hide_ready_cb(lv_anim_t *a) {
 }
 
 static void smart_home_slide_in(lv_obj_t *page) {
-    if (!lv_obj_is_valid(page)) return;
+    if (!lv_obj_is_valid(page))
+        return;
     lv_coord_t end_x = lv_obj_get_x(page);
     lv_coord_t y = lv_obj_get_y(page);
     lv_coord_t w = lv_obj_get_width(page);
 
     // 从右侧外部开始，清除隐藏
     lv_obj_clear_flag(page, LV_OBJ_FLAG_HIDDEN); // 清除隐藏标志位，确保页面可见
-    lv_obj_set_pos(page, end_x + w, y); // 设置初始位置为右侧外部，准备滑动进入
+    lv_obj_set_pos(page, end_x + w, y);          // 设置初始位置为右侧外部，准备滑动进入
 
-    lv_anim_t a; lv_anim_init(&a); // 从右侧外部开始，滑动到目标位置
-    lv_anim_set_var(&a, page); // 目标对象：要滑动的页面
-    lv_anim_set_values(&a, end_x + w, end_x); // 从右侧外部开始，滑动到目标位置
-    lv_anim_set_time(&a, 250); // 动画时间：250ms
-    lv_anim_set_path_cb(&a, lv_anim_path_ease_out); // 动画路径：缓出
+    lv_anim_t a;
+    lv_anim_init(&a);                                          // 从右侧外部开始，滑动到目标位置
+    lv_anim_set_var(&a, page);                                 // 目标对象：要滑动的页面
+    lv_anim_set_values(&a, end_x + w, end_x);                  // 从右侧外部开始，滑动到目标位置
+    lv_anim_set_time(&a, 250);                                 // 动画时间：250ms
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_out);            // 动画路径：缓出
     lv_anim_set_exec_cb(&a, (lv_anim_exec_xcb_t)lv_obj_set_x); // 动画执行回调：设置对象的 x 坐标
-    lv_anim_start(&a); // 启动动画
+    lv_anim_start(&a);                                         // 启动动画
 }
 
 static void smart_home_slide_out_and_hide(lv_obj_t *page) {
-    if (!lv_obj_is_valid(page)) return; // 无效页面，直接返回
-    if (lv_obj_has_flag(page, LV_OBJ_FLAG_HIDDEN)) return; // 已隐藏，无需操作
-    lv_coord_t start_x = lv_obj_get_x(page); // 获取当前页面的 x 坐标
+    if (!lv_obj_is_valid(page))
+        return; // 无效页面，直接返回
+    if (lv_obj_has_flag(page, LV_OBJ_FLAG_HIDDEN))
+        return;                                 // 已隐藏，无需操作
+    lv_coord_t start_x = lv_obj_get_x(page);    // 获取当前页面的 x 坐标
     lv_obj_t *parent = lv_obj_get_parent(page); // 获取父容器（假设为屏幕）
-    lv_coord_t parent_w = lv_obj_is_valid(parent) ? lv_obj_get_width(parent) : (start_x + lv_obj_get_width(page)); // 父容器宽度（如果无效，默认使用当前页面宽度）
+    lv_coord_t parent_w = lv_obj_is_valid(parent)
+                              ? lv_obj_get_width(parent)
+                              : (start_x + lv_obj_get_width(page)); // 父容器宽度（如果无效，默认使用当前页面宽度）
 
-    lv_anim_t a; lv_anim_init(&a); // 初始化动画
-    lv_anim_set_var(&a, page); // 目标对象：要滑动的页面
-    lv_anim_set_values(&a, start_x, parent_w); // 从当前位置滑动到父容器宽度（右侧外部）
-    lv_anim_set_time(&a, 200); // 动画时间：200ms
-    lv_anim_set_path_cb(&a, lv_anim_path_ease_in); // 动画路径：缓入
+    lv_anim_t a;
+    lv_anim_init(&a);                                          // 初始化动画
+    lv_anim_set_var(&a, page);                                 // 目标对象：要滑动的页面
+    lv_anim_set_values(&a, start_x, parent_w);                 // 从当前位置滑动到父容器宽度（右侧外部）
+    lv_anim_set_time(&a, 200);                                 // 动画时间：200ms
+    lv_anim_set_path_cb(&a, lv_anim_path_ease_in);             // 动画路径：缓入
     lv_anim_set_exec_cb(&a, (lv_anim_exec_xcb_t)lv_obj_set_x); // 动画执行回调：设置对象的 x 坐标
-    lv_anim_set_ready_cb(&a, smart_home_anim_hide_ready_cb); // 动画完成回调：隐藏对象
-    lv_anim_start(&a); // 启动动画
+    lv_anim_set_ready_cb(&a, smart_home_anim_hide_ready_cb);   // 动画完成回调：隐藏对象
+    lv_anim_start(&a);                                         // 启动动画
 }
 
 void smart_home_close_all_pages_with_slide(lv_ui *ui) {
-    if (!ui) return;
+    if (!ui)
+        return;
     smart_home_slide_out_and_hide(ui->smart_home_app_color_led_page);
     smart_home_slide_out_and_hide(ui->smart_home_app_led_green_page);
     smart_home_slide_out_and_hide(ui->smart_home_app_lm75_page);
@@ -761,14 +827,21 @@ void smart_home_close_all_pages_with_slide(lv_ui *ui) {
 }
 
 void smart_home_open_page_with_slide(lv_ui *ui, lv_obj_t *page) {
-    if (!ui || !lv_obj_is_valid(page)) return;
+    if (!ui || !lv_obj_is_valid(page))
+        return;
     // 先关闭其他已打开页面
-    if (page != ui->smart_home_app_color_led_page) smart_home_slide_out_and_hide(ui->smart_home_app_color_led_page);
-    if (page != ui->smart_home_app_led_green_page) smart_home_slide_out_and_hide(ui->smart_home_app_led_green_page);
-    if (page != ui->smart_home_app_lm75_page)      smart_home_slide_out_and_hide(ui->smart_home_app_lm75_page);
-    if (page != ui->smart_home_app_ADC_page)       smart_home_slide_out_and_hide(ui->smart_home_app_ADC_page);
-    if (page != ui->smart_home_app_MPU6050_page)   smart_home_slide_out_and_hide(ui->smart_home_app_MPU6050_page);
-    if (page != ui->smart_home_app_key_page)       smart_home_slide_out_and_hide(ui->smart_home_app_key_page);
+    if (page != ui->smart_home_app_color_led_page)
+        smart_home_slide_out_and_hide(ui->smart_home_app_color_led_page);
+    if (page != ui->smart_home_app_led_green_page)
+        smart_home_slide_out_and_hide(ui->smart_home_app_led_green_page);
+    if (page != ui->smart_home_app_lm75_page)
+        smart_home_slide_out_and_hide(ui->smart_home_app_lm75_page);
+    if (page != ui->smart_home_app_ADC_page)
+        smart_home_slide_out_and_hide(ui->smart_home_app_ADC_page);
+    if (page != ui->smart_home_app_MPU6050_page)
+        smart_home_slide_out_and_hide(ui->smart_home_app_MPU6050_page);
+    if (page != ui->smart_home_app_key_page)
+        smart_home_slide_out_and_hide(ui->smart_home_app_key_page);
 
     // 打开目标页面（右->左滑入）
     smart_home_slide_in(page);
@@ -799,40 +872,49 @@ void smart_home_iot_led_green_event_handler(lv_event_t *e) {
 
 // IoT页面 - ADC图标点击事件
 void smart_home_iot_adc_event_handler(lv_event_t *e) {
-    if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
     lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
-    if (!ui) return;
+    if (!ui)
+        return;
     smart_home_open_page_with_slide(ui, ui->smart_home_app_ADC_page);
 }
 
 // IoT页面 - MPU6050图标点击事件
 void smart_home_iot_mpu6050_event_handler(lv_event_t *e) {
-    if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
     lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
-    if (!ui) return;
+    if (!ui)
+        return;
     smart_home_open_page_with_slide(ui, ui->smart_home_app_MPU6050_page);
 }
 
 // IoT页面 - LM75图标点击事件
 void smart_home_iot_lm75_event_handler(lv_event_t *e) {
-    if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
     lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
-    if (!ui) return;
+    if (!ui)
+        return;
     smart_home_open_page_with_slide(ui, ui->smart_home_app_lm75_page);
 }
 
 // IoT页面 - 8Key图标点击事件
 void smart_home_iot_8key_event_handler(lv_event_t *e) {
-    if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
     lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
-    if (!ui) return;
+    if (!ui)
+        return;
     smart_home_open_page_with_slide(ui, ui->smart_home_app_key_page);
 }
 
 // IoT页面点击返回按键：关闭所有子页面（统一滑出）
 void smart_home_iot_return_event_handler(lv_event_t *e) {
     lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
-    if (!ui) return;
+    if (!ui)
+        return;
     smart_home_close_all_pages_with_slide(ui);
 }
 

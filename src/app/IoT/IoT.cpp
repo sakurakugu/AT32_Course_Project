@@ -2,7 +2,7 @@
 
 #include "uart.h"
 #include "board.h"
-#include "eep_lm75.h"
+#include "lm75.h"
 #include "timer.h"
 #include "board/led/led.hpp"
 #include <cJSON.h>
@@ -15,10 +15,7 @@ extern volatile uint8_t g_com3_guard;
 
 // 心跳包相关变量
 uint32_t heartbeat_timer = 0;
-bool connection_status = 0; // 0: 未连接, 1: 已连接
-uint32_t last_heartbeat_response_time = 0;
 uint8_t heartbeat_sent = 0;                 // 标记是否已发送心跳包等待响应
-uint32_t connection_lost_time = 0;          // 连接丢失时间
 uint8_t consecutive_heartbeat_failures = 0; // 连续心跳失败次数
 // 命令解析缓冲区
 char command_buffer[256];

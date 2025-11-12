@@ -32,7 +32,6 @@ uint16_t analogRead(void);
 
 #include "timer.h"
 #include "wifi.hpp"
-#include "eep_lm75.h"
 #include "uart.h"
 #include "bsp_ext_flash.h"
 
