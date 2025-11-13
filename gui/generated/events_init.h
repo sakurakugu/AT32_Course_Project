@@ -29,10 +29,10 @@ void events_init_deepseek_app(lv_ui *ui);
 void events_init_setting_app(lv_ui *ui);
 void events_init_electronic_organ_app(lv_ui *ui);
 void events_init_drawing_board_app(lv_ui *ui);
-void events_init_game_minecraft(lv_ui *ui);
-void events_init_game3(lv_ui *ui);
-void events_init_game4(lv_ui *ui);
-void events_init_game5(lv_ui *ui);
+void events_init_minecraft_app(lv_ui *ui);
+void events_init_link_game_app(lv_ui *ui);
+void events_init_game3_app(lv_ui *ui);
+void events_init_game5_app(lv_ui *ui);
 
 #ifdef __cplusplus
 }

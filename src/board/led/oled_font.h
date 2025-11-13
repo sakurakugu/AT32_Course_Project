@@ -7,8 +7,8 @@ typedef struct {
     uint8_t data[24]; // 12x12 点阵
 } 汉字转码_12;
 
-extern const uint8_t chinese_12_len;
-extern uint8_t Hzk[][32];
-extern const uint8_t F6x8[][6];
-extern const uint8_t F8X16[];
-extern const 汉字转码_12 chinese_12[5];
+extern const uint8_t Hzk[][32];
+extern const uint8_t oled_font_6x8[][6];
+extern const uint8_t oled_font_8X16[];
+extern const 汉字转码_12 oled_font_chinese_12x12[5];
+extern const uint8_t oled_font_chinese_12x12_len;

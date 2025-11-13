@@ -96,14 +96,14 @@ void OLED::showChar(uint8_t x, uint8_t y, uint8_t chr) {
     if (SIZE == 16) {
         setPos(x, y);
         for (i = 0; i < 8; i++)
-            writeByte(F8X16[c * 16 + i], OLED_DATA);
+            writeByte(oled_font_8X16[c * 16 + i], OLED_DATA);
         setPos(x, y + 1);
         for (i = 0; i < 8; i++)
-            writeByte(F8X16[c * 16 + i + 8], OLED_DATA);
+            writeByte(oled_font_8X16[c * 16 + i + 8], OLED_DATA);
     } else {
         setPos(x, y + 1);
         for (i = 0; i < 6; i++) {
-            writeByte(F6x8[c][i], OLED_DATA);
+            writeByte(oled_font_6x8[c][i], OLED_DATA);
         }
     }
 }
@@ -156,19 +156,19 @@ void OLED::showCHStr(uint8_t X, uint8_t Y, uint8_t *pstr) {
     unsigned char count = 0;
 
     while (*pstr) {
-        for (i = 0; i < chinese_12_len; i++) {
-            if ((*pstr == chinese_12[i].value[0]) && (*(pstr + 1) == chinese_12[i].value[1])) {
+        for (i = 0; i < oled_font_chinese_12x12_len; i++) {
+            if ((*pstr == oled_font_chinese_12x12[i].value[0]) && (*(pstr + 1) == oled_font_chinese_12x12[i].value[1])) {
                 Addr = i;
                 break;
             }
         }
         setPos(X + count * 12, Y);
         for (i = 0; i < 12; i++) {
-            writeByte(chinese_12[Addr].data[i], 1);
+            writeByte(oled_font_chinese_12x12[Addr].data[i], 1);
         }
         setPos(X + count * 12, Y + 1);
         for (i = 0; i < 12; i++) {
-            writeByte(chinese_12[Addr].data[12 + i], 1);
+            writeByte(oled_font_chinese_12x12[Addr].data[12 + i], 1);
         }
         count++;
         pstr++;

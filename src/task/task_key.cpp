@@ -53,7 +53,7 @@ void TaskKeys([[maybe_unused]] void *pvParameters) {
 
         // 检查当前是否在Minecraft游戏界面
         lv_obj_t *current_screen = lv_scr_act();
-        bool is_minecraft_screen = (current_screen == guider_ui.game_minecraft);
+        bool is_minecraft_screen = (current_screen == guider_ui.minecraft_app);
 
         // Minecraft游戏按键处理
         if (is_minecraft_screen) {

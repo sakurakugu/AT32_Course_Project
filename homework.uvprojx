@@ -2400,24 +2400,24 @@
               <FilePath>.\gui\generated\setup_scr_drawing_board_app.c</FilePath>
             </File>
             <File>
-              <FileName>setup_scr_game_minecraft.c</FileName>
+              <FileName>setup_scr_minecraft_app.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\generated\setup_scr_game_minecraft.c</FilePath>
+              <FilePath>.\gui\generated\setup_scr_minecraft_app.c</FilePath>
             </File>
             <File>
-              <FileName>setup_scr_game3.c</FileName>
+              <FileName>setup_scr_link_game_app.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\generated\setup_scr_game3.c</FilePath>
+              <FilePath>.\gui\generated\setup_scr_link_game_app.c</FilePath>
             </File>
             <File>
-              <FileName>setup_scr_game4.c</FileName>
+              <FileName>setup_scr_game3_app.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\generated\setup_scr_game4.c</FilePath>
+              <FilePath>.\gui\generated\setup_scr_game3_app.c</FilePath>
             </File>
             <File>
-              <FileName>setup_scr_game5.c</FileName>
+              <FileName>setup_scr_game5_app.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\generated\setup_scr_game5.c</FilePath>
+              <FilePath>.\gui\generated\setup_scr_game5_app.c</FilePath>
             </File>
             <File>
               <FileName>setup_scr_home_app1.c</FileName>
@@ -2643,6 +2643,11 @@
               <FilePath>.\gui\generated\images\_calculator_app_alpha_80x80.c</FilePath>
             </File>
             <File>
+              <FileName>_color_led_alpha_80x80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_color_led_alpha_80x80.c</FilePath>
+            </File>
+            <File>
               <FileName>_drawing_app_alpha_80x80.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\images\_drawing_app_alpha_80x80.c</FilePath>
@@ -2651,6 +2656,11 @@
               <FileName>_electronic_organ_app_alpha_80x80.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\images\_electronic_organ_app_alpha_80x80.c</FilePath>
+            </File>
+            <File>
+              <FileName>_minecraft_icon_alpha_80x80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_minecraft_icon_alpha_80x80.c</FilePath>
             </File>
             <File>
               <FileName>_music_app_alpha_80x80.c</FileName>
@@ -2688,11 +2698,6 @@
               <FilePath>.\gui\generated\images\_music_stylus_alpha_26x126.c</FilePath>
             </File>
             <File>
-              <FileName>_oscilloscope_app_alpha_80x80.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gui\generated\images\_oscilloscope_app_alpha_80x80.c</FilePath>
-            </File>
-            <File>
               <FileName>_setting_app_alpha_80x80.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\images\_setting_app_alpha_80x80.c</FilePath>
@@ -2721,11 +2726,6 @@
               <FileName>_wifi_alpha_16x16.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\images\_wifi_alpha_16x16.c</FilePath>
-            </File>
-            <File>
-              <FileName>_color_led_alpha_80x80.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gui\generated\images\_color_led_alpha_80x80.c</FilePath>
             </File>
           </Files>
         </Group>

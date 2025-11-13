@@ -47,165 +47,166 @@ void setup_scr_home_app2(lv_ui *ui)
     lv_obj_set_style_pad_right(ui->home_app2_home_page, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->home_app2_home_page, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes home_app2_imgbtn_6
-    ui->home_app2_imgbtn_6 = lv_imgbtn_create(ui->home_app2_home_page);
-    lv_obj_add_flag(ui->home_app2_imgbtn_6, LV_OBJ_FLAG_CHECKABLE);
-    ui->home_app2_imgbtn_6_label = lv_label_create(ui->home_app2_imgbtn_6);
-    lv_label_set_text(ui->home_app2_imgbtn_6_label, "");
-    lv_label_set_long_mode(ui->home_app2_imgbtn_6_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->home_app2_imgbtn_6_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->home_app2_imgbtn_6, 0, LV_STATE_DEFAULT);
-    lv_obj_set_pos(ui->home_app2_imgbtn_6, 330, 150);
-    lv_obj_set_size(ui->home_app2_imgbtn_6, 80, 80);
+    //Write codes home_app2_game4_icon
+    ui->home_app2_game4_icon = lv_imgbtn_create(ui->home_app2_home_page);
+    lv_obj_add_flag(ui->home_app2_game4_icon, LV_OBJ_FLAG_CHECKABLE);
+    ui->home_app2_game4_icon_label = lv_label_create(ui->home_app2_game4_icon);
+    lv_label_set_text(ui->home_app2_game4_icon_label, "");
+    lv_label_set_long_mode(ui->home_app2_game4_icon_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->home_app2_game4_icon_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->home_app2_game4_icon, 0, LV_STATE_DEFAULT);
+    lv_obj_set_pos(ui->home_app2_game4_icon, 330, 150);
+    lv_obj_set_size(ui->home_app2_game4_icon, 80, 80);
 
-    //Write style for home_app2_imgbtn_6, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_6, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_6, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_6, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->home_app2_imgbtn_6, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->home_app2_imgbtn_6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->home_app2_imgbtn_6, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for home_app2_game4_icon, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->home_app2_game4_icon, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->home_app2_game4_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->home_app2_game4_icon, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->home_app2_game4_icon, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->home_app2_game4_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->home_app2_game4_icon, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->home_app2_game4_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write style for home_app2_imgbtn_6, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_6, 0, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_6, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_6, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_6, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_6, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_6, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    //Write style for home_app2_game4_icon, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_game4_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_img_opa(ui->home_app2_game4_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_color(ui->home_app2_game4_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_font(ui->home_app2_game4_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_opa(ui->home_app2_game4_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_shadow_width(ui->home_app2_game4_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
 
-    //Write style for home_app2_imgbtn_6, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_6, 0, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_6, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_6, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_6, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_6, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_6, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    //Write style for home_app2_game4_icon, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_game4_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_img_opa(ui->home_app2_game4_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(ui->home_app2_game4_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_font(ui->home_app2_game4_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_opa(ui->home_app2_game4_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_shadow_width(ui->home_app2_game4_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 
-    //Write style for home_app2_imgbtn_6, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_6, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_6, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    //Write style for home_app2_game4_icon, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_game4_icon, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    lv_obj_set_style_img_opa(ui->home_app2_game4_icon, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
-    //Write codes home_app2_imgbtn_5
-    ui->home_app2_imgbtn_5 = lv_imgbtn_create(ui->home_app2_home_page);
-    lv_obj_add_flag(ui->home_app2_imgbtn_5, LV_OBJ_FLAG_CHECKABLE);
-    ui->home_app2_imgbtn_5_label = lv_label_create(ui->home_app2_imgbtn_5);
-    lv_label_set_text(ui->home_app2_imgbtn_5_label, "");
-    lv_label_set_long_mode(ui->home_app2_imgbtn_5_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->home_app2_imgbtn_5_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->home_app2_imgbtn_5, 0, LV_STATE_DEFAULT);
-    lv_obj_set_pos(ui->home_app2_imgbtn_5, 200, 150);
-    lv_obj_set_size(ui->home_app2_imgbtn_5, 80, 80);
+    //Write codes home_app2_game3_icon
+    ui->home_app2_game3_icon = lv_imgbtn_create(ui->home_app2_home_page);
+    lv_obj_add_flag(ui->home_app2_game3_icon, LV_OBJ_FLAG_CHECKABLE);
+    ui->home_app2_game3_icon_label = lv_label_create(ui->home_app2_game3_icon);
+    lv_label_set_text(ui->home_app2_game3_icon_label, "");
+    lv_label_set_long_mode(ui->home_app2_game3_icon_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->home_app2_game3_icon_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->home_app2_game3_icon, 0, LV_STATE_DEFAULT);
+    lv_obj_set_pos(ui->home_app2_game3_icon, 200, 150);
+    lv_obj_set_size(ui->home_app2_game3_icon, 80, 80);
 
-    //Write style for home_app2_imgbtn_5, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_5, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_5, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_5, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->home_app2_imgbtn_5, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->home_app2_imgbtn_5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->home_app2_imgbtn_5, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for home_app2_game3_icon, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->home_app2_game3_icon, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->home_app2_game3_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->home_app2_game3_icon, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->home_app2_game3_icon, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->home_app2_game3_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->home_app2_game3_icon, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->home_app2_game3_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write style for home_app2_imgbtn_5, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_5, 0, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_5, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_5, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_5, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_5, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_5, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    //Write style for home_app2_game3_icon, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_game3_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_img_opa(ui->home_app2_game3_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_color(ui->home_app2_game3_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_font(ui->home_app2_game3_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_opa(ui->home_app2_game3_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_shadow_width(ui->home_app2_game3_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
 
-    //Write style for home_app2_imgbtn_5, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_5, 0, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_5, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_5, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_5, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_5, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_5, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    //Write style for home_app2_game3_icon, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_game3_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_img_opa(ui->home_app2_game3_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(ui->home_app2_game3_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_font(ui->home_app2_game3_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_opa(ui->home_app2_game3_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_shadow_width(ui->home_app2_game3_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 
-    //Write style for home_app2_imgbtn_5, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_5, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_5, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    //Write style for home_app2_game3_icon, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_game3_icon, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    lv_obj_set_style_img_opa(ui->home_app2_game3_icon, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
-    //Write codes home_app2_imgbtn_4
-    ui->home_app2_imgbtn_4 = lv_imgbtn_create(ui->home_app2_home_page);
-    lv_obj_add_flag(ui->home_app2_imgbtn_4, LV_OBJ_FLAG_CHECKABLE);
-    ui->home_app2_imgbtn_4_label = lv_label_create(ui->home_app2_imgbtn_4);
-    lv_label_set_text(ui->home_app2_imgbtn_4_label, "");
-    lv_label_set_long_mode(ui->home_app2_imgbtn_4_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->home_app2_imgbtn_4_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->home_app2_imgbtn_4, 0, LV_STATE_DEFAULT);
-    lv_obj_set_pos(ui->home_app2_imgbtn_4, 70, 150);
-    lv_obj_set_size(ui->home_app2_imgbtn_4, 80, 80);
+    //Write codes home_app2_link_game_icon
+    ui->home_app2_link_game_icon = lv_imgbtn_create(ui->home_app2_home_page);
+    lv_obj_add_flag(ui->home_app2_link_game_icon, LV_OBJ_FLAG_CHECKABLE);
+    ui->home_app2_link_game_icon_label = lv_label_create(ui->home_app2_link_game_icon);
+    lv_label_set_text(ui->home_app2_link_game_icon_label, "");
+    lv_label_set_long_mode(ui->home_app2_link_game_icon_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->home_app2_link_game_icon_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->home_app2_link_game_icon, 0, LV_STATE_DEFAULT);
+    lv_obj_set_pos(ui->home_app2_link_game_icon, 70, 150);
+    lv_obj_set_size(ui->home_app2_link_game_icon, 80, 80);
 
-    //Write style for home_app2_imgbtn_4, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_4, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_4, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->home_app2_imgbtn_4, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->home_app2_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->home_app2_imgbtn_4, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for home_app2_link_game_icon, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->home_app2_link_game_icon, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->home_app2_link_game_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->home_app2_link_game_icon, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->home_app2_link_game_icon, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->home_app2_link_game_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->home_app2_link_game_icon, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->home_app2_link_game_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write style for home_app2_imgbtn_4, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_4, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_4, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    //Write style for home_app2_link_game_icon, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_link_game_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_img_opa(ui->home_app2_link_game_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_color(ui->home_app2_link_game_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_font(ui->home_app2_link_game_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_opa(ui->home_app2_link_game_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_shadow_width(ui->home_app2_link_game_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
 
-    //Write style for home_app2_imgbtn_4, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_4, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_4, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    //Write style for home_app2_link_game_icon, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_link_game_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_img_opa(ui->home_app2_link_game_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(ui->home_app2_link_game_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_font(ui->home_app2_link_game_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_opa(ui->home_app2_link_game_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_shadow_width(ui->home_app2_link_game_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 
-    //Write style for home_app2_imgbtn_4, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_4, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_4, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    //Write style for home_app2_link_game_icon, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_link_game_icon, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    lv_obj_set_style_img_opa(ui->home_app2_link_game_icon, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
-    //Write codes home_app2_imgbtn_3
-    ui->home_app2_imgbtn_3 = lv_imgbtn_create(ui->home_app2_home_page);
-    lv_obj_add_flag(ui->home_app2_imgbtn_3, LV_OBJ_FLAG_CHECKABLE);
-    ui->home_app2_imgbtn_3_label = lv_label_create(ui->home_app2_imgbtn_3);
-    lv_label_set_text(ui->home_app2_imgbtn_3_label, "");
-    lv_label_set_long_mode(ui->home_app2_imgbtn_3_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->home_app2_imgbtn_3_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->home_app2_imgbtn_3, 0, LV_STATE_DEFAULT);
-    lv_obj_set_pos(ui->home_app2_imgbtn_3, 329, 49);
-    lv_obj_set_size(ui->home_app2_imgbtn_3, 80, 80);
+    //Write codes home_app2_minecraft_icon
+    ui->home_app2_minecraft_icon = lv_imgbtn_create(ui->home_app2_home_page);
+    lv_obj_add_flag(ui->home_app2_minecraft_icon, LV_OBJ_FLAG_CHECKABLE);
+    lv_imgbtn_set_src(ui->home_app2_minecraft_icon, LV_IMGBTN_STATE_RELEASED, NULL, &_minecraft_icon_alpha_80x80, NULL);
+    ui->home_app2_minecraft_icon_label = lv_label_create(ui->home_app2_minecraft_icon);
+    lv_label_set_text(ui->home_app2_minecraft_icon_label, "");
+    lv_label_set_long_mode(ui->home_app2_minecraft_icon_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->home_app2_minecraft_icon_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->home_app2_minecraft_icon, 0, LV_STATE_DEFAULT);
+    lv_obj_set_pos(ui->home_app2_minecraft_icon, 329, 49);
+    lv_obj_set_size(ui->home_app2_minecraft_icon, 80, 80);
 
-    //Write style for home_app2_imgbtn_3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_3, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_3, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->home_app2_imgbtn_3, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->home_app2_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->home_app2_imgbtn_3, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for home_app2_minecraft_icon, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->home_app2_minecraft_icon, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->home_app2_minecraft_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->home_app2_minecraft_icon, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->home_app2_minecraft_icon, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->home_app2_minecraft_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->home_app2_minecraft_icon, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->home_app2_minecraft_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write style for home_app2_imgbtn_3, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_3, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_3, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    //Write style for home_app2_minecraft_icon, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_minecraft_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_img_opa(ui->home_app2_minecraft_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_color(ui->home_app2_minecraft_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_font(ui->home_app2_minecraft_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_opa(ui->home_app2_minecraft_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_shadow_width(ui->home_app2_minecraft_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
 
-    //Write style for home_app2_imgbtn_3, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_color(ui->home_app2_imgbtn_3, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_font(ui->home_app2_imgbtn_3, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_opa(ui->home_app2_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_shadow_width(ui->home_app2_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    //Write style for home_app2_minecraft_icon, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_minecraft_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_img_opa(ui->home_app2_minecraft_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(ui->home_app2_minecraft_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_font(ui->home_app2_minecraft_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_opa(ui->home_app2_minecraft_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_shadow_width(ui->home_app2_minecraft_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 
-    //Write style for home_app2_imgbtn_3, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app2_imgbtn_3, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
-    lv_obj_set_style_img_opa(ui->home_app2_imgbtn_3, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    //Write style for home_app2_minecraft_icon, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app2_minecraft_icon, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    lv_obj_set_style_img_opa(ui->home_app2_minecraft_icon, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
     //Write codes home_app2_drawing_board_icon
     ui->home_app2_drawing_board_icon = lv_imgbtn_create(ui->home_app2_home_page);

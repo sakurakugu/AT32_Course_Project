@@ -169,138 +169,138 @@ void setup_scr_music_app(lv_ui *ui)
     lv_obj_set_style_pad_right(ui->music_app_player_div, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->music_app_player_div, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes music_app_imgbtn_4
-    ui->music_app_imgbtn_4 = lv_imgbtn_create(ui->music_app_player_div);
-    lv_obj_add_flag(ui->music_app_imgbtn_4, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->music_app_imgbtn_4, LV_IMGBTN_STATE_RELEASED, NULL, &_music_player_alpha_16x16, NULL);
-    lv_imgbtn_set_src(ui->music_app_imgbtn_4, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_music_pause_alpha_16x16, NULL);
-    ui->music_app_imgbtn_4_label = lv_label_create(ui->music_app_imgbtn_4);
-    lv_label_set_text(ui->music_app_imgbtn_4_label, "");
-    lv_label_set_long_mode(ui->music_app_imgbtn_4_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->music_app_imgbtn_4_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->music_app_imgbtn_4, 0, LV_STATE_DEFAULT);
-    lv_obj_set_pos(ui->music_app_imgbtn_4, 96, 0);
-    lv_obj_set_size(ui->music_app_imgbtn_4, 16, 16);
+    //Write codes music_app_music_next_song_btn
+    ui->music_app_music_next_song_btn = lv_imgbtn_create(ui->music_app_player_div);
+    lv_obj_add_flag(ui->music_app_music_next_song_btn, LV_OBJ_FLAG_CHECKABLE);
+    lv_imgbtn_set_src(ui->music_app_music_next_song_btn, LV_IMGBTN_STATE_RELEASED, NULL, &_music_next_song_alpha_16x16, NULL);
+    ui->music_app_music_next_song_btn_label = lv_label_create(ui->music_app_music_next_song_btn);
+    lv_label_set_text(ui->music_app_music_next_song_btn_label, "");
+    lv_label_set_long_mode(ui->music_app_music_next_song_btn_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->music_app_music_next_song_btn_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->music_app_music_next_song_btn, 0, LV_STATE_DEFAULT);
+    lv_obj_set_pos(ui->music_app_music_next_song_btn, 174, -1);
+    lv_obj_set_size(ui->music_app_music_next_song_btn, 16, 16);
 
-    //Write style for music_app_imgbtn_4, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->music_app_imgbtn_4, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->music_app_imgbtn_4, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->music_app_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->music_app_imgbtn_4, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->music_app_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->music_app_imgbtn_4, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->music_app_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for music_app_music_next_song_btn, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->music_app_music_next_song_btn, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->music_app_music_next_song_btn, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->music_app_music_next_song_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->music_app_music_next_song_btn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->music_app_music_next_song_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->music_app_music_next_song_btn, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->music_app_music_next_song_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write style for music_app_imgbtn_4, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
-    lv_obj_set_style_img_recolor_opa(ui->music_app_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_img_opa(ui->music_app_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_color(ui->music_app_imgbtn_4, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_font(ui->music_app_imgbtn_4, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_opa(ui->music_app_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_shadow_width(ui->music_app_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    //Write style for music_app_music_next_song_btn, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
+    lv_obj_set_style_img_recolor_opa(ui->music_app_music_next_song_btn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_img_opa(ui->music_app_music_next_song_btn, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_color(ui->music_app_music_next_song_btn, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_font(ui->music_app_music_next_song_btn, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_opa(ui->music_app_music_next_song_btn, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_shadow_width(ui->music_app_music_next_song_btn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
 
-    //Write style for music_app_imgbtn_4, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
-    lv_obj_set_style_img_recolor_opa(ui->music_app_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_img_opa(ui->music_app_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_color(ui->music_app_imgbtn_4, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_font(ui->music_app_imgbtn_4, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_opa(ui->music_app_imgbtn_4, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_shadow_width(ui->music_app_imgbtn_4, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    //Write style for music_app_music_next_song_btn, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
+    lv_obj_set_style_img_recolor_opa(ui->music_app_music_next_song_btn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_img_opa(ui->music_app_music_next_song_btn, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(ui->music_app_music_next_song_btn, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_font(ui->music_app_music_next_song_btn, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_opa(ui->music_app_music_next_song_btn, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_shadow_width(ui->music_app_music_next_song_btn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 
-    //Write style for music_app_imgbtn_4, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
-    lv_obj_set_style_img_recolor_opa(ui->music_app_imgbtn_4, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
-    lv_obj_set_style_img_opa(ui->music_app_imgbtn_4, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    //Write style for music_app_music_next_song_btn, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
+    lv_obj_set_style_img_recolor_opa(ui->music_app_music_next_song_btn, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    lv_obj_set_style_img_opa(ui->music_app_music_next_song_btn, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
-    //Write codes music_app_imgbtn_3
-    ui->music_app_imgbtn_3 = lv_imgbtn_create(ui->music_app_player_div);
-    lv_obj_add_flag(ui->music_app_imgbtn_3, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->music_app_imgbtn_3, LV_IMGBTN_STATE_RELEASED, NULL, &_music_prev_song_alpha_16x16, NULL);
-    ui->music_app_imgbtn_3_label = lv_label_create(ui->music_app_imgbtn_3);
-    lv_label_set_text(ui->music_app_imgbtn_3_label, "");
-    lv_label_set_long_mode(ui->music_app_imgbtn_3_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->music_app_imgbtn_3_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->music_app_imgbtn_3, 0, LV_STATE_DEFAULT);
-    lv_obj_set_pos(ui->music_app_imgbtn_3, 17, 0);
-    lv_obj_set_size(ui->music_app_imgbtn_3, 16, 16);
+    //Write codes music_app_music_player_or_pause_btn
+    ui->music_app_music_player_or_pause_btn = lv_imgbtn_create(ui->music_app_player_div);
+    lv_obj_add_flag(ui->music_app_music_player_or_pause_btn, LV_OBJ_FLAG_CHECKABLE);
+    lv_imgbtn_set_src(ui->music_app_music_player_or_pause_btn, LV_IMGBTN_STATE_RELEASED, NULL, &_music_player_alpha_16x16, NULL);
+    lv_imgbtn_set_src(ui->music_app_music_player_or_pause_btn, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_music_pause_alpha_16x16, NULL);
+    ui->music_app_music_player_or_pause_btn_label = lv_label_create(ui->music_app_music_player_or_pause_btn);
+    lv_label_set_text(ui->music_app_music_player_or_pause_btn_label, "");
+    lv_label_set_long_mode(ui->music_app_music_player_or_pause_btn_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->music_app_music_player_or_pause_btn_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->music_app_music_player_or_pause_btn, 0, LV_STATE_DEFAULT);
+    lv_obj_set_pos(ui->music_app_music_player_or_pause_btn, 96, 0);
+    lv_obj_set_size(ui->music_app_music_player_or_pause_btn, 16, 16);
 
-    //Write style for music_app_imgbtn_3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->music_app_imgbtn_3, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->music_app_imgbtn_3, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->music_app_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->music_app_imgbtn_3, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->music_app_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->music_app_imgbtn_3, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->music_app_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for music_app_music_player_or_pause_btn, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->music_app_music_player_or_pause_btn, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->music_app_music_player_or_pause_btn, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->music_app_music_player_or_pause_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->music_app_music_player_or_pause_btn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->music_app_music_player_or_pause_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->music_app_music_player_or_pause_btn, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->music_app_music_player_or_pause_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write style for music_app_imgbtn_3, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
-    lv_obj_set_style_img_recolor_opa(ui->music_app_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_img_opa(ui->music_app_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_color(ui->music_app_imgbtn_3, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_font(ui->music_app_imgbtn_3, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_opa(ui->music_app_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_shadow_width(ui->music_app_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    //Write style for music_app_music_player_or_pause_btn, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
+    lv_obj_set_style_img_recolor_opa(ui->music_app_music_player_or_pause_btn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_img_opa(ui->music_app_music_player_or_pause_btn, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_color(ui->music_app_music_player_or_pause_btn, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_font(ui->music_app_music_player_or_pause_btn, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_opa(ui->music_app_music_player_or_pause_btn, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_shadow_width(ui->music_app_music_player_or_pause_btn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
 
-    //Write style for music_app_imgbtn_3, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
-    lv_obj_set_style_img_recolor_opa(ui->music_app_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_img_opa(ui->music_app_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_color(ui->music_app_imgbtn_3, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_font(ui->music_app_imgbtn_3, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_opa(ui->music_app_imgbtn_3, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_shadow_width(ui->music_app_imgbtn_3, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    //Write style for music_app_music_player_or_pause_btn, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
+    lv_obj_set_style_img_recolor_opa(ui->music_app_music_player_or_pause_btn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_img_opa(ui->music_app_music_player_or_pause_btn, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(ui->music_app_music_player_or_pause_btn, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_font(ui->music_app_music_player_or_pause_btn, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_opa(ui->music_app_music_player_or_pause_btn, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_shadow_width(ui->music_app_music_player_or_pause_btn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 
-    //Write style for music_app_imgbtn_3, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
-    lv_obj_set_style_img_recolor_opa(ui->music_app_imgbtn_3, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
-    lv_obj_set_style_img_opa(ui->music_app_imgbtn_3, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    //Write style for music_app_music_player_or_pause_btn, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
+    lv_obj_set_style_img_recolor_opa(ui->music_app_music_player_or_pause_btn, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    lv_obj_set_style_img_opa(ui->music_app_music_player_or_pause_btn, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
-    //Write codes music_app_imgbtn_2
-    ui->music_app_imgbtn_2 = lv_imgbtn_create(ui->music_app_player_div);
-    lv_obj_add_flag(ui->music_app_imgbtn_2, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->music_app_imgbtn_2, LV_IMGBTN_STATE_RELEASED, NULL, &_music_next_song_alpha_16x16, NULL);
-    ui->music_app_imgbtn_2_label = lv_label_create(ui->music_app_imgbtn_2);
-    lv_label_set_text(ui->music_app_imgbtn_2_label, "");
-    lv_label_set_long_mode(ui->music_app_imgbtn_2_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->music_app_imgbtn_2_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->music_app_imgbtn_2, 0, LV_STATE_DEFAULT);
-    lv_obj_set_pos(ui->music_app_imgbtn_2, 174, -1);
-    lv_obj_set_size(ui->music_app_imgbtn_2, 16, 16);
+    //Write codes music_app_music_prev_song_btn
+    ui->music_app_music_prev_song_btn = lv_imgbtn_create(ui->music_app_player_div);
+    lv_obj_add_flag(ui->music_app_music_prev_song_btn, LV_OBJ_FLAG_CHECKABLE);
+    lv_imgbtn_set_src(ui->music_app_music_prev_song_btn, LV_IMGBTN_STATE_RELEASED, NULL, &_music_prev_song_alpha_16x16, NULL);
+    ui->music_app_music_prev_song_btn_label = lv_label_create(ui->music_app_music_prev_song_btn);
+    lv_label_set_text(ui->music_app_music_prev_song_btn_label, "");
+    lv_label_set_long_mode(ui->music_app_music_prev_song_btn_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->music_app_music_prev_song_btn_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->music_app_music_prev_song_btn, 0, LV_STATE_DEFAULT);
+    lv_obj_set_pos(ui->music_app_music_prev_song_btn, 17, 0);
+    lv_obj_set_size(ui->music_app_music_prev_song_btn, 16, 16);
 
-    //Write style for music_app_imgbtn_2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->music_app_imgbtn_2, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->music_app_imgbtn_2, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->music_app_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->music_app_imgbtn_2, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->music_app_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->music_app_imgbtn_2, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->music_app_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for music_app_music_prev_song_btn, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->music_app_music_prev_song_btn, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->music_app_music_prev_song_btn, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->music_app_music_prev_song_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->music_app_music_prev_song_btn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->music_app_music_prev_song_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->music_app_music_prev_song_btn, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->music_app_music_prev_song_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write style for music_app_imgbtn_2, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
-    lv_obj_set_style_img_recolor_opa(ui->music_app_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_img_opa(ui->music_app_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_color(ui->music_app_imgbtn_2, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_font(ui->music_app_imgbtn_2, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_opa(ui->music_app_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_shadow_width(ui->music_app_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    //Write style for music_app_music_prev_song_btn, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
+    lv_obj_set_style_img_recolor_opa(ui->music_app_music_prev_song_btn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_img_opa(ui->music_app_music_prev_song_btn, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_color(ui->music_app_music_prev_song_btn, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_font(ui->music_app_music_prev_song_btn, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_opa(ui->music_app_music_prev_song_btn, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_shadow_width(ui->music_app_music_prev_song_btn, 0, LV_PART_MAIN|LV_STATE_PRESSED);
 
-    //Write style for music_app_imgbtn_2, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
-    lv_obj_set_style_img_recolor_opa(ui->music_app_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_img_opa(ui->music_app_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_color(ui->music_app_imgbtn_2, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_font(ui->music_app_imgbtn_2, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_opa(ui->music_app_imgbtn_2, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_shadow_width(ui->music_app_imgbtn_2, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    //Write style for music_app_music_prev_song_btn, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
+    lv_obj_set_style_img_recolor_opa(ui->music_app_music_prev_song_btn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_img_opa(ui->music_app_music_prev_song_btn, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(ui->music_app_music_prev_song_btn, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_font(ui->music_app_music_prev_song_btn, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_opa(ui->music_app_music_prev_song_btn, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_shadow_width(ui->music_app_music_prev_song_btn, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 
-    //Write style for music_app_imgbtn_2, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
-    lv_obj_set_style_img_recolor_opa(ui->music_app_imgbtn_2, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
-    lv_obj_set_style_img_opa(ui->music_app_imgbtn_2, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    //Write style for music_app_music_prev_song_btn, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
+    lv_obj_set_style_img_recolor_opa(ui->music_app_music_prev_song_btn, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    lv_obj_set_style_img_opa(ui->music_app_music_prev_song_btn, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
     //The custom code of music_app.
     // 绑定音乐列表与控制按钮事件
     lv_obj_add_event_cb(guider_ui.music_app_music_list_item0, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);
     lv_obj_add_event_cb(guider_ui.music_app_music_list_item1, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);
     lv_obj_add_event_cb(guider_ui.music_app_music_list_item2, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);
-    lv_obj_add_event_cb(guider_ui.music_app_imgbtn_3, music_prev_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
-    lv_obj_add_event_cb(guider_ui.music_app_imgbtn_2, music_next_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
-    lv_obj_add_event_cb(guider_ui.music_app_imgbtn_4, music_play_pause_btn_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
+    lv_obj_add_event_cb(guider_ui.music_app_music_prev_song_btn, music_prev_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
+    lv_obj_add_event_cb(guider_ui.music_app_music_next_song_btn, music_next_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
+    lv_obj_add_event_cb(guider_ui.music_app_music_player_or_pause_btn, music_play_pause_btn_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
 
     //Update current screen layout.
     lv_obj_update_layout(ui->music_app);

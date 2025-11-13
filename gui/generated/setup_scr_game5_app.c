@@ -16,23 +16,23 @@
 
 
 
-void setup_scr_game3(lv_ui *ui)
+void setup_scr_game5_app(lv_ui *ui)
 {
-    //Write codes game3
-    ui->game3 = lv_obj_create(NULL);
-    lv_obj_set_size(ui->game3, 480, 320);
-    lv_obj_set_scrollbar_mode(ui->game3, LV_SCROLLBAR_MODE_OFF);
+    //Write codes game5_app
+    ui->game5_app = lv_obj_create(NULL);
+    lv_obj_set_size(ui->game5_app, 480, 320);
+    lv_obj_set_scrollbar_mode(ui->game5_app, LV_SCROLLBAR_MODE_OFF);
 
-    //Write style for game3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->game3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for game5_app, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->game5_app, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 
-    //The custom code of game3.
+    //The custom code of game5_app.
 
 
     //Update current screen layout.
-    lv_obj_update_layout(ui->game3);
+    lv_obj_update_layout(ui->game5_app);
 
     //Init events for screen.
-    events_init_game3(ui);
+    events_init_game5_app(ui);
 }

@@ -1368,8 +1368,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "home_app1"
+			]
 		},
 		{
 			"name": "home_app2",
@@ -1614,11 +1613,116 @@
 							}
 						},
 						{
-							"name": "imgbtn_3",
+							"name": "minecraft_icon",
 							"id": "1nold235",
 							"type": "imgbtn",
 							"left": 329,
 							"top": 49,
+							"visible": true,
+							"isLock": false,
+							"flag": [],
+							"width": 80,
+							"height": 80,
+							"default_style": false,
+							"use_fs": false,
+							"fs_type": "flash",
+							"sd_path": "",
+							"text": "",
+							"toggle": true,
+							"src_released": "import\\image\\minecraft_icon.png",
+							"src_pressed": "",
+							"src_checked_released": "",
+							"src_checked_pressed": "",
+							"color_format": "true-color-alpha",
+							"style": [
+								{
+									"part": "LV_PART_MAIN",
+									"state": "LV_STATE_DEFAULT",
+									"disable": false,
+									"font_family": "montserratMedium",
+									"text_color": "#000000",
+									"text_align": "LV_TEXT_ALIGN_CENTER",
+									"font": 12,
+									"radius": 0,
+									"shadow_color": "#2195f6",
+									"shadow_opa": 255,
+									"shadow_width": 0,
+									"shadow_spread": 0,
+									"shadow_ofs_x": 0,
+									"shadow_ofs_y": 0
+								},
+								{
+									"part": "LV_PART_MAIN",
+									"state": "LV_STATE_PRESSED",
+									"disable": false,
+									"image_recolor": "#000000",
+									"image_recolor_opa": 0,
+									"image_opa": 255,
+									"text_color": "#FF33FF",
+									"font_family": "montserratMedium",
+									"font": 12,
+									"shadow_color": "#2195f6",
+									"shadow_opa": 255,
+									"shadow_width": 0,
+									"shadow_spread": 0,
+									"shadow_ofs_x": 0,
+									"shadow_ofs_y": 0
+								},
+								{
+									"part": "LV_PART_MAIN",
+									"state": "LV_STATE_CHECKED",
+									"disable": false,
+									"image_recolor": "#000000",
+									"image_recolor_opa": 0,
+									"text_color": "#FF33FF",
+									"image_opa": 255,
+									"font_family": "montserratMedium",
+									"font": 12,
+									"shadow_color": "#2195f6",
+									"shadow_opa": 255,
+									"shadow_width": 0,
+									"shadow_spread": 0,
+									"shadow_ofs_x": 0,
+									"shadow_ofs_y": 0
+								},
+								{
+									"part": "LV_PART_MAIN",
+									"state": "LV_IMGBTN_STATE_RELEASED",
+									"desc": "released",
+									"disable": false,
+									"image_recolor": "#000000",
+									"image_recolor_opa": 0,
+									"image_opa": 255
+								}
+							],
+							"event": {
+								"widget": {
+									"clicked": {
+										"condition": [],
+										"action": [
+											{
+												"dst": "custom_code",
+												"bindCondi": "",
+												"actionList": {
+													"custom_code": {
+														"inc_c": "",
+														"code_c": "        nav_to(&guider_ui, &guider_ui.minecraft_app, guider_ui.minecraft_app_del, setup_scr_minecraft_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
+														"inc_py": "",
+														"code_py": ""
+													}
+												}
+											}
+										]
+									}
+								}
+							}
+						},
+						{
+							"name": "link_game_icon",
+							"id": "ky57hv13",
+							"type": "imgbtn",
+							"left": 70,
+							"top": 150,
 							"visible": true,
 							"isLock": false,
 							"flag": [],
@@ -1707,7 +1811,7 @@
 												"actionList": {
 													"custom_code": {
 														"inc_c": "",
-														"code_c": "        nav_to(&guider_ui, &guider_ui.game_minecraft, guider_ui.game_minecraft_del, setup_scr_game_minecraft, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
+														"code_c": "        nav_to(&guider_ui, &guider_ui.link_game_app, guider_ui.link_game_app_del, setup_scr_link_game_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
 														"inc_py": "",
 														"code_py": ""
 													}
@@ -1719,91 +1823,7 @@
 							}
 						},
 						{
-							"name": "imgbtn_4",
-							"id": "ky57hv13",
-							"type": "imgbtn",
-							"left": 70,
-							"top": 150,
-							"visible": true,
-							"isLock": false,
-							"flag": [],
-							"width": 80,
-							"height": 80,
-							"default_style": false,
-							"use_fs": false,
-							"fs_type": "flash",
-							"sd_path": "",
-							"text": "",
-							"toggle": true,
-							"src_released": "",
-							"src_pressed": "",
-							"src_checked_released": "",
-							"src_checked_pressed": "",
-							"color_format": "true-color-alpha",
-							"style": [
-								{
-									"part": "LV_PART_MAIN",
-									"state": "LV_STATE_DEFAULT",
-									"disable": false,
-									"font_family": "montserratMedium",
-									"text_color": "#000000",
-									"text_align": "LV_TEXT_ALIGN_CENTER",
-									"font": 12,
-									"radius": 0,
-									"shadow_color": "#2195f6",
-									"shadow_opa": 255,
-									"shadow_width": 0,
-									"shadow_spread": 0,
-									"shadow_ofs_x": 0,
-									"shadow_ofs_y": 0
-								},
-								{
-									"part": "LV_PART_MAIN",
-									"state": "LV_STATE_PRESSED",
-									"disable": false,
-									"image_recolor": "#000000",
-									"image_recolor_opa": 0,
-									"image_opa": 255,
-									"text_color": "#FF33FF",
-									"font_family": "montserratMedium",
-									"font": 12,
-									"shadow_color": "#2195f6",
-									"shadow_opa": 255,
-									"shadow_width": 0,
-									"shadow_spread": 0,
-									"shadow_ofs_x": 0,
-									"shadow_ofs_y": 0
-								},
-								{
-									"part": "LV_PART_MAIN",
-									"state": "LV_STATE_CHECKED",
-									"disable": false,
-									"image_recolor": "#000000",
-									"image_recolor_opa": 0,
-									"text_color": "#FF33FF",
-									"image_opa": 255,
-									"font_family": "montserratMedium",
-									"font": 12,
-									"shadow_color": "#2195f6",
-									"shadow_opa": 255,
-									"shadow_width": 0,
-									"shadow_spread": 0,
-									"shadow_ofs_x": 0,
-									"shadow_ofs_y": 0
-								},
-								{
-									"part": "LV_PART_MAIN",
-									"state": "LV_IMGBTN_STATE_RELEASED",
-									"desc": "released",
-									"disable": false,
-									"image_recolor": "#000000",
-									"image_recolor_opa": 0,
-									"image_opa": 255
-								}
-							]
-						},
-						{
-							"name": "imgbtn_5",
+							"name": "game3_icon",
 							"id": "2wkjdlpz",
 							"type": "imgbtn",
 							"left": 200,
@@ -1887,7 +1907,7 @@
 							]
 						},
 						{
-							"name": "imgbtn_6",
+							"name": "game4_icon",
 							"id": "d7e1qjly",
 							"type": "imgbtn",
 							"left": 330,
@@ -2067,8 +2087,7 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			],
-			"layerName": "home_app2"
+			]
 		},
 		{
 			"name": "status_app",
@@ -4418,7 +4437,7 @@
 			"version": 190,
 			"scrollbar_mode": "OFF",
 			"customer_code": {
-				"code_c": "    // 绑定音乐列表与控制按钮事件\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_list_item0, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_list_item1, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_list_item2, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_imgbtn_3, music_prev_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_imgbtn_2, music_next_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_imgbtn_4, music_play_pause_btn_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);",
+				"code_c": "    // 绑定音乐列表与控制按钮事件\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_list_item0, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_list_item1, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_list_item2, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_prev_song_btn, music_prev_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_next_song_btn, music_next_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_player_or_pause_btn, music_play_pause_btn_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);",
 				"inc_c": "",
 				"code_py": "",
 				"inc_py": "",
@@ -4458,91 +4477,7 @@
 							"scrollbar_mode": "OFF",
 							"child": [
 								{
-									"name": "imgbtn_2",
-									"id": "esg7a8i3",
-									"type": "imgbtn",
-									"left": 174,
-									"top": -1,
-									"visible": true,
-									"isLock": false,
-									"flag": [],
-									"width": 16,
-									"height": 16,
-									"default_style": false,
-									"use_fs": false,
-									"fs_type": "flash",
-									"sd_path": "",
-									"text": "",
-									"toggle": true,
-									"src_released": "import\\image\\music_next_song.png",
-									"src_pressed": "",
-									"src_checked_released": "",
-									"src_checked_pressed": "",
-									"color_format": "true-color-alpha",
-									"style": [
-										{
-											"part": "LV_PART_MAIN",
-											"state": "LV_STATE_DEFAULT",
-											"disable": false,
-											"font_family": "montserratMedium",
-											"text_color": "#000000",
-											"text_align": "LV_TEXT_ALIGN_CENTER",
-											"font": 12,
-											"radius": 0,
-											"shadow_color": "#2195f6",
-											"shadow_opa": 255,
-											"shadow_width": 0,
-											"shadow_spread": 0,
-											"shadow_ofs_x": 0,
-											"shadow_ofs_y": 0
-										},
-										{
-											"part": "LV_PART_MAIN",
-											"state": "LV_STATE_PRESSED",
-											"disable": false,
-											"image_recolor": "#000000",
-											"image_recolor_opa": 0,
-											"image_opa": 255,
-											"text_color": "#FF33FF",
-											"font_family": "montserratMedium",
-											"font": 12,
-											"shadow_color": "#2195f6",
-											"shadow_opa": 255,
-											"shadow_width": 0,
-											"shadow_spread": 0,
-											"shadow_ofs_x": 0,
-											"shadow_ofs_y": 0
-										},
-										{
-											"part": "LV_PART_MAIN",
-											"state": "LV_STATE_CHECKED",
-											"disable": false,
-											"image_recolor": "#000000",
-											"image_recolor_opa": 0,
-											"text_color": "#FF33FF",
-											"image_opa": 255,
-											"font_family": "montserratMedium",
-											"font": 12,
-											"shadow_color": "#2195f6",
-											"shadow_opa": 255,
-											"shadow_width": 0,
-											"shadow_spread": 0,
-											"shadow_ofs_x": 0,
-											"shadow_ofs_y": 0
-										},
-										{
-											"part": "LV_PART_MAIN",
-											"state": "LV_IMGBTN_STATE_RELEASED",
-											"desc": "released",
-											"disable": false,
-											"image_recolor": "#000000",
-											"image_recolor_opa": 0,
-											"image_opa": 255
-										}
-									]
-								},
-								{
-									"name": "imgbtn_3",
+									"name": "music_prev_song_btn",
 									"id": "hhlmvn85",
 									"type": "imgbtn",
 									"left": 17,
@@ -4626,7 +4561,7 @@
 									]
 								},
 								{
-									"name": "imgbtn_4",
+									"name": "music_player_or_pause_btn",
 									"id": "94cg4khh",
 									"type": "imgbtn",
 									"left": 96,
@@ -4645,6 +4580,90 @@
 									"src_released": "import\\image\\music_player.png",
 									"src_pressed": "",
 									"src_checked_released": "import\\image\\music_pause.png",
+									"src_checked_pressed": "",
+									"color_format": "true-color-alpha",
+									"style": [
+										{
+											"part": "LV_PART_MAIN",
+											"state": "LV_STATE_DEFAULT",
+											"disable": false,
+											"font_family": "montserratMedium",
+											"text_color": "#000000",
+											"text_align": "LV_TEXT_ALIGN_CENTER",
+											"font": 12,
+											"radius": 0,
+											"shadow_color": "#2195f6",
+											"shadow_opa": 255,
+											"shadow_width": 0,
+											"shadow_spread": 0,
+											"shadow_ofs_x": 0,
+											"shadow_ofs_y": 0
+										},
+										{
+											"part": "LV_PART_MAIN",
+											"state": "LV_STATE_PRESSED",
+											"disable": false,
+											"image_recolor": "#000000",
+											"image_recolor_opa": 0,
+											"image_opa": 255,
+											"text_color": "#FF33FF",
+											"font_family": "montserratMedium",
+											"font": 12,
+											"shadow_color": "#2195f6",
+											"shadow_opa": 255,
+											"shadow_width": 0,
+											"shadow_spread": 0,
+											"shadow_ofs_x": 0,
+											"shadow_ofs_y": 0
+										},
+										{
+											"part": "LV_PART_MAIN",
+											"state": "LV_STATE_CHECKED",
+											"disable": false,
+											"image_recolor": "#000000",
+											"image_recolor_opa": 0,
+											"text_color": "#FF33FF",
+											"image_opa": 255,
+											"font_family": "montserratMedium",
+											"font": 12,
+											"shadow_color": "#2195f6",
+											"shadow_opa": 255,
+											"shadow_width": 0,
+											"shadow_spread": 0,
+											"shadow_ofs_x": 0,
+											"shadow_ofs_y": 0
+										},
+										{
+											"part": "LV_PART_MAIN",
+											"state": "LV_IMGBTN_STATE_RELEASED",
+											"desc": "released",
+											"disable": false,
+											"image_recolor": "#000000",
+											"image_recolor_opa": 0,
+											"image_opa": 255
+										}
+									]
+								},
+								{
+									"name": "music_next_song_btn",
+									"id": "esg7a8i3",
+									"type": "imgbtn",
+									"left": 174,
+									"top": -1,
+									"visible": true,
+									"isLock": false,
+									"flag": [],
+									"width": 16,
+									"height": 16,
+									"default_style": false,
+									"use_fs": false,
+									"fs_type": "flash",
+									"sd_path": "",
+									"text": "",
+									"toggle": true,
+									"src_released": "import\\image\\music_next_song.png",
+									"src_pressed": "",
+									"src_checked_released": "",
 									"src_checked_pressed": "",
 									"color_format": "true-color-alpha",
 									"style": [
@@ -19069,7 +19088,7 @@
 			"version": 190,
 			"scrollbar_mode": "OFF",
 			"customer_code": {
-				"code_c": "    drawing_board_ctx_t *ctx = &s_drawing_ctx;\r\n    ctx->last_valid = false;\r\n    ctx->canvas_buf = NULL;\r\n\r\n    // 屏幕删除时释放画布缓冲\r\n    lv_obj_add_event_cb(ui->drawing_board_app, drawing_board_app_delete_cb, LV_EVENT_DELETE, ctx);\r\n\r\n    // 画布（左侧）\r\n    ctx->canvas = lv_canvas_create(ui->drawing_board_app_canvas_container);\r\n    lv_obj_set_pos(ctx->canvas, 0, 0);\r\n    lv_obj_set_style_border_width(ctx->canvas, 0, 0); // 隐藏边框\r\n    lv_obj_set_size(ctx->canvas, DRAW_CANVAS_W, DRAW_CANVAS_H);\r\n    lv_obj_add_flag(ctx->canvas, LV_OBJ_FLAG_CLICKABLE);\r\n    // 运行时分配画布缓冲：如果失败则按高度降级\r\n    int canvas_w = DRAW_CANVAS_W;\r\n    int canvas_h = DRAW_CANVAS_H;\r\n    int alloc_h = canvas_h;\r\n    DRAW_CANVAS_COLOR *buf = NULL;\r\n    while (alloc_h >= 80) {\r\n        size_t need = (size_t)canvas_w * (size_t)alloc_h * sizeof(DRAW_CANVAS_COLOR);\r\n        buf = (DRAW_CANVAS_COLOR *)lv_mem_alloc(need);\r\n        if (buf) break;\r\n        alloc_h /= 2;\r\n    }\r\n    ctx->canvas_buf = buf;\r\n    if (ctx->canvas_buf) {\r\n        if (alloc_h != canvas_h) {\r\n            lv_obj_set_size(ctx->canvas, canvas_w, alloc_h);\r\n        }\r\n        lv_canvas_set_buffer(ctx->canvas, ctx->canvas_buf, canvas_w, alloc_h, LV_IMG_CF_TRUE_COLOR);\r\n        lv_canvas_fill_bg(ctx->canvas, lv_color_white(), LV_OPA_COVER);\r\n    } else {\r\n        // 分配失败时给出提示并禁止绘图\r\n        lv_obj_clear_flag(ui->drawing_board_app_dialog_box, LV_OBJ_FLAG_HIDDEN);\r\n    }\r\n    lv_obj_set_style_border_width(ctx->canvas, 1, LV_PART_MAIN | LV_STATE_DEFAULT);\r\n    lv_obj_set_style_border_color(ctx->canvas, lv_color_hex(0x888888), LV_PART_MAIN | LV_STATE_DEFAULT);\r\n\r\n    // 颜色选择器\r\n    lv_obj_add_event_cb(ui->drawing_board_app_colorwheel, drawing_board_color_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 笔宽滑条\r\n    lv_obj_add_event_cb(ui->drawing_board_app_width_slider, drawing_board_width_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 清空按钮\r\n    lv_obj_add_event_cb(ui->drawing_board_app_btn_clear, drawing_board_clear_event_cb, LV_EVENT_CLICKED, ctx);\r\n    // 绑定画布触控绘图事件\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSED, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSING, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_RELEASED, ctx);",
+				"code_c": "    drawing_board_ctx_t *ctx = &s_drawing_ctx;\r\n    ctx->last_valid = false;\r\n    ctx->canvas_buf = NULL;\r\n\r\n    // 屏幕删除时释放画布缓冲\r\n    lv_obj_add_event_cb(ui->drawing_board_app, drawing_board_app_delete_cb, LV_EVENT_DELETE, ctx);\r\n\r\n    // 画布（左侧）\r\n    ctx->canvas = lv_canvas_create(ui->drawing_board_app_canvas_container);\r\n    lv_obj_set_pos(ctx->canvas, 0, 0);\r\n    lv_obj_set_style_border_width(ctx->canvas, 0, 0); // 隐藏边框\r\n    lv_obj_set_size(ctx->canvas, DRAW_CANVAS_W, DRAW_CANVAS_H);\r\n    lv_obj_add_flag(ctx->canvas, LV_OBJ_FLAG_CLICKABLE);\r\n    // 运行时分配画布缓冲：如果失败则按高度降级\r\n    int canvas_w = DRAW_CANVAS_W;\r\n    int canvas_h = DRAW_CANVAS_H;\r\n    int alloc_h = canvas_h;\r\n    DRAW_CANVAS_COLOR *buf = NULL;\r\n    for (; alloc_h >= 80; alloc_h -= 20) {\r\n        size_t need = (size_t)canvas_w * (size_t)alloc_h * sizeof(DRAW_CANVAS_COLOR);\r\n        buf = (DRAW_CANVAS_COLOR *)lv_mem_alloc(need);\r\n        if (buf) break;\r\n    }\r\n    ctx->canvas_buf = buf;\r\n    if (ctx->canvas_buf) {\r\n        if (alloc_h != canvas_h) {\r\n            lv_obj_set_size(ctx->canvas, canvas_w, alloc_h);\r\n        }\r\n        lv_canvas_set_buffer(ctx->canvas, ctx->canvas_buf, canvas_w, alloc_h, LV_IMG_CF_TRUE_COLOR);\r\n        lv_canvas_fill_bg(ctx->canvas, lv_color_white(), LV_OPA_COVER);\r\n    } else {\r\n        // 分配失败时给出提示并禁止绘图\r\n        lv_obj_clear_flag(ui->drawing_board_app_dialog_box, LV_OBJ_FLAG_HIDDEN);\r\n    }\r\n    lv_obj_set_style_border_width(ctx->canvas, 1, LV_PART_MAIN | LV_STATE_DEFAULT);\r\n    lv_obj_set_style_border_color(ctx->canvas, lv_color_hex(0x888888), LV_PART_MAIN | LV_STATE_DEFAULT);\r\n\r\n    // 颜色选择器\r\n    lv_obj_add_event_cb(ui->drawing_board_app_colorwheel, drawing_board_color_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 笔宽滑条\r\n    lv_obj_add_event_cb(ui->drawing_board_app_width_slider, drawing_board_width_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 清空按钮\r\n    lv_obj_add_event_cb(ui->drawing_board_app_btn_clear, drawing_board_clear_event_cb, LV_EVENT_CLICKED, ctx);\r\n    // 绑定画布触控绘图事件\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSED, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSING, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_RELEASED, ctx);",
 				"inc_c": "",
 				"code_py": "",
 				"inc_py": "",
@@ -19913,13 +19932,13 @@
 			]
 		},
 		{
-			"name": "game_minecraft",
+			"name": "minecraft_app",
 			"id": "rlvp8iwe",
 			"type": "scr",
 			"version": 190,
 			"scrollbar_mode": "OFF",
 			"customer_code": {
-				"code_c": "    minecraft_init();\r\n    const uint8_t *fb = (const uint8_t *)minecraft_get_framebuffer();\r\n    if (fb == NULL) {\r\n        lv_obj_t *err = lv_label_create(ui->game_minecraft);\r\n        lv_label_set_text(err, \"Minecraft初始化失败：内存不足\");\r\n        lv_obj_center(err);\r\n    } else {\r\n        static lv_img_dsc_t mc_img_dsc;\r\n        mc_img_dsc.header.always_zero = 0;\r\n        mc_img_dsc.header.w = SCREEN_WIDTH;\r\n        mc_img_dsc.header.h = SCREEN_HEIGHT;\r\n        mc_img_dsc.header.cf = LV_IMG_CF_TRUE_COLOR;\r\n        mc_img_dsc.data_size = SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(lv_color_t);\r\n        mc_img_dsc.data = fb;\r\n        minecraft_img = lv_img_create(ui->game_minecraft);\r\n        lv_img_set_src(minecraft_img, &mc_img_dsc);\r\n        lv_obj_set_pos(minecraft_img, 160, 120);\r\n        lv_obj_set_size(minecraft_img, SCREEN_WIDTH, SCREEN_HEIGHT);\r\n        minecraft_timer = lv_timer_create(minecraft_timer_cb, 33, NULL);\r\n    }",
+				"code_c": "    lv_obj_add_event_cb(ui->minecraft_app, minecraft_app_screen_delete_event_handler, LV_EVENT_DELETE, ui);\r\n    minecraft_init();\r\n    const uint8_t *fb = (const uint8_t *)minecraft_get_framebuffer();\r\n    if (fb == NULL) {\r\n        lv_obj_t *err = lv_label_create(ui->minecraft_app);\r\n        lv_label_set_text(err, \"Minecraft初始化失败：内存不足\");\r\n        lv_obj_center(err);\r\n    } else {\r\n        static lv_img_dsc_t mc_img_dsc;\r\n        mc_img_dsc.header.always_zero = 0;\r\n        mc_img_dsc.header.w = SCREEN_WIDTH;\r\n        mc_img_dsc.header.h = SCREEN_HEIGHT;\r\n        mc_img_dsc.header.cf = LV_IMG_CF_TRUE_COLOR;\r\n        mc_img_dsc.data_size = SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(lv_color_t);\r\n        mc_img_dsc.data = fb;\r\n        minecraft_img = lv_img_create(ui->minecraft_app);\r\n        lv_img_set_src(minecraft_img, &mc_img_dsc);\r\n        lv_obj_set_pos(minecraft_img, 160, 120);\r\n        lv_obj_set_size(minecraft_img, SCREEN_WIDTH, SCREEN_HEIGHT);\r\n        minecraft_timer = lv_timer_create(minecraft_timer_cb, 33, NULL);\r\n    }",
 				"inc_c": "",
 				"code_py": "",
 				"inc_py": "",
@@ -20124,7 +20143,7 @@
 										"actionList": {
 											"custom_code": {
 												"inc_c": "",
-												"code_c": "nav_back(&guider_ui);",
+												"code_c": "cleanup_scr_minecraft(&guider_ui);\r\nnav_back(&guider_ui);",
 												"inc_py": "",
 												"code_py": ""
 											}
@@ -20159,7 +20178,7 @@
 			]
 		},
 		{
-			"name": "game3",
+			"name": "link_game_app",
 			"id": "ln3wk79h",
 			"type": "scr",
 			"version": 190,
@@ -20175,44 +20194,415 @@
 			"height": 320,
 			"visible": true,
 			"flag": [],
-			"list": [],
-			"event": {
-				"widget": {
-					"gesture_left": {
-						"condition": [],
-						"action": [
-							{
-								"dst": "custom_code",
-								"bindCondi": "",
-								"actionList": {
-									"custom_code": {
-										"inc_c": "",
-										"code_c": "nav_back(&guider_ui);",
-										"inc_py": "",
-										"code_py": ""
+			"list": [
+				{
+					"name": "back_btn",
+					"id": "l0ors57l",
+					"type": "btn",
+					"left": 29,
+					"top": 24,
+					"visible": true,
+					"isLock": false,
+					"flag": [],
+					"width": 28,
+					"height": 23,
+					"default_style": false,
+					"long_mode": "LV_LABEL_LONG_WRAP",
+					"text": "⬅",
+					"toggle": false,
+					"style": [
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_DEFAULT",
+							"disable": false,
+							"bg_color": "#9a9a9a",
+							"bg_grad_color": "#2195f6",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 0,
+							"border_opa": 255,
+							"border_color": "#2195f6",
+							"radius": 5,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"font": 16,
+							"font_family": "SourceHanSerifSC_Regular",
+							"text_color": "#ffffff",
+							"text_opa": 255,
+							"text_align": "LV_TEXT_ALIGN_CENTER"
+						},
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_FOCUSED",
+							"disable": true,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 0,
+							"border_color": "#2195f6",
+							"border_opa": 255,
+							"radius": 5,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"font": 16,
+							"font_family": "montserratMedium",
+							"text_opa": 255,
+							"text_color": "#ffffff"
+						},
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_PRESSED",
+							"disable": true,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 0,
+							"border_color": "#2195f6",
+							"border_opa": 255,
+							"radius": 5,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"font": 16,
+							"font_family": "montserratMedium",
+							"text_opa": 255,
+							"text_color": "#ffffff"
+						},
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_CHECKED",
+							"disable": true,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 0,
+							"border_opa": 255,
+							"border_color": "#2195f6",
+							"radius": 5,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"font": 12,
+							"font_family": "montserratMedium",
+							"text_opa": 255,
+							"text_color": "#000000"
+						},
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_DISABLED",
+							"disable": true,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 0,
+							"border_opa": 255,
+							"border_color": "#2195f6",
+							"radius": 5,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"font": 12,
+							"font_family": "montserratMedium",
+							"text_opa": 255,
+							"text_color": "#000000"
+						}
+					],
+					"event": {
+						"widget": {
+							"clicked": {
+								"condition": [],
+								"action": [
+									{
+										"dst": "custom_code",
+										"bindCondi": "",
+										"actionList": {
+											"custom_code": {
+												"inc_c": "",
+												"code_c": "nav_back(&guider_ui);",
+												"inc_py": "",
+												"code_py": ""
+											}
+										}
 									}
-								}
+								]
 							}
-						]
-					},
-					"gesture_right": {
-						"condition": [],
-						"action": [
-							{
-								"dst": "custom_code",
-								"bindCondi": "",
-								"actionList": {
-									"custom_code": {
-										"inc_c": "",
-										"code_c": "nav_back(&guider_ui);",
-										"inc_py": "",
-										"code_py": ""
-									}
-								}
-							}
-						]
+						}
 					}
+				},
+				{
+					"name": "btnm_1",
+					"id": "kh1k2wxn",
+					"type": "btnm",
+					"left": 29,
+					"top": 37,
+					"visible": true,
+					"isLock": false,
+					"flag": [],
+					"width": 421,
+					"height": 275,
+					"default_style": false,
+					"text_map": [
+						{
+							"item": "1,2,3,0,0,0"
+						},
+						{
+							"item": "4,5,6,0,0,0"
+						},
+						{
+							"item": "7,8,9,0,0,0"
+						},
+						{
+							"item": "0,0,0,0,0,0"
+						},
+						{
+							"item": "0,0,0,0,0,0"
+						}
+					],
+					"style": [
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_DEFAULT",
+							"disable": false,
+							"bg_color": "#ffffff",
+							"bg_grad_color": "#ffffff",
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_color": "#ffffff",
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 0,
+							"border_opa": 255,
+							"padding_top": 16,
+							"padding_bottom": 16,
+							"padding_left": 16,
+							"padding_right": 16,
+							"padding_row": 8,
+							"padding_column": 8,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"radius": 0,
+							"bg_opa": 255
+						},
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_FOCUSED",
+							"disable": true,
+							"bg_color": "#ffffff",
+							"bg_grad_color": "#ffffff",
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_color": "#c9c9c9",
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 1,
+							"border_opa": 255,
+							"padding_top": 16,
+							"padding_bottom": 16,
+							"padding_left": 16,
+							"padding_right": 16,
+							"padding_row": 8,
+							"padding_column": 8,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"radius": 4,
+							"bg_opa": 255
+						},
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_DISABLED",
+							"disable": true,
+							"bg_color": "#ffffff",
+							"bg_grad_color": "#ffffff",
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_color": "#c9c9c9",
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 1,
+							"border_opa": 255,
+							"padding_top": 16,
+							"padding_bottom": 16,
+							"padding_left": 16,
+							"padding_right": 16,
+							"padding_row": 8,
+							"padding_column": 8,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"radius": 4,
+							"bg_opa": 255
+						},
+						{
+							"part": "LV_PART_ITEMS",
+							"state": "LV_STATE_DEFAULT",
+							"disable": false,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"text_color": "#ffffff",
+							"border_color": "#c9c9c9",
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 1,
+							"border_opa": 255,
+							"font": 16,
+							"font_family": "montserratMedium",
+							"radius": 4,
+							"bg_opa": 255,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0
+						},
+						{
+							"part": "LV_PART_ITEMS",
+							"state": "LV_STATE_PRESSED",
+							"disable": true,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"text_color": "#ffffff",
+							"border_color": "#c9c9c9",
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 1,
+							"border_opa": 255,
+							"font": 12,
+							"font_family": "montserratMedium",
+							"radius": 4,
+							"bg_opa": 255,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0
+						}
+					],
+					"undefined": [
+						{
+							"item": "1,2,3,0,0,0"
+						},
+						{
+							"item": "4,5,6,0,0,0"
+						},
+						{
+							"item": "7,8,9,0,0,0"
+						},
+						{
+							"item": "0,0,0,0,0,0"
+						},
+						{
+							"item": "0,0,0,0,0,0"
+						}
+					]
 				}
+			],
+			"event": {
+				"widget": {}
 			},
 			"style": [
 				{
@@ -20234,7 +20624,7 @@
 			]
 		},
 		{
-			"name": "game4",
+			"name": "game3_app",
 			"id": "qrc07ld3",
 			"type": "scr",
 			"version": 190,
@@ -20309,7 +20699,7 @@
 			]
 		},
 		{
-			"name": "game5",
+			"name": "game5_app",
 			"id": "t2k1jojd",
 			"type": "scr",
 			"version": 190,
@@ -20683,11 +21073,116 @@
 														}
 													},
 													{
-														"name": "imgbtn_3",
+														"name": "minecraft_icon",
 														"id": "1nold235",
 														"type": "imgbtn",
 														"left": 329,
 														"top": 49,
+														"visible": true,
+														"isLock": false,
+														"flag": [],
+														"width": 80,
+														"height": 80,
+														"default_style": false,
+														"use_fs": false,
+														"fs_type": "flash",
+														"sd_path": "",
+														"text": "",
+														"toggle": true,
+														"src_released": "import\\image\\minecraft_icon.png",
+														"src_pressed": "",
+														"src_checked_released": "",
+														"src_checked_pressed": "",
+														"color_format": "true-color-alpha",
+														"style": [
+															{
+																"part": "LV_PART_MAIN",
+																"state": "LV_STATE_DEFAULT",
+																"disable": false,
+																"font_family": "montserratMedium",
+																"text_color": "#000000",
+																"text_align": "LV_TEXT_ALIGN_CENTER",
+																"font": 12,
+																"radius": 0,
+																"shadow_color": "#2195f6",
+																"shadow_opa": 255,
+																"shadow_width": 0,
+																"shadow_spread": 0,
+																"shadow_ofs_x": 0,
+																"shadow_ofs_y": 0
+															},
+															{
+																"part": "LV_PART_MAIN",
+																"state": "LV_STATE_PRESSED",
+																"disable": false,
+																"image_recolor": "#000000",
+																"image_recolor_opa": 0,
+																"image_opa": 255,
+																"text_color": "#FF33FF",
+																"font_family": "montserratMedium",
+																"font": 12,
+																"shadow_color": "#2195f6",
+																"shadow_opa": 255,
+																"shadow_width": 0,
+																"shadow_spread": 0,
+																"shadow_ofs_x": 0,
+																"shadow_ofs_y": 0
+															},
+															{
+																"part": "LV_PART_MAIN",
+																"state": "LV_STATE_CHECKED",
+																"disable": false,
+																"image_recolor": "#000000",
+																"image_recolor_opa": 0,
+																"text_color": "#FF33FF",
+																"image_opa": 255,
+																"font_family": "montserratMedium",
+																"font": 12,
+																"shadow_color": "#2195f6",
+																"shadow_opa": 255,
+																"shadow_width": 0,
+																"shadow_spread": 0,
+																"shadow_ofs_x": 0,
+																"shadow_ofs_y": 0
+															},
+															{
+																"part": "LV_PART_MAIN",
+																"state": "LV_IMGBTN_STATE_RELEASED",
+																"desc": "released",
+																"disable": false,
+																"image_recolor": "#000000",
+																"image_recolor_opa": 0,
+																"image_opa": 255
+															}
+														],
+														"event": {
+															"widget": {
+																"clicked": {
+																	"condition": [],
+																	"action": [
+																		{
+																			"dst": "custom_code",
+																			"bindCondi": "",
+																			"actionList": {
+																				"custom_code": {
+																					"inc_c": "",
+																					"code_c": "        nav_to(&guider_ui, &guider_ui.minecraft_app, guider_ui.minecraft_app_del, setup_scr_minecraft_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
+																					"inc_py": "",
+																					"code_py": ""
+																				}
+																			}
+																		}
+																	]
+																}
+															}
+														}
+													},
+													{
+														"name": "link_game_icon",
+														"id": "ky57hv13",
+														"type": "imgbtn",
+														"left": 70,
+														"top": 150,
 														"visible": true,
 														"isLock": false,
 														"flag": [],
@@ -20776,7 +21271,7 @@
 																			"actionList": {
 																				"custom_code": {
 																					"inc_c": "",
-																					"code_c": "        nav_to(&guider_ui, &guider_ui.game_minecraft, guider_ui.game_minecraft_del, setup_scr_game_minecraft, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
+																					"code_c": "        nav_to(&guider_ui, &guider_ui.link_game_app, guider_ui.link_game_app_del, setup_scr_link_game_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
 																					"inc_py": "",
 																					"code_py": ""
 																				}
@@ -20788,91 +21283,7 @@
 														}
 													},
 													{
-														"name": "imgbtn_4",
-														"id": "ky57hv13",
-														"type": "imgbtn",
-														"left": 70,
-														"top": 150,
-														"visible": true,
-														"isLock": false,
-														"flag": [],
-														"width": 80,
-														"height": 80,
-														"default_style": false,
-														"use_fs": false,
-														"fs_type": "flash",
-														"sd_path": "",
-														"text": "",
-														"toggle": true,
-														"src_released": "",
-														"src_pressed": "",
-														"src_checked_released": "",
-														"src_checked_pressed": "",
-														"color_format": "true-color-alpha",
-														"style": [
-															{
-																"part": "LV_PART_MAIN",
-																"state": "LV_STATE_DEFAULT",
-																"disable": false,
-																"font_family": "montserratMedium",
-																"text_color": "#000000",
-																"text_align": "LV_TEXT_ALIGN_CENTER",
-																"font": 12,
-																"radius": 0,
-																"shadow_color": "#2195f6",
-																"shadow_opa": 255,
-																"shadow_width": 0,
-																"shadow_spread": 0,
-																"shadow_ofs_x": 0,
-																"shadow_ofs_y": 0
-															},
-															{
-																"part": "LV_PART_MAIN",
-																"state": "LV_STATE_PRESSED",
-																"disable": false,
-																"image_recolor": "#000000",
-																"image_recolor_opa": 0,
-																"image_opa": 255,
-																"text_color": "#FF33FF",
-																"font_family": "montserratMedium",
-																"font": 12,
-																"shadow_color": "#2195f6",
-																"shadow_opa": 255,
-																"shadow_width": 0,
-																"shadow_spread": 0,
-																"shadow_ofs_x": 0,
-																"shadow_ofs_y": 0
-															},
-															{
-																"part": "LV_PART_MAIN",
-																"state": "LV_STATE_CHECKED",
-																"disable": false,
-																"image_recolor": "#000000",
-																"image_recolor_opa": 0,
-																"text_color": "#FF33FF",
-																"image_opa": 255,
-																"font_family": "montserratMedium",
-																"font": 12,
-																"shadow_color": "#2195f6",
-																"shadow_opa": 255,
-																"shadow_width": 0,
-																"shadow_spread": 0,
-																"shadow_ofs_x": 0,
-																"shadow_ofs_y": 0
-															},
-															{
-																"part": "LV_PART_MAIN",
-																"state": "LV_IMGBTN_STATE_RELEASED",
-																"desc": "released",
-																"disable": false,
-																"image_recolor": "#000000",
-																"image_recolor_opa": 0,
-																"image_opa": 255
-															}
-														]
-													},
-													{
-														"name": "imgbtn_5",
+														"name": "game3_icon",
 														"id": "2wkjdlpz",
 														"type": "imgbtn",
 														"left": 200,
@@ -20956,7 +21367,7 @@
 														]
 													},
 													{
-														"name": "imgbtn_6",
+														"name": "game4_icon",
 														"id": "d7e1qjly",
 														"type": "imgbtn",
 														"left": 330,
@@ -21402,11 +21813,116 @@
 														}
 													},
 													{
-														"name": "imgbtn_3",
+														"name": "minecraft_icon",
 														"id": "1nold235",
 														"type": "imgbtn",
 														"left": 329,
 														"top": 49,
+														"visible": true,
+														"isLock": false,
+														"flag": [],
+														"width": 80,
+														"height": 80,
+														"default_style": false,
+														"use_fs": false,
+														"fs_type": "flash",
+														"sd_path": "",
+														"text": "",
+														"toggle": true,
+														"src_released": "import\\image\\minecraft_icon.png",
+														"src_pressed": "",
+														"src_checked_released": "",
+														"src_checked_pressed": "",
+														"color_format": "true-color-alpha",
+														"style": [
+															{
+																"part": "LV_PART_MAIN",
+																"state": "LV_STATE_DEFAULT",
+																"disable": false,
+																"font_family": "montserratMedium",
+																"text_color": "#000000",
+																"text_align": "LV_TEXT_ALIGN_CENTER",
+																"font": 12,
+																"radius": 0,
+																"shadow_color": "#2195f6",
+																"shadow_opa": 255,
+																"shadow_width": 0,
+																"shadow_spread": 0,
+																"shadow_ofs_x": 0,
+																"shadow_ofs_y": 0
+															},
+															{
+																"part": "LV_PART_MAIN",
+																"state": "LV_STATE_PRESSED",
+																"disable": false,
+																"image_recolor": "#000000",
+																"image_recolor_opa": 0,
+																"image_opa": 255,
+																"text_color": "#FF33FF",
+																"font_family": "montserratMedium",
+																"font": 12,
+																"shadow_color": "#2195f6",
+																"shadow_opa": 255,
+																"shadow_width": 0,
+																"shadow_spread": 0,
+																"shadow_ofs_x": 0,
+																"shadow_ofs_y": 0
+															},
+															{
+																"part": "LV_PART_MAIN",
+																"state": "LV_STATE_CHECKED",
+																"disable": false,
+																"image_recolor": "#000000",
+																"image_recolor_opa": 0,
+																"text_color": "#FF33FF",
+																"image_opa": 255,
+																"font_family": "montserratMedium",
+																"font": 12,
+																"shadow_color": "#2195f6",
+																"shadow_opa": 255,
+																"shadow_width": 0,
+																"shadow_spread": 0,
+																"shadow_ofs_x": 0,
+																"shadow_ofs_y": 0
+															},
+															{
+																"part": "LV_PART_MAIN",
+																"state": "LV_IMGBTN_STATE_RELEASED",
+																"desc": "released",
+																"disable": false,
+																"image_recolor": "#000000",
+																"image_recolor_opa": 0,
+																"image_opa": 255
+															}
+														],
+														"event": {
+															"widget": {
+																"clicked": {
+																	"condition": [],
+																	"action": [
+																		{
+																			"dst": "custom_code",
+																			"bindCondi": "",
+																			"actionList": {
+																				"custom_code": {
+																					"inc_c": "",
+																					"code_c": "        nav_to(&guider_ui, &guider_ui.minecraft_app, guider_ui.minecraft_app_del, setup_scr_minecraft_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
+																					"inc_py": "",
+																					"code_py": ""
+																				}
+																			}
+																		}
+																	]
+																}
+															}
+														}
+													},
+													{
+														"name": "link_game_icon",
+														"id": "ky57hv13",
+														"type": "imgbtn",
+														"left": 70,
+														"top": 150,
 														"visible": true,
 														"isLock": false,
 														"flag": [],
@@ -21495,7 +22011,7 @@
 																			"actionList": {
 																				"custom_code": {
 																					"inc_c": "",
-																					"code_c": "        nav_to(&guider_ui, &guider_ui.game_minecraft, guider_ui.game_minecraft_del, setup_scr_game_minecraft, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
+																					"code_c": "        nav_to(&guider_ui, &guider_ui.link_game_app, guider_ui.link_game_app_del, setup_scr_link_game_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
 																					"inc_py": "",
 																					"code_py": ""
 																				}
@@ -21507,91 +22023,7 @@
 														}
 													},
 													{
-														"name": "imgbtn_4",
-														"id": "ky57hv13",
-														"type": "imgbtn",
-														"left": 70,
-														"top": 150,
-														"visible": true,
-														"isLock": false,
-														"flag": [],
-														"width": 80,
-														"height": 80,
-														"default_style": false,
-														"use_fs": false,
-														"fs_type": "flash",
-														"sd_path": "",
-														"text": "",
-														"toggle": true,
-														"src_released": "",
-														"src_pressed": "",
-														"src_checked_released": "",
-														"src_checked_pressed": "",
-														"color_format": "true-color-alpha",
-														"style": [
-															{
-																"part": "LV_PART_MAIN",
-																"state": "LV_STATE_DEFAULT",
-																"disable": false,
-																"font_family": "montserratMedium",
-																"text_color": "#000000",
-																"text_align": "LV_TEXT_ALIGN_CENTER",
-																"font": 12,
-																"radius": 0,
-																"shadow_color": "#2195f6",
-																"shadow_opa": 255,
-																"shadow_width": 0,
-																"shadow_spread": 0,
-																"shadow_ofs_x": 0,
-																"shadow_ofs_y": 0
-															},
-															{
-																"part": "LV_PART_MAIN",
-																"state": "LV_STATE_PRESSED",
-																"disable": false,
-																"image_recolor": "#000000",
-																"image_recolor_opa": 0,
-																"image_opa": 255,
-																"text_color": "#FF33FF",
-																"font_family": "montserratMedium",
-																"font": 12,
-																"shadow_color": "#2195f6",
-																"shadow_opa": 255,
-																"shadow_width": 0,
-																"shadow_spread": 0,
-																"shadow_ofs_x": 0,
-																"shadow_ofs_y": 0
-															},
-															{
-																"part": "LV_PART_MAIN",
-																"state": "LV_STATE_CHECKED",
-																"disable": false,
-																"image_recolor": "#000000",
-																"image_recolor_opa": 0,
-																"text_color": "#FF33FF",
-																"image_opa": 255,
-																"font_family": "montserratMedium",
-																"font": 12,
-																"shadow_color": "#2195f6",
-																"shadow_opa": 255,
-																"shadow_width": 0,
-																"shadow_spread": 0,
-																"shadow_ofs_x": 0,
-																"shadow_ofs_y": 0
-															},
-															{
-																"part": "LV_PART_MAIN",
-																"state": "LV_IMGBTN_STATE_RELEASED",
-																"desc": "released",
-																"disable": false,
-																"image_recolor": "#000000",
-																"image_recolor_opa": 0,
-																"image_opa": 255
-															}
-														]
-													},
-													{
-														"name": "imgbtn_5",
+														"name": "game3_icon",
 														"id": "2wkjdlpz",
 														"type": "imgbtn",
 														"left": 200,
@@ -21675,7 +22107,7 @@
 														]
 													},
 													{
-														"name": "imgbtn_6",
+														"name": "game4_icon",
 														"id": "d7e1qjly",
 														"type": "imgbtn",
 														"left": 330,
@@ -25288,7 +25720,7 @@
 						"default_style": false,
 						"child": [
 							{
-								"name": "home_app2_imgbtn_6",
+								"name": "home_app2_game4_icon",
 								"id": "d7e1qjly",
 								"type": "imgbtn",
 								"visible": true,
@@ -25383,7 +25815,7 @@
 								]
 							},
 							{
-								"name": "home_app2_imgbtn_5",
+								"name": "home_app2_game3_icon",
 								"id": "2wkjdlpz",
 								"type": "imgbtn",
 								"visible": true,
@@ -25478,7 +25910,7 @@
 								]
 							},
 							{
-								"name": "home_app2_imgbtn_4",
+								"name": "home_app2_link_game_icon",
 								"id": "ky57hv13",
 								"type": "imgbtn",
 								"visible": true,
@@ -25492,6 +25924,27 @@
 									80
 								],
 								"default_style": false,
+								"event": {
+									"widget": {
+										"clicked": {
+											"condition": [],
+											"action": [
+												{
+													"dst": "custom_code",
+													"bindCondi": "",
+													"actionList": {
+														"custom_code": {
+															"inc_c": "",
+															"code_c": "        nav_to(&guider_ui, &guider_ui.link_game_app, guider_ui.link_game_app_del, setup_scr_link_game_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
+															"inc_py": "",
+															"code_py": ""
+														}
+													}
+												}
+											]
+										}
+									}
+								},
 								"toggle": true,
 								"text_align": "center",
 								"text": "",
@@ -25573,7 +26026,7 @@
 								]
 							},
 							{
-								"name": "home_app2_imgbtn_3",
+								"name": "home_app2_minecraft_icon",
 								"id": "1nold235",
 								"type": "imgbtn",
 								"visible": true,
@@ -25598,7 +26051,7 @@
 													"actionList": {
 														"custom_code": {
 															"inc_c": "",
-															"code_c": "        nav_to(&guider_ui, &guider_ui.game_minecraft, guider_ui.game_minecraft_del, setup_scr_game_minecraft, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
+															"code_c": "        nav_to(&guider_ui, &guider_ui.minecraft_app, guider_ui.minecraft_app_del, setup_scr_minecraft_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);",
 															"inc_py": "",
 															"code_py": ""
 														}
@@ -25612,17 +26065,17 @@
 								"text_align": "center",
 								"text": "",
 								"color_format": "true-color-alpha",
-								"src_released": "",
+								"src_released": "import\\image\\minecraft_icon.png",
 								"src_pressed": "",
 								"src_checked_released": "",
 								"src_checked_pressed": "",
 								"use_fs": false,
 								"fs_type": "flash",
-								"src_sd_released": "S:/",
+								"src_sd_released": "S:/minecraft_icon.png",
 								"src_sd_pressed": "S:/",
 								"src_sd_checked_released": "S:/",
 								"src_sd_checked_pressed": "S:/",
-								"src_flash_released": "F:/",
+								"src_flash_released": "F:/minecraft_icon.png",
 								"src_flash_pressed": "F:/",
 								"src_flash_checked_released": "F:/",
 								"src_flash_checked_pressed": "F:/",
@@ -28382,7 +28835,7 @@
 				"version": 190,
 				"scrollbar_mode": "OFF",
 				"customer_code": {
-					"code_c": "    // 绑定音乐列表与控制按钮事件\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_list_item0, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_list_item1, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_list_item2, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_imgbtn_3, music_prev_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_imgbtn_2, music_next_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_imgbtn_4, music_play_pause_btn_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);",
+					"code_c": "    // 绑定音乐列表与控制按钮事件\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_list_item0, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_list_item1, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_list_item2, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_prev_song_btn, music_prev_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_next_song_btn, music_next_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    lv_obj_add_event_cb(guider_ui.music_app_music_player_or_pause_btn, music_play_pause_btn_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);",
 					"inc_c": "",
 					"code_py": "",
 					"inc_py": "",
@@ -28833,7 +29286,102 @@
 								"default_style": false,
 								"child": [
 									{
-										"name": "music_app_imgbtn_4",
+										"name": "music_app_music_next_song_btn",
+										"id": "esg7a8i3",
+										"type": "imgbtn",
+										"visible": true,
+										"flag": [],
+										"pos": [
+											174,
+											-1
+										],
+										"size": [
+											16,
+											16
+										],
+										"default_style": false,
+										"toggle": true,
+										"text_align": "center",
+										"text": "",
+										"color_format": "true-color-alpha",
+										"src_released": "import\\image\\music_next_song.png",
+										"src_pressed": "",
+										"src_checked_released": "",
+										"src_checked_pressed": "",
+										"use_fs": false,
+										"fs_type": "flash",
+										"src_sd_released": "S:/music_next_song.png",
+										"src_sd_pressed": "S:/",
+										"src_sd_checked_released": "S:/",
+										"src_sd_checked_pressed": "S:/",
+										"src_flash_released": "F:/music_next_song.png",
+										"src_flash_pressed": "F:/",
+										"src_flash_checked_released": "F:/",
+										"src_flash_checked_pressed": "F:/",
+										"style": [
+											{
+												"part": "LV_PART_MAIN",
+												"state": "LV_STATE_DEFAULT",
+												"disable": false,
+												"font_family": "montserratMedium",
+												"text_color": "#000000",
+												"text_align": "LV_TEXT_ALIGN_CENTER",
+												"font": 12,
+												"radius": 0,
+												"shadow_color": "#2195f6",
+												"shadow_opa": 255,
+												"shadow_width": 0,
+												"shadow_spread": 0,
+												"shadow_ofs_x": 0,
+												"shadow_ofs_y": 0
+											},
+											{
+												"part": "LV_PART_MAIN",
+												"state": "LV_STATE_PRESSED",
+												"disable": false,
+												"image_recolor": "#000000",
+												"image_recolor_opa": 0,
+												"image_opa": 255,
+												"text_color": "#FF33FF",
+												"font_family": "montserratMedium",
+												"font": 12,
+												"shadow_color": "#2195f6",
+												"shadow_opa": 255,
+												"shadow_width": 0,
+												"shadow_spread": 0,
+												"shadow_ofs_x": 0,
+												"shadow_ofs_y": 0
+											},
+											{
+												"part": "LV_PART_MAIN",
+												"state": "LV_STATE_CHECKED",
+												"disable": false,
+												"image_recolor": "#000000",
+												"image_recolor_opa": 0,
+												"text_color": "#FF33FF",
+												"image_opa": 255,
+												"font_family": "montserratMedium",
+												"font": 12,
+												"shadow_color": "#2195f6",
+												"shadow_opa": 255,
+												"shadow_width": 0,
+												"shadow_spread": 0,
+												"shadow_ofs_x": 0,
+												"shadow_ofs_y": 0
+											},
+											{
+												"part": "LV_PART_MAIN",
+												"state": "LV_IMGBTN_STATE_RELEASED",
+												"desc": "released",
+												"disable": false,
+												"image_recolor": "#000000",
+												"image_recolor_opa": 0,
+												"image_opa": 255
+											}
+										]
+									},
+									{
+										"name": "music_app_music_player_or_pause_btn",
 										"id": "94cg4khh",
 										"type": "imgbtn",
 										"visible": true,
@@ -28928,7 +29476,7 @@
 										]
 									},
 									{
-										"name": "music_app_imgbtn_3",
+										"name": "music_app_music_prev_song_btn",
 										"id": "hhlmvn85",
 										"type": "imgbtn",
 										"visible": true,
@@ -28957,101 +29505,6 @@
 										"src_sd_checked_released": "S:/",
 										"src_sd_checked_pressed": "S:/",
 										"src_flash_released": "F:/music_prev_song.png",
-										"src_flash_pressed": "F:/",
-										"src_flash_checked_released": "F:/",
-										"src_flash_checked_pressed": "F:/",
-										"style": [
-											{
-												"part": "LV_PART_MAIN",
-												"state": "LV_STATE_DEFAULT",
-												"disable": false,
-												"font_family": "montserratMedium",
-												"text_color": "#000000",
-												"text_align": "LV_TEXT_ALIGN_CENTER",
-												"font": 12,
-												"radius": 0,
-												"shadow_color": "#2195f6",
-												"shadow_opa": 255,
-												"shadow_width": 0,
-												"shadow_spread": 0,
-												"shadow_ofs_x": 0,
-												"shadow_ofs_y": 0
-											},
-											{
-												"part": "LV_PART_MAIN",
-												"state": "LV_STATE_PRESSED",
-												"disable": false,
-												"image_recolor": "#000000",
-												"image_recolor_opa": 0,
-												"image_opa": 255,
-												"text_color": "#FF33FF",
-												"font_family": "montserratMedium",
-												"font": 12,
-												"shadow_color": "#2195f6",
-												"shadow_opa": 255,
-												"shadow_width": 0,
-												"shadow_spread": 0,
-												"shadow_ofs_x": 0,
-												"shadow_ofs_y": 0
-											},
-											{
-												"part": "LV_PART_MAIN",
-												"state": "LV_STATE_CHECKED",
-												"disable": false,
-												"image_recolor": "#000000",
-												"image_recolor_opa": 0,
-												"text_color": "#FF33FF",
-												"image_opa": 255,
-												"font_family": "montserratMedium",
-												"font": 12,
-												"shadow_color": "#2195f6",
-												"shadow_opa": 255,
-												"shadow_width": 0,
-												"shadow_spread": 0,
-												"shadow_ofs_x": 0,
-												"shadow_ofs_y": 0
-											},
-											{
-												"part": "LV_PART_MAIN",
-												"state": "LV_IMGBTN_STATE_RELEASED",
-												"desc": "released",
-												"disable": false,
-												"image_recolor": "#000000",
-												"image_recolor_opa": 0,
-												"image_opa": 255
-											}
-										]
-									},
-									{
-										"name": "music_app_imgbtn_2",
-										"id": "esg7a8i3",
-										"type": "imgbtn",
-										"visible": true,
-										"flag": [],
-										"pos": [
-											174,
-											-1
-										],
-										"size": [
-											16,
-											16
-										],
-										"default_style": false,
-										"toggle": true,
-										"text_align": "center",
-										"text": "",
-										"color_format": "true-color-alpha",
-										"src_released": "import\\image\\music_next_song.png",
-										"src_pressed": "",
-										"src_checked_released": "",
-										"src_checked_pressed": "",
-										"use_fs": false,
-										"fs_type": "flash",
-										"src_sd_released": "S:/music_next_song.png",
-										"src_sd_pressed": "S:/",
-										"src_sd_checked_released": "S:/",
-										"src_sd_checked_pressed": "S:/",
-										"src_flash_released": "F:/music_next_song.png",
 										"src_flash_pressed": "F:/",
 										"src_flash_checked_released": "F:/",
 										"src_flash_checked_pressed": "F:/",
@@ -43537,7 +43990,7 @@
 				"version": 190,
 				"scrollbar_mode": "OFF",
 				"customer_code": {
-					"code_c": "    drawing_board_ctx_t *ctx = &s_drawing_ctx;\r\n    ctx->last_valid = false;\r\n    ctx->canvas_buf = NULL;\r\n\r\n    // 屏幕删除时释放画布缓冲\r\n    lv_obj_add_event_cb(ui->drawing_board_app, drawing_board_app_delete_cb, LV_EVENT_DELETE, ctx);\r\n\r\n    // 画布（左侧）\r\n    ctx->canvas = lv_canvas_create(ui->drawing_board_app_canvas_container);\r\n    lv_obj_set_pos(ctx->canvas, 0, 0);\r\n    lv_obj_set_style_border_width(ctx->canvas, 0, 0); // 隐藏边框\r\n    lv_obj_set_size(ctx->canvas, DRAW_CANVAS_W, DRAW_CANVAS_H);\r\n    lv_obj_add_flag(ctx->canvas, LV_OBJ_FLAG_CLICKABLE);\r\n    // 运行时分配画布缓冲：如果失败则按高度降级\r\n    int canvas_w = DRAW_CANVAS_W;\r\n    int canvas_h = DRAW_CANVAS_H;\r\n    int alloc_h = canvas_h;\r\n    DRAW_CANVAS_COLOR *buf = NULL;\r\n    while (alloc_h >= 80) {\r\n        size_t need = (size_t)canvas_w * (size_t)alloc_h * sizeof(DRAW_CANVAS_COLOR);\r\n        buf = (DRAW_CANVAS_COLOR *)lv_mem_alloc(need);\r\n        if (buf) break;\r\n        alloc_h /= 2;\r\n    }\r\n    ctx->canvas_buf = buf;\r\n    if (ctx->canvas_buf) {\r\n        if (alloc_h != canvas_h) {\r\n            lv_obj_set_size(ctx->canvas, canvas_w, alloc_h);\r\n        }\r\n        lv_canvas_set_buffer(ctx->canvas, ctx->canvas_buf, canvas_w, alloc_h, LV_IMG_CF_TRUE_COLOR);\r\n        lv_canvas_fill_bg(ctx->canvas, lv_color_white(), LV_OPA_COVER);\r\n    } else {\r\n        // 分配失败时给出提示并禁止绘图\r\n        lv_obj_clear_flag(ui->drawing_board_app_dialog_box, LV_OBJ_FLAG_HIDDEN);\r\n    }\r\n    lv_obj_set_style_border_width(ctx->canvas, 1, LV_PART_MAIN | LV_STATE_DEFAULT);\r\n    lv_obj_set_style_border_color(ctx->canvas, lv_color_hex(0x888888), LV_PART_MAIN | LV_STATE_DEFAULT);\r\n\r\n    // 颜色选择器\r\n    lv_obj_add_event_cb(ui->drawing_board_app_colorwheel, drawing_board_color_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 笔宽滑条\r\n    lv_obj_add_event_cb(ui->drawing_board_app_width_slider, drawing_board_width_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 清空按钮\r\n    lv_obj_add_event_cb(ui->drawing_board_app_btn_clear, drawing_board_clear_event_cb, LV_EVENT_CLICKED, ctx);\r\n    // 绑定画布触控绘图事件\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSED, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSING, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_RELEASED, ctx);",
+					"code_c": "    drawing_board_ctx_t *ctx = &s_drawing_ctx;\r\n    ctx->last_valid = false;\r\n    ctx->canvas_buf = NULL;\r\n\r\n    // 屏幕删除时释放画布缓冲\r\n    lv_obj_add_event_cb(ui->drawing_board_app, drawing_board_app_delete_cb, LV_EVENT_DELETE, ctx);\r\n\r\n    // 画布（左侧）\r\n    ctx->canvas = lv_canvas_create(ui->drawing_board_app_canvas_container);\r\n    lv_obj_set_pos(ctx->canvas, 0, 0);\r\n    lv_obj_set_style_border_width(ctx->canvas, 0, 0); // 隐藏边框\r\n    lv_obj_set_size(ctx->canvas, DRAW_CANVAS_W, DRAW_CANVAS_H);\r\n    lv_obj_add_flag(ctx->canvas, LV_OBJ_FLAG_CLICKABLE);\r\n    // 运行时分配画布缓冲：如果失败则按高度降级\r\n    int canvas_w = DRAW_CANVAS_W;\r\n    int canvas_h = DRAW_CANVAS_H;\r\n    int alloc_h = canvas_h;\r\n    DRAW_CANVAS_COLOR *buf = NULL;\r\n    for (; alloc_h >= 80; alloc_h -= 20) {\r\n        size_t need = (size_t)canvas_w * (size_t)alloc_h * sizeof(DRAW_CANVAS_COLOR);\r\n        buf = (DRAW_CANVAS_COLOR *)lv_mem_alloc(need);\r\n        if (buf) break;\r\n    }\r\n    ctx->canvas_buf = buf;\r\n    if (ctx->canvas_buf) {\r\n        if (alloc_h != canvas_h) {\r\n            lv_obj_set_size(ctx->canvas, canvas_w, alloc_h);\r\n        }\r\n        lv_canvas_set_buffer(ctx->canvas, ctx->canvas_buf, canvas_w, alloc_h, LV_IMG_CF_TRUE_COLOR);\r\n        lv_canvas_fill_bg(ctx->canvas, lv_color_white(), LV_OPA_COVER);\r\n    } else {\r\n        // 分配失败时给出提示并禁止绘图\r\n        lv_obj_clear_flag(ui->drawing_board_app_dialog_box, LV_OBJ_FLAG_HIDDEN);\r\n    }\r\n    lv_obj_set_style_border_width(ctx->canvas, 1, LV_PART_MAIN | LV_STATE_DEFAULT);\r\n    lv_obj_set_style_border_color(ctx->canvas, lv_color_hex(0x888888), LV_PART_MAIN | LV_STATE_DEFAULT);\r\n\r\n    // 颜色选择器\r\n    lv_obj_add_event_cb(ui->drawing_board_app_colorwheel, drawing_board_color_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 笔宽滑条\r\n    lv_obj_add_event_cb(ui->drawing_board_app_width_slider, drawing_board_width_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 清空按钮\r\n    lv_obj_add_event_cb(ui->drawing_board_app_btn_clear, drawing_board_clear_event_cb, LV_EVENT_CLICKED, ctx);\r\n    // 绑定画布触控绘图事件\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSED, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSING, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_RELEASED, ctx);",
 					"inc_c": "",
 					"code_py": "",
 					"inc_py": "",
@@ -44412,13 +44865,13 @@
 				]
 			},
 			{
-				"name": "game_minecraft",
+				"name": "minecraft_app",
 				"id": "rlvp8iwe",
 				"type": "scr",
 				"version": 190,
 				"scrollbar_mode": "OFF",
 				"customer_code": {
-					"code_c": "    minecraft_init();\r\n    const uint8_t *fb = (const uint8_t *)minecraft_get_framebuffer();\r\n    if (fb == NULL) {\r\n        lv_obj_t *err = lv_label_create(ui->game_minecraft);\r\n        lv_label_set_text(err, \"Minecraft初始化失败：内存不足\");\r\n        lv_obj_center(err);\r\n    } else {\r\n        static lv_img_dsc_t mc_img_dsc;\r\n        mc_img_dsc.header.always_zero = 0;\r\n        mc_img_dsc.header.w = SCREEN_WIDTH;\r\n        mc_img_dsc.header.h = SCREEN_HEIGHT;\r\n        mc_img_dsc.header.cf = LV_IMG_CF_TRUE_COLOR;\r\n        mc_img_dsc.data_size = SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(lv_color_t);\r\n        mc_img_dsc.data = fb;\r\n        minecraft_img = lv_img_create(ui->game_minecraft);\r\n        lv_img_set_src(minecraft_img, &mc_img_dsc);\r\n        lv_obj_set_pos(minecraft_img, 160, 120);\r\n        lv_obj_set_size(minecraft_img, SCREEN_WIDTH, SCREEN_HEIGHT);\r\n        minecraft_timer = lv_timer_create(minecraft_timer_cb, 33, NULL);\r\n    }",
+					"code_c": "    lv_obj_add_event_cb(ui->minecraft_app, minecraft_app_screen_delete_event_handler, LV_EVENT_DELETE, ui);\r\n    minecraft_init();\r\n    const uint8_t *fb = (const uint8_t *)minecraft_get_framebuffer();\r\n    if (fb == NULL) {\r\n        lv_obj_t *err = lv_label_create(ui->minecraft_app);\r\n        lv_label_set_text(err, \"Minecraft初始化失败：内存不足\");\r\n        lv_obj_center(err);\r\n    } else {\r\n        static lv_img_dsc_t mc_img_dsc;\r\n        mc_img_dsc.header.always_zero = 0;\r\n        mc_img_dsc.header.w = SCREEN_WIDTH;\r\n        mc_img_dsc.header.h = SCREEN_HEIGHT;\r\n        mc_img_dsc.header.cf = LV_IMG_CF_TRUE_COLOR;\r\n        mc_img_dsc.data_size = SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(lv_color_t);\r\n        mc_img_dsc.data = fb;\r\n        minecraft_img = lv_img_create(ui->minecraft_app);\r\n        lv_img_set_src(minecraft_img, &mc_img_dsc);\r\n        lv_obj_set_pos(minecraft_img, 160, 120);\r\n        lv_obj_set_size(minecraft_img, SCREEN_WIDTH, SCREEN_HEIGHT);\r\n        minecraft_timer = lv_timer_create(minecraft_timer_cb, 33, NULL);\r\n    }",
 					"inc_c": "",
 					"code_py": "",
 					"inc_py": "",
@@ -44455,8 +44908,452 @@
 				],
 				"widgets": [
 					{
-						"name": "game_minecraft_back_btn",
+						"name": "minecraft_app_back_btn",
 						"id": "l1olj15y",
+						"type": "btn",
+						"visible": true,
+						"flag": [],
+						"pos": [
+							29,
+							24
+						],
+						"size": [
+							28,
+							23
+						],
+						"default_style": false,
+						"event": {
+							"widget": {
+								"clicked": {
+									"condition": [],
+									"action": [
+										{
+											"dst": "custom_code",
+											"bindCondi": "",
+											"actionList": {
+												"custom_code": {
+													"inc_c": "",
+													"code_c": "cleanup_scr_minecraft(&guider_ui);\r\nnav_back(&guider_ui);",
+													"inc_py": "",
+													"code_py": ""
+												}
+											}
+										}
+									]
+								}
+							}
+						},
+						"text_align": "center",
+						"style": [
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_DEFAULT",
+								"disable": false,
+								"bg_color": "#9a9a9a",
+								"bg_grad_color": "#2195f6",
+								"bg_opa": 255,
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 0,
+								"border_opa": 255,
+								"border_color": "#2195f6",
+								"radius": 5,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"font": 16,
+								"font_family": "SourceHanSerifSC_Regular",
+								"text_color": "#ffffff",
+								"text_opa": 255,
+								"text_align": "LV_TEXT_ALIGN_CENTER"
+							},
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_FOCUSED",
+								"disable": true,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_opa": 255,
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 0,
+								"border_color": "#2195f6",
+								"border_opa": 255,
+								"radius": 5,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"font": 16,
+								"font_family": "montserratMedium",
+								"text_opa": 255,
+								"text_color": "#ffffff"
+							},
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_PRESSED",
+								"disable": true,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_opa": 255,
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 0,
+								"border_color": "#2195f6",
+								"border_opa": 255,
+								"radius": 5,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"font": 16,
+								"font_family": "montserratMedium",
+								"text_opa": 255,
+								"text_color": "#ffffff"
+							},
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_CHECKED",
+								"disable": true,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_opa": 255,
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 0,
+								"border_opa": 255,
+								"border_color": "#2195f6",
+								"radius": 5,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"font": 12,
+								"font_family": "montserratMedium",
+								"text_opa": 255,
+								"text_color": "#000000"
+							},
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_DISABLED",
+								"disable": true,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_opa": 255,
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 0,
+								"border_opa": 255,
+								"border_color": "#2195f6",
+								"radius": 5,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"font": 12,
+								"font_family": "montserratMedium",
+								"text_opa": 255,
+								"text_color": "#000000"
+							}
+						],
+						"text": "⬅",
+						"long_mode": "LV_LABEL_LONG_WRAP",
+						"toggle": false
+					}
+				]
+			},
+			{
+				"name": "link_game_app",
+				"id": "ln3wk79h",
+				"type": "scr",
+				"version": 190,
+				"scrollbar_mode": "OFF",
+				"customer_code": {
+					"code_c": "",
+					"inc_c": "",
+					"code_py": "",
+					"inc_py": "",
+					"type": "screen"
+				},
+				"width": 480,
+				"height": 320,
+				"visible": true,
+				"flag": [],
+				"event": {
+					"widget": {}
+				},
+				"style": [
+					{
+						"part": "LV_PART_MAIN",
+						"state": "LV_STATE_DEFAULT",
+						"disable": false,
+						"bg_color": "#ffffff",
+						"bg_grad_dir": "LV_GRAD_DIR_NONE",
+						"bg_dither_mode": "LV_DITHER_NONE",
+						"bg_main_stop": 0,
+						"bg_grad_stop": 255,
+						"bg_grad_color": "#2195f6",
+						"bg_opa": 0,
+						"bg_img_src": "",
+						"bg_img_opa": 255,
+						"bg_img_recolor": "#ffffff",
+						"bg_img_recolor_opa": 0
+					}
+				],
+				"size": [
+					480,
+					320
+				],
+				"widgets": [
+					{
+						"name": "link_game_app_btnm_1",
+						"id": "kh1k2wxn",
+						"type": "btnm",
+						"visible": true,
+						"flag": [],
+						"pos": [
+							29,
+							37
+						],
+						"size": [
+							421,
+							275
+						],
+						"default_style": false,
+						"text_map": [
+							{
+								"item": "1,2,3,0,0,0"
+							},
+							{
+								"item": "4,5,6,0,0,0"
+							},
+							{
+								"item": "7,8,9,0,0,0"
+							},
+							{
+								"item": "0,0,0,0,0,0"
+							},
+							{
+								"item": "0,0,0,0,0,0"
+							}
+						],
+						"item_size": [
+							58,
+							42
+						],
+						"style": [
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_DEFAULT",
+								"disable": false,
+								"bg_color": "#ffffff",
+								"bg_grad_color": "#ffffff",
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_color": "#ffffff",
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 0,
+								"border_opa": 255,
+								"padding_top": 16,
+								"padding_bottom": 16,
+								"padding_left": 16,
+								"padding_right": 16,
+								"padding_row": 8,
+								"padding_column": 8,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"radius": 0,
+								"bg_opa": 255
+							},
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_FOCUSED",
+								"disable": true,
+								"bg_color": "#ffffff",
+								"bg_grad_color": "#ffffff",
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_color": "#c9c9c9",
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 1,
+								"border_opa": 255,
+								"padding_top": 16,
+								"padding_bottom": 16,
+								"padding_left": 16,
+								"padding_right": 16,
+								"padding_row": 8,
+								"padding_column": 8,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"radius": 4,
+								"bg_opa": 255
+							},
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_DISABLED",
+								"disable": true,
+								"bg_color": "#ffffff",
+								"bg_grad_color": "#ffffff",
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_color": "#c9c9c9",
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 1,
+								"border_opa": 255,
+								"padding_top": 16,
+								"padding_bottom": 16,
+								"padding_left": 16,
+								"padding_right": 16,
+								"padding_row": 8,
+								"padding_column": 8,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"radius": 4,
+								"bg_opa": 255
+							},
+							{
+								"part": "LV_PART_ITEMS",
+								"state": "LV_STATE_DEFAULT",
+								"disable": false,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"text_color": "#ffffff",
+								"border_color": "#c9c9c9",
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 1,
+								"border_opa": 255,
+								"font": 16,
+								"font_family": "montserratMedium",
+								"radius": 4,
+								"bg_opa": 255,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0
+							},
+							{
+								"part": "LV_PART_ITEMS",
+								"state": "LV_STATE_PRESSED",
+								"disable": true,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"text_color": "#ffffff",
+								"border_color": "#c9c9c9",
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 1,
+								"border_opa": 255,
+								"font": 12,
+								"font_family": "montserratMedium",
+								"radius": 4,
+								"bg_opa": 255,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0
+							}
+						]
+					},
+					{
+						"name": "link_game_app_back_btn",
+						"id": "l0ors57l",
 						"type": "btn",
 						"visible": true,
 						"flag": [],
@@ -44666,86 +45563,7 @@
 				]
 			},
 			{
-				"name": "game3",
-				"id": "ln3wk79h",
-				"type": "scr",
-				"version": 190,
-				"scrollbar_mode": "OFF",
-				"customer_code": {
-					"code_c": "",
-					"inc_c": "",
-					"code_py": "",
-					"inc_py": "",
-					"type": "screen"
-				},
-				"width": 480,
-				"height": 320,
-				"visible": true,
-				"flag": [],
-				"event": {
-					"widget": {
-						"gesture_left": {
-							"condition": [],
-							"action": [
-								{
-									"dst": "custom_code",
-									"bindCondi": "",
-									"actionList": {
-										"custom_code": {
-											"inc_c": "",
-											"code_c": "nav_back(&guider_ui);",
-											"inc_py": "",
-											"code_py": ""
-										}
-									}
-								}
-							]
-						},
-						"gesture_right": {
-							"condition": [],
-							"action": [
-								{
-									"dst": "custom_code",
-									"bindCondi": "",
-									"actionList": {
-										"custom_code": {
-											"inc_c": "",
-											"code_c": "nav_back(&guider_ui);",
-											"inc_py": "",
-											"code_py": ""
-										}
-									}
-								}
-							]
-						}
-					}
-				},
-				"style": [
-					{
-						"part": "LV_PART_MAIN",
-						"state": "LV_STATE_DEFAULT",
-						"disable": false,
-						"bg_color": "#ffffff",
-						"bg_grad_dir": "LV_GRAD_DIR_NONE",
-						"bg_dither_mode": "LV_DITHER_NONE",
-						"bg_main_stop": 0,
-						"bg_grad_stop": 255,
-						"bg_grad_color": "#2195f6",
-						"bg_opa": 0,
-						"bg_img_src": "",
-						"bg_img_opa": 255,
-						"bg_img_recolor": "#ffffff",
-						"bg_img_recolor_opa": 0
-					}
-				],
-				"size": [
-					480,
-					320
-				],
-				"widgets": []
-			},
-			{
-				"name": "game4",
+				"name": "game3_app",
 				"id": "qrc07ld3",
 				"type": "scr",
 				"version": 190,
@@ -44824,7 +45642,7 @@
 				"widgets": []
 			},
 			{
-				"name": "game5",
+				"name": "game5_app",
 				"id": "t2k1jojd",
 				"type": "scr",
 				"version": 190,

@@ -1,8 +1,8 @@
 {
     "files.associations": {
         "*.dbclient-js": "javascript",
-        "*.json5": "json5",
         "*.json": "jsonc",
+        "*.json5": "json5",
         "at32f435_437.h": "c",
         "eep_lm75.h": "c",
         "i2c_application.h": "c",
@@ -137,7 +137,8 @@
         "__assert": "cpp",
         "typeinfo": "cpp",
         "led.h": "c",
-        "random": "cpp"
+        "random": "cpp",
+        "color_led.h": "c"
     },
     "search.useIgnoreFiles": false, // 禁用git忽略文件
     "search.exclude": { // 排除搜索范围

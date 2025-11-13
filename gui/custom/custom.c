@@ -251,10 +251,10 @@ void setup_scr_deepseek_app(lv_ui *ui);
 void setup_scr_setting_app(lv_ui *ui);
 void setup_scr_electronic_organ_app(lv_ui *ui);
 void setup_scr_drawing_board_app(lv_ui *ui);
-void setup_scr_game_minecraft(lv_ui *ui);
-void setup_scr_game3(lv_ui *ui);
-void setup_scr_game4(lv_ui *ui);
-void setup_scr_game5(lv_ui *ui);
+void setup_scr_minecraft_app(lv_ui *ui);
+void setup_scr_link_game_app(lv_ui *ui);
+void setup_scr_game3_app(lv_ui *ui);
+void setup_scr_game5_app(lv_ui *ui);
 
 static bool get_meta_for_obj(lv_ui *ui, lv_obj_t *obj, ScreenMeta *out) {
     if (!ui || !obj || !out)
@@ -325,28 +325,28 @@ static bool get_meta_for_obj(lv_ui *ui, lv_obj_t *obj, ScreenMeta *out) {
         out->setup = setup_scr_drawing_board_app;
         return true;
     }
-    if (obj == ui->game_minecraft) {
-        out->obj_pp = &ui->game_minecraft;
-        out->del_flag_p = &ui->game_minecraft_del;
-        out->setup = setup_scr_game_minecraft;
+    if (obj == ui->minecraft_app) {
+        out->obj_pp = &ui->minecraft_app;
+        out->del_flag_p = &ui->minecraft_app_del;
+        out->setup = setup_scr_minecraft_app;
         return true;
     }
-    if (obj == ui->game3) {
-        out->obj_pp = &ui->game3;
-        out->del_flag_p = &ui->game3_del;
-        out->setup = setup_scr_game3;
+    if (obj == ui->link_game_app) {
+        out->obj_pp = &ui->link_game_app;
+        out->del_flag_p = &ui->link_game_app_del;
+        out->setup = setup_scr_link_game_app;
         return true;
     }
-    if (obj == ui->game4) {
-        out->obj_pp = &ui->game4;
-        out->del_flag_p = &ui->game4_del;
-        out->setup = setup_scr_game4;
+    if (obj == ui->game3_app) {
+        out->obj_pp = &ui->game3_app;
+        out->del_flag_p = &ui->game3_app_del;
+        out->setup = setup_scr_game3_app;
         return true;
     }
-    if (obj == ui->game5) {
-        out->obj_pp = &ui->game5;
-        out->del_flag_p = &ui->game5_del;
-        out->setup = setup_scr_game5;
+    if (obj == ui->game5_app) {
+        out->obj_pp = &ui->game5_app;
+        out->del_flag_p = &ui->game5_app_del;
+        out->setup = setup_scr_game5_app;
         return true;
     }
     return false;
@@ -431,8 +431,8 @@ void music_list_item_event_handler(lv_event_t *e) {
     music_start = 1;   // 触发播放任务从头开始
 
     // 播放按钮状态更新为“播放中”（显示暂停图标）
-    if (lv_obj_is_valid(ui->music_app_imgbtn_4)) {
-        lv_obj_clear_state(ui->music_app_imgbtn_4, LV_STATE_CHECKED);
+    if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {
+        lv_obj_clear_state(ui->music_app_music_player_or_pause_btn, LV_STATE_CHECKED);
     }
 
     if (lv_obj_is_valid(ui->music_app_music_stylus)) {
@@ -459,8 +459,8 @@ void music_prev_btn_event_handler(lv_event_t *e) {
     music_playing = 0;
     music_start = 1;
 
-    if (lv_obj_is_valid(ui->music_app_imgbtn_4)) {
-        lv_obj_clear_state(ui->music_app_imgbtn_4, LV_STATE_CHECKED);
+    if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {
+        lv_obj_clear_state(ui->music_app_music_player_or_pause_btn, LV_STATE_CHECKED);
     }
 
     if (lv_obj_is_valid(ui->music_app_music_stylus)) {
@@ -487,8 +487,8 @@ void music_next_btn_event_handler(lv_event_t *e) {
     music_playing = 0;
     music_start = 1;
 
-    if (lv_obj_is_valid(ui->music_app_imgbtn_4)) {
-        lv_obj_clear_state(ui->music_app_imgbtn_4, LV_STATE_CHECKED);
+    if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {
+        lv_obj_clear_state(ui->music_app_music_player_or_pause_btn, LV_STATE_CHECKED);
     }
 
     if (lv_obj_is_valid(ui->music_app_music_stylus)) {
@@ -1034,7 +1034,7 @@ void minecraft_timer_cb(lv_timer_t *timer) {
     }
 }
 
-void cleanup_scr_game_minecraft(lv_ui *ui) {
+void cleanup_scr_minecraft(lv_ui *ui) {
     // 停止定时器
     if (minecraft_timer) {
         lv_timer_del(minecraft_timer);
@@ -1046,5 +1046,17 @@ void cleanup_scr_game_minecraft(lv_ui *ui) {
     }
     minecraft_deinit();
     (void)ui;
+}
+
+void minecraft_app_screen_delete_event_handler(lv_event_t *e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_DELETE: {
+        cleanup_scr_minecraft(&guider_ui);
+        break;
+    }
+    default:
+        break;
+    }
 }
 #endif

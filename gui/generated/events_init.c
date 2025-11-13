@@ -181,13 +181,27 @@ static void home_app2_event_handler (lv_event_t *e)
     }
 }
 
-static void home_app2_imgbtn_3_event_handler (lv_event_t *e)
+static void home_app2_link_game_icon_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        nav_to(&guider_ui, &guider_ui.game_minecraft, guider_ui.game_minecraft_del, setup_scr_game_minecraft, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);
+        nav_to(&guider_ui, &guider_ui.link_game_app, guider_ui.link_game_app_del, setup_scr_link_game_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void home_app2_minecraft_icon_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        nav_to(&guider_ui, &guider_ui.minecraft_app, guider_ui.minecraft_app_del, setup_scr_minecraft_app, LV_SCR_LOAD_ANIM_OVER_TOP, 200, 200);
         break;
     }
     default:
@@ -226,7 +240,8 @@ static void home_app2_electronic_organ_icon_event_handler (lv_event_t *e)
 void events_init_home_app2 (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->home_app2, home_app2_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->home_app2_imgbtn_3, home_app2_imgbtn_3_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->home_app2_link_game_icon, home_app2_link_game_icon_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->home_app2_minecraft_icon, home_app2_minecraft_icon_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->home_app2_drawing_board_icon, home_app2_drawing_board_icon_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->home_app2_electronic_organ_icon, home_app2_electronic_organ_icon_event_handler, LV_EVENT_ALL, ui);
 }
@@ -742,13 +757,13 @@ void events_init_drawing_board_app (lv_ui *ui)
     lv_obj_add_event_cb(ui->drawing_board_app_btn_nav_back, drawing_board_app_btn_nav_back_event_handler, LV_EVENT_ALL, ui);
 }
 
-static void game_minecraft_back_btn_event_handler (lv_event_t *e)
+static void minecraft_app_back_btn_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        cleanup_scr_game_minecraft(&guider_ui);
+        cleanup_scr_minecraft(&guider_ui);
         nav_back(&guider_ui);
         break;
     }
@@ -757,21 +772,18 @@ static void game_minecraft_back_btn_event_handler (lv_event_t *e)
     }
 }
 
-static void game_minecraft_screen_delete_event_handler (lv_event_t *e);
-
-void events_init_game_minecraft (lv_ui *ui)
+void events_init_minecraft_app (lv_ui *ui)
 {
-    lv_obj_add_event_cb(ui->game_minecraft_back_btn, game_minecraft_back_btn_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->game_minecraft, game_minecraft_screen_delete_event_handler, LV_EVENT_DELETE, ui);
+    lv_obj_add_event_cb(ui->minecraft_app_back_btn, minecraft_app_back_btn_event_handler, LV_EVENT_ALL, ui);
 }
 
-static void game_minecraft_screen_delete_event_handler (lv_event_t *e)
+static void link_game_app_back_btn_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
-    case LV_EVENT_DELETE:
+    case LV_EVENT_CLICKED:
     {
-        cleanup_scr_game_minecraft(&guider_ui);
+        nav_back(&guider_ui);
         break;
     }
     default:
@@ -779,42 +791,12 @@ static void game_minecraft_screen_delete_event_handler (lv_event_t *e)
     }
 }
 
-static void game3_event_handler (lv_event_t *e)
+void events_init_link_game_app (lv_ui *ui)
 {
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-    case LV_EVENT_GESTURE:
-    {
-        lv_dir_t dir = lv_indev_get_gesture_dir(lv_indev_get_act());
-        switch(dir) {
-        case LV_DIR_LEFT:
-        {
-            lv_indev_wait_release(lv_indev_get_act());
-            nav_back(&guider_ui);
-            break;
-        }
-        case LV_DIR_RIGHT:
-        {
-            lv_indev_wait_release(lv_indev_get_act());
-            nav_back(&guider_ui);
-            break;
-        }
-        default:
-            break;
-        }
-        break;
-    }
-    default:
-        break;
-    }
+    lv_obj_add_event_cb(ui->link_game_app_back_btn, link_game_app_back_btn_event_handler, LV_EVENT_ALL, ui);
 }
 
-void events_init_game3 (lv_ui *ui)
-{
-    lv_obj_add_event_cb(ui->game3, game3_event_handler, LV_EVENT_ALL, ui);
-}
-
-static void game4_event_handler (lv_event_t *e)
+static void game3_app_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
@@ -844,12 +826,12 @@ static void game4_event_handler (lv_event_t *e)
     }
 }
 
-void events_init_game4 (lv_ui *ui)
+void events_init_game3_app (lv_ui *ui)
 {
-    lv_obj_add_event_cb(ui->game4, game4_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->game3_app, game3_app_event_handler, LV_EVENT_ALL, ui);
 }
 
-static void game5_event_handler (lv_event_t *e)
+static void game5_app_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
@@ -879,9 +861,9 @@ static void game5_event_handler (lv_event_t *e)
     }
 }
 
-void events_init_game5 (lv_ui *ui)
+void events_init_game5_app (lv_ui *ui)
 {
-    lv_obj_add_event_cb(ui->game5, game5_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->game5_app, game5_app_event_handler, LV_EVENT_ALL, ui);
 }
 
 

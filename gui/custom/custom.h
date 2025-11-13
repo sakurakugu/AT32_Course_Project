@@ -121,7 +121,8 @@ extern lv_obj_t *minecraft_img;
 
 // 游戏循环定时器回调
 extern void minecraft_timer_cb(lv_timer_t *timer);
-extern void cleanup_scr_game_minecraft(lv_ui *ui);
+extern void cleanup_scr_minecraft(lv_ui *ui);
+extern void minecraft_app_screen_delete_event_handler(lv_event_t *e);
 
 #ifdef __cplusplus
 }
