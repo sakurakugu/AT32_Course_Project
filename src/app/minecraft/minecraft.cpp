@@ -42,8 +42,7 @@ static int8_t worldMap[MAP_WIDTH][MAP_HEIGHT] = {
 // 游戏状态
 static MinecraftState g_state;
 
-// 帧缓冲 (c要用)
-static uint16_t (*frameImage)[SCREEN_HEIGHT] = NULL;
+// 帧缓冲 (直接渲染到线性画布)
 static uint16_t *lv_framebuffer = NULL;
 // 移除mixTex，改为按需采样
 
@@ -58,7 +57,7 @@ static uint16_t CHANGE_SIDE_TEX_COLOR(uint16_t color) {
     uint16_t color_Red = (color & 0xF800) >> 11;
     uint16_t color_Green = (color & 0x07E0) >> 5;
     uint16_t color_Blue = color & 0x001F;
-    uint16_t newColor = ((color_Red / 2) << 11) | ((color_Green / 2) << 5) | (color_Blue / 2);
+    uint16_t newColor = ((color_Red >> 1) << 11) | ((color_Green >> 1) << 5) | (color_Blue >> 1);
     return newColor;
 }
 
@@ -72,12 +71,20 @@ static inline uint16_t SAMPLE_WALL_COLOR(int8_t texNum, int texX, int texY) {
     int idx = ((texHeight * texX + texY) << 1);
     if (texNum < 30) {
         if (texNum == 15 || texNum == 16) {
+#if MC_ENABLE_BADAPPLE
             return READ16(badapple[g_state.badappleFrame], idx);
+#else
+            return READ16(texture[texNum], idx);
+#endif
         }
         return READ16(texture[texNum], idx);
     }
     if (texNum == 90) {
+#if MC_ENABLE_JNTM
         return READ16(jntm[g_state.jntmFrame], idx);
+#else
+        return READ16(texture[0], idx);
+#endif
     }
     if (texNum >= 30 && texNum < 60) {
         uint16_t lw = READ16(liewen[0], idx);
@@ -99,6 +106,7 @@ static inline uint16_t SAMPLE_WALL_COLOR(int8_t texNum, int texX, int texY) {
 
 // 混合两个纹理
 static inline void UPDATE_JNTM(void) {
+#if MC_ENABLE_JNTM
     if (millis() >= g_state.t4 + 200) {
         g_state.t4 = millis();
         if (g_state.jntmFrame < 44) {
@@ -107,10 +115,12 @@ static inline void UPDATE_JNTM(void) {
             g_state.jntmFrame = 0;
         }
     }
+#endif
 }
 
 // 播放JNTM动画
 static inline void UPDATE_BADAPPLE(void) {
+#if MC_ENABLE_BADAPPLE
     if (millis() >= g_state.t5 + 300) {
         g_state.t5 = millis();
         if (g_state.badappleFrame < 74) {
@@ -119,6 +129,7 @@ static inline void UPDATE_BADAPPLE(void) {
             g_state.badappleFrame = 0;
         }
     }
+#endif
 }
 
 // 检查是否在地图边界
@@ -154,10 +165,10 @@ static void DRAW_WEAPONS_TO_SCREEN(int typeOfWeapon) {
         hStart = SCREEN_HEIGHT - chutou1_texHeight;
         for (uint8_t a = wStart; a < wStart + chutou1_texWidth; a++) {
             for (uint8_t b = hStart; b < hStart + chutou1_texHeight; b++) {
-                weaponsBuffer = chutou1[c] << 8 | chutou1[c + 1];
+                weaponsBuffer = (uint16_t)(chutou1[c] << 8) | (uint16_t)(chutou1[c + 1]);
                 c += 2;
                 if (weaponsBuffer != 0) {
-                    frameImage[a][b] = weaponsBuffer;
+                    lv_framebuffer[b * SCREEN_WIDTH + a] = weaponsBuffer;
                 }
             }
         }
@@ -166,10 +177,10 @@ static void DRAW_WEAPONS_TO_SCREEN(int typeOfWeapon) {
         hStart = SCREEN_HEIGHT - chutou2_texHeight;
         for (uint8_t a = wStart; a < wStart + chutou2_texWidth; a++) {
             for (uint8_t b = hStart; b < hStart + chutou2_texHeight; b++) {
-                weaponsBuffer = chutou2[c] << 8 | chutou2[c + 1];
+                weaponsBuffer = (uint16_t)(chutou2[c] << 8) | (uint16_t)(chutou2[c + 1]);
                 c += 2;
                 if (weaponsBuffer != 0) {
-                    frameImage[a][b] = weaponsBuffer;
+                    lv_framebuffer[b * SCREEN_WIDTH + a] = weaponsBuffer;
                 }
             }
         }
@@ -178,10 +189,10 @@ static void DRAW_WEAPONS_TO_SCREEN(int typeOfWeapon) {
         hStart = SCREEN_HEIGHT - chutou3_texHeight;
         for (uint8_t a = wStart; a < wStart + chutou3_texWidth; a++) {
             for (uint8_t b = hStart; b < hStart + chutou3_texHeight; b++) {
-                weaponsBuffer = chutou3[c] << 8 | chutou3[c + 1];
+                weaponsBuffer = (uint16_t)(chutou3[c] << 8) | (uint16_t)(chutou3[c + 1]);
                 c += 2;
                 if (weaponsBuffer != 0) {
-                    frameImage[a][b] = weaponsBuffer;
+                    lv_framebuffer[b * SCREEN_WIDTH + a] = weaponsBuffer;
                 }
             }
         }
@@ -225,7 +236,7 @@ static void DRAW_FLOOR_AND_CEILING(void) {
                 color = (texture[ceilingTexture][idx] << 8) | texture[ceilingTexture][idx + 1];
             }
             color = CHANGE_SIDE_TEX_COLOR(color);
-            frameImage[x][y] = color;
+            lv_framebuffer[y * SCREEN_WIDTH + x] = color;
         }
     }
 }
@@ -333,7 +344,7 @@ static void RAYCASTING(void) {
             if (side == 1) {
                 color = CHANGE_SIDE_TEX_COLOR(color);
             }
-            frameImage[x][y] = color;
+            lv_framebuffer[y * SCREEN_WIDTH + x] = color;
         }
     }
 }
@@ -422,15 +433,7 @@ static void processMovement(void) {
 }
 
 // 转换framebuffer为显示缓冲
-static void wddd(void) {
-    for (int y = 0; y < SCREEN_HEIGHT; y++) {
-        for (int x = 0; x < SCREEN_WIDTH / 2; x++) {
-            uint16_t tmp = frameImage[x][y];
-            frameImage[x][y] = frameImage[(SCREEN_WIDTH - 1) - x][y];
-            frameImage[(SCREEN_WIDTH - 1) - x][y] = tmp;
-        }
-    }
-}
+// 已不再需要翻转缓冲
 
 // 初始化游戏
 void minecraft_init(void) {
@@ -447,9 +450,6 @@ void minecraft_init(void) {
     g_state.nowFrame = millis();
     g_state.oldFrame = g_state.nowFrame;
     g_state.t2 = g_state.t3 = g_state.t4 = g_state.t5 = g_state.t6 = g_state.nowFrame;
-    if (!frameImage) {
-        frameImage = (uint16_t (*)[SCREEN_HEIGHT])pvPortMalloc(SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(uint16_t));
-    }
     if (!lv_framebuffer) {
         lv_framebuffer = (uint16_t *)pvPortMalloc(SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(uint16_t));
     }
@@ -464,11 +464,6 @@ void minecraft_loop(void) {
     RAYCASTING();
     processMovement();
     DRAW_WEAPONS_TO_SCREEN(1);
-    for (int y = 0; y < SCREEN_HEIGHT; y++) {
-        for (int x = 0; x < SCREEN_WIDTH; x++) {
-            lv_framebuffer[y * SCREEN_WIDTH + x] = frameImage[x][y];
-        }
-    }
 }
 
 // 处理按键输入
@@ -482,10 +477,6 @@ uint16_t* minecraft_get_framebuffer(void) {
 }
 
 void minecraft_deinit(void) {
-    if (frameImage) {
-        vPortFree(frameImage);
-        frameImage = NULL;
-    }
     if (lv_framebuffer) {
         vPortFree(lv_framebuffer);
         lv_framebuffer = NULL;

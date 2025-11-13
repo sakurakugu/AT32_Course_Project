@@ -1605,6 +1605,29 @@ void setup_scr_smart_home_app(lv_ui *ui)
     lv_obj_set_style_text_opa(ui->smart_home_app_btn_return6, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->smart_home_app_btn_return6, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
+    //Write codes smart_home_app_back_btn
+    ui->smart_home_app_back_btn = lv_btn_create(ui->smart_home_app);
+    ui->smart_home_app_back_btn_label = lv_label_create(ui->smart_home_app_back_btn);
+    lv_label_set_text(ui->smart_home_app_back_btn_label, "⬅");
+    lv_label_set_long_mode(ui->smart_home_app_back_btn_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->smart_home_app_back_btn_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->smart_home_app_back_btn, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->smart_home_app_back_btn_label, LV_PCT(100));
+    lv_obj_set_pos(ui->smart_home_app_back_btn, 29, 24);
+    lv_obj_set_size(ui->smart_home_app_back_btn, 28, 23);
+
+    //Write style for smart_home_app_back_btn, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->smart_home_app_back_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->smart_home_app_back_btn, lv_color_hex(0x9a9a9a), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->smart_home_app_back_btn, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->smart_home_app_back_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->smart_home_app_back_btn, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->smart_home_app_back_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->smart_home_app_back_btn, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_back_btn, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->smart_home_app_back_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->smart_home_app_back_btn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
     //The custom code of smart_home_app.
     // IoT页面图标可点击并不向父容器冒泡
     lv_obj_add_flag(ui->smart_home_app_IoT_color_led, LV_OBJ_FLAG_CLICKABLE);

@@ -29,13 +29,23 @@ extern const unsigned char chutou2[3920];
 extern const unsigned char chutou3[5280];
 
 // JNTM动画纹理
+#if MC_ENABLE_JNTM
 extern const unsigned char jntm[45][textureData];
+#endif
 
 // BadApple动画纹理
+#if MC_ENABLE_BADAPPLE
 extern const unsigned char badapple[75][textureData];
+#endif
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif // MINECRAFT_TEXTURES_H
+#ifndef MC_ENABLE_BADAPPLE
+#define MC_ENABLE_BADAPPLE 1
+#endif
+#ifndef MC_ENABLE_JNTM
+#define MC_ENABLE_JNTM 1
+#endif

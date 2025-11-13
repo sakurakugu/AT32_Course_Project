@@ -946,13 +946,16 @@ void smart_home_color_led_cpicker_event_handler(lv_event_t *e) {
     if (!ui)
         return;
 
+    if (!lv_obj_has_state(ui->smart_home_app_color_led_sw, LV_STATE_CHECKED))
+        return;
+
     lv_obj_t *cpicker = lv_event_get_target(e);
     lv_color_t color = lv_colorwheel_get_rgb(cpicker);
-
-    // 获取RGB分量 (0-255)
-    uint8_t r = color.ch.red;
-    uint8_t g = color.ch.green;
-    uint8_t b = color.ch.blue;
+    uint32_t raw = lv_color_to32(color);
+    lv_color32_t c32; c32.full = raw;
+    uint8_t r = c32.ch.red;
+    uint8_t g = c32.ch.green;
+    uint8_t b = c32.ch.blue;
 
     // 获取当前亮度
     int32_t brightness = 100;
@@ -979,16 +982,19 @@ void smart_home_color_led_light_slider_event_handler(lv_event_t *e) {
     if (!ui)
         return;
 
+    if (!lv_obj_has_state(ui->smart_home_app_color_led_sw, LV_STATE_CHECKED))
+        return;
+
     lv_obj_t *slider = lv_event_get_target(e);
     int32_t brightness = lv_slider_get_value(slider); // 0-100
 
     // 获取当前颜色
     lv_color_t color = lv_colorwheel_get_rgb(ui->smart_home_app_color_led_cpicker);
-
-    // 获取RGB分量
-    uint8_t r = color.ch.red;
-    uint8_t g = color.ch.green;
-    uint8_t b = color.ch.blue;
+    uint32_t raw = lv_color_to32(color);
+    lv_color32_t c32; c32.full = raw;
+    uint8_t r = c32.ch.red;
+    uint8_t g = c32.ch.green;
+    uint8_t b = c32.ch.blue;
 
     // 应用亮度调整
     r = (uint8_t)((r * brightness) / 100);

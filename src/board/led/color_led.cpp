@@ -1,6 +1,7 @@
 #include "color_led.hpp"
 
 #include "at32f435_437_gpio.h"
+#include "at32f435_437_clock.h"
 #include "timer.h"
 
 tmr_output_config_type tmr_oc_init_structure;
@@ -10,9 +11,6 @@ tmr_output_config_type tmr_oc_init_structure;
  * PWM输出模式，用于控制RGB颜色LED
  */
 void Color_Led::Init() {
-    uint16_t ccr1_val = 333;
-    uint16_t ccr2_val = 249;
-    uint16_t ccr3_val = 166;
     uint16_t prescalervalue = 0;
 
     gpio_init_type gpio_init_struct;
@@ -31,9 +29,11 @@ void Color_Led::Init() {
     gpio_pin_mux_config(GPIOC, GPIO_PINS_SOURCE7, GPIO_MUX_2);
     gpio_pin_mux_config(GPIOC, GPIO_PINS_SOURCE8, GPIO_MUX_2);
 
-    /* compute the prescaler value */
-
-    prescalervalue = (uint16_t)((crm_clocks_freq_struct.apb1_freq * 2) / 24000000) - 1;
+    crm_clocks_freq_type clocks;
+    crm_clocks_freq_get(&clocks);
+    uint32_t presc = ((clocks.apb1_freq * 2U) / 24000000U);
+    if (presc == 0) presc = 1;
+    prescalervalue = (uint16_t)(presc - 1U);
 
     /* tmr3 time base configuration */
     tmr_base_init(TMR3, 665, prescalervalue);
@@ -43,10 +43,10 @@ void Color_Led::Init() {
     tmr_output_default_para_init(&tmr_oc_init_structure);
     tmr_oc_init_structure.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
     tmr_oc_init_structure.oc_idle_state = FALSE;
-    tmr_oc_init_structure.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
+    tmr_oc_init_structure.oc_polarity = TMR_OUTPUT_ACTIVE_LOW;
     tmr_oc_init_structure.oc_output_state = TRUE;
     tmr_output_channel_config(TMR3, TMR_SELECT_CHANNEL_1, &tmr_oc_init_structure);
-    tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_1, 665);
+    tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_1, 0);
     tmr_output_channel_buffer_enable(TMR3, TMR_SELECT_CHANNEL_1, TRUE);
 
     tmr_output_channel_config(TMR3, TMR_SELECT_CHANNEL_2, &tmr_oc_init_structure);
@@ -54,7 +54,7 @@ void Color_Led::Init() {
     tmr_output_channel_buffer_enable(TMR3, TMR_SELECT_CHANNEL_2, TRUE);
 
     tmr_output_channel_config(TMR3, TMR_SELECT_CHANNEL_3, &tmr_oc_init_structure);
-    tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_3, 665);
+    tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_3, 0);
     tmr_output_channel_buffer_enable(TMR3, TMR_SELECT_CHANNEL_3, TRUE);
 
     tmr_period_buffer_enable(TMR3, TRUE);
@@ -108,13 +108,16 @@ void Color_Led::SetBrightness(uint8_t brightness) {
  */
 void Color_Led::TurnOn() {
     tmr_counter_enable(TMR3, TRUE);
+    SetColor(current_r, current_g, current_b);
 }
 
 /**
  * @brief 关闭彩灯
  */
 void Color_Led::TurnOff() {
-    tmr_counter_enable(TMR3, FALSE);
+    tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_1, 0);
+    tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_2, 0);
+    tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_3, 0);
 }
 
 /**

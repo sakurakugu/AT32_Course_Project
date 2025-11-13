@@ -34,8 +34,6 @@ typedef struct {
     uint32_t t2, t3, t4, t5, t6;   // 计时器
     uint8_t jntmFrame;        // 动画帧
     uint8_t badappleFrame;    // 动画帧
-    bool texcsh;              // 纹理缓存标志
-    bool pitchBuffer;         // 俯仰缓冲
 } MinecraftState;
 
 // 初始化游戏
@@ -61,3 +59,10 @@ void minecraft_deinit(void);
 #endif
 
 #endif // MINECRAFT_H
+
+#ifndef MC_ENABLE_BADAPPLE
+#define MC_ENABLE_BADAPPLE 1
+#endif
+#ifndef MC_ENABLE_JNTM
+#define MC_ENABLE_JNTM 1
+#endif

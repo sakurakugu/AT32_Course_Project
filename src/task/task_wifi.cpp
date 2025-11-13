@@ -79,8 +79,7 @@ static bool wifi_save_credentials_to_eeprom(const char *ssid, const char *pwd) {
 }
 
 // 异步WiFi连接任务：在后台执行连接过程，不阻塞UI
-void TaskWiFi(void *pvParameters) {
-    (void)pvParameters;
+void TaskWiFi([[maybe_unused]] void *pvParameters) {
     for (;;) {
         // LOGI("TaskWiFi 栈的高水位标记: %d\r\n", uxTaskGetStackHighWaterMark(NULL));
         if (wifi_reconnect_requested) {

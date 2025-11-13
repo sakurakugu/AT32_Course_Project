@@ -40,6 +40,10 @@ extern uint8_t eep_write_buf[16];
 extern uint8_t eep_read_buf[32];
 extern uint8_t lm75_buf[2];
 extern i2c_handle_type hi2cx;
+/* I2C bus guard APIs */
+void i2c_bus_lock(void);
+void i2c_bus_unlock(void);
+
 #ifdef __cplusplus
 }
 #endif

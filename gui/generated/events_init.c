@@ -369,36 +369,6 @@ void events_init_music_app (lv_ui *ui)
     lv_obj_add_event_cb(ui->music_app, music_app_event_handler, LV_EVENT_ALL, ui);
 }
 
-static void smart_home_app_event_handler (lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-    case LV_EVENT_GESTURE:
-    {
-        lv_dir_t dir = lv_indev_get_gesture_dir(lv_indev_get_act());
-        switch(dir) {
-        case LV_DIR_LEFT:
-        {
-            lv_indev_wait_release(lv_indev_get_act());
-            nav_back(&guider_ui);
-            break;
-        }
-        case LV_DIR_RIGHT:
-        {
-            lv_indev_wait_release(lv_indev_get_act());
-            nav_back(&guider_ui);
-            break;
-        }
-        default:
-            break;
-        }
-        break;
-    }
-    default:
-        break;
-    }
-}
-
 static void smart_home_app_IoT_8key_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -567,9 +537,22 @@ static void smart_home_app_btn_return6_event_handler (lv_event_t *e)
     }
 }
 
+static void smart_home_app_back_btn_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        nav_back(&guider_ui);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_smart_home_app (lv_ui *ui)
 {
-    lv_obj_add_event_cb(ui->smart_home_app, smart_home_app_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->smart_home_app_IoT_8key, smart_home_app_IoT_8key_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->smart_home_app_IoT_MPU6050, smart_home_app_IoT_MPU6050_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->smart_home_app_IoT_ADC, smart_home_app_IoT_ADC_event_handler, LV_EVENT_ALL, ui);
@@ -582,6 +565,7 @@ void events_init_smart_home_app (lv_ui *ui)
     lv_obj_add_event_cb(ui->smart_home_app_btn_reutrn4, smart_home_app_btn_reutrn4_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->smart_home_app_btn_return5, smart_home_app_btn_return5_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->smart_home_app_btn_return6, smart_home_app_btn_return6_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->smart_home_app_back_btn, smart_home_app_back_btn_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void calculator_app_event_handler (lv_event_t *e)

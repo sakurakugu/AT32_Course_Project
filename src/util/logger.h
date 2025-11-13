@@ -39,25 +39,29 @@
 #if LOGGING_ENABLED
 
 #if LOG_LEVEL <= LOG_LEVEL_DEBUG
-#define LOGD(fmt, ...) printf("\r\n[调试][%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+// #define LOGD(fmt, ...) printf("\r\n[调试][%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#define LOGD(fmt, ...) printf("[调试][%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 #else
 #define LOGD(fmt, ...) ((void)0)
 #endif
 
 #if LOG_LEVEL <= LOG_LEVEL_INFO
-#define LOGI(fmt, ...) printf("\r\n[信息][%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+// #define LOGI(fmt, ...) printf("\r\n[信息][%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#define LOGI(fmt, ...) printf("[信息][%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 #else
 #define LOGI(fmt, ...) ((void)0)
 #endif
 
 #if LOG_LEVEL <= LOG_LEVEL_WARN
-#define LOGW(fmt, ...) printf("\r\n[警告][%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+// #define LOGW(fmt, ...) printf("\r\n[警告][%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#define LOGW(fmt, ...) printf("[警告][%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 #else
 #define LOGW(fmt, ...) ((void)0)
 #endif
 
 #if LOG_LEVEL <= LOG_LEVEL_ERROR
-#define LOGE(fmt, ...) printf("\r\n[错误][%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+// #define LOGE(fmt, ...) printf("\r\n[错误][%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#define LOGE(fmt, ...) printf("[错误][%s:%d] " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 #else
 #define LOGE(fmt, ...) ((void)0)
 #endif

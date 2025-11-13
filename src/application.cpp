@@ -36,6 +36,8 @@
 lv_ui guider_ui;
 
 __IO uint32_t time_cnt = 0;
+static volatile uint8_t g_temp_value = 0;
+static volatile bool g_temp_dirty = false;
 
 // 串口COM3接收保护：为避免HTTP响应被其他任务抢占
 volatile uint8_t g_com3_guard = 0;
@@ -171,6 +173,13 @@ static void TaskLVGL(void *pvParameters) {
     (void)pvParameters;
     portTASK_USES_FLOATING_POINT();
     for (;;) {
+        if (g_temp_dirty) {
+            uint8_t v = g_temp_value;
+            g_temp_dirty = false;
+            if (guider_ui.smart_home_app_temperature_num) {
+                lv_label_set_text_fmt(guider_ui.smart_home_app_temperature_num, "%d°C", v);
+            }
+        }
         // LOGI("TaskLVGL 栈的高水位标记: %d\r\n", uxTaskGetStackHighWaterMark(NULL));
         lv_task_handler();
         vTaskDelay(pdMS_TO_TICKS(25));
@@ -214,17 +223,16 @@ static void TaskADC(void *pvParameters) {
     }
 }
 
-// static void TaskLM75(void *pvParameters) {
-//     (void)pvParameters;
-//     for (;;) {
-//         uint8_t t = LM75::GetInstance().Read();
-//         lv_label_set_text_fmt(guider_ui.smart_home_app_temperature_num, "%d°C", t);
-//         vTaskDelay(pdMS_TO_TICKS(500));
-//     }
-// }
+static void TaskLM75([[maybe_unused]] void *pvParameters) {
+    for (;;) {
+        uint8_t t = LM75::GetInstance().Read();
+        g_temp_value = t;
+        g_temp_dirty = true;
+        vTaskDelay(pdMS_TO_TICKS(500));
+    }
+}
 
-// static void TaskMPU6050(void *pvParameters) {
-//     (void)pvParameters;
+// static void TaskMPU6050([[maybe_unused]] void *pvParameters) {
 //     auto &mpu = MPU6050::GetInstance();
 //     bool inited = false;
 //     for (;;) {
@@ -321,14 +329,12 @@ void Application::Start() {
     custom_init(&guider_ui);
 
     // 从EEPROM加载上次保存的Wi‑Fi凭据并自动连接
-    if (wifi_load_credentials_from_eeprom(wifi_ssid, sizeof(wifi_ssid), wifi_password, sizeof(wifi_password))) {
-        lv_textarea_set_text(guider_ui.setting_app_wifi_name_input, wifi_ssid);
-        lv_textarea_set_text(guider_ui.setting_app_wifi_password_input, wifi_password);
-        update_wifi_name_label(&guider_ui, wifi_ssid);
-        wifi_reconnect_requested = 1; // 启动后台自动连接Wi‑Fi
-    }
-
-    // 异步WiFi连接任务在后台进行连接，不阻塞UI
+    // if (wifi_load_credentials_from_eeprom(wifi_ssid, sizeof(wifi_ssid), wifi_password, sizeof(wifi_password))) {
+    //     lv_textarea_set_text(guider_ui.setting_app_wifi_name_input, wifi_ssid);
+    //     lv_textarea_set_text(guider_ui.setting_app_wifi_password_input, wifi_password);
+    //     update_wifi_name_label(&guider_ui, wifi_ssid);
+    //     wifi_reconnect_requested = 1; // 启动后台自动连接Wi‑Fi
+    // }
 
     // 初始化 ADC 值
     last_adc_value = (uint32_t)analogRead() * 3300 / 4095;
@@ -340,7 +346,7 @@ void Application::Start() {
     xTaskCreate(TaskWiFi, "wifi", 1024+512, NULL, tskIDLE_PRIORITY + 1, NULL);
     // xTaskCreate(TaskHeartbeat, "heartbeat", 1024, NULL, tskIDLE_PRIORITY + 3, NULL);
     xTaskCreate(TaskADC, "adc", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
-    // xTaskCreate(TaskLM75, "lm75", 512, NULL, tskIDLE_PRIORITY + 1, NULL);
+    xTaskCreate(TaskLM75, "lm75", 1024, NULL, tskIDLE_PRIORITY + 1, NULL);
     // xTaskCreate(TaskMPU6050, "mpu6050", 768, NULL, tskIDLE_PRIORITY + 1, NULL);
     // xTaskCreate(TaskStatus, "status", 768, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskLED, "led",64+32, NULL, tskIDLE_PRIORITY + 1, NULL);

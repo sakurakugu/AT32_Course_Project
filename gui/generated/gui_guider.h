@@ -187,6 +187,8 @@ typedef struct
 	lv_obj_t *smart_home_app_btn_3_label;
 	lv_obj_t *smart_home_app_btn_return6;
 	lv_obj_t *smart_home_app_btn_return6_label;
+	lv_obj_t *smart_home_app_back_btn;
+	lv_obj_t *smart_home_app_back_btn_label;
 	lv_obj_t *calculator_app;
 	bool calculator_app_del;
 	lv_obj_t *calculator_app_caalculator_page;
