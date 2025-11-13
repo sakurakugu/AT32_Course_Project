@@ -26,6 +26,7 @@
 
 /* includes ------------------------------------------------------------------*/
 #include "at32f435_437_int.h"
+#include <stdio.h>
 
 /** @addtogroup AT32F437_periph_template
  * @{
@@ -47,8 +48,10 @@ void NMI_Handler(void) {}
  * @param  none
  * @retval none
  */
+
 void HardFault_Handler(void) {
-    /* go to infinite loop when hard fault exception occurs */
+    /* 当出现硬故障异常时，会进入无限循环状态。 */
+    printf("非法操作，硬故障\n");
     while (1) {}
 }
 
@@ -58,7 +61,8 @@ void HardFault_Handler(void) {
  * @retval none
  */
 void MemManage_Handler(void) {
-    /* go to infinite loop when memory manage exception occurs */
+    /* 当出现内存管理故障异常时，会进入无限循环状态。 */
+    printf("内存管理故障\n");
     while (1) {}
 }
 
@@ -68,7 +72,8 @@ void MemManage_Handler(void) {
  * @retval none
  */
 void BusFault_Handler(void) {
-    /* go to infinite loop when bus fault exception occurs */
+    /* 当出现总线故障异常时，会进入无限循环状态。 */
+    printf("总线故障\n");
     while (1) {}
 }
 
@@ -78,7 +83,8 @@ void BusFault_Handler(void) {
  * @retval none
  */
 void UsageFault_Handler(void) {
-    /* go to infinite loop when usage fault exception occurs */
+    /* 当出现使用故障异常时，会进入无限循环状态。 */
+    printf("使用故障\n");
     while (1) {}
 }
 

@@ -641,7 +641,7 @@
 #define INCLUDE_vTaskDelay 1
 #define INCLUDE_xTaskGetSchedulerState 1
 #define INCLUDE_xTaskGetCurrentTaskHandle 1
-#define INCLUDE_uxTaskGetStackHighWaterMark 0
+#define INCLUDE_uxTaskGetStackHighWaterMark 0 // 开启后可以查看任务栈高水位标记
 #define INCLUDE_xTaskGetIdleTaskHandle 0
 #define INCLUDE_eTaskGetState 0
 #define INCLUDE_xEventGroupSetBitFromISR 1

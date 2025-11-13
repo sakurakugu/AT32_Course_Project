@@ -5,6 +5,10 @@
 #include <FreeRTOS.h>
 #include <task.h>
 
+extern "C" {
+#include "../app/minecraft/minecraft.h"
+}
+
 // 获取 smart_home_app 中的 1~8 号按钮对象
 static inline lv_obj_t *get_smart_home_key_btn(uint8_t idx) {
     switch (idx) {
@@ -43,10 +47,39 @@ static inline void set_smart_home_key_btn_pressed(uint8_t idx, bool pressed) {
     }
 }
 
-void TaskKeys(void *pvParameters) {
-    (void)pvParameters;
+void TaskKeys([[maybe_unused]] void *pvParameters) {
     for (;;) {
         uint8_t keyvalue = Key::GetInstance().get();
+
+        // 检查当前是否在Minecraft游戏界面
+        lv_obj_t *current_screen = lv_scr_act();
+        bool is_minecraft_screen = (current_screen == guider_ui.game_minecraft);
+
+        // Minecraft游戏按键处理
+        if (is_minecraft_screen) {
+            if (keyvalue == KEY_1_DOWN) { // KEY1 - 前进
+                minecraft_handle_key(MINECRAFT_KEY_UP);
+            } else if (keyvalue == KEY_1_UP) {
+                minecraft_handle_key(0);
+            } else if (keyvalue == KEY_2_DOWN) { // KEY2 - 右转
+                minecraft_handle_key(MINECRAFT_KEY_RIGHT);
+            } else if (keyvalue == KEY_2_UP) {
+                minecraft_handle_key(0);
+            } else if (keyvalue == KEY_3_DOWN) { // KEY3 - 后退
+                minecraft_handle_key(MINECRAFT_KEY_DOWN);
+            } else if (keyvalue == KEY_3_UP) {
+                minecraft_handle_key(0);
+            } else if (keyvalue == KEY_4_DOWN) { // KEY4 - 左转
+                minecraft_handle_key(MINECRAFT_KEY_LEFT);
+            } else if (keyvalue == KEY_4_UP) {
+                minecraft_handle_key(0);
+            } else if (keyvalue == KEY_8_DOWN) { // KEY8 - 攻击/破坏
+                minecraft_handle_key(MINECRAFT_KEY_ACTION);
+            } else if (keyvalue == KEY_8_UP) {
+                minecraft_handle_key(0);
+            }
+        }
+
         // 将硬件按键事件映射到 smart_home_app 的 8 个按钮按下/抬起
         if (keyvalue >= KEY_1_DOWN && keyvalue <= KEY_8_LONG) {
             uint8_t idx = ((keyvalue - 1) / 3) + 1; // 1~8

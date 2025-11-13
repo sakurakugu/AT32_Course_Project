@@ -145,9 +145,7 @@ void Music::play_one_song() {
 }
 
 /* FreeRTOS 任务：根据控制标志开始/暂停播放 */
-void TaskMusic(void *pvParameters) {
-    (void)pvParameters;
-
+void TaskMusic([[maybe_unused]] void *pvParameters) {
     for (;;) {
         /* 外部请求开始播放 */
         if (music_start) {

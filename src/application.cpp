@@ -169,7 +169,9 @@ static void TaskLED(void *pvParameters);
 // FreeRTOS任务实现
 static void TaskLVGL(void *pvParameters) {
     (void)pvParameters;
+    portTASK_USES_FLOATING_POINT();
     for (;;) {
+        // LOGI("TaskLVGL 栈的高水位标记: %d\r\n", uxTaskGetStackHighWaterMark(NULL));
         lv_task_handler();
         vTaskDelay(pdMS_TO_TICKS(25));
     }
@@ -273,8 +275,7 @@ static void TaskStatus(void *pvParameters) {
     }
 }
 
-static void TaskLED(void *pvParameters) {
-    (void)pvParameters;
+static void TaskLED([[maybe_unused]] void *pvParameters) {
     for (;;) {
         LED::GetInstance().Toggle(LED_Yellow);
         vTaskDelay(pdMS_TO_TICKS(200));
@@ -335,16 +336,16 @@ void Application::Start() {
 
     // 创建FreeRTOS任务
     // 增大 LVGL 任务栈深度，避免在显示键盘等复杂布局时栈溢出
-    xTaskCreate(TaskLVGL, "lvgl", 2048, NULL, tskIDLE_PRIORITY + 2, NULL);
-    xTaskCreate(TaskWiFi, "wifi", 1024, NULL, tskIDLE_PRIORITY + 1, NULL);
+    xTaskCreate(TaskLVGL, "lvgl", 8192, NULL, tskIDLE_PRIORITY + 2, NULL);
+    xTaskCreate(TaskWiFi, "wifi", 1024+512, NULL, tskIDLE_PRIORITY + 1, NULL);
     // xTaskCreate(TaskHeartbeat, "heartbeat", 1024, NULL, tskIDLE_PRIORITY + 3, NULL);
-    xTaskCreate(TaskADC, "adc", 512, NULL, tskIDLE_PRIORITY + 1, NULL);
+    xTaskCreate(TaskADC, "adc", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
     // xTaskCreate(TaskLM75, "lm75", 512, NULL, tskIDLE_PRIORITY + 1, NULL);
     // xTaskCreate(TaskMPU6050, "mpu6050", 768, NULL, tskIDLE_PRIORITY + 1, NULL);
     // xTaskCreate(TaskStatus, "status", 768, NULL, tskIDLE_PRIORITY + 1, NULL);
-    xTaskCreate(TaskLED, "led", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
-    xTaskCreate(TaskKeys, "keys", 512, NULL, tskIDLE_PRIORITY + 1, NULL);
-    xTaskCreate(TaskMusic, "music", 512, NULL, tskIDLE_PRIORITY + 1, NULL);
+    xTaskCreate(TaskLED, "led",64+32, NULL, tskIDLE_PRIORITY + 1, NULL);
+    xTaskCreate(TaskKeys, "keys", 512+32, NULL, tskIDLE_PRIORITY + 1, NULL);
+    xTaskCreate(TaskMusic, "music", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
 
     LOGI("FreeRTOS任务创建完成\r\n");
     // 启动调度器，不会返回

@@ -748,6 +748,7 @@ static void game_minecraft_back_btn_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
+        cleanup_scr_game_minecraft(&guider_ui);
         nav_back(&guider_ui);
         break;
     }
@@ -756,9 +757,26 @@ static void game_minecraft_back_btn_event_handler (lv_event_t *e)
     }
 }
 
+static void game_minecraft_screen_delete_event_handler (lv_event_t *e);
+
 void events_init_game_minecraft (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->game_minecraft_back_btn, game_minecraft_back_btn_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->game_minecraft, game_minecraft_screen_delete_event_handler, LV_EVENT_DELETE, ui);
+}
+
+static void game_minecraft_screen_delete_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_DELETE:
+    {
+        cleanup_scr_game_minecraft(&guider_ui);
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 static void game3_event_handler (lv_event_t *e)

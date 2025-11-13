@@ -82,6 +82,7 @@ static bool wifi_save_credentials_to_eeprom(const char *ssid, const char *pwd) {
 void TaskWiFi(void *pvParameters) {
     (void)pvParameters;
     for (;;) {
+        // LOGI("TaskWiFi 栈的高水位标记: %d\r\n", uxTaskGetStackHighWaterMark(NULL));
         if (wifi_reconnect_requested) {
             LOGD("wifi名称：%s\r\n", wifi_ssid);
             LOGD("wifi密码：%s\r\n", wifi_password);

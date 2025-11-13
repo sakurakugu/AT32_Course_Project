@@ -18,6 +18,14 @@ extern "C" {
 #include "../../src/app/calculator/calculator.h" // 计算器接口：供界面自定义代码调用
 #include "../../src/board/network/wifi.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "../../src/app/minecraft/minecraft.h"
+#ifdef __cplusplus
+}
+#endif
+
 extern volatile uint8_t wifi_reconnect_requested; // WiFi异步连接请求标志（由心跳或启动时触发）
 
 // 全局变量：状态栏日期标签（用于更新日期）
@@ -103,6 +111,17 @@ void drawing_board_canvas_event_cb(lv_event_t *e); // 画布点击事件
 void drawing_board_clear_event_cb(lv_event_t *e);  // 清空画布
 void drawing_board_width_event_cb(lv_event_t *e);  // 笔宽选择事件
 void drawing_board_color_event_cb(lv_event_t *e);  // 颜色选择事件
+
+// ===============================
+// 我的世界游戏实现
+// ===============================
+
+extern lv_timer_t *minecraft_timer;
+extern lv_obj_t *minecraft_img;
+
+// 游戏循环定时器回调
+extern void minecraft_timer_cb(lv_timer_t *timer);
+extern void cleanup_scr_game_minecraft(lv_ui *ui);
 
 #ifdef __cplusplus
 }

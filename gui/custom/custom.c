@@ -1016,4 +1016,35 @@ void smart_home_led_green_sw_event_handler(lv_event_t *e) {
         LED_Off(LED_Green);
     }
 }
+
+// ===============================
+// 我的世界游戏实现
+// ===============================
+
+lv_timer_t *minecraft_timer = NULL;
+lv_obj_t *minecraft_img = NULL;
+
+// 游戏循环定时器回调
+void minecraft_timer_cb(lv_timer_t *timer) {
+    (void)timer;
+
+    minecraft_loop();
+    if (lv_obj_is_valid(minecraft_img)) {
+        lv_obj_invalidate(minecraft_img);
+    }
+}
+
+void cleanup_scr_game_minecraft(lv_ui *ui) {
+    // 停止定时器
+    if (minecraft_timer) {
+        lv_timer_del(minecraft_timer);
+        minecraft_timer = NULL;
+    }
+    if (lv_obj_is_valid(minecraft_img)) {
+        lv_obj_del(minecraft_img);
+        minecraft_img = NULL;
+    }
+    minecraft_deinit();
+    (void)ui;
+}
 #endif

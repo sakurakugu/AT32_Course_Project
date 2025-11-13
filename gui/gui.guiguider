@@ -19919,7 +19919,7 @@
 			"version": 190,
 			"scrollbar_mode": "OFF",
 			"customer_code": {
-				"code_c": "",
+				"code_c": "    minecraft_init();\r\n    const uint8_t *fb = (const uint8_t *)minecraft_get_framebuffer();\r\n    if (fb == NULL) {\r\n        lv_obj_t *err = lv_label_create(ui->game_minecraft);\r\n        lv_label_set_text(err, \"Minecraft初始化失败：内存不足\");\r\n        lv_obj_center(err);\r\n    } else {\r\n        static lv_img_dsc_t mc_img_dsc;\r\n        mc_img_dsc.header.always_zero = 0;\r\n        mc_img_dsc.header.w = SCREEN_WIDTH;\r\n        mc_img_dsc.header.h = SCREEN_HEIGHT;\r\n        mc_img_dsc.header.cf = LV_IMG_CF_TRUE_COLOR;\r\n        mc_img_dsc.data_size = SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(lv_color_t);\r\n        mc_img_dsc.data = fb;\r\n        minecraft_img = lv_img_create(ui->game_minecraft);\r\n        lv_img_set_src(minecraft_img, &mc_img_dsc);\r\n        lv_obj_set_pos(minecraft_img, 160, 120);\r\n        lv_obj_set_size(minecraft_img, SCREEN_WIDTH, SCREEN_HEIGHT);\r\n        minecraft_timer = lv_timer_create(minecraft_timer_cb, 33, NULL);\r\n    }",
 				"inc_c": "",
 				"code_py": "",
 				"inc_py": "",
@@ -44418,7 +44418,7 @@
 				"version": 190,
 				"scrollbar_mode": "OFF",
 				"customer_code": {
-					"code_c": "",
+					"code_c": "    minecraft_init();\r\n    const uint8_t *fb = (const uint8_t *)minecraft_get_framebuffer();\r\n    if (fb == NULL) {\r\n        lv_obj_t *err = lv_label_create(ui->game_minecraft);\r\n        lv_label_set_text(err, \"Minecraft初始化失败：内存不足\");\r\n        lv_obj_center(err);\r\n    } else {\r\n        static lv_img_dsc_t mc_img_dsc;\r\n        mc_img_dsc.header.always_zero = 0;\r\n        mc_img_dsc.header.w = SCREEN_WIDTH;\r\n        mc_img_dsc.header.h = SCREEN_HEIGHT;\r\n        mc_img_dsc.header.cf = LV_IMG_CF_TRUE_COLOR;\r\n        mc_img_dsc.data_size = SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(lv_color_t);\r\n        mc_img_dsc.data = fb;\r\n        minecraft_img = lv_img_create(ui->game_minecraft);\r\n        lv_img_set_src(minecraft_img, &mc_img_dsc);\r\n        lv_obj_set_pos(minecraft_img, 160, 120);\r\n        lv_obj_set_size(minecraft_img, SCREEN_WIDTH, SCREEN_HEIGHT);\r\n        minecraft_timer = lv_timer_create(minecraft_timer_cb, 33, NULL);\r\n    }",
 					"inc_c": "",
 					"code_py": "",
 					"inc_py": "",

@@ -50,7 +50,26 @@ void setup_scr_game_minecraft(lv_ui *ui)
     lv_obj_set_style_text_align(ui->game_minecraft_back_btn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //The custom code of game_minecraft.
-
+    minecraft_init();
+    const uint8_t *fb = (const uint8_t *)minecraft_get_framebuffer();
+    if (fb == NULL) {
+        lv_obj_t *err = lv_label_create(ui->game_minecraft);
+        lv_label_set_text(err, "Minecraft初始化失败：内存不足");
+        lv_obj_center(err);
+    } else {
+        static lv_img_dsc_t mc_img_dsc;
+        mc_img_dsc.header.always_zero = 0;
+        mc_img_dsc.header.w = SCREEN_WIDTH;
+        mc_img_dsc.header.h = SCREEN_HEIGHT;
+        mc_img_dsc.header.cf = LV_IMG_CF_TRUE_COLOR;
+        mc_img_dsc.data_size = SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(lv_color_t);
+        mc_img_dsc.data = fb;
+        minecraft_img = lv_img_create(ui->game_minecraft);
+        lv_img_set_src(minecraft_img, &mc_img_dsc);
+        lv_obj_set_pos(minecraft_img, 160, 120);
+        lv_obj_set_size(minecraft_img, SCREEN_WIDTH, SCREEN_HEIGHT);
+        minecraft_timer = lv_timer_create(minecraft_timer_cb, 33, NULL);
+    }
 
     //Update current screen layout.
     lv_obj_update_layout(ui->game_minecraft);

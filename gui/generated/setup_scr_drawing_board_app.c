@@ -190,11 +190,10 @@ void setup_scr_drawing_board_app(lv_ui *ui)
     int canvas_h = DRAW_CANVAS_H;
     int alloc_h = canvas_h;
     DRAW_CANVAS_COLOR *buf = NULL;
-    while (alloc_h >= 80) {
+    for (; alloc_h >= 80; alloc_h -= 20) {
         size_t need = (size_t)canvas_w * (size_t)alloc_h * sizeof(DRAW_CANVAS_COLOR);
         buf = (DRAW_CANVAS_COLOR *)lv_mem_alloc(need);
         if (buf) break;
-        alloc_h /= 2;
     }
     ctx->canvas_buf = buf;
     if (ctx->canvas_buf) {

@@ -424,9 +424,9 @@
               <FilePath>.\src\app\weather\weather_service.cpp</FilePath>
             </File>
             <File>
-              <FileName>minecraft_game.cpp</FileName>
+              <FileName>minecraft.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\app\minecraft\minecraft_game.cpp</FilePath>
+              <FilePath>.\src\app\minecraft\minecraft.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -542,11 +542,6 @@
               <FileName>task_wifi.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\task\task_wifi.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>task_minecraft.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\task\task_minecraft.cpp</FilePath>
             </File>
           </Files>
         </Group>
