@@ -278,6 +278,8 @@ typedef struct
 	lv_obj_t *drawing_board_app_dialog_box;
 	lv_obj_t *game_minecraft;
 	bool game_minecraft_del;
+	lv_obj_t *game_minecraft_back_btn;
+	lv_obj_t *game_minecraft_back_btn_label;
 	lv_obj_t *game3;
 	bool game3_del;
 	lv_obj_t *game4;
@@ -331,7 +333,6 @@ LV_IMG_DECLARE(_calculator_app_alpha_80x80);
 LV_IMG_DECLARE(_smart_home_app_alpha_80x80);
 LV_IMG_DECLARE(_music_app_alpha_80x80);
 LV_IMG_DECLARE(_weather_app_alpha_80x80);
-LV_IMG_DECLARE(_oscilloscope_app_alpha_80x80);
 LV_IMG_DECLARE(_drawing_app_alpha_80x80);
 LV_IMG_DECLARE(_electronic_organ_app_alpha_80x80);
 LV_IMG_DECLARE(_music_record_alpha_160x160);

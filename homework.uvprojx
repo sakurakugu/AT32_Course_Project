@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>AT32F435VGT7, AT_START_F435_V1, USE_STDPERIPH_DRIVER,AT_SURF_F437_V1,HAVE_CONFIG_H,LV_LVGL_H_INCLUDE_SIMPLE, KEIL_COMPILE</Define>
               <Undefine></Undefine>
-              <IncludePath>.\lib\cJSON;.\lib\cmsis\cm4\core_support;.\lib\cmsis\cm4\device_support;.\lib\drivers\inc;.\lib\FreeRTOS\include;.\lib\FreeRTOS\portable\GCC\ARM_CM4F;.\lib\middlewares\i2c_application_library;.\lib\middlewares\3rd_party\fatfs\source;.\gui\lvgl;.\gui\custom;.\gui\generated\guider_customer_fonts;.\gui\generated\guider_fonts;.\gui\generated\images;.\gui\generated;.\src;.\src\app\weather;.\src\app\music;.\src\app\IoT;.\src\app\calculator;.\src\app\setting;.\src\app\weather;.\src\board;.\src\board\eeprom;.\src\board\key;.\src\board\lcd;.\src\board\led;.\src\board\network;.\src\board\sensor;.\src\board\sound;.\src\board\uart;.\src\config;.\src\config\lvgl;.\src\config\lvgl\porting;.\src\util</IncludePath>
+              <IncludePath>.\lib\cJSON;.\lib\cmsis\cm4\core_support;.\lib\cmsis\cm4\device_support;.\lib\drivers\inc;.\lib\FreeRTOS\include;.\lib\FreeRTOS\portable\GCC\ARM_CM4F;.\lib\middlewares\i2c_application_library;.\lib\middlewares\3rd_party\fatfs\source;.\gui\lvgl;.\gui\custom;.\gui\generated\guider_customer_fonts;.\gui\generated\guider_fonts;.\gui\generated\images;.\gui\generated;.\src;.\src\app\weather;.\src\app\music;.\src\app\IoT;.\src\app\calculator;.\src\app\minecraft;.\src\app\setting;.\src\app\weather;.\src\board;.\src\board\eeprom;.\src\board\key;.\src\board\lcd;.\src\board\led;.\src\board\network;.\src\board\sensor;.\src\board\sound;.\src\board\uart;.\src\config;.\src\config\lvgl;.\src\config\lvgl\porting;.\src\util</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -422,6 +422,11 @@
               <FileName>weather_service.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\app\weather\weather_service.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>minecraft_game.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\app\minecraft\minecraft_game.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -537,6 +542,11 @@
               <FileName>task_wifi.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\task\task_wifi.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>task_minecraft.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\task\task_minecraft.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -2731,6 +2741,105 @@
               <FileName>README.md</FileName>
               <FileType>5</FileType>
               <FilePath>.\README.md</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>minecraft/texture</GroupName>
+          <GroupOption>
+            <CommonProperty>
+              <UseCPPCompiler>0</UseCPPCompiler>
+              <RVCTCodeConst>5</RVCTCodeConst>
+              <RVCTZI>0</RVCTZI>
+              <RVCTOtherData>0</RVCTOtherData>
+              <ModuleSelection>0</ModuleSelection>
+              <IncludeInBuild>2</IncludeInBuild>
+              <AlwaysBuild>2</AlwaysBuild>
+              <GenerateAssemblyFile>2</GenerateAssemblyFile>
+              <AssembleAssemblyFile>2</AssembleAssemblyFile>
+              <PublicsOnly>2</PublicsOnly>
+              <StopOnExitCode>11</StopOnExitCode>
+              <CustomArgument></CustomArgument>
+              <IncludeLibraryModules></IncludeLibraryModules>
+              <ComprImg>1</ComprImg>
+            </CommonProperty>
+            <GroupArmAds>
+              <Cads>
+                <interw>2</interw>
+                <Optim>0</Optim>
+                <oTime>2</oTime>
+                <SplitLS>2</SplitLS>
+                <OneElfS>2</OneElfS>
+                <Strict>2</Strict>
+                <EnumInt>2</EnumInt>
+                <PlainCh>2</PlainCh>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <wLevel>0</wLevel>
+                <uThumb>2</uThumb>
+                <uSurpInc>2</uSurpInc>
+                <uC99>2</uC99>
+                <uGnu>2</uGnu>
+                <useXO>2</useXO>
+                <v6Lang>0</v6Lang>
+                <v6LangP>0</v6LangP>
+                <vShortEn>2</vShortEn>
+                <vShortWch>2</vShortWch>
+                <v6Lto>2</v6Lto>
+                <v6WtE>2</v6WtE>
+                <v6Rtti>2</v6Rtti>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath></IncludePath>
+                </VariousControls>
+              </Cads>
+              <Aads>
+                <interw>2</interw>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <thumb>2</thumb>
+                <SplitLS>2</SplitLS>
+                <SwStkChk>2</SwStkChk>
+                <NoWarn>2</NoWarn>
+                <uSurpInc>2</uSurpInc>
+                <useXO>2</useXO>
+                <ClangAsOpt>0</ClangAsOpt>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath></IncludePath>
+                </VariousControls>
+              </Aads>
+            </GroupArmAds>
+          </GroupOption>
+          <Files>
+            <File>
+              <FileName>badapple.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\app\minecraft\texture\badapple.c</FilePath>
+            </File>
+            <File>
+              <FileName>chutou.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\app\minecraft\texture\chutou.c</FilePath>
+            </File>
+            <File>
+              <FileName>jntm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\app\minecraft\texture\jntm.c</FilePath>
+            </File>
+            <File>
+              <FileName>liewen.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\app\minecraft\texture\liewen.c</FilePath>
+            </File>
+            <File>
+              <FileName>mapTextures.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\app\minecraft\texture\mapTextures.c</FilePath>
             </File>
           </Files>
         </Group>

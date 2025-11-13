@@ -170,7 +170,6 @@ void setup_scr_home_app2(lv_ui *ui)
     //Write codes home_app2_imgbtn_3
     ui->home_app2_imgbtn_3 = lv_imgbtn_create(ui->home_app2_home_page);
     lv_obj_add_flag(ui->home_app2_imgbtn_3, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->home_app2_imgbtn_3, LV_IMGBTN_STATE_RELEASED, NULL, &_oscilloscope_app_alpha_80x80, NULL);
     ui->home_app2_imgbtn_3_label = lv_label_create(ui->home_app2_imgbtn_3);
     lv_label_set_text(ui->home_app2_imgbtn_3_label, "");
     lv_label_set_long_mode(ui->home_app2_imgbtn_3_label, LV_LABEL_LONG_WRAP);

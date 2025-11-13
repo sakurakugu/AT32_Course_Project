@@ -33,8 +33,8 @@ void setup_scr_music_app(lv_ui *ui)
     lv_obj_set_scrollbar_mode(ui->music_app_music_page, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for music_app_music_page, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_radius(ui->music_app_music_page, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui->music_app_music_page, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->music_app_music_page, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui->music_app_music_page, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui->music_app_music_page, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui->music_app_music_page, LV_GRAD_DIR_VER, LV_PART_MAIN|LV_STATE_DEFAULT);
