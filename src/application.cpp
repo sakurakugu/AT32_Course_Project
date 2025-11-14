@@ -7,7 +7,7 @@
 #include "board.h"
 #include "eeprom.h"
 #include "lm75.h"
-// #include "mpu6050.h"
+#include "mpu6050.h"
 #include "board/led/led.h"
 #include "color_led.hpp"
 #include "config.h"
@@ -38,6 +38,16 @@ lv_ui guider_ui;
 __IO uint32_t time_cnt = 0;
 static volatile uint8_t g_temp_value = 0;
 static volatile bool g_temp_dirty = false;
+static volatile float g_acc_x = 0.0f;
+static volatile float g_acc_y = 0.0f;
+static volatile float g_acc_z = 0.0f;
+static volatile float g_gyro_x = 0.0f;
+static volatile float g_gyro_y = 0.0f;
+static volatile float g_gyro_z = 0.0f;
+static volatile float g_mpu_temp = 0.0f;
+static volatile bool g_mpu_acc_dirty = false;
+static volatile bool g_mpu_gyro_dirty = false;
+static volatile bool g_mpu_temp_dirty = false;
 
 // 串口COM3接收保护：为避免HTTP响应被其他任务抢占
 volatile uint8_t g_com3_guard = 0;
@@ -180,6 +190,36 @@ static void TaskLVGL(void *pvParameters) {
                 lv_label_set_text_fmt(guider_ui.smart_home_app_temperature_num, "%d°C", v);
             }
         }
+        if (g_mpu_acc_dirty) {
+            g_mpu_acc_dirty = false;
+            if (guider_ui.smart_home_app_accelerated_speed_num_x) {
+                lv_label_set_text_fmt(guider_ui.smart_home_app_accelerated_speed_num_x, "%.2f", g_acc_x);
+            }
+            if (guider_ui.smart_home_app_accelerated_speed_num_y) {
+                lv_label_set_text_fmt(guider_ui.smart_home_app_accelerated_speed_num_y, "%.2f", g_acc_y);
+            }
+            if (guider_ui.smart_home_app_accelerated_speed_num_z) {
+                lv_label_set_text_fmt(guider_ui.smart_home_app_accelerated_speed_num_z, "%.2f", g_acc_z);
+            }
+        }
+        if (g_mpu_gyro_dirty) {
+            g_mpu_gyro_dirty = false;
+            if (guider_ui.smart_home_app_attitude_num_x) {
+                lv_label_set_text_fmt(guider_ui.smart_home_app_attitude_num_x, "%.1f", g_gyro_x);
+            }
+            if (guider_ui.smart_home_app_attitude_num_y) {
+                lv_label_set_text_fmt(guider_ui.smart_home_app_attitude_num_y, "%.1f", g_gyro_y);
+            }
+            if (guider_ui.smart_home_app_attitude_num_z) {
+                lv_label_set_text_fmt(guider_ui.smart_home_app_attitude_num_z, "%.1f", g_gyro_z);
+            }
+        }
+        if (g_mpu_temp_dirty) {
+            g_mpu_temp_dirty = false;
+            if (guider_ui.smart_home_app_mpu6050_teemp_num) {
+                lv_label_set_text_fmt(guider_ui.smart_home_app_mpu6050_teemp_num, "%.1f°C", g_mpu_temp);
+            }
+        }
         // LOGI("TaskLVGL 栈的高水位标记: %d\r\n", uxTaskGetStackHighWaterMark(NULL));
         lv_task_handler();
         vTaskDelay(pdMS_TO_TICKS(25));
@@ -232,36 +272,45 @@ static void TaskLM75([[maybe_unused]] void *pvParameters) {
     }
 }
 
-// static void TaskMPU6050([[maybe_unused]] void *pvParameters) {
-//     auto &mpu = MPU6050::GetInstance();
-//     bool inited = false;
-//     for (;;) {
-//         if (!inited) {
-//             inited = mpu.init(false);
-//             if (!inited) {
-//                 vTaskDelay(pdMS_TO_TICKS(500));
-//                 continue;
-//             }
-//         }
-//         float ax, ay, az;
-//         float gx, gy, gz;
-//         float tc;
-//         if (mpu.readAccel(ax, ay, az)) {
-//             lv_label_set_text_fmt(guider_ui.smart_home_app_accelerated_speed_num_x, "%.2f", ax);
-//             lv_label_set_text_fmt(guider_ui.smart_home_app_accelerated_speed_num_y, "%.2f", ay);
-//             lv_label_set_text_fmt(guider_ui.smart_home_app_accelerated_speed_num_z, "%.2f", az);
-//         }
-//         if (mpu.readGyro(gx, gy, gz)) {
-//             lv_label_set_text_fmt(guider_ui.smart_home_app_attitude_num_x, "%.1f", gx);
-//             lv_label_set_text_fmt(guider_ui.smart_home_app_attitude_num_y, "%.1f", gy);
-//             lv_label_set_text_fmt(guider_ui.smart_home_app_attitude_num_z, "%.1f", gz);
-//         }
-//         if (mpu.readTemperatureC(tc)) {
-//             lv_label_set_text_fmt(guider_ui.smart_home_app_mpu6050_teemp_num, "%.1f°C", tc);
-//         }
-//         vTaskDelay(pdMS_TO_TICKS(100));
-//     }
-// }
+static void TaskMPU6050([[maybe_unused]] void *pvParameters) {
+    portTASK_USES_FLOATING_POINT();
+    auto &mpu = MPU6050::GetInstance();
+    bool inited = false;
+    for (;;) {
+        vTaskDelay(pdMS_TO_TICKS(200));
+        if (!inited) {
+            inited = mpu.init(false);
+            if (!inited) {
+                inited = mpu.init(true);
+                if (!inited) {
+                    LOGE("MPU6050 init failed\r\n");
+                    vTaskDelay(pdMS_TO_TICKS(500));
+                    continue;
+                }
+            }
+        }
+        float ax, ay, az;
+        if (mpu.readAccel(ax, ay, az)) {
+            g_acc_x = ax;
+            g_acc_y = ay;
+            g_acc_z = az;
+            g_mpu_acc_dirty = true;
+        }
+        float gx, gy, gz;
+        if (mpu.readGyro(gx, gy, gz)) {
+            g_gyro_x = gx;
+            g_gyro_y = gy;
+            g_gyro_z = gz;
+            g_mpu_gyro_dirty = true;
+        }
+        float tc;
+        if (mpu.readTemperatureC(tc)) {
+            g_mpu_temp = tc;
+            g_mpu_temp_dirty = true;
+        }
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
+}
 
 static void TaskStatus(void *pvParameters) {
     (void)pvParameters;
@@ -346,8 +395,8 @@ void Application::Start() {
     xTaskCreate(TaskWiFi, "wifi", 1024+512, NULL, tskIDLE_PRIORITY + 1, NULL);
     // xTaskCreate(TaskHeartbeat, "heartbeat", 1024, NULL, tskIDLE_PRIORITY + 3, NULL);
     xTaskCreate(TaskADC, "adc", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
-    xTaskCreate(TaskLM75, "lm75", 1024, NULL, tskIDLE_PRIORITY + 1, NULL);
-    // xTaskCreate(TaskMPU6050, "mpu6050", 768, NULL, tskIDLE_PRIORITY + 1, NULL);
+    xTaskCreate(TaskLM75, "lm75", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
+    // xTaskCreate(TaskMPU6050, "mpu6050", 2048, NULL, tskIDLE_PRIORITY + 1, NULL);
     // xTaskCreate(TaskStatus, "status", 768, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskLED, "led",64+32, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskKeys, "keys", 512+32, NULL, tskIDLE_PRIORITY + 1, NULL);

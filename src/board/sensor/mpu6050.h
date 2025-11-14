@@ -4,7 +4,7 @@
 
 // I2C 事务超时（匹配现有样式）
 #ifndef MPU6050_TIMEOUT
-#define MPU6050_TIMEOUT 0xFFFFFFF
+#define MPU6050_TIMEOUT 2000
 #endif
 
 // MPU6050 7-bit 地址: 0x68 (AD0=0), 0x69 (AD0=1)

@@ -39,7 +39,9 @@ void custom_init(lv_ui *ui);
 
 void update_volume_icon(lv_ui *ui, uint8_t volume); // 更新音量图标
 void calc_key_event_handler(lv_event_t *e);         // 计算器按键事件处理器
+#ifdef KEIL_COMPILE
 void wifi_link_btn_event_handler(lv_event_t *e);    // 绑定点击“wifi连接”按钮事件
+#endif
 
 // 音乐播放器事件
 void music_list_item_event_handler(lv_event_t *e);      // 列表项点击播放对应歌曲

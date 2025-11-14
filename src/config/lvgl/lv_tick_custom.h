@@ -28,13 +28,13 @@
 #pragma once
 
 /* includes ------------------------------------------------------------------*/
-#include "at32f435_437.h"
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void tmr7_int_init(u16 arr, u16 psc);
+void tmr7_int_init(uint16_t arr, uint16_t psc);
 uint32_t millis(void);
 
 #ifdef __cplusplus

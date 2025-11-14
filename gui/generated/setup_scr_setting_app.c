@@ -419,9 +419,9 @@ void setup_scr_setting_app(lv_ui *ui)
     lv_obj_set_style_radius(ui->setting_app_sync_net_time_sw, 10, LV_PART_KNOB|LV_STATE_DEFAULT);
 
     //The custom code of setting_app.
+#ifdef KEIL_COMPILE
     // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）
     lv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
-#ifdef KEIL_COMPILE
     // 绑定亮度滑块事件
     lv_obj_add_event_cb(guider_ui.setting_app_light_slider, setting_app_light_slider_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
     // 绑定“同步网络时间”开关事件

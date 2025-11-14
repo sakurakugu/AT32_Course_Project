@@ -55,6 +55,7 @@ void calc_key_event_handler(lv_event_t *e) {
     }
 }
 
+#ifdef KEIL_COMPILE
 // 点击“连接”按钮事件：读取输入->触发异步连接->成功后写EEPROM
 void wifi_link_btn_event_handler(lv_event_t *e) {
     lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
@@ -76,6 +77,7 @@ void wifi_link_btn_event_handler(lv_event_t *e) {
     // 由后台任务异步完成连接，避免阻塞UI
     wifi_reconnect_requested = 1;
 }
+#endif
 
 #ifdef KEIL_COMPILE
 // 亮度滑块事件：0 关闭背光；>0 打开背光（如需PWM可在 backlight_set_percent 内扩展）
@@ -759,7 +761,6 @@ void drawing_board_color_event_cb(lv_event_t *e) {
 // 智能家居事件实现
 // ===============================
 
-#ifdef KEIL_COMPILE
 // —— 通用滑动动画辅助 ——
 static void smart_home_anim_hide_ready_cb(lv_anim_t *a) {
     lv_obj_t *obj = (lv_obj_t *)a->var;
@@ -918,7 +919,8 @@ void smart_home_iot_return_event_handler(lv_event_t *e) {
     smart_home_close_all_pages_with_slide(ui);
 }
 
-// 彩灯开关事件
+#ifdef KEIL_COMPILE
+// 彩灯开关事件：点击切换彩灯状态
 void smart_home_color_led_sw_event_handler(lv_event_t *e) {
     lv_event_code_t code = lv_event_get_code(e);
     if (code != LV_EVENT_VALUE_CHANGED)
@@ -936,7 +938,7 @@ void smart_home_color_led_sw_event_handler(lv_event_t *e) {
     }
 }
 
-// 彩灯颜色选择事件
+// 彩灯颜色选择事件：点击选择颜色
 void smart_home_color_led_cpicker_event_handler(lv_event_t *e) {
     lv_event_code_t code = lv_event_get_code(e);
     if (code != LV_EVENT_VALUE_CHANGED)
@@ -972,7 +974,7 @@ void smart_home_color_led_cpicker_event_handler(lv_event_t *e) {
     Color_Led_SetColor(r, g, b);
 }
 
-// 彩灯亮度滑块事件
+// 彩灯亮度滑块事件：滑动调整亮度
 void smart_home_color_led_light_slider_event_handler(lv_event_t *e) {
     lv_event_code_t code = lv_event_get_code(e);
     if (code != LV_EVENT_VALUE_CHANGED)
@@ -1022,11 +1024,13 @@ void smart_home_led_green_sw_event_handler(lv_event_t *e) {
         LED_Off(LED_Green);
     }
 }
+#endif
 
 // ===============================
 // 我的世界游戏实现
 // ===============================
 
+#ifdef KEIL_COMPILE
 lv_timer_t *minecraft_timer = NULL;
 lv_obj_t *minecraft_img = NULL;
 
@@ -1053,6 +1057,7 @@ void cleanup_scr_minecraft(lv_ui *ui) {
     minecraft_deinit();
     (void)ui;
 }
+#endif
 
 void minecraft_app_screen_delete_event_handler(lv_event_t *e) {
     lv_event_code_t code = lv_event_get_code(e);
@@ -1065,4 +1070,3 @@ void minecraft_app_screen_delete_event_handler(lv_event_t *e) {
         break;
     }
 }
-#endif

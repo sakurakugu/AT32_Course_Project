@@ -294,6 +294,7 @@ void setup_scr_music_app(lv_ui *ui)
     lv_obj_set_style_img_opa(ui->music_app_music_prev_song_btn, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
     //The custom code of music_app.
+#ifdef KEIL_COMPILE
     // 绑定音乐列表与控制按钮事件
     lv_obj_add_event_cb(guider_ui.music_app_music_list_item0, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);
     lv_obj_add_event_cb(guider_ui.music_app_music_list_item1, music_list_item_event_handler, LV_EVENT_CLICKED, &guider_ui);
@@ -301,6 +302,7 @@ void setup_scr_music_app(lv_ui *ui)
     lv_obj_add_event_cb(guider_ui.music_app_music_prev_song_btn, music_prev_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
     lv_obj_add_event_cb(guider_ui.music_app_music_next_song_btn, music_next_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
     lv_obj_add_event_cb(guider_ui.music_app_music_player_or_pause_btn, music_play_pause_btn_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
+#endif
 
     //Update current screen layout.
     lv_obj_update_layout(ui->music_app);

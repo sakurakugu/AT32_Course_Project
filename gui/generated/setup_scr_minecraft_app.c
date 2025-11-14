@@ -50,6 +50,7 @@ void setup_scr_minecraft_app(lv_ui *ui)
     lv_obj_set_style_text_align(ui->minecraft_app_back_btn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //The custom code of minecraft_app.
+#ifdef KEIL_COMPILE
     lv_obj_add_event_cb(ui->minecraft_app, minecraft_app_screen_delete_event_handler, LV_EVENT_DELETE, ui);
     minecraft_init();
     const uint8_t *fb = (const uint8_t *)minecraft_get_framebuffer();
@@ -71,6 +72,7 @@ void setup_scr_minecraft_app(lv_ui *ui)
         lv_obj_set_size(minecraft_img, SCREEN_WIDTH, SCREEN_HEIGHT);
         minecraft_timer = lv_timer_create(minecraft_timer_cb, 33, NULL);
     }
+#endif
 
     //Update current screen layout.
     lv_obj_update_layout(ui->minecraft_app);

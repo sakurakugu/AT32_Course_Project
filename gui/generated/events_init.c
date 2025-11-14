@@ -747,7 +747,9 @@ static void minecraft_app_back_btn_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
+#ifdef KEIL_COMPILE
         cleanup_scr_minecraft(&guider_ui);
+#endif
         nav_back(&guider_ui);
         break;
     }

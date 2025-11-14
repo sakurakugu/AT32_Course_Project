@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include "i2c_application.h"
 
-#define I2C_TIMEOUT 0xFFFFFFF
+#define I2C_TIMEOUT 10000
 
 // #define I2Cx_CLKCTRL                   0xB170FFFF   //10K
 // #define I2Cx_CLKCTRL                   0xC0E06969   //50K

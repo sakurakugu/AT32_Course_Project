@@ -26,6 +26,7 @@
 
 /* includes ------------------------------------------------------------------*/
 #include "lv_tick_custom.h"
+#include "at32f435_437.h"
 #include "lvgl.h"
 
 volatile static uint32_t system_ms = 0;
@@ -34,7 +35,7 @@ uint32_t millis(void) {
     return system_ms;
 }
 // arr: autoreload resister     psc: prescaler
-void tmr7_int_init(u16 arr, u16 psc) {
+void tmr7_int_init(uint16_t arr, uint16_t psc) {
 
     /* enable tmr7 clock */
     crm_periph_clock_enable(CRM_TMR7_PERIPH_CLOCK, TRUE);

@@ -1651,11 +1651,13 @@ void setup_scr_smart_home_app(lv_ui *ui)
     lv_obj_add_event_cb(ui->smart_home_app_IoT_lm75, smart_home_iot_lm75_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->smart_home_app_IoT_8key, smart_home_iot_8key_event_handler, LV_EVENT_ALL, ui);
     // 彩灯控制事件
+#ifdef KEIL_COMPILE
     lv_obj_add_event_cb(ui->smart_home_app_color_led_sw, smart_home_color_led_sw_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->smart_home_app_color_led_cpicker, smart_home_color_led_cpicker_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->smart_home_app_color_led_light_div_slider, smart_home_color_led_light_slider_event_handler, LV_EVENT_ALL, ui);
     // 绿灯控制事件
     lv_obj_add_event_cb(ui->smart_home_app_led_green_sw, smart_home_led_green_sw_event_handler, LV_EVENT_ALL, ui);
+#endif
 
     //Update current screen layout.
     lv_obj_update_layout(ui->smart_home_app);
