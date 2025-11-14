@@ -6,13 +6,16 @@
 #include <FreeRTOS.h>
 #include <task.h>
 
+#define CHUNK_W 32
+#define CHUNK_H 32
+
 // 获取当前时间(毫秒)
 static inline uint32_t millis(void) {
     return xTaskGetTickCount();
 }
 
 // 世界地图
-static int8_t worldMap[MAP_WIDTH][MAP_HEIGHT] = {
+static uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT] = {
     {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7},
     {4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 7},
     {4, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7},
@@ -62,12 +65,12 @@ static uint16_t CHANGE_SIDE_TEX_COLOR(uint16_t color) {
 }
 
 // 将8位纹理转换为16位
-static inline uint16_t READ16(const unsigned char* base, int idx) {
+static inline uint16_t READ16(const uint8_t* base, int idx) {
     return (uint16_t)(base[idx] << 8) | (uint16_t)(base[idx + 1]);
 }
 
 // 混合纹理
-static inline uint16_t SAMPLE_WALL_COLOR(int8_t texNum, int texX, int texY) {
+static inline uint16_t SAMPLE_WALL_COLOR(uint8_t texNum, int texX, int texY) {
     int idx = ((texHeight * texX + texY) << 1);
     if (texNum < 30) {
         if (texNum == 15 || texNum == 16) {
@@ -156,16 +159,15 @@ static void WEAPONHIT(void) {
 
 // 绘制武器到屏幕
 static void DRAW_WEAPONS_TO_SCREEN(int typeOfWeapon) {
-    uint8_t wStart = 0, hStart = 0;
+    uint16_t wStart = 0, hStart = 0;
     int c = 0;
     uint16_t weaponsBuffer = 0;
-    
     if (g_state.stepTemp == 0) {
         wStart = SCREEN_WIDTH - chutou1_texWidth;
         hStart = SCREEN_HEIGHT - chutou1_texHeight;
-        for (uint8_t a = wStart; a < wStart + chutou1_texWidth; a++) {
-            for (uint8_t b = hStart; b < hStart + chutou1_texHeight; b++) {
-                weaponsBuffer = (uint16_t)(chutou1[c] << 8) | (uint16_t)(chutou1[c + 1]);
+        for (uint16_t a = wStart; a < wStart + chutou1_texWidth; a++) {
+            for (uint16_t b = hStart; b < hStart + chutou1_texHeight; b++) {
+                weaponsBuffer = READ16(chutou1, c);
                 c += 2;
                 if (weaponsBuffer != 0) {
                     lv_framebuffer[b * SCREEN_WIDTH + a] = weaponsBuffer;
@@ -175,9 +177,9 @@ static void DRAW_WEAPONS_TO_SCREEN(int typeOfWeapon) {
     } else if (g_state.stepTemp == 1) {
         wStart = SCREEN_WIDTH - chutou2_texWidth;
         hStart = SCREEN_HEIGHT - chutou2_texHeight;
-        for (uint8_t a = wStart; a < wStart + chutou2_texWidth; a++) {
-            for (uint8_t b = hStart; b < hStart + chutou2_texHeight; b++) {
-                weaponsBuffer = (uint16_t)(chutou2[c] << 8) | (uint16_t)(chutou2[c + 1]);
+        for (uint16_t a = wStart; a < wStart + chutou2_texWidth; a++) {
+            for (uint16_t b = hStart; b < hStart + chutou2_texHeight; b++) {
+                weaponsBuffer = READ16(chutou2, c);
                 c += 2;
                 if (weaponsBuffer != 0) {
                     lv_framebuffer[b * SCREEN_WIDTH + a] = weaponsBuffer;
@@ -187,9 +189,9 @@ static void DRAW_WEAPONS_TO_SCREEN(int typeOfWeapon) {
     } else if (g_state.stepTemp == 2) {
         wStart = SCREEN_WIDTH - chutou3_texWidth - 40;
         hStart = SCREEN_HEIGHT - chutou3_texHeight;
-        for (uint8_t a = wStart; a < wStart + chutou3_texWidth; a++) {
-            for (uint8_t b = hStart; b < hStart + chutou3_texHeight; b++) {
-                weaponsBuffer = (uint16_t)(chutou3[c] << 8) | (uint16_t)(chutou3[c + 1]);
+        for (uint16_t a = wStart; a < wStart + chutou3_texWidth; a++) {
+            for (uint16_t b = hStart; b < hStart + chutou3_texHeight; b++) {
+                weaponsBuffer = READ16(chutou3, c);
                 c += 2;
                 if (weaponsBuffer != 0) {
                     lv_framebuffer[b * SCREEN_WIDTH + a] = weaponsBuffer;
@@ -200,51 +202,60 @@ static void DRAW_WEAPONS_TO_SCREEN(int typeOfWeapon) {
 }
 
 // 绘制地面和天花板
-static void DRAW_FLOOR_AND_CEILING(void) {
+static void DRAW_FLOOR_AND_CEILING_REGION(int xs, int ys, int xe, int ye) {
     uint16_t color;
     int8_t floorTexture = 3;
     int8_t ceilingTexture = 6;
-
-    for (int y = 0; y < SCREEN_HEIGHT; y++) {
+    for (int y = ys; y < ye; y++) {
+        uint16_t* fb_row = lv_framebuffer + y * SCREEN_WIDTH;
         float rayDirX0 = g_state.dirX - g_state.planeX;
         float rayDirY0 = g_state.dirY - g_state.planeY;
         float rayDirX1 = g_state.dirX + g_state.planeX;
         float rayDirY1 = g_state.dirY + g_state.planeY;
         int p = y - (SCREEN_HEIGHT / 2 + g_state.pitch);
-
         if (p == 0) continue;
-
         float posZ = 0.5f * SCREEN_HEIGHT;
         float rowDistance = posZ / p;
         float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / SCREEN_WIDTH;
         float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / SCREEN_WIDTH;
-        float floorX = g_state.posX + rowDistance * rayDirX0;
-        float floorY = g_state.posY + rowDistance * rayDirY0;
-
-        for (int x = 0; x < SCREEN_WIDTH; ++x) {
+        float floorX = g_state.posX + rowDistance * rayDirX0 + floorStepX * xs;
+        float floorY = g_state.posY + rowDistance * rayDirY0 + floorStepY * xs;
+        for (int x = xs; x < xe; ++x) {
             int cellX = (int)(floorX);
             int cellY = (int)(floorY);
             int tx = (int)(texWidth * (floorX - cellX)) & (texWidth - 1);
             int ty = (int)(texHeight * (floorY - cellY)) & (texHeight - 1);
             floorX += floorStepX;
             floorY += floorStepY;
-
             int idx = ((texWidth * ty + tx) << 1);
             if (y > SCREEN_HEIGHT / 2 + g_state.pitch) {
-                color = (texture[floorTexture][idx] << 8) | texture[floorTexture][idx + 1];
+                color = READ16(texture[floorTexture], idx);
             } else {
-                color = (texture[ceilingTexture][idx] << 8) | texture[ceilingTexture][idx + 1];
+                color = READ16(texture[ceilingTexture], idx);
             }
             color = CHANGE_SIDE_TEX_COLOR(color);
-            lv_framebuffer[y * SCREEN_WIDTH + x] = color;
+            fb_row[x] = color;
+        }
+    }
+}
+
+static void DRAW_FLOOR_AND_CEILING(void) {
+    for (int y = 0; y < SCREEN_HEIGHT; y += CHUNK_H) {
+        for (int x = 0; x < SCREEN_WIDTH; x += CHUNK_W) {
+            int xe = x + CHUNK_W; if (xe > SCREEN_WIDTH) xe = SCREEN_WIDTH;
+            int ye = y + CHUNK_H; if (ye > SCREEN_HEIGHT) ye = SCREEN_HEIGHT;
+            DRAW_FLOOR_AND_CEILING_REGION(x, y, xe, ye);
         }
     }
 }
 
 // Raycasting主渲染函数
-static void RAYCASTING(void) {
-    for (int x = 0; x < SCREEN_WIDTH; x++) {
-        float cameraX = 2.0f * x / (float)SCREEN_WIDTH - 1.0f;
+static void RAYCASTING_REGION(int xs, int xe, int ys, int ye) {
+    const float invSW = 1.0f / (float)SCREEN_WIDTH;
+    const float twoInvSW = 2.0f * invSW;
+    const int centerY = SCREEN_HEIGHT / 2 + g_state.pitch;
+    for (int x = xs; x < xe; x++) {
+        float cameraX = twoInvSW * x - 1.0f;
         float rayDirX = g_state.dirX + g_state.planeX * cameraX;
         float rayDirY = g_state.dirY + g_state.planeY * cameraX;
         int mapX = (int)g_state.posX;
@@ -256,7 +267,6 @@ static void RAYCASTING(void) {
         int stepX, stepY;
         int hit = 0;
         int side;
-        
         if (rayDirX < 0) {
             stepX = -1;
             sideDistX = (g_state.posX - mapX) * deltaDistX;
@@ -264,7 +274,6 @@ static void RAYCASTING(void) {
             stepX = 1;
             sideDistX = (mapX + 1.0 - g_state.posX) * deltaDistX;
         }
-        
         if (rayDirY < 0) {
             stepY = -1;
             sideDistY = (g_state.posY - mapY) * deltaDistY;
@@ -272,7 +281,7 @@ static void RAYCASTING(void) {
             stepY = 1;
             sideDistY = (mapY + 1.0 - g_state.posY) * deltaDistY;
         }
-        
+
         // DDA算法
         while (hit == 0) {
             if (sideDistX < sideDistY) {
@@ -292,30 +301,26 @@ static void RAYCASTING(void) {
                 hit = 1;
             }
         }
-        
         if (side == 0) {
             perpWallDist = (sideDistX - deltaDistX);
         } else {
             perpWallDist = (sideDistY - deltaDistY);
         }
-        
+
         // 保存屏幕中心的目标信息
         if (x == SCREEN_WIDTH / 2) {
             g_state.targetDistance = perpWallDist;
             g_state.targetMapX = mapX;
             g_state.targetMapY = mapY;
         }
-        
         int lineHeight = (int)((float)SCREEN_HEIGHT / perpWallDist);
-        int drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2 + g_state.pitch;
+        int drawStart = -lineHeight / 2 + centerY;
         if (drawStart < 0) drawStart = 0;
-
-        int drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2 + g_state.pitch;
+        int drawEnd = lineHeight / 2 + centerY;
         if (drawEnd >= SCREEN_HEIGHT) drawEnd = SCREEN_HEIGHT - 1;
-        
         // 获取纹理
         uint16_t color;
-        int8_t texNum = 0;
+        uint8_t texNum = 0;
         if (worldMap[mapX][mapY] > 0) {
             texNum = worldMap[mapX][mapY] - 1;
         }
@@ -328,23 +333,34 @@ static void RAYCASTING(void) {
             wallX = g_state.posX + perpWallDist * rayDirX;
         }
         wallX -= floor(wallX);
-        
         int texX = (int)(wallX * (double)texWidth);
         if ((side == 0 && rayDirX > 0) || (side == 1 && rayDirY < 0)) {
             texX = texWidth - texX - 1;
         }
-        
         float oneStep = 1.0f * texHeight / (float)lineHeight;
-        float texPos = (drawStart - g_state.pitch - SCREEN_HEIGHT / 2 + lineHeight / 2) * oneStep;
-        
-        for (int y = drawStart; y < drawEnd; y++) {
+        float texPos = (drawStart - centerY + lineHeight / 2) * oneStep;
+        int y0 = drawStart; if (y0 < ys) { texPos += oneStep * (ys - y0); y0 = ys; }
+        int y1 = drawEnd; if (y1 > ye) { y1 = ye; }
+        uint16_t* p = lv_framebuffer + y0 * SCREEN_WIDTH + x;
+        for (int y = y0; y < y1; y++) {
             int texY = (int)texPos & (texHeight - 1);
             texPos += oneStep;
             color = SAMPLE_WALL_COLOR(texNum, texX, texY);
             if (side == 1) {
                 color = CHANGE_SIDE_TEX_COLOR(color);
             }
-            lv_framebuffer[y * SCREEN_WIDTH + x] = color;
+            *p = color;
+            p += SCREEN_WIDTH;
+        }
+    }
+}
+
+static void RAYCASTING(void) {
+    for (int y = 0; y < SCREEN_HEIGHT; y += CHUNK_H) {
+        for (int x = 0; x < SCREEN_WIDTH; x += CHUNK_W) {
+            int xe = x + CHUNK_W; if (xe > SCREEN_WIDTH) xe = SCREEN_WIDTH;
+            int ye = y + CHUNK_H; if (ye > SCREEN_HEIGHT) ye = SCREEN_HEIGHT;
+            RAYCASTING_REGION(x, xe, y, ye);
         }
     }
 }
@@ -356,6 +372,9 @@ static void processMovement(void) {
     float frameTime = (g_state.nowFrame - g_state.oldFrame) / 1000.0f;
     float moveSpeed = frameTime * 4.0f;
     float rotSpeed = frameTime * 2.0f;
+    int pitchStep = (int)(frameTime * 60.0f);
+    if (pitchStep < 1) pitchStep = 1;
+    int maxPitch = SCREEN_HEIGHT / 3;
     
     uint8_t a = currentKey;
     
@@ -409,26 +428,39 @@ static void processMovement(void) {
             
         case  MINECRAFT_KEY_LEFT: // 左转
         {
+            float cs = cosf(rotSpeed);
+            float sn = sinf(rotSpeed);
             float oldDirX = g_state.dirX;
-            g_state.dirX = g_state.dirX * cosf(rotSpeed) - g_state.dirY * sinf(rotSpeed);
-            g_state.dirY = oldDirX * sinf(rotSpeed) + g_state.dirY * cosf(rotSpeed);
+            g_state.dirX = g_state.dirX * cs - g_state.dirY * sn;
+            g_state.dirY = oldDirX * sn + g_state.dirY * cs;
             float oldPlaneX = g_state.planeX;
-            g_state.planeX = g_state.planeX * cosf(rotSpeed) - g_state.planeY * sinf(rotSpeed);
-            g_state.planeY = oldPlaneX * sinf(rotSpeed) + g_state.planeY * cosf(rotSpeed);
+            g_state.planeX = g_state.planeX * cs - g_state.planeY * sn;
+            g_state.planeY = oldPlaneX * sn + g_state.planeY * cs;
         }
         break;
 
         case MINECRAFT_KEY_RIGHT: // 右转
         {
+            float cs = cosf(rotSpeed);
+            float sn = sinf(rotSpeed);
+            sn = -sn;
             float oldDirX = g_state.dirX;
-            g_state.dirX = g_state.dirX * cosf(-rotSpeed) - g_state.dirY * sinf(-rotSpeed);
-            g_state.dirY = oldDirX * sinf(-rotSpeed) + g_state.dirY * cosf(-rotSpeed);
+            g_state.dirX = g_state.dirX * cs - g_state.dirY * sn;
+            g_state.dirY = oldDirX * sn + g_state.dirY * cs;
             float oldPlaneX = g_state.planeX;
-            g_state.planeX = g_state.planeX * cosf(-rotSpeed) - g_state.planeY * sinf(-rotSpeed);
-            g_state.planeY = oldPlaneX * sinf(-rotSpeed) + g_state.planeY * cosf(-rotSpeed);
+            g_state.planeX = g_state.planeX * cs - g_state.planeY * sn;
+            g_state.planeY = oldPlaneX * sn + g_state.planeY * cs;
         }
         break;
-            
+        case MINECRAFT_KEY_LOOK_UP:
+            g_state.pitch -= pitchStep;
+            if (g_state.pitch < -maxPitch) g_state.pitch = -maxPitch;
+            break;
+        case MINECRAFT_KEY_LOOK_DOWN:
+            g_state.pitch += pitchStep;
+            if (g_state.pitch > maxPitch) g_state.pitch = maxPitch;
+            break;
+        
     }
 }
 

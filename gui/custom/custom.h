@@ -98,12 +98,19 @@ void nav_back(lv_ui *ui);
 // 缓冲类型统一按字节指针管理。
 #define DRAW_CANVAS_W 280
 #define DRAW_CANVAS_H 264
-#define DRAW_CANVAS_COLOR lv_color_t
+#define DRAW_MAX_SEGMENTS 1024
+typedef struct draw_seg_s {
+    lv_color_t color;
+    uint16_t width;
+    lv_point_t p1;
+    lv_point_t p2;
+} draw_seg_t;
 typedef struct drawing_board_ctx_s {
-    lv_obj_t *canvas;        // 绘图画布
-    DRAW_CANVAS_COLOR *canvas_buf; // 运行时分配的画布缓冲（内存不足，这里用 1位颜色）
-    lv_point_t last_pt;      // 上一个绘图点
-    bool last_valid;         // 上一个点是否有效
+    lv_obj_t *canvas;
+    lv_point_t last_pt;
+    bool last_valid;
+    uint16_t seg_count;
+    draw_seg_t segs[DRAW_MAX_SEGMENTS];
 } drawing_board_ctx_t;
 
 extern drawing_board_ctx_t s_drawing_ctx;
@@ -113,6 +120,7 @@ void drawing_board_canvas_event_cb(lv_event_t *e); // 画布点击事件
 void drawing_board_clear_event_cb(lv_event_t *e);  // 清空画布
 void drawing_board_width_event_cb(lv_event_t *e);  // 笔宽选择事件
 void drawing_board_color_event_cb(lv_event_t *e);  // 颜色选择事件
+void drawing_board_paint_draw_event_cb(lv_event_t *e);
 
 // ===============================
 // 我的世界游戏实现

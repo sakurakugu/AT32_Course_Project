@@ -657,10 +657,9 @@ drawing_board_ctx_t s_drawing_ctx; // 单屏上下文
 // 屏幕删除时释放画布缓冲
 void drawing_board_app_delete_cb(lv_event_t *e) {
     drawing_board_ctx_t *ctx = (drawing_board_ctx_t *)lv_event_get_user_data(e);
-    if (ctx && ctx->canvas_buf) {
-        lv_mem_free(ctx->canvas_buf);
-        ctx->canvas_buf = NULL;
-    }
+    if (!ctx) return;
+    ctx->seg_count = 0;
+    ctx->last_valid = false;
 }
 
 void drawing_board_canvas_event_cb(lv_event_t *e) {
@@ -698,38 +697,34 @@ void drawing_board_canvas_event_cb(lv_event_t *e) {
         ctx->last_pt.x = x;
         ctx->last_pt.y = y;
         ctx->last_valid = true;
-
-        // 画一个圆点，作为起笔
-        lv_draw_rect_dsc_t rect_dsc;
-        lv_draw_rect_dsc_init(&rect_dsc);
-        rect_dsc.bg_color = lv_colorwheel_get_rgb(guider_ui.drawing_board_app_colorwheel);
-        rect_dsc.radius = lv_slider_get_value(guider_ui.drawing_board_app_width_slider) / 2;
-        rect_dsc.bg_opa = LV_OPA_COVER;
-        int32_t r = rect_dsc.radius;
-        if (r < 1)
-            r = 1;
-        lv_canvas_draw_rect(ctx->canvas, x - r, y - r, r * 2, r * 2, &rect_dsc);
+        if(ctx->seg_count < DRAW_MAX_SEGMENTS) {
+            draw_seg_t *s = &ctx->segs[ctx->seg_count++];
+            s->color = lv_colorwheel_get_rgb(guider_ui.drawing_board_app_colorwheel);
+            uint16_t w = (uint16_t)lv_slider_get_value(guider_ui.drawing_board_app_width_slider);
+            if(w == 0) w = 1;
+            s->width = w;
+            s->p1.x = (lv_coord_t)x;
+            s->p1.y = (lv_coord_t)y;
+            s->p2 = s->p1;
+        }
+        lv_obj_invalidate(canvas);
         break;
     }
     case LV_EVENT_PRESSING: {
         if (!ctx->last_valid)
             break;
-        // 画上一个点到当前点的线段
-        lv_draw_line_dsc_t line_dsc;
-        lv_draw_line_dsc_init(&line_dsc);
-        line_dsc.color = lv_colorwheel_get_rgb(guider_ui.drawing_board_app_colorwheel);
-        line_dsc.width = lv_slider_get_value(guider_ui.drawing_board_app_width_slider);
-        line_dsc.round_start = 1;
-        line_dsc.round_end = 1;
-
-        lv_point_t p1 = ctx->last_pt;
-        lv_point_t p2 = {(lv_coord_t)x, (lv_coord_t)y};
-
-        // 使用 LVGL 画线 API（传入点数组与点数）
-        lv_point_t pts[2] = {p1, p2};
-        lv_canvas_draw_line(ctx->canvas, pts, 2, &line_dsc);
-
-        ctx->last_pt = p2;
+        if(ctx->seg_count < DRAW_MAX_SEGMENTS) {
+            draw_seg_t *s = &ctx->segs[ctx->seg_count++];
+            s->color = lv_colorwheel_get_rgb(guider_ui.drawing_board_app_colorwheel);
+            uint16_t w = (uint16_t)lv_slider_get_value(guider_ui.drawing_board_app_width_slider);
+            if(w == 0) w = 1;
+            s->width = w;
+            s->p1 = ctx->last_pt;
+            s->p2.x = (lv_coord_t)x;
+            s->p2.y = (lv_coord_t)y;
+            ctx->last_pt = s->p2;
+        }
+        lv_obj_invalidate(canvas);
         break;
     }
     case LV_EVENT_RELEASED: {
@@ -743,8 +738,9 @@ void drawing_board_canvas_event_cb(lv_event_t *e) {
 
 void drawing_board_clear_event_cb(lv_event_t *e) {
     drawing_board_ctx_t *ctx = (drawing_board_ctx_t *)lv_event_get_user_data(e);
-    // 清空为白色背景
-    lv_canvas_fill_bg(ctx->canvas, lv_color_white(), LV_OPA_COVER);
+    if(!ctx) return;
+    ctx->seg_count = 0;
+    lv_obj_invalidate(ctx->canvas);
 }
 
 void drawing_board_width_event_cb(lv_event_t *e) {
@@ -755,6 +751,29 @@ void drawing_board_width_event_cb(lv_event_t *e) {
 void drawing_board_color_event_cb(lv_event_t *e) {
     // 颜色变化同样在作画事件中实时读取；保留回调以备扩展
     LV_UNUSED(e);
+}
+
+void drawing_board_paint_draw_event_cb(lv_event_t *e) {
+    drawing_board_ctx_t *ctx = (drawing_board_ctx_t *)lv_event_get_user_data(e);
+    lv_obj_t *obj = lv_event_get_target(e);
+    lv_draw_ctx_t *draw_ctx = lv_event_get_draw_ctx(e);
+    lv_area_t area;
+    lv_obj_get_content_coords(obj, &area);
+    lv_draw_rect_dsc_t rd;
+    lv_draw_rect_dsc_init(&rd);
+    rd.bg_color = lv_color_white();
+    rd.bg_opa = LV_OPA_COVER;
+    lv_draw_rect(draw_ctx, &rd, &area);
+    for(uint16_t i = 0; i < ctx->seg_count; i++) {
+        draw_seg_t *s = &ctx->segs[i];
+        lv_draw_line_dsc_t ld;
+        lv_draw_line_dsc_init(&ld);
+        ld.color = s->color;
+        ld.width = s->width;
+        ld.round_start = 1;
+        ld.round_end = 1;
+        lv_draw_line(draw_ctx, &ld, &s->p1, &s->p2);
+    }
 }
 
 // ===============================

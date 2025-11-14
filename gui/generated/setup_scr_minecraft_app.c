@@ -68,11 +68,14 @@ void setup_scr_minecraft_app(lv_ui *ui)
         mc_img_dsc.data = fb;
         minecraft_img = lv_img_create(ui->minecraft_app);
         lv_img_set_src(minecraft_img, &mc_img_dsc);
-        lv_obj_set_pos(minecraft_img, 160, 120);
-        lv_obj_set_size(minecraft_img, SCREEN_WIDTH, SCREEN_HEIGHT);
+        lv_img_set_pivot(minecraft_img, 0, 0); // 缩放锚点设为左上角
+        lv_img_set_zoom(minecraft_img, 1024);
+        lv_obj_align(minecraft_img, LV_ALIGN_TOP_LEFT, 1, 17);
+
         minecraft_timer = lv_timer_create(minecraft_timer_cb, 33, NULL);
     }
 #endif
+    lv_obj_move_foreground(ui->minecraft_app_back_btn);
 
     //Update current screen layout.
     lv_obj_update_layout(ui->minecraft_app);

@@ -138,7 +138,8 @@
         "typeinfo": "cpp",
         "led.h": "c",
         "random": "cpp",
-        "color_led.h": "c"
+        "color_led.h": "c",
+        "link_game.h": "c"
     },
     "search.useIgnoreFiles": false, // 禁用git忽略文件
     "search.exclude": { // 排除搜索范围

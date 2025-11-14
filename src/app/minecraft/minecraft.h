@@ -7,9 +7,9 @@
 extern "C" {
 #endif
 
-// 游戏显示尺寸 (160x80 原始大小)
-#define SCREEN_WIDTH 160
-#define SCREEN_HEIGHT 80
+// 游戏渲染尺寸 (120x76)，显示端使用4倍缩放
+#define SCREEN_WIDTH 120
+#define SCREEN_HEIGHT 76
 #define MAP_WIDTH 24
 #define MAP_HEIGHT 24
 
@@ -19,6 +19,8 @@ extern "C" {
 #define MINECRAFT_KEY_LEFT   3  // 左转
 #define MINECRAFT_KEY_RIGHT  4  // 右转
 #define MINECRAFT_KEY_ACTION 5  // 攻击/交互
+#define MINECRAFT_KEY_LOOK_UP    6  // 抬头
+#define MINECRAFT_KEY_LOOK_DOWN  7  // 低头
 
 // 游戏状态
 typedef struct {

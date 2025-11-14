@@ -1735,7 +1735,7 @@
 							"sd_path": "",
 							"text": "",
 							"toggle": true,
-							"src_released": "",
+							"src_released": "import\\image\\link_game_app.png",
 							"src_pressed": "",
 							"src_checked_released": "",
 							"src_checked_pressed": "",
@@ -19260,7 +19260,7 @@
 			"version": 190,
 			"scrollbar_mode": "OFF",
 			"customer_code": {
-				"code_c": "    drawing_board_ctx_t *ctx = &s_drawing_ctx;\r\n    ctx->last_valid = false;\r\n    ctx->canvas_buf = NULL;\r\n\r\n    // 屏幕删除时释放画布缓冲\r\n    lv_obj_add_event_cb(ui->drawing_board_app, drawing_board_app_delete_cb, LV_EVENT_DELETE, ctx);\r\n\r\n    // 画布（左侧）\r\n    ctx->canvas = lv_canvas_create(ui->drawing_board_app_canvas_container);\r\n    lv_obj_set_pos(ctx->canvas, 0, 0);\r\n    lv_obj_set_style_border_width(ctx->canvas, 0, 0); // 隐藏边框\r\n    lv_obj_set_size(ctx->canvas, DRAW_CANVAS_W, DRAW_CANVAS_H);\r\n    lv_obj_add_flag(ctx->canvas, LV_OBJ_FLAG_CLICKABLE);\r\n    // 运行时分配画布缓冲：如果失败则按高度降级\r\n    int canvas_w = DRAW_CANVAS_W;\r\n    int canvas_h = DRAW_CANVAS_H;\r\n    int alloc_h = canvas_h;\r\n    DRAW_CANVAS_COLOR *buf = NULL;\r\n    for (; alloc_h >= 80; alloc_h -= 20) {\r\n        size_t need = (size_t)canvas_w * (size_t)alloc_h * sizeof(DRAW_CANVAS_COLOR);\r\n        buf = (DRAW_CANVAS_COLOR *)lv_mem_alloc(need);\r\n        if (buf) break;\r\n    }\r\n    ctx->canvas_buf = buf;\r\n    if (ctx->canvas_buf) {\r\n        if (alloc_h != canvas_h) {\r\n            lv_obj_set_size(ctx->canvas, canvas_w, alloc_h);\r\n        }\r\n        lv_canvas_set_buffer(ctx->canvas, ctx->canvas_buf, canvas_w, alloc_h, LV_IMG_CF_TRUE_COLOR);\r\n        lv_canvas_fill_bg(ctx->canvas, lv_color_white(), LV_OPA_COVER);\r\n    } else {\r\n        // 分配失败时给出提示并禁止绘图\r\n        lv_obj_clear_flag(ui->drawing_board_app_dialog_box, LV_OBJ_FLAG_HIDDEN);\r\n    }\r\n    lv_obj_set_style_border_width(ctx->canvas, 1, LV_PART_MAIN | LV_STATE_DEFAULT);\r\n    lv_obj_set_style_border_color(ctx->canvas, lv_color_hex(0x888888), LV_PART_MAIN | LV_STATE_DEFAULT);\r\n\r\n    // 颜色选择器\r\n    lv_obj_add_event_cb(ui->drawing_board_app_colorwheel, drawing_board_color_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 笔宽滑条\r\n    lv_obj_add_event_cb(ui->drawing_board_app_width_slider, drawing_board_width_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 清空按钮\r\n    lv_obj_add_event_cb(ui->drawing_board_app_btn_clear, drawing_board_clear_event_cb, LV_EVENT_CLICKED, ctx);\r\n    // 绑定画布触控绘图事件\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSED, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSING, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_RELEASED, ctx);",
+				"code_c": "    drawing_board_ctx_t *ctx = &s_drawing_ctx;\r\n    ctx->last_valid = false;\r\n    ctx->seg_count = 0;\r\n\r\n    // 屏幕删除时释放画布缓冲\r\n    lv_obj_add_event_cb(ui->drawing_board_app, drawing_board_app_delete_cb, LV_EVENT_DELETE, ctx);\r\n\r\n    // 画布（左侧）\r\n    ctx->canvas = lv_obj_create(ui->drawing_board_app_canvas_container);\r\n    lv_obj_set_pos(ctx->canvas, 0, 0);\r\n    lv_obj_set_style_border_width(ctx->canvas, 0, 0);\r\n    lv_obj_set_size(ctx->canvas, DRAW_CANVAS_W, DRAW_CANVAS_H);\r\n    lv_obj_add_flag(ctx->canvas, LV_OBJ_FLAG_CLICKABLE);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_paint_draw_event_cb, LV_EVENT_DRAW_MAIN, ctx);\r\n    lv_obj_set_style_border_width(ctx->canvas, 1, LV_PART_MAIN | LV_STATE_DEFAULT);\r\n    lv_obj_set_style_border_color(ctx->canvas, lv_color_hex(0x888888), LV_PART_MAIN | LV_STATE_DEFAULT);\r\n\r\n    // 颜色选择器\r\n    lv_obj_add_event_cb(ui->drawing_board_app_colorwheel, drawing_board_color_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 笔宽滑条\r\n    lv_obj_add_event_cb(ui->drawing_board_app_width_slider, drawing_board_width_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 清空按钮\r\n    lv_obj_add_event_cb(ui->drawing_board_app_btn_clear, drawing_board_clear_event_cb, LV_EVENT_CLICKED, ctx);\r\n    // 绑定画布触控绘图事件\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSED, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSING, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_RELEASED, ctx);",
 				"inc_c": "",
 				"code_py": "",
 				"inc_py": "",
@@ -19284,110 +19284,7 @@
 					"height": 304,
 					"default_style": false,
 					"scrollbar_mode": "OFF",
-					"child": [
-						{
-							"name": "dialog_box",
-							"id": "lm4qgdni",
-							"type": "label",
-							"left": 43,
-							"top": 222,
-							"visible": true,
-							"isLock": false,
-							"flag": [
-								"LV_OBJ_FLAG_HIDDEN"
-							],
-							"width": 192,
-							"height": 18,
-							"default_style": false,
-							"text": "内存不足，无法创建画布",
-							"long_mode": "LV_LABEL_LONG_WRAP",
-							"is_static": false,
-							"custom_attribute": [],
-							"attribute_type": "",
-							"style": [
-								{
-									"part": "LV_PART_MAIN",
-									"state": "LV_STATE_DEFAULT",
-									"disable": false,
-									"border_side": [
-										"LV_BORDER_SIDE_FULL"
-									],
-									"border_width": 0,
-									"border_opa": 255,
-									"border_color": "#2195f6",
-									"radius": 0,
-									"text_color": "#000000",
-									"text_opa": 255,
-									"font": 16,
-									"text_align": "LV_TEXT_ALIGN_CENTER",
-									"font_family": "SourceHanSerifSC_Regular",
-									"letter_space": 0,
-									"line_space": 0,
-									"bg_color": "#2195f6",
-									"bg_grad_color": "#2195f6",
-									"bg_opa": 0,
-									"bg_grad_dir": "LV_GRAD_DIR_NONE",
-									"bg_dither_mode": "LV_DITHER_NONE",
-									"bg_main_stop": 0,
-									"bg_grad_stop": 255,
-									"padding_top": 0,
-									"padding_right": 0,
-									"padding_bottom": 0,
-									"padding_left": 0,
-									"bg_img_src": "",
-									"bg_img_opa": 255,
-									"bg_img_recolor": "#ffffff",
-									"bg_img_recolor_opa": 0,
-									"shadow_color": "#2195f6",
-									"shadow_opa": 255,
-									"shadow_width": 0,
-									"shadow_spread": 0,
-									"shadow_ofs_x": 0,
-									"shadow_ofs_y": 0
-								},
-								{
-									"part": "LV_PART_MAIN",
-									"state": "LV_STATE_DISABLED",
-									"disable": true,
-									"border_side": [
-										"LV_BORDER_SIDE_FULL"
-									],
-									"border_width": 0,
-									"border_opa": 255,
-									"border_color": "#2195f6",
-									"radius": 0,
-									"text_color": "#000000",
-									"text_opa": 255,
-									"font": 16,
-									"font_family": "montserratMedium",
-									"text_align": "LV_TEXT_ALIGN_CENTER",
-									"letter_space": 0,
-									"line_space": 0,
-									"bg_color": "#2195f6",
-									"bg_grad_color": "#2195f6",
-									"bg_opa": 0,
-									"bg_grad_dir": "LV_GRAD_DIR_NONE",
-									"bg_dither_mode": "LV_DITHER_NONE",
-									"bg_main_stop": 0,
-									"bg_grad_stop": 255,
-									"padding_top": 0,
-									"padding_right": 0,
-									"padding_bottom": 0,
-									"padding_left": 0,
-									"bg_img_src": "",
-									"bg_img_opa": 255,
-									"bg_img_recolor": "#ffffff",
-									"bg_img_recolor_opa": 0,
-									"shadow_color": "#2195f6",
-									"shadow_opa": 255,
-									"shadow_width": 0,
-									"shadow_spread": 0,
-									"shadow_ofs_x": 0,
-									"shadow_ofs_y": 0
-								}
-							]
-						}
-					],
+					"child": [],
 					"style": [
 						{
 							"part": "LV_PART_MAIN",
@@ -20110,7 +20007,7 @@
 			"version": 190,
 			"scrollbar_mode": "OFF",
 			"customer_code": {
-				"code_c": "#ifdef KEIL_COMPILE\r\n    lv_obj_add_event_cb(ui->minecraft_app, minecraft_app_screen_delete_event_handler, LV_EVENT_DELETE, ui);\r\n    minecraft_init();\r\n    const uint8_t *fb = (const uint8_t *)minecraft_get_framebuffer();\r\n    if (fb == NULL) {\r\n        lv_obj_t *err = lv_label_create(ui->minecraft_app);\r\n        lv_label_set_text(err, \"Minecraft初始化失败：内存不足\");\r\n        lv_obj_center(err);\r\n    } else {\r\n        static lv_img_dsc_t mc_img_dsc;\r\n        mc_img_dsc.header.always_zero = 0;\r\n        mc_img_dsc.header.w = SCREEN_WIDTH;\r\n        mc_img_dsc.header.h = SCREEN_HEIGHT;\r\n        mc_img_dsc.header.cf = LV_IMG_CF_TRUE_COLOR;\r\n        mc_img_dsc.data_size = SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(lv_color_t);\r\n        mc_img_dsc.data = fb;\r\n        minecraft_img = lv_img_create(ui->minecraft_app);\r\n        lv_img_set_src(minecraft_img, &mc_img_dsc);\r\n        lv_obj_set_pos(minecraft_img, 160, 120);\r\n        lv_obj_set_size(minecraft_img, SCREEN_WIDTH, SCREEN_HEIGHT);\r\n        minecraft_timer = lv_timer_create(minecraft_timer_cb, 33, NULL);\r\n    }\r\n#endif",
+				"code_c": "#ifdef KEIL_COMPILE\r\n    lv_obj_add_event_cb(ui->minecraft_app, minecraft_app_screen_delete_event_handler, LV_EVENT_DELETE, ui);\r\n    minecraft_init();\r\n    const uint8_t *fb = (const uint8_t *)minecraft_get_framebuffer();\r\n    if (fb == NULL) {\r\n        lv_obj_t *err = lv_label_create(ui->minecraft_app);\r\n        lv_label_set_text(err, \"Minecraft初始化失败：内存不足\");\r\n        lv_obj_center(err);\r\n    } else {\r\n        static lv_img_dsc_t mc_img_dsc;\r\n        mc_img_dsc.header.always_zero = 0;\r\n        mc_img_dsc.header.w = SCREEN_WIDTH;\r\n        mc_img_dsc.header.h = SCREEN_HEIGHT;\r\n        mc_img_dsc.header.cf = LV_IMG_CF_TRUE_COLOR;\r\n        mc_img_dsc.data_size = SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(lv_color_t);\r\n        mc_img_dsc.data = fb;\r\n        minecraft_img = lv_img_create(ui->minecraft_app);\r\n        lv_img_set_src(minecraft_img, &mc_img_dsc);\r\n        lv_img_set_pivot(minecraft_img, 0, 0); // 缩放锚点设为左上角\r\n        lv_img_set_zoom(minecraft_img, 1024);\r\n        lv_obj_align(minecraft_img, LV_ALIGN_TOP_LEFT, 1, 17);\r\n        \r\n        minecraft_timer = lv_timer_create(minecraft_timer_cb, 33, NULL);\r\n    }\r\n#endif\r\n    lv_obj_move_foreground(ui->minecraft_app_back_btn);",
 				"inc_c": "",
 				"code_py": "",
 				"inc_py": "",
@@ -20356,8 +20253,8 @@
 			"version": 190,
 			"scrollbar_mode": "OFF",
 			"customer_code": {
-				"code_c": "",
-				"inc_c": "",
+				"code_c": "    link_root = ui->link_game_app;\r\n    lv_obj_add_event_cb(link_root, root_delete_cb, LV_EVENT_DELETE, NULL);\r\n    link_init_board(lv_tick_get());\r\n    link_create_grid(ui);\r\n    lv_obj_move_foreground(ui->link_game_app_back_btn);\r\n    lv_obj_move_foreground(ui->link_game_app_reopen_btn);",
+				"inc_c": "#include \"../../src/app/link_game/link_game.h\"",
 				"code_py": "",
 				"inc_py": "",
 				"type": "screen"
@@ -20367,6 +20264,211 @@
 			"visible": true,
 			"flag": [],
 			"list": [
+				{
+					"name": "reopen_btn",
+					"id": "l18uhhya",
+					"type": "btn",
+					"left": 407,
+					"top": 24,
+					"visible": true,
+					"isLock": false,
+					"flag": [],
+					"width": 40,
+					"height": 24,
+					"default_style": false,
+					"long_mode": "LV_LABEL_LONG_WRAP",
+					"text": "重开",
+					"toggle": false,
+					"style": [
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_DEFAULT",
+							"disable": false,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 0,
+							"border_opa": 255,
+							"border_color": "#2195f6",
+							"radius": 5,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"font": 16,
+							"font_family": "SourceHanSerifSC_Regular",
+							"text_color": "#ffffff",
+							"text_opa": 255,
+							"text_align": "LV_TEXT_ALIGN_CENTER"
+						},
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_FOCUSED",
+							"disable": true,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 0,
+							"border_color": "#2195f6",
+							"border_opa": 255,
+							"radius": 5,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"font": 16,
+							"font_family": "montserratMedium",
+							"text_opa": 255,
+							"text_color": "#ffffff"
+						},
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_PRESSED",
+							"disable": true,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 0,
+							"border_color": "#2195f6",
+							"border_opa": 255,
+							"radius": 5,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"font": 16,
+							"font_family": "montserratMedium",
+							"text_opa": 255,
+							"text_color": "#ffffff"
+						},
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_CHECKED",
+							"disable": true,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 0,
+							"border_opa": 255,
+							"border_color": "#2195f6",
+							"radius": 5,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"font": 12,
+							"font_family": "montserratMedium",
+							"text_opa": 255,
+							"text_color": "#000000"
+						},
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_DISABLED",
+							"disable": true,
+							"bg_color": "#2195f6",
+							"bg_grad_color": "#2195f6",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"border_side": [
+								"LV_BORDER_SIDE_FULL"
+							],
+							"border_width": 0,
+							"border_opa": 255,
+							"border_color": "#2195f6",
+							"radius": 5,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0,
+							"bg_img_src": "",
+							"bg_img_opa": 255,
+							"bg_img_recolor": "#ffffff",
+							"bg_img_recolor_opa": 0,
+							"font": 12,
+							"font_family": "montserratMedium",
+							"text_opa": 255,
+							"text_color": "#000000"
+						}
+					],
+					"event": {
+						"widget": {
+							"clicked": {
+								"condition": [],
+								"action": [
+									{
+										"dst": "custom_code",
+										"bindCondi": "",
+										"actionList": {
+											"custom_code": {
+												"inc_c": "#ifdef KEIL_COMPILE\r\n#include \"../../src/app/link_game/link_game.h\"\r\n#endif",
+												"code_c": "reset_event_cb(e);",
+												"inc_py": "",
+												"code_py": ""
+											}
+										}
+									}
+								]
+							}
+						}
+					}
+				},
 				{
 					"name": "back_btn",
 					"id": "l0ors57l",
@@ -20571,189 +20673,6 @@
 							}
 						}
 					}
-				},
-				{
-					"name": "btnm_1",
-					"id": "kh1k2wxn",
-					"type": "btnm",
-					"left": 29,
-					"top": 37,
-					"visible": true,
-					"isLock": false,
-					"flag": [],
-					"width": 421,
-					"height": 275,
-					"default_style": false,
-					"text_map": [
-						{
-							"item": "1,2,3,0,0,0"
-						},
-						{
-							"item": "4,5,6,0,0,0"
-						},
-						{
-							"item": "7,8,9,0,0,0"
-						},
-						{
-							"item": "0,0,0,0,0,0"
-						},
-						{
-							"item": "0,0,0,0,0,0"
-						}
-					],
-					"style": [
-						{
-							"part": "LV_PART_MAIN",
-							"state": "LV_STATE_DEFAULT",
-							"disable": false,
-							"bg_color": "#ffffff",
-							"bg_grad_color": "#ffffff",
-							"bg_grad_dir": "LV_GRAD_DIR_NONE",
-							"bg_dither_mode": "LV_DITHER_NONE",
-							"bg_main_stop": 0,
-							"bg_grad_stop": 255,
-							"border_color": "#ffffff",
-							"border_side": [
-								"LV_BORDER_SIDE_FULL"
-							],
-							"border_width": 0,
-							"border_opa": 255,
-							"padding_top": 16,
-							"padding_bottom": 16,
-							"padding_left": 16,
-							"padding_right": 16,
-							"padding_row": 8,
-							"padding_column": 8,
-							"bg_img_src": "",
-							"bg_img_opa": 255,
-							"bg_img_recolor": "#ffffff",
-							"bg_img_recolor_opa": 0,
-							"radius": 0,
-							"bg_opa": 255
-						},
-						{
-							"part": "LV_PART_MAIN",
-							"state": "LV_STATE_FOCUSED",
-							"disable": true,
-							"bg_color": "#ffffff",
-							"bg_grad_color": "#ffffff",
-							"bg_grad_dir": "LV_GRAD_DIR_NONE",
-							"bg_dither_mode": "LV_DITHER_NONE",
-							"bg_main_stop": 0,
-							"bg_grad_stop": 255,
-							"border_color": "#c9c9c9",
-							"border_side": [
-								"LV_BORDER_SIDE_FULL"
-							],
-							"border_width": 1,
-							"border_opa": 255,
-							"padding_top": 16,
-							"padding_bottom": 16,
-							"padding_left": 16,
-							"padding_right": 16,
-							"padding_row": 8,
-							"padding_column": 8,
-							"bg_img_src": "",
-							"bg_img_opa": 255,
-							"bg_img_recolor": "#ffffff",
-							"bg_img_recolor_opa": 0,
-							"radius": 4,
-							"bg_opa": 255
-						},
-						{
-							"part": "LV_PART_MAIN",
-							"state": "LV_STATE_DISABLED",
-							"disable": true,
-							"bg_color": "#ffffff",
-							"bg_grad_color": "#ffffff",
-							"bg_grad_dir": "LV_GRAD_DIR_NONE",
-							"bg_dither_mode": "LV_DITHER_NONE",
-							"bg_main_stop": 0,
-							"bg_grad_stop": 255,
-							"border_color": "#c9c9c9",
-							"border_side": [
-								"LV_BORDER_SIDE_FULL"
-							],
-							"border_width": 1,
-							"border_opa": 255,
-							"padding_top": 16,
-							"padding_bottom": 16,
-							"padding_left": 16,
-							"padding_right": 16,
-							"padding_row": 8,
-							"padding_column": 8,
-							"bg_img_src": "",
-							"bg_img_opa": 255,
-							"bg_img_recolor": "#ffffff",
-							"bg_img_recolor_opa": 0,
-							"radius": 4,
-							"bg_opa": 255
-						},
-						{
-							"part": "LV_PART_ITEMS",
-							"state": "LV_STATE_DEFAULT",
-							"disable": false,
-							"bg_color": "#2195f6",
-							"bg_grad_color": "#2195f6",
-							"bg_grad_dir": "LV_GRAD_DIR_NONE",
-							"bg_dither_mode": "LV_DITHER_NONE",
-							"bg_main_stop": 0,
-							"bg_grad_stop": 255,
-							"text_color": "#ffffff",
-							"border_color": "#c9c9c9",
-							"border_side": [
-								"LV_BORDER_SIDE_FULL"
-							],
-							"border_width": 1,
-							"border_opa": 255,
-							"font": 16,
-							"font_family": "montserratMedium",
-							"radius": 4,
-							"bg_opa": 255,
-							"shadow_color": "#2195f6",
-							"shadow_opa": 255,
-							"shadow_width": 0,
-							"shadow_spread": 0,
-							"shadow_ofs_x": 0,
-							"shadow_ofs_y": 0,
-							"bg_img_src": "",
-							"bg_img_opa": 255,
-							"bg_img_recolor": "#ffffff",
-							"bg_img_recolor_opa": 0
-						},
-						{
-							"part": "LV_PART_ITEMS",
-							"state": "LV_STATE_PRESSED",
-							"disable": true,
-							"bg_color": "#2195f6",
-							"bg_grad_color": "#2195f6",
-							"bg_grad_dir": "LV_GRAD_DIR_NONE",
-							"bg_dither_mode": "LV_DITHER_NONE",
-							"bg_main_stop": 0,
-							"bg_grad_stop": 255,
-							"text_color": "#ffffff",
-							"border_color": "#c9c9c9",
-							"border_side": [
-								"LV_BORDER_SIDE_FULL"
-							],
-							"border_width": 1,
-							"border_opa": 255,
-							"font": 12,
-							"font_family": "montserratMedium",
-							"radius": 4,
-							"bg_opa": 255,
-							"shadow_color": "#2195f6",
-							"shadow_opa": 255,
-							"shadow_width": 0,
-							"shadow_spread": 0,
-							"shadow_ofs_x": 0,
-							"shadow_ofs_y": 0,
-							"bg_img_src": "",
-							"bg_img_opa": 255,
-							"bg_img_recolor": "#ffffff",
-							"bg_img_recolor_opa": 0
-						}
-					]
 				}
 			],
 			"event": {
@@ -21349,7 +21268,7 @@
 														"sd_path": "",
 														"text": "",
 														"toggle": true,
-														"src_released": "",
+														"src_released": "import\\image\\link_game_app.png",
 														"src_pressed": "",
 														"src_checked_released": "",
 														"src_checked_pressed": "",
@@ -22089,7 +22008,7 @@
 														"sd_path": "",
 														"text": "",
 														"toggle": true,
-														"src_released": "",
+														"src_released": "import\\image\\link_game_app.png",
 														"src_pressed": "",
 														"src_checked_released": "",
 														"src_checked_pressed": "",
@@ -26104,17 +26023,17 @@
 								"text_align": "center",
 								"text": "",
 								"color_format": "true-color-alpha",
-								"src_released": "",
+								"src_released": "import\\image\\link_game_app.png",
 								"src_pressed": "",
 								"src_checked_released": "",
 								"src_checked_pressed": "",
 								"use_fs": false,
 								"fs_type": "flash",
-								"src_sd_released": "S:/",
+								"src_sd_released": "S:/link_game_app.png",
 								"src_sd_pressed": "S:/",
 								"src_sd_checked_released": "S:/",
 								"src_sd_checked_pressed": "S:/",
-								"src_flash_released": "F:/",
+								"src_flash_released": "F:/link_game_app.png",
 								"src_flash_pressed": "F:/",
 								"src_flash_checked_released": "F:/",
 								"src_flash_checked_pressed": "F:/",
@@ -44319,7 +44238,7 @@
 				"version": 190,
 				"scrollbar_mode": "OFF",
 				"customer_code": {
-					"code_c": "    drawing_board_ctx_t *ctx = &s_drawing_ctx;\r\n    ctx->last_valid = false;\r\n    ctx->canvas_buf = NULL;\r\n\r\n    // 屏幕删除时释放画布缓冲\r\n    lv_obj_add_event_cb(ui->drawing_board_app, drawing_board_app_delete_cb, LV_EVENT_DELETE, ctx);\r\n\r\n    // 画布（左侧）\r\n    ctx->canvas = lv_canvas_create(ui->drawing_board_app_canvas_container);\r\n    lv_obj_set_pos(ctx->canvas, 0, 0);\r\n    lv_obj_set_style_border_width(ctx->canvas, 0, 0); // 隐藏边框\r\n    lv_obj_set_size(ctx->canvas, DRAW_CANVAS_W, DRAW_CANVAS_H);\r\n    lv_obj_add_flag(ctx->canvas, LV_OBJ_FLAG_CLICKABLE);\r\n    // 运行时分配画布缓冲：如果失败则按高度降级\r\n    int canvas_w = DRAW_CANVAS_W;\r\n    int canvas_h = DRAW_CANVAS_H;\r\n    int alloc_h = canvas_h;\r\n    DRAW_CANVAS_COLOR *buf = NULL;\r\n    for (; alloc_h >= 80; alloc_h -= 20) {\r\n        size_t need = (size_t)canvas_w * (size_t)alloc_h * sizeof(DRAW_CANVAS_COLOR);\r\n        buf = (DRAW_CANVAS_COLOR *)lv_mem_alloc(need);\r\n        if (buf) break;\r\n    }\r\n    ctx->canvas_buf = buf;\r\n    if (ctx->canvas_buf) {\r\n        if (alloc_h != canvas_h) {\r\n            lv_obj_set_size(ctx->canvas, canvas_w, alloc_h);\r\n        }\r\n        lv_canvas_set_buffer(ctx->canvas, ctx->canvas_buf, canvas_w, alloc_h, LV_IMG_CF_TRUE_COLOR);\r\n        lv_canvas_fill_bg(ctx->canvas, lv_color_white(), LV_OPA_COVER);\r\n    } else {\r\n        // 分配失败时给出提示并禁止绘图\r\n        lv_obj_clear_flag(ui->drawing_board_app_dialog_box, LV_OBJ_FLAG_HIDDEN);\r\n    }\r\n    lv_obj_set_style_border_width(ctx->canvas, 1, LV_PART_MAIN | LV_STATE_DEFAULT);\r\n    lv_obj_set_style_border_color(ctx->canvas, lv_color_hex(0x888888), LV_PART_MAIN | LV_STATE_DEFAULT);\r\n\r\n    // 颜色选择器\r\n    lv_obj_add_event_cb(ui->drawing_board_app_colorwheel, drawing_board_color_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 笔宽滑条\r\n    lv_obj_add_event_cb(ui->drawing_board_app_width_slider, drawing_board_width_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 清空按钮\r\n    lv_obj_add_event_cb(ui->drawing_board_app_btn_clear, drawing_board_clear_event_cb, LV_EVENT_CLICKED, ctx);\r\n    // 绑定画布触控绘图事件\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSED, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSING, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_RELEASED, ctx);",
+					"code_c": "    drawing_board_ctx_t *ctx = &s_drawing_ctx;\r\n    ctx->last_valid = false;\r\n    ctx->seg_count = 0;\r\n\r\n    // 屏幕删除时释放画布缓冲\r\n    lv_obj_add_event_cb(ui->drawing_board_app, drawing_board_app_delete_cb, LV_EVENT_DELETE, ctx);\r\n\r\n    // 画布（左侧）\r\n    ctx->canvas = lv_obj_create(ui->drawing_board_app_canvas_container);\r\n    lv_obj_set_pos(ctx->canvas, 0, 0);\r\n    lv_obj_set_style_border_width(ctx->canvas, 0, 0);\r\n    lv_obj_set_size(ctx->canvas, DRAW_CANVAS_W, DRAW_CANVAS_H);\r\n    lv_obj_add_flag(ctx->canvas, LV_OBJ_FLAG_CLICKABLE);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_paint_draw_event_cb, LV_EVENT_DRAW_MAIN, ctx);\r\n    lv_obj_set_style_border_width(ctx->canvas, 1, LV_PART_MAIN | LV_STATE_DEFAULT);\r\n    lv_obj_set_style_border_color(ctx->canvas, lv_color_hex(0x888888), LV_PART_MAIN | LV_STATE_DEFAULT);\r\n\r\n    // 颜色选择器\r\n    lv_obj_add_event_cb(ui->drawing_board_app_colorwheel, drawing_board_color_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 笔宽滑条\r\n    lv_obj_add_event_cb(ui->drawing_board_app_width_slider, drawing_board_width_event_cb, LV_EVENT_VALUE_CHANGED, ctx);\r\n    // 清空按钮\r\n    lv_obj_add_event_cb(ui->drawing_board_app_btn_clear, drawing_board_clear_event_cb, LV_EVENT_CLICKED, ctx);\r\n    // 绑定画布触控绘图事件\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSED, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_PRESSING, ctx);\r\n    lv_obj_add_event_cb(ctx->canvas, drawing_board_canvas_event_cb, LV_EVENT_RELEASED, ctx);",
 					"inc_c": "",
 					"code_py": "",
 					"inc_py": "",
@@ -45048,113 +44967,7 @@
 							304
 						],
 						"default_style": false,
-						"child": [
-							{
-								"name": "drawing_board_app_dialog_box",
-								"id": "lm4qgdni",
-								"type": "label",
-								"visible": true,
-								"flag": [
-									"LV_OBJ_FLAG_HIDDEN"
-								],
-								"pos": [
-									43,
-									222
-								],
-								"size": [
-									192,
-									18
-								],
-								"default_style": false,
-								"attribute_type": "",
-								"custom_attribute": [],
-								"text": "内存不足，无法创建画布",
-								"long_mode": "LV_LABEL_LONG_WRAP",
-								"is_static": false,
-								"style": [
-									{
-										"part": "LV_PART_MAIN",
-										"state": "LV_STATE_DEFAULT",
-										"disable": false,
-										"border_side": [
-											"LV_BORDER_SIDE_FULL"
-										],
-										"border_width": 0,
-										"border_opa": 255,
-										"border_color": "#2195f6",
-										"radius": 0,
-										"text_color": "#000000",
-										"text_opa": 255,
-										"font": 16,
-										"text_align": "LV_TEXT_ALIGN_CENTER",
-										"font_family": "SourceHanSerifSC_Regular",
-										"letter_space": 0,
-										"line_space": 0,
-										"bg_color": "#2195f6",
-										"bg_grad_color": "#2195f6",
-										"bg_opa": 0,
-										"bg_grad_dir": "LV_GRAD_DIR_NONE",
-										"bg_dither_mode": "LV_DITHER_NONE",
-										"bg_main_stop": 0,
-										"bg_grad_stop": 255,
-										"padding_top": 0,
-										"padding_right": 0,
-										"padding_bottom": 0,
-										"padding_left": 0,
-										"bg_img_src": "",
-										"bg_img_opa": 255,
-										"bg_img_recolor": "#ffffff",
-										"bg_img_recolor_opa": 0,
-										"shadow_color": "#2195f6",
-										"shadow_opa": 255,
-										"shadow_width": 0,
-										"shadow_spread": 0,
-										"shadow_ofs_x": 0,
-										"shadow_ofs_y": 0
-									},
-									{
-										"part": "LV_PART_MAIN",
-										"state": "LV_STATE_DISABLED",
-										"disable": true,
-										"border_side": [
-											"LV_BORDER_SIDE_FULL"
-										],
-										"border_width": 0,
-										"border_opa": 255,
-										"border_color": "#2195f6",
-										"radius": 0,
-										"text_color": "#000000",
-										"text_opa": 255,
-										"font": 16,
-										"font_family": "montserratMedium",
-										"text_align": "LV_TEXT_ALIGN_CENTER",
-										"letter_space": 0,
-										"line_space": 0,
-										"bg_color": "#2195f6",
-										"bg_grad_color": "#2195f6",
-										"bg_opa": 0,
-										"bg_grad_dir": "LV_GRAD_DIR_NONE",
-										"bg_dither_mode": "LV_DITHER_NONE",
-										"bg_main_stop": 0,
-										"bg_grad_stop": 255,
-										"padding_top": 0,
-										"padding_right": 0,
-										"padding_bottom": 0,
-										"padding_left": 0,
-										"bg_img_src": "",
-										"bg_img_opa": 255,
-										"bg_img_recolor": "#ffffff",
-										"bg_img_recolor_opa": 0,
-										"shadow_color": "#2195f6",
-										"shadow_opa": 255,
-										"shadow_width": 0,
-										"shadow_spread": 0,
-										"shadow_ofs_x": 0,
-										"shadow_ofs_y": 0
-									}
-								]
-							}
-						],
+						"child": [],
 						"style": [
 							{
 								"part": "LV_PART_MAIN",
@@ -45200,7 +45013,7 @@
 				"version": 190,
 				"scrollbar_mode": "OFF",
 				"customer_code": {
-					"code_c": "#ifdef KEIL_COMPILE\r\n    lv_obj_add_event_cb(ui->minecraft_app, minecraft_app_screen_delete_event_handler, LV_EVENT_DELETE, ui);\r\n    minecraft_init();\r\n    const uint8_t *fb = (const uint8_t *)minecraft_get_framebuffer();\r\n    if (fb == NULL) {\r\n        lv_obj_t *err = lv_label_create(ui->minecraft_app);\r\n        lv_label_set_text(err, \"Minecraft初始化失败：内存不足\");\r\n        lv_obj_center(err);\r\n    } else {\r\n        static lv_img_dsc_t mc_img_dsc;\r\n        mc_img_dsc.header.always_zero = 0;\r\n        mc_img_dsc.header.w = SCREEN_WIDTH;\r\n        mc_img_dsc.header.h = SCREEN_HEIGHT;\r\n        mc_img_dsc.header.cf = LV_IMG_CF_TRUE_COLOR;\r\n        mc_img_dsc.data_size = SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(lv_color_t);\r\n        mc_img_dsc.data = fb;\r\n        minecraft_img = lv_img_create(ui->minecraft_app);\r\n        lv_img_set_src(minecraft_img, &mc_img_dsc);\r\n        lv_obj_set_pos(minecraft_img, 160, 120);\r\n        lv_obj_set_size(minecraft_img, SCREEN_WIDTH, SCREEN_HEIGHT);\r\n        minecraft_timer = lv_timer_create(minecraft_timer_cb, 33, NULL);\r\n    }\r\n#endif",
+					"code_c": "#ifdef KEIL_COMPILE\r\n    lv_obj_add_event_cb(ui->minecraft_app, minecraft_app_screen_delete_event_handler, LV_EVENT_DELETE, ui);\r\n    minecraft_init();\r\n    const uint8_t *fb = (const uint8_t *)minecraft_get_framebuffer();\r\n    if (fb == NULL) {\r\n        lv_obj_t *err = lv_label_create(ui->minecraft_app);\r\n        lv_label_set_text(err, \"Minecraft初始化失败：内存不足\");\r\n        lv_obj_center(err);\r\n    } else {\r\n        static lv_img_dsc_t mc_img_dsc;\r\n        mc_img_dsc.header.always_zero = 0;\r\n        mc_img_dsc.header.w = SCREEN_WIDTH;\r\n        mc_img_dsc.header.h = SCREEN_HEIGHT;\r\n        mc_img_dsc.header.cf = LV_IMG_CF_TRUE_COLOR;\r\n        mc_img_dsc.data_size = SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(lv_color_t);\r\n        mc_img_dsc.data = fb;\r\n        minecraft_img = lv_img_create(ui->minecraft_app);\r\n        lv_img_set_src(minecraft_img, &mc_img_dsc);\r\n        lv_img_set_pivot(minecraft_img, 0, 0); // 缩放锚点设为左上角\r\n        lv_img_set_zoom(minecraft_img, 1024);\r\n        lv_obj_align(minecraft_img, LV_ALIGN_TOP_LEFT, 1, 17);\r\n        \r\n        minecraft_timer = lv_timer_create(minecraft_timer_cb, 33, NULL);\r\n    }\r\n#endif\r\n    lv_obj_move_foreground(ui->minecraft_app_back_btn);",
 					"inc_c": "",
 					"code_py": "",
 					"inc_py": "",
@@ -45454,8 +45267,8 @@
 				"version": 190,
 				"scrollbar_mode": "OFF",
 				"customer_code": {
-					"code_c": "",
-					"inc_c": "",
+					"code_c": "    link_root = ui->link_game_app;\r\n    lv_obj_add_event_cb(link_root, root_delete_cb, LV_EVENT_DELETE, NULL);\r\n    link_init_board(lv_tick_get());\r\n    link_create_grid(ui);\r\n    lv_obj_move_foreground(ui->link_game_app_back_btn);\r\n    lv_obj_move_foreground(ui->link_game_app_reopen_btn);",
+					"inc_c": "#include \"../../src/app/link_game/link_game.h\"",
 					"code_py": "",
 					"inc_py": "",
 					"type": "screen"
@@ -45490,196 +45303,6 @@
 					320
 				],
 				"widgets": [
-					{
-						"name": "link_game_app_btnm_1",
-						"id": "kh1k2wxn",
-						"type": "btnm",
-						"visible": true,
-						"flag": [],
-						"pos": [
-							29,
-							37
-						],
-						"size": [
-							421,
-							275
-						],
-						"default_style": false,
-						"text_map": [
-							{
-								"item": "1,2,3,0,0,0"
-							},
-							{
-								"item": "4,5,6,0,0,0"
-							},
-							{
-								"item": "7,8,9,0,0,0"
-							},
-							{
-								"item": "0,0,0,0,0,0"
-							},
-							{
-								"item": "0,0,0,0,0,0"
-							}
-						],
-						"item_size": [
-							58,
-							42
-						],
-						"style": [
-							{
-								"part": "LV_PART_MAIN",
-								"state": "LV_STATE_DEFAULT",
-								"disable": false,
-								"bg_color": "#ffffff",
-								"bg_grad_color": "#ffffff",
-								"bg_grad_dir": "LV_GRAD_DIR_NONE",
-								"bg_dither_mode": "LV_DITHER_NONE",
-								"bg_main_stop": 0,
-								"bg_grad_stop": 255,
-								"border_color": "#ffffff",
-								"border_side": [
-									"LV_BORDER_SIDE_FULL"
-								],
-								"border_width": 0,
-								"border_opa": 255,
-								"padding_top": 16,
-								"padding_bottom": 16,
-								"padding_left": 16,
-								"padding_right": 16,
-								"padding_row": 8,
-								"padding_column": 8,
-								"bg_img_src": "",
-								"bg_img_opa": 255,
-								"bg_img_recolor": "#ffffff",
-								"bg_img_recolor_opa": 0,
-								"radius": 0,
-								"bg_opa": 255
-							},
-							{
-								"part": "LV_PART_MAIN",
-								"state": "LV_STATE_FOCUSED",
-								"disable": true,
-								"bg_color": "#ffffff",
-								"bg_grad_color": "#ffffff",
-								"bg_grad_dir": "LV_GRAD_DIR_NONE",
-								"bg_dither_mode": "LV_DITHER_NONE",
-								"bg_main_stop": 0,
-								"bg_grad_stop": 255,
-								"border_color": "#c9c9c9",
-								"border_side": [
-									"LV_BORDER_SIDE_FULL"
-								],
-								"border_width": 1,
-								"border_opa": 255,
-								"padding_top": 16,
-								"padding_bottom": 16,
-								"padding_left": 16,
-								"padding_right": 16,
-								"padding_row": 8,
-								"padding_column": 8,
-								"bg_img_src": "",
-								"bg_img_opa": 255,
-								"bg_img_recolor": "#ffffff",
-								"bg_img_recolor_opa": 0,
-								"radius": 4,
-								"bg_opa": 255
-							},
-							{
-								"part": "LV_PART_MAIN",
-								"state": "LV_STATE_DISABLED",
-								"disable": true,
-								"bg_color": "#ffffff",
-								"bg_grad_color": "#ffffff",
-								"bg_grad_dir": "LV_GRAD_DIR_NONE",
-								"bg_dither_mode": "LV_DITHER_NONE",
-								"bg_main_stop": 0,
-								"bg_grad_stop": 255,
-								"border_color": "#c9c9c9",
-								"border_side": [
-									"LV_BORDER_SIDE_FULL"
-								],
-								"border_width": 1,
-								"border_opa": 255,
-								"padding_top": 16,
-								"padding_bottom": 16,
-								"padding_left": 16,
-								"padding_right": 16,
-								"padding_row": 8,
-								"padding_column": 8,
-								"bg_img_src": "",
-								"bg_img_opa": 255,
-								"bg_img_recolor": "#ffffff",
-								"bg_img_recolor_opa": 0,
-								"radius": 4,
-								"bg_opa": 255
-							},
-							{
-								"part": "LV_PART_ITEMS",
-								"state": "LV_STATE_DEFAULT",
-								"disable": false,
-								"bg_color": "#2195f6",
-								"bg_grad_color": "#2195f6",
-								"bg_grad_dir": "LV_GRAD_DIR_NONE",
-								"bg_dither_mode": "LV_DITHER_NONE",
-								"bg_main_stop": 0,
-								"bg_grad_stop": 255,
-								"text_color": "#ffffff",
-								"border_color": "#c9c9c9",
-								"border_side": [
-									"LV_BORDER_SIDE_FULL"
-								],
-								"border_width": 1,
-								"border_opa": 255,
-								"font": 16,
-								"font_family": "montserratMedium",
-								"radius": 4,
-								"bg_opa": 255,
-								"shadow_color": "#2195f6",
-								"shadow_opa": 255,
-								"shadow_width": 0,
-								"shadow_spread": 0,
-								"shadow_ofs_x": 0,
-								"shadow_ofs_y": 0,
-								"bg_img_src": "",
-								"bg_img_opa": 255,
-								"bg_img_recolor": "#ffffff",
-								"bg_img_recolor_opa": 0
-							},
-							{
-								"part": "LV_PART_ITEMS",
-								"state": "LV_STATE_PRESSED",
-								"disable": true,
-								"bg_color": "#2195f6",
-								"bg_grad_color": "#2195f6",
-								"bg_grad_dir": "LV_GRAD_DIR_NONE",
-								"bg_dither_mode": "LV_DITHER_NONE",
-								"bg_main_stop": 0,
-								"bg_grad_stop": 255,
-								"text_color": "#ffffff",
-								"border_color": "#c9c9c9",
-								"border_side": [
-									"LV_BORDER_SIDE_FULL"
-								],
-								"border_width": 1,
-								"border_opa": 255,
-								"font": 12,
-								"font_family": "montserratMedium",
-								"radius": 4,
-								"bg_opa": 255,
-								"shadow_color": "#2195f6",
-								"shadow_opa": 255,
-								"shadow_width": 0,
-								"shadow_spread": 0,
-								"shadow_ofs_x": 0,
-								"shadow_ofs_y": 0,
-								"bg_img_src": "",
-								"bg_img_opa": 255,
-								"bg_img_recolor": "#ffffff",
-								"bg_img_recolor_opa": 0
-							}
-						]
-					},
 					{
 						"name": "link_game_app_back_btn",
 						"id": "l0ors57l",
@@ -45886,6 +45509,215 @@
 							}
 						],
 						"text": "⬅",
+						"long_mode": "LV_LABEL_LONG_WRAP",
+						"toggle": false
+					},
+					{
+						"name": "link_game_app_reopen_btn",
+						"id": "l18uhhya",
+						"type": "btn",
+						"visible": true,
+						"flag": [],
+						"pos": [
+							407,
+							24
+						],
+						"size": [
+							40,
+							24
+						],
+						"default_style": false,
+						"event": {
+							"widget": {
+								"clicked": {
+									"condition": [],
+									"action": [
+										{
+											"dst": "custom_code",
+											"bindCondi": "",
+											"actionList": {
+												"custom_code": {
+													"inc_c": "#ifdef KEIL_COMPILE\r\n#include \"../../src/app/link_game/link_game.h\"\r\n#endif",
+													"code_c": "reset_event_cb(e);",
+													"inc_py": "",
+													"code_py": ""
+												}
+											}
+										}
+									]
+								}
+							}
+						},
+						"text_align": "center",
+						"style": [
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_DEFAULT",
+								"disable": false,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_opa": 255,
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 0,
+								"border_opa": 255,
+								"border_color": "#2195f6",
+								"radius": 5,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"font": 16,
+								"font_family": "SourceHanSerifSC_Regular",
+								"text_color": "#ffffff",
+								"text_opa": 255,
+								"text_align": "LV_TEXT_ALIGN_CENTER"
+							},
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_FOCUSED",
+								"disable": true,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_opa": 255,
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 0,
+								"border_color": "#2195f6",
+								"border_opa": 255,
+								"radius": 5,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"font": 16,
+								"font_family": "montserratMedium",
+								"text_opa": 255,
+								"text_color": "#ffffff"
+							},
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_PRESSED",
+								"disable": true,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_opa": 255,
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 0,
+								"border_color": "#2195f6",
+								"border_opa": 255,
+								"radius": 5,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"font": 16,
+								"font_family": "montserratMedium",
+								"text_opa": 255,
+								"text_color": "#ffffff"
+							},
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_CHECKED",
+								"disable": true,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_opa": 255,
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 0,
+								"border_opa": 255,
+								"border_color": "#2195f6",
+								"radius": 5,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"font": 12,
+								"font_family": "montserratMedium",
+								"text_opa": 255,
+								"text_color": "#000000"
+							},
+							{
+								"part": "LV_PART_MAIN",
+								"state": "LV_STATE_DISABLED",
+								"disable": true,
+								"bg_color": "#2195f6",
+								"bg_grad_color": "#2195f6",
+								"bg_opa": 255,
+								"bg_grad_dir": "LV_GRAD_DIR_NONE",
+								"bg_dither_mode": "LV_DITHER_NONE",
+								"bg_main_stop": 0,
+								"bg_grad_stop": 255,
+								"border_side": [
+									"LV_BORDER_SIDE_FULL"
+								],
+								"border_width": 0,
+								"border_opa": 255,
+								"border_color": "#2195f6",
+								"radius": 5,
+								"shadow_color": "#2195f6",
+								"shadow_opa": 255,
+								"shadow_width": 0,
+								"shadow_spread": 0,
+								"shadow_ofs_x": 0,
+								"shadow_ofs_y": 0,
+								"bg_img_src": "",
+								"bg_img_opa": 255,
+								"bg_img_recolor": "#ffffff",
+								"bg_img_recolor_opa": 0,
+								"font": 12,
+								"font_family": "montserratMedium",
+								"text_opa": 255,
+								"text_color": "#000000"
+							}
+						],
+						"text": "重开",
 						"long_mode": "LV_LABEL_LONG_WRAP",
 						"toggle": false
 					}

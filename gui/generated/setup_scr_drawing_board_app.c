@@ -147,65 +147,21 @@ void setup_scr_drawing_board_app(lv_ui *ui)
     lv_obj_set_style_pad_right(ui->drawing_board_app_canvas_container, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->drawing_board_app_canvas_container, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes drawing_board_app_dialog_box
-    ui->drawing_board_app_dialog_box = lv_label_create(ui->drawing_board_app_canvas_container);
-    lv_label_set_text(ui->drawing_board_app_dialog_box, "内存不足，无法创建画布");
-    lv_label_set_long_mode(ui->drawing_board_app_dialog_box, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->drawing_board_app_dialog_box, 43, 222);
-    lv_obj_set_size(ui->drawing_board_app_dialog_box, 192, 18);
-    lv_obj_add_flag(ui->drawing_board_app_dialog_box, LV_OBJ_FLAG_HIDDEN);
-
-    //Write style for drawing_board_app_dialog_box, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->drawing_board_app_dialog_box, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->drawing_board_app_dialog_box, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->drawing_board_app_dialog_box, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->drawing_board_app_dialog_box, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->drawing_board_app_dialog_box, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
     //The custom code of drawing_board_app.
     drawing_board_ctx_t *ctx = &s_drawing_ctx;
     ctx->last_valid = false;
-    ctx->canvas_buf = NULL;
+    ctx->seg_count = 0;
 
     // 屏幕删除时释放画布缓冲
     lv_obj_add_event_cb(ui->drawing_board_app, drawing_board_app_delete_cb, LV_EVENT_DELETE, ctx);
 
     // 画布（左侧）
-    ctx->canvas = lv_canvas_create(ui->drawing_board_app_canvas_container);
+    ctx->canvas = lv_obj_create(ui->drawing_board_app_canvas_container);
     lv_obj_set_pos(ctx->canvas, 0, 0);
-    lv_obj_set_style_border_width(ctx->canvas, 0, 0); // 隐藏边框
+    lv_obj_set_style_border_width(ctx->canvas, 0, 0);
     lv_obj_set_size(ctx->canvas, DRAW_CANVAS_W, DRAW_CANVAS_H);
     lv_obj_add_flag(ctx->canvas, LV_OBJ_FLAG_CLICKABLE);
-    // 运行时分配画布缓冲：如果失败则按高度降级
-    int canvas_w = DRAW_CANVAS_W;
-    int canvas_h = DRAW_CANVAS_H;
-    int alloc_h = canvas_h;
-    DRAW_CANVAS_COLOR *buf = NULL;
-    for (; alloc_h >= 80; alloc_h -= 20) {
-        size_t need = (size_t)canvas_w * (size_t)alloc_h * sizeof(DRAW_CANVAS_COLOR);
-        buf = (DRAW_CANVAS_COLOR *)lv_mem_alloc(need);
-        if (buf) break;
-    }
-    ctx->canvas_buf = buf;
-    if (ctx->canvas_buf) {
-        if (alloc_h != canvas_h) {
-            lv_obj_set_size(ctx->canvas, canvas_w, alloc_h);
-        }
-        lv_canvas_set_buffer(ctx->canvas, ctx->canvas_buf, canvas_w, alloc_h, LV_IMG_CF_TRUE_COLOR);
-        lv_canvas_fill_bg(ctx->canvas, lv_color_white(), LV_OPA_COVER);
-    } else {
-        // 分配失败时给出提示并禁止绘图
-        lv_obj_clear_flag(ui->drawing_board_app_dialog_box, LV_OBJ_FLAG_HIDDEN);
-    }
+    lv_obj_add_event_cb(ctx->canvas, drawing_board_paint_draw_event_cb, LV_EVENT_DRAW_MAIN, ctx);
     lv_obj_set_style_border_width(ctx->canvas, 1, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_color(ctx->canvas, lv_color_hex(0x888888), LV_PART_MAIN | LV_STATE_DEFAULT);
 

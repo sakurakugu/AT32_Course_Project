@@ -19,6 +19,9 @@
 #ifdef KEIL_COMPILE
 #include "../../src/app/weather/weather.h"
 #endif
+#ifdef KEIL_COMPILE
+#include "../../src/app/link_game/link_game.h"
+#endif
 
 static void home_app1_event_handler (lv_event_t *e)
 {
@@ -777,9 +780,24 @@ static void link_game_app_back_btn_event_handler (lv_event_t *e)
     }
 }
 
+static void link_game_app_reopen_btn_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        reset_event_cb(e);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_link_game_app (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->link_game_app_back_btn, link_game_app_back_btn_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->link_game_app_reopen_btn, link_game_app_reopen_btn_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void game3_app_event_handler (lv_event_t *e)

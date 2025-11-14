@@ -73,6 +73,15 @@ void TaskKeys([[maybe_unused]] void *pvParameters) {
                 minecraft_handle_key(MINECRAFT_KEY_LEFT);
             } else if (keyvalue == KEY_4_UP) {
                 minecraft_handle_key(0);
+            } else if (keyvalue == KEY_5_DOWN) { // KEY5 - 低头
+                minecraft_handle_key(MINECRAFT_KEY_LOOK_DOWN);
+            } else if (keyvalue == KEY_5_UP) {
+                minecraft_handle_key(0);
+            } else if (keyvalue == KEY_7_DOWN) { // KEY7 - 抬头
+                minecraft_handle_key(MINECRAFT_KEY_LOOK_UP);
+            } else if (keyvalue == KEY_7_UP) {
+                minecraft_handle_key(0);
+
             } else if (keyvalue == KEY_8_DOWN) { // KEY8 - 攻击/破坏
                 minecraft_handle_key(MINECRAFT_KEY_ACTION);
             } else if (keyvalue == KEY_8_UP) {

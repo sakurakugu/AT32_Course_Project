@@ -130,6 +130,7 @@ void setup_scr_home_app2(lv_ui *ui)
     //Write codes home_app2_link_game_icon
     ui->home_app2_link_game_icon = lv_imgbtn_create(ui->home_app2_home_page);
     lv_obj_add_flag(ui->home_app2_link_game_icon, LV_OBJ_FLAG_CHECKABLE);
+    lv_imgbtn_set_src(ui->home_app2_link_game_icon, LV_IMGBTN_STATE_RELEASED, NULL, &_link_game_app_alpha_80x80, NULL);
     ui->home_app2_link_game_icon_label = lv_label_create(ui->home_app2_link_game_icon);
     lv_label_set_text(ui->home_app2_link_game_icon_label, "");
     lv_label_set_long_mode(ui->home_app2_link_game_icon_label, LV_LABEL_LONG_WRAP);
