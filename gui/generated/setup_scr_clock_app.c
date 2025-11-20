@@ -616,6 +616,7 @@ void setup_scr_clock_app(lv_ui *ui)
     lv_obj_add_event_cb(ui->clock_app_timer_SPC_btn, clock_app_timer_SPC_btn_event_handler, LV_EVENT_CLICKED, ui);
     lv_obj_add_event_cb(ui->clock_app_timer_reset_btn, clock_app_timer_reset_btn_event_handler, LV_EVENT_CLICKED, ui);
     lv_obj_add_event_cb(ui->clock_app_timer_bell_btn, clock_app_timer_bell_btn_event_handler, LV_EVENT_CLICKED, ui);
+    clock_app_init_customize(ui);
 
     //Update current screen layout.
     lv_obj_update_layout(ui->clock_app);

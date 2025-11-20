@@ -274,40 +274,35 @@ static void TaskLM75([[maybe_unused]] void *pvParameters) {
 
 static void TaskMPU6050([[maybe_unused]] void *pvParameters) {
     portTASK_USES_FLOATING_POINT();
-    auto &mpu = MPU6050::GetInstance();
     bool inited = false;
     for (;;) {
         vTaskDelay(pdMS_TO_TICKS(200));
         if (!inited) {
-            inited = mpu.init(false);
-            if (!inited) {
-                inited = mpu.init(true);
-                if (!inited) {
-                    LOGE("MPU6050 init failed\r\n");
-                    vTaskDelay(pdMS_TO_TICKS(500));
-                    continue;
-                }
+            uint8_t ret = mpu6050Init();
+            if (ret != 0) {
+                LOGE("MPU6050 init failed\r\n");
+                vTaskDelay(pdMS_TO_TICKS(500));
+                continue;
             }
+            inited = true;
         }
-        float ax, ay, az;
-        if (mpu.readAccel(ax, ay, az)) {
-            g_acc_x = ax;
-            g_acc_y = ay;
-            g_acc_z = az;
+        int16_t ax_i, ay_i, az_i;
+        if (mpuGetAcc(&ax_i, &ay_i, &az_i) == 0) {
+            g_acc_x = ax_i / 16384.0f;
+            g_acc_y = ay_i / 16384.0f;
+            g_acc_z = az_i / 16384.0f;
             g_mpu_acc_dirty = true;
         }
-        float gx, gy, gz;
-        if (mpu.readGyro(gx, gy, gz)) {
-            g_gyro_x = gx;
-            g_gyro_y = gy;
-            g_gyro_z = gz;
+        int16_t gx_i, gy_i, gz_i;
+        if (mpuGetGyro(&gx_i, &gy_i, &gz_i) == 0) {
+            g_gyro_x = gx_i / 16.4f;
+            g_gyro_y = gy_i / 16.4f;
+            g_gyro_z = gz_i / 16.4f;
             g_mpu_gyro_dirty = true;
         }
-        float tc;
-        if (mpu.readTemperatureC(tc)) {
-            g_mpu_temp = tc;
-            g_mpu_temp_dirty = true;
-        }
+        short t100 = MmpuGetTemp();
+        g_mpu_temp = t100 / 100.0f;
+        g_mpu_temp_dirty = true;
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
@@ -396,7 +391,7 @@ void Application::Start() {
     // xTaskCreate(TaskHeartbeat, "heartbeat", 1024, NULL, tskIDLE_PRIORITY + 3, NULL);
     xTaskCreate(TaskADC, "adc", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskLM75, "lm75", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
-    // xTaskCreate(TaskMPU6050, "mpu6050", 2048, NULL, tskIDLE_PRIORITY + 1, NULL);
+    // xTaskCreate(TaskMPU6050, "mpu6050", 1024, NULL, tskIDLE_PRIORITY + 1, NULL);
     // xTaskCreate(TaskStatus, "status", 768, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskLED, "led",64+32, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskKeys, "keys", 512+32, NULL, tskIDLE_PRIORITY + 1, NULL);

@@ -96,8 +96,8 @@ void nav_back(lv_ui *ui);
 // 画板实现：绘图画布 + 颜色选择 + 笔宽设置 + 清空
 // 注：为支持 lv_canvas_draw_line/rect，需要使用 TRUE_COLOR 画布缓冲。
 // 缓冲类型统一按字节指针管理。
-#define DRAW_CANVAS_W 297
-#define DRAW_CANVAS_H 282
+#define DRAW_CANVAS_W 302
+#define DRAW_CANVAS_H 286
 #define DRAW_MAX_SEGMENTS 1024
 typedef struct draw_seg_s {
     lv_color_t color;
@@ -143,6 +143,7 @@ extern void clock_app_reset_btn_event_handler(lv_event_t *e);
 extern void clock_app_timer_SPC_btn_event_handler(lv_event_t *e);
 extern void clock_app_timer_reset_btn_event_handler(lv_event_t *e);
 extern void clock_app_timer_bell_btn_event_handler(lv_event_t *e);
+extern void clock_app_init_customize(lv_ui *ui);
 
 #ifdef __cplusplus
 }

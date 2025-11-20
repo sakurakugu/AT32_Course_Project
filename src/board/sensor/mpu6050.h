@@ -1,91 +1,65 @@
 #pragma once
 
 #include <stdint.h>
+#include "i2c_application.h"
 
-// I2C 事务超时（匹配现有样式）
-#ifndef MPU6050_TIMEOUT
-#define MPU6050_TIMEOUT 2000
+#define MPU_SELF_TESTX_REG		0X0D	//X
+#define MPU_SELF_TESTY_REG		0X0E	//Y
+#define MPU_SELF_TESTZ_REG		0X0F	//Z
+#define MPU_SELF_TESTA_REG		0X10	//A
+#define MPU_SAMPLE_RATE_REG		0X19	//采样率
+#define MPU_CFG_REG						0X1A	//配置寄存器
+
+#define	MPU6050_SMPLRT_DIV		0x19 //采样率分频寄存器
+#define	MPU6050_CONFIG			0x1A //配置寄存器
+#define	MPU6050_GYRO_CONFIG		0x1B //陀螺仪配置寄存器
+#define	MPU6050_ACCEL_CONFIG	0x1C //加速度器配置寄存器
+#define MPU6050_MOTION_DET_REG		0X1F	//运动检测寄存器
+#define MPU6050_FIFO_EN_REG				0X23	//FIFO使能寄存器
+ 
+#define MPU6050_I2CMST_STA_REG		0X36	//IIC主模式状态寄存器
+#define MPU6050_INTBP_CFG_REG			0X37	//中断/旁路配置寄存器
+#define MPU6050_INT_EN_REG				0X38	//中断使能寄存器
+#define MPU6050_INT_STA_REG				0X3A	//中断状态寄存器
+
+#define	MPU6050_ACCEL_XOUT_H	0x3B //加速度X高字节
+#define	MPU6050_ACCEL_XOUT_L	0x3C //加速度X低字节
+#define	MPU6050_ACCEL_YOUT_H	0x3D //加速度Y高字节
+#define	MPU6050_ACCEL_YOUT_L	0x3E //加速度Y低字节
+#define	MPU6050_ACCEL_ZOUT_H	0x3F //加速度Z高字节
+#define	MPU6050_ACCEL_ZOUT_L	0x40 //加速度Z低字节
+#define	MPU6050_TEMP_OUT_H		0x41 //温度高字节
+#define	MPU6050_TEMP_OUT_L		0x42 //温度低字节
+#define	MPU6050_GYRO_XOUT_H		0x43 //陀螺仪X高字节
+#define	MPU6050_GYRO_XOUT_L		0x44 //陀螺仪X低字节
+#define	MPU6050_GYRO_YOUT_H		0x45 //陀螺仪Y高字节
+#define	MPU6050_GYRO_YOUT_L		0x46 //陀螺仪Y低字节
+#define	MPU6050_GYRO_ZOUT_H		0x47 //陀螺仪Z高字节
+#define	MPU6050_GYRO_ZOUT_L		0x48 //陀螺仪Z低字节
+
+#define MPU6050_USER_CTRL_REG			0X6A	//用户控制寄存器
+#define	MPU6050_PWR_MGMT_1		0x6B //电源管理寄存器1
+#define	MPU6050_PWR_MGMT_2		0x6C //电源管理寄存器2
+#define	MPU6050_DEVICE_ID_REG		0x75 //设备ID寄存器 
+
+#define MPU6050_ADDRESS (0xD0) //MPU6050 地址
+
+
+#ifdef __cplusplus
+extern "C" {
 #endif
 
-// MPU6050 7-bit 地址: 0x68 (AD0=0), 0x69 (AD0=1)
-// 库使用 8-bit 写入地址调用
-#define MPU6050_I2C_ADDR_WRITE_68 0xD0
-#define MPU6050_I2C_ADDR_WRITE_69 0xD2
+uint8_t mpu6050GetID(void); // 获取设备 ID
+void mpu6050Test(void); // 测试初始化
+uint8_t mpu6050Init(void); // 初始化 MPU6050
 
-// GPIO 占位符（保留；未连接/配置）
-// INT 引脚（MPU6050 中断输出）
-#define MPU6050_INT_GPIO_CLK 0
-#define MPU6050_INT_GPIO_PORT 0
-#define MPU6050_INT_GPIO_PIN 0
-#define MPU6050_INT_GPIO_SRC 0
-#define MPU6050_INT_GPIO_MUX 0
+uint8_t mpuGetAcc(short *ax, short *ay, short *az);
+uint8_t mpuGetGyro(short *gx, short *gy, short *gz);
+short MmpuGetTemp(void);
 
-// AD0 引脚（地址选择）— 如果需要，外部设置为高电平
-#define MPU6050_AD0_GPIO_CLK 0
-#define MPU6050_AD0_GPIO_PORT 0
-#define MPU6050_AD0_GPIO_PIN 0
+#ifdef __cplusplus
+}
+#endif
 
-class MPU6050 {
-  public:
-    static MPU6050 &GetInstance() {
-        static MPU6050 instance;
-        return instance;
-    }
-    MPU6050(const MPU6050 &) = delete;
-    MPU6050 &operator=(const MPU6050 &) = delete;
 
-    // 初始化 MPU6050 传感器
-    // 如果 ad0_high=true 使用地址 0x69
-    bool init(bool ad0_high = false);
 
-    // 基本寄存器访问
-    bool writeReg(uint8_t reg, uint8_t value);                    // 写入寄存器
-    bool readReg(uint8_t reg, uint8_t &value);                    // 读取寄存器
-    bool readRegs(uint8_t start_reg, uint8_t *buf, uint16_t len); // 读取多个寄存器
-
-    // 身份验证
-    uint8_t whoAmI(); // 读取设备 ID
-
-    // 原始读数
-    bool readAccelRaw(int16_t &ax, int16_t &ay, int16_t &az); // 读取加速度原始值
-    bool readGyroRaw(int16_t &gx, int16_t &gy, int16_t &gz);  // 读取陀螺仪原始值
-    bool readTemperatureRaw(int16_t &t);                      // 读取温度原始值
-
-    // 转换读数
-    bool readAccel(float &ax_g, float &ay_g, float &az_g);      // 读取加速度（单位：g）
-    bool readGyro(float &gx_dps, float &gy_dps, float &gz_dps); // 读取陀螺仪（单位：度/秒）
-    bool readTemperatureC(float &temp_c);                       // 读取温度（单位：摄氏度）
-
-  private:
-    MPU6050() = default;
-    ~MPU6050() = default;
-
-    // 8-bit 写入地址，由 i2c_application 助手使用
-    uint8_t dev_addr_write_ = MPU6050_I2C_ADDR_WRITE_68;
-
-    // 寄存器映射（部分）
-    static constexpr uint8_t REG_SMPLRT_DIV = 0x19;
-    static constexpr uint8_t REG_CONFIG = 0x1A;
-    static constexpr uint8_t REG_GYRO_CONFIG = 0x1B;
-    static constexpr uint8_t REG_ACCEL_CONFIG = 0x1C;
-    static constexpr uint8_t REG_INT_PIN_CFG = 0x37;
-    static constexpr uint8_t REG_INT_ENABLE = 0x38;
-    static constexpr uint8_t REG_ACCEL_XOUT_H = 0x3B;
-    static constexpr uint8_t REG_TEMP_OUT_H = 0x41;
-    static constexpr uint8_t REG_GYRO_XOUT_H = 0x43;
-    static constexpr uint8_t REG_PWR_MGMT_1 = 0x6B;
-    static constexpr uint8_t REG_WHO_AM_I = 0x75;
-};
-
-/*
-使用示例（确保在板级初始化期间调用 iic_init()）：
-
-    auto &mpu = MPU6050::GetInstance();
-    if (mpu.init()) {
-        float ax, ay, az, gx, gy, gz, t;
-        mpu.readAccel(ax, ay, az);
-        mpu.readGyro(gx, gy, gz);
-        mpu.readTemperatureC(t);
-    }
-
-*/
