@@ -758,7 +758,6 @@ void setup_scr_smart_home_app(lv_ui *ui)
     lv_obj_set_size(ui->smart_home_app_ADC_page, 260, 304);
     lv_obj_set_scrollbar_mode(ui->smart_home_app_ADC_page, LV_SCROLLBAR_MODE_OFF);
     lv_obj_add_flag(ui->smart_home_app_ADC_page, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(ui->smart_home_app_ADC_page, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for smart_home_app_ADC_page, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->smart_home_app_ADC_page, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -838,7 +837,7 @@ void setup_scr_smart_home_app(lv_ui *ui)
     ui->smart_home_app_ADC_num = lv_label_create(ui->smart_home_app_ADC_div);
     lv_label_set_text(ui->smart_home_app_ADC_num, "mV");
     lv_label_set_long_mode(ui->smart_home_app_ADC_num, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->smart_home_app_ADC_num, 100, 0);
+    lv_obj_set_pos(ui->smart_home_app_ADC_num, 90, 0);
     lv_obj_set_size(ui->smart_home_app_ADC_num, 100, 22);
 
     //Write style for smart_home_app_ADC_num, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -883,6 +882,7 @@ void setup_scr_smart_home_app(lv_ui *ui)
     lv_obj_set_pos(ui->smart_home_app_MPU6050_page, 220, 16);
     lv_obj_set_size(ui->smart_home_app_MPU6050_page, 260, 304);
     lv_obj_set_scrollbar_mode(ui->smart_home_app_MPU6050_page, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_flag(ui->smart_home_app_MPU6050_page, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(ui->smart_home_app_MPU6050_page, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for smart_home_app_MPU6050_page, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -1032,14 +1032,14 @@ void setup_scr_smart_home_app(lv_ui *ui)
     ui->smart_home_app_attitude_num_x = lv_label_create(ui->smart_home_app_attitude_div);
     lv_label_set_text(ui->smart_home_app_attitude_num_x, "1");
     lv_label_set_long_mode(ui->smart_home_app_attitude_num_x, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->smart_home_app_attitude_num_x, 116, 23);
+    lv_obj_set_pos(ui->smart_home_app_attitude_num_x, 91, 23);
     lv_obj_set_size(ui->smart_home_app_attitude_num_x, 83, 19);
 
     //Write style for smart_home_app_attitude_num_x, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->smart_home_app_attitude_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->smart_home_app_attitude_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->smart_home_app_attitude_num_x, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->smart_home_app_attitude_num_x, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_attitude_num_x, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->smart_home_app_attitude_num_x, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->smart_home_app_attitude_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->smart_home_app_attitude_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -1055,14 +1055,14 @@ void setup_scr_smart_home_app(lv_ui *ui)
     ui->smart_home_app_attitude_num_y = lv_label_create(ui->smart_home_app_attitude_div);
     lv_label_set_text(ui->smart_home_app_attitude_num_y, "1");
     lv_label_set_long_mode(ui->smart_home_app_attitude_num_y, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->smart_home_app_attitude_num_y, 117, 43);
+    lv_obj_set_pos(ui->smart_home_app_attitude_num_y, 90, 43);
     lv_obj_set_size(ui->smart_home_app_attitude_num_y, 83, 19);
 
     //Write style for smart_home_app_attitude_num_y, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->smart_home_app_attitude_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->smart_home_app_attitude_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->smart_home_app_attitude_num_y, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->smart_home_app_attitude_num_y, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_attitude_num_y, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->smart_home_app_attitude_num_y, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->smart_home_app_attitude_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->smart_home_app_attitude_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -1078,14 +1078,14 @@ void setup_scr_smart_home_app(lv_ui *ui)
     ui->smart_home_app_attitude_num_z = lv_label_create(ui->smart_home_app_attitude_div);
     lv_label_set_text(ui->smart_home_app_attitude_num_z, "1");
     lv_label_set_long_mode(ui->smart_home_app_attitude_num_z, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->smart_home_app_attitude_num_z, 117, 63);
+    lv_obj_set_pos(ui->smart_home_app_attitude_num_z, 90, 63);
     lv_obj_set_size(ui->smart_home_app_attitude_num_z, 83, 19);
 
     //Write style for smart_home_app_attitude_num_z, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->smart_home_app_attitude_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->smart_home_app_attitude_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->smart_home_app_attitude_num_z, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->smart_home_app_attitude_num_z, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_attitude_num_z, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->smart_home_app_attitude_num_z, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->smart_home_app_attitude_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->smart_home_app_attitude_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -1209,14 +1209,14 @@ void setup_scr_smart_home_app(lv_ui *ui)
     ui->smart_home_app_accelerated_speed_num_x = lv_label_create(ui->smart_home_app_accelerated_speed_div);
     lv_label_set_text(ui->smart_home_app_accelerated_speed_num_x, "1");
     lv_label_set_long_mode(ui->smart_home_app_accelerated_speed_num_x, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_num_x, 117, 24);
+    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_num_x, 90, 24);
     lv_obj_set_size(ui->smart_home_app_accelerated_speed_num_x, 83, 19);
 
     //Write style for smart_home_app_accelerated_speed_num_x, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->smart_home_app_accelerated_speed_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->smart_home_app_accelerated_speed_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->smart_home_app_accelerated_speed_num_x, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->smart_home_app_accelerated_speed_num_x, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_accelerated_speed_num_x, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->smart_home_app_accelerated_speed_num_x, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->smart_home_app_accelerated_speed_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->smart_home_app_accelerated_speed_num_x, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -1232,14 +1232,14 @@ void setup_scr_smart_home_app(lv_ui *ui)
     ui->smart_home_app_accelerated_speed_num_y = lv_label_create(ui->smart_home_app_accelerated_speed_div);
     lv_label_set_text(ui->smart_home_app_accelerated_speed_num_y, "1");
     lv_label_set_long_mode(ui->smart_home_app_accelerated_speed_num_y, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_num_y, 117, 44);
+    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_num_y, 90, 44);
     lv_obj_set_size(ui->smart_home_app_accelerated_speed_num_y, 83, 19);
 
     //Write style for smart_home_app_accelerated_speed_num_y, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->smart_home_app_accelerated_speed_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->smart_home_app_accelerated_speed_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->smart_home_app_accelerated_speed_num_y, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->smart_home_app_accelerated_speed_num_y, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_accelerated_speed_num_y, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->smart_home_app_accelerated_speed_num_y, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->smart_home_app_accelerated_speed_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->smart_home_app_accelerated_speed_num_y, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -1255,14 +1255,14 @@ void setup_scr_smart_home_app(lv_ui *ui)
     ui->smart_home_app_accelerated_speed_num_z = lv_label_create(ui->smart_home_app_accelerated_speed_div);
     lv_label_set_text(ui->smart_home_app_accelerated_speed_num_z, "1");
     lv_label_set_long_mode(ui->smart_home_app_accelerated_speed_num_z, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_num_z, 117, 64);
+    lv_obj_set_pos(ui->smart_home_app_accelerated_speed_num_z, 90, 64);
     lv_obj_set_size(ui->smart_home_app_accelerated_speed_num_z, 83, 19);
 
     //Write style for smart_home_app_accelerated_speed_num_z, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->smart_home_app_accelerated_speed_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->smart_home_app_accelerated_speed_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->smart_home_app_accelerated_speed_num_z, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->smart_home_app_accelerated_speed_num_z, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->smart_home_app_accelerated_speed_num_z, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->smart_home_app_accelerated_speed_num_z, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->smart_home_app_accelerated_speed_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->smart_home_app_accelerated_speed_num_z, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -1317,7 +1317,7 @@ void setup_scr_smart_home_app(lv_ui *ui)
     ui->smart_home_app_mpu6050_teemp_num = lv_label_create(ui->smart_home_app_mpu6050_temp);
     lv_label_set_text(ui->smart_home_app_mpu6050_teemp_num, "0°C");
     lv_label_set_long_mode(ui->smart_home_app_mpu6050_teemp_num, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->smart_home_app_mpu6050_teemp_num, 100, 0);
+    lv_obj_set_pos(ui->smart_home_app_mpu6050_teemp_num, 92, 0);
     lv_obj_set_size(ui->smart_home_app_mpu6050_teemp_num, 100, 22);
 
     //Write style for smart_home_app_mpu6050_teemp_num, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.

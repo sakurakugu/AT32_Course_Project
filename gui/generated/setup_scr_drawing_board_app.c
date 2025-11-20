@@ -133,7 +133,7 @@ void setup_scr_drawing_board_app(lv_ui *ui)
     lv_obj_set_scrollbar_mode(ui->drawing_board_app_canvas_container, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for drawing_board_app_canvas_container, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->drawing_board_app_canvas_container, 20, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->drawing_board_app_canvas_container, 9, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_opa(ui->drawing_board_app_canvas_container, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_color(ui->drawing_board_app_canvas_container, lv_color_hex(0x2b2b2b), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_side(ui->drawing_board_app_canvas_container, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);

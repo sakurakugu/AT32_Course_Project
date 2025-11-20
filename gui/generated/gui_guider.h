@@ -42,10 +42,6 @@ typedef struct
 	lv_obj_t *home_app2;
 	bool home_app2_del;
 	lv_obj_t *home_app2_home_page;
-	lv_obj_t *home_app2_game4_icon;
-	lv_obj_t *home_app2_game4_icon_label;
-	lv_obj_t *home_app2_game3_icon;
-	lv_obj_t *home_app2_game3_icon_label;
 	lv_obj_t *home_app2_link_game_icon;
 	lv_obj_t *home_app2_link_game_icon_label;
 	lv_obj_t *home_app2_minecraft_icon;
@@ -54,8 +50,6 @@ typedef struct
 	lv_obj_t *home_app2_drawing_board_icon_label;
 	lv_obj_t *home_app2_electronic_organ_icon;
 	lv_obj_t *home_app2_electronic_organ_icon_label;
-	lv_obj_t *status_app;
-	bool status_app_del;
 	lv_obj_t *weather_app;
 	bool weather_app_del;
 	lv_obj_t *weather_app_weather_page;
@@ -208,6 +202,26 @@ typedef struct
 	lv_obj_t *clock_app_placeholder_div1;
 	lv_obj_t *clock_app_analog_clock_1;
 	lv_obj_t *clock_app_placeholder_div2;
+	lv_obj_t *clock_app_second_chronograph;
+	lv_obj_t *clock_app_clock_font;
+	lv_obj_t *clock_app_placeholder_div3;
+	lv_obj_t *clock_app_start_or_pausing_btn;
+	lv_obj_t *clock_app_start_or_pausing_btn_label;
+	lv_obj_t *clock_app_placeholder_div4;
+	lv_obj_t *clock_app_reset_btn;
+	lv_obj_t *clock_app_reset_btn_label;
+	lv_obj_t *clock_app_placeholder_div5;
+	lv_obj_t *clock_app_timer_show;
+	lv_obj_t *clock_app_placeholder_div6;
+	lv_obj_t *clock_app_timer_SPC_btn;
+	lv_obj_t *clock_app_timer_SPC_btn_label;
+	lv_obj_t *clock_app_placeholder_div7;
+	lv_obj_t *clock_app_timer_reset_btn;
+	lv_obj_t *clock_app_timer_reset_btn_label;
+	lv_obj_t *clock_app_placeholder_div8;
+	lv_obj_t *clock_app_timer_bell_btn;
+	lv_obj_t *clock_app_timer_bell_btn_label;
+	lv_obj_t *clock_app_placeholder_div9;
 	lv_obj_t *clock_app_calendar;
 	lv_obj_t *calculator_app;
 	bool calculator_app_del;
@@ -301,10 +315,6 @@ typedef struct
 	lv_obj_t *link_game_app_back_btn_label;
 	lv_obj_t *link_game_app_reopen_btn;
 	lv_obj_t *link_game_app_reopen_btn_label;
-	lv_obj_t *game3_app;
-	bool game3_app_del;
-	lv_obj_t *game5_app;
-	bool game5_app_del;
 	lv_obj_t *g_kb_top_layer;
 }lv_ui;
 
@@ -331,7 +341,6 @@ extern lv_ui guider_ui;
 
 void setup_scr_home_app1(lv_ui *ui);
 void setup_scr_home_app2(lv_ui *ui);
-void setup_scr_status_app(lv_ui *ui);
 void setup_scr_weather_app(lv_ui *ui);
 void setup_scr_music_app(lv_ui *ui);
 void setup_scr_smart_home_app(lv_ui *ui);
@@ -342,8 +351,6 @@ void setup_scr_electronic_organ_app(lv_ui *ui);
 void setup_scr_drawing_board_app(lv_ui *ui);
 void setup_scr_minecraft_app(lv_ui *ui);
 void setup_scr_link_game_app(lv_ui *ui);
-void setup_scr_game3_app(lv_ui *ui);
-void setup_scr_game5_app(lv_ui *ui);
 LV_IMG_DECLARE(_wifi_alpha_16x16);
 LV_IMG_DECLARE(_voice_on_alpha_16x16);
 LV_IMG_DECLARE(_voice_off_alpha_16x16);
@@ -376,6 +383,7 @@ LV_FONT_DECLARE(lv_font_montserratMedium_12)
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_64)
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_12)
+LV_FONT_DECLARE(lv_font_montserratMedium_32)
 LV_FONT_DECLARE(lv_font_montserratMedium_18)
 
 

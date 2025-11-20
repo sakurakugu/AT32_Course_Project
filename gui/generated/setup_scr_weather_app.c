@@ -31,6 +31,7 @@ void setup_scr_weather_app(lv_ui *ui)
     lv_obj_set_pos(ui->weather_app_weather_page, 0, 16);
     lv_obj_set_size(ui->weather_app_weather_page, 480, 304);
     lv_obj_set_scrollbar_mode(ui->weather_app_weather_page, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_flag(ui->weather_app_weather_page, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for weather_app_weather_page, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->weather_app_weather_page, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -141,7 +142,7 @@ void setup_scr_weather_app(lv_ui *ui)
 
     //Write codes weather_app_weather
     ui->weather_app_weather = lv_label_create(ui->weather_app_weather_page);
-    lv_label_set_text(ui->weather_app_weather, "天气:");
+    lv_label_set_text(ui->weather_app_weather, "天气:多云");
     lv_label_set_long_mode(ui->weather_app_weather, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->weather_app_weather, 51, 189);
     lv_obj_set_size(ui->weather_app_weather, 126, 16);
@@ -211,7 +212,7 @@ void setup_scr_weather_app(lv_ui *ui)
 
     //Write codes weather_app_num_day3
     ui->weather_app_num_day3 = lv_label_create(ui->weather_app_weather_3days_div);
-    lv_label_set_text(ui->weather_app_num_day3, "18°C");
+    lv_label_set_text(ui->weather_app_num_day3, "22°C");
     lv_label_set_long_mode(ui->weather_app_num_day3, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->weather_app_num_day3, 169, 111);
     lv_obj_set_size(ui->weather_app_num_day3, 80, 20);
@@ -234,7 +235,7 @@ void setup_scr_weather_app(lv_ui *ui)
 
     //Write codes weather_app_text_night2
     ui->weather_app_text_night2 = lv_label_create(ui->weather_app_weather_3days_div);
-    lv_label_set_text(ui->weather_app_text_night2, "阴");
+    lv_label_set_text(ui->weather_app_text_night2, "多云");
     lv_label_set_long_mode(ui->weather_app_text_night2, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->weather_app_text_night2, 89, 163);
     lv_obj_set_size(ui->weather_app_text_night2, 80, 20);
@@ -280,7 +281,7 @@ void setup_scr_weather_app(lv_ui *ui)
 
     //Write codes weather_app_num_day1
     ui->weather_app_num_day1 = lv_label_create(ui->weather_app_weather_3days_div);
-    lv_label_set_text(ui->weather_app_num_day1, "16°C");
+    lv_label_set_text(ui->weather_app_num_day1, "19°C");
     lv_label_set_long_mode(ui->weather_app_num_day1, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->weather_app_num_day1, 9, 112);
     lv_obj_set_size(ui->weather_app_num_day1, 80, 20);
@@ -303,7 +304,7 @@ void setup_scr_weather_app(lv_ui *ui)
 
     //Write codes weather_app_num_day2
     ui->weather_app_num_day2 = lv_label_create(ui->weather_app_weather_3days_div);
-    lv_label_set_text(ui->weather_app_num_day2, "17°C");
+    lv_label_set_text(ui->weather_app_num_day2, "22°C");
     lv_label_set_long_mode(ui->weather_app_num_day2, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->weather_app_num_day2, 89, 112);
     lv_obj_set_size(ui->weather_app_num_day2, 80, 20);
@@ -326,7 +327,7 @@ void setup_scr_weather_app(lv_ui *ui)
 
     //Write codes weather_app_num_night3
     ui->weather_app_num_night3 = lv_label_create(ui->weather_app_weather_3days_div);
-    lv_label_set_text(ui->weather_app_num_night3, "16°C");
+    lv_label_set_text(ui->weather_app_num_night3, "15°C");
     lv_label_set_long_mode(ui->weather_app_num_night3, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->weather_app_num_night3, 169, 188);
     lv_obj_set_size(ui->weather_app_num_night3, 80, 20);
@@ -372,7 +373,7 @@ void setup_scr_weather_app(lv_ui *ui)
 
     //Write codes weather_app_num_night2
     ui->weather_app_num_night2 = lv_label_create(ui->weather_app_weather_3days_div);
-    lv_label_set_text(ui->weather_app_num_night2, "16°C");
+    lv_label_set_text(ui->weather_app_num_night2, "13°C");
     lv_label_set_long_mode(ui->weather_app_num_night2, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->weather_app_num_night2, 89, 188);
     lv_obj_set_size(ui->weather_app_num_night2, 80, 20);
@@ -464,7 +465,7 @@ void setup_scr_weather_app(lv_ui *ui)
 
     //Write codes weather_app_weather_times
     ui->weather_app_weather_times = lv_label_create(ui->weather_app_weather_3days_div);
-    lv_label_set_text(ui->weather_app_weather_times, "11/05          11/06          11/07");
+    lv_label_set_text(ui->weather_app_weather_times, "11/21          11/22          11/23");
     lv_label_set_long_mode(ui->weather_app_weather_times, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->weather_app_weather_times, 10, 37);
     lv_obj_set_size(ui->weather_app_weather_times, 238, 14);
@@ -487,7 +488,7 @@ void setup_scr_weather_app(lv_ui *ui)
 
     //Write codes weather_app_num_night1
     ui->weather_app_num_night1 = lv_label_create(ui->weather_app_weather_3days_div);
-    lv_label_set_text(ui->weather_app_num_night1, "16°C");
+    lv_label_set_text(ui->weather_app_num_night1, "12°C");
     lv_label_set_long_mode(ui->weather_app_num_night1, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->weather_app_num_night1, 9, 188);
     lv_obj_set_size(ui->weather_app_num_night1, 80, 20);

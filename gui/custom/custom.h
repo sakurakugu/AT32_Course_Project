@@ -96,8 +96,8 @@ void nav_back(lv_ui *ui);
 // 画板实现：绘图画布 + 颜色选择 + 笔宽设置 + 清空
 // 注：为支持 lv_canvas_draw_line/rect，需要使用 TRUE_COLOR 画布缓冲。
 // 缓冲类型统一按字节指针管理。
-#define DRAW_CANVAS_W 280
-#define DRAW_CANVAS_H 264
+#define DRAW_CANVAS_W 297
+#define DRAW_CANVAS_H 282
 #define DRAW_MAX_SEGMENTS 1024
 typedef struct draw_seg_s {
     lv_color_t color;
@@ -133,6 +133,16 @@ extern lv_obj_t *minecraft_img;
 extern void minecraft_timer_cb(lv_timer_t *timer);
 extern void cleanup_scr_minecraft(lv_ui *ui);
 extern void minecraft_app_screen_delete_event_handler(lv_event_t *e);
+
+// ===============================
+// 时钟实现
+// ===============================
+
+extern void clock_app_start_or_pausing_btn_event_handler(lv_event_t *e);
+extern void clock_app_reset_btn_event_handler(lv_event_t *e);
+extern void clock_app_timer_SPC_btn_event_handler(lv_event_t *e);
+extern void clock_app_timer_reset_btn_event_handler(lv_event_t *e);
+extern void clock_app_timer_bell_btn_event_handler(lv_event_t *e);
 
 #ifdef __cplusplus
 }

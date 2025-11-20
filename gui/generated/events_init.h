@@ -20,7 +20,6 @@ void events_init(lv_ui *ui);
 
 void events_init_home_app1(lv_ui *ui);
 void events_init_home_app2(lv_ui *ui);
-void events_init_status_app(lv_ui *ui);
 void events_init_weather_app(lv_ui *ui);
 void events_init_music_app(lv_ui *ui);
 void events_init_smart_home_app(lv_ui *ui);
@@ -31,8 +30,6 @@ void events_init_electronic_organ_app(lv_ui *ui);
 void events_init_drawing_board_app(lv_ui *ui);
 void events_init_minecraft_app(lv_ui *ui);
 void events_init_link_game_app(lv_ui *ui);
-void events_init_game3_app(lv_ui *ui);
-void events_init_game5_app(lv_ui *ui);
 
 #ifdef __cplusplus
 }

@@ -15,10 +15,11 @@
 #include "freemaster_client.h"
 #endif
 
-#include "custom.h"
 #ifdef KEIL_COMPILE
 #include "../../src/app/weather/weather.h"
 #endif
+#include "custom.h"
+#include "custom.h"
 #ifdef KEIL_COMPILE
 #include "../../src/app/link_game/link_game.h"
 #endif
@@ -41,12 +42,6 @@ static void home_app1_event_handler (lv_event_t *e)
         {
             lv_indev_wait_release(lv_indev_get_act());
             ui_load_scr_animation(&guider_ui, &guider_ui.home_app2, guider_ui.home_app2_del, &guider_ui.home_app1_del, setup_scr_home_app2, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 200, 200, false, true);
-            break;
-        }
-        case LV_DIR_BOTTOM:
-        {
-            lv_indev_wait_release(lv_indev_get_act());
-            nav_to(&guider_ui, &guider_ui.status_app, guider_ui.status_app_del, setup_scr_status_app, LV_SCR_LOAD_ANIM_OVER_BOTTOM, 200, 200);
             break;
         }
         default:
@@ -247,35 +242,6 @@ void events_init_home_app2 (lv_ui *ui)
     lv_obj_add_event_cb(ui->home_app2_minecraft_icon, home_app2_minecraft_icon_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->home_app2_drawing_board_icon, home_app2_drawing_board_icon_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->home_app2_electronic_organ_icon, home_app2_electronic_organ_icon_event_handler, LV_EVENT_ALL, ui);
-}
-
-static void status_app_event_handler (lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-    case LV_EVENT_GESTURE:
-    {
-        lv_dir_t dir = lv_indev_get_gesture_dir(lv_indev_get_act());
-        switch(dir) {
-        case LV_DIR_TOP:
-        {
-            lv_indev_wait_release(lv_indev_get_act());
-            nav_back(&guider_ui);
-            break;
-        }
-        default:
-            break;
-        }
-        break;
-    }
-    default:
-        break;
-    }
-}
-
-void events_init_status_app (lv_ui *ui)
-{
-    lv_obj_add_event_cb(ui->status_app, status_app_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void weather_app_event_handler (lv_event_t *e)
@@ -601,9 +567,32 @@ static void clock_app_event_handler (lv_event_t *e)
     }
 }
 
+static void clock_app_calendar_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_VALUE_CHANGED:
+    {
+        lv_calendar_date_t date;
+        lv_obj_t * obj = lv_event_get_current_target(e);
+        lv_calendar_get_pressed_date(obj,&date);
+        char buf[16];
+        lv_snprintf(buf,sizeof(buf),"%d/%02d/%02d", date.year, date.month,date.day);
+        if (lv_obj_is_valid(g_status_bar_date)) {
+            lv_label_set_text(g_status_bar_date, buf);
+        }
+        break;
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_clock_app (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->clock_app, clock_app_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->clock_app_calendar, clock_app_calendar_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void calculator_app_event_handler (lv_event_t *e)
@@ -798,76 +787,6 @@ void events_init_link_game_app (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->link_game_app_back_btn, link_game_app_back_btn_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->link_game_app_reopen_btn, link_game_app_reopen_btn_event_handler, LV_EVENT_ALL, ui);
-}
-
-static void game3_app_event_handler (lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-    case LV_EVENT_GESTURE:
-    {
-        lv_dir_t dir = lv_indev_get_gesture_dir(lv_indev_get_act());
-        switch(dir) {
-        case LV_DIR_LEFT:
-        {
-            lv_indev_wait_release(lv_indev_get_act());
-            nav_back(&guider_ui);
-            break;
-        }
-        case LV_DIR_RIGHT:
-        {
-            lv_indev_wait_release(lv_indev_get_act());
-            nav_back(&guider_ui);
-            break;
-        }
-        default:
-            break;
-        }
-        break;
-    }
-    default:
-        break;
-    }
-}
-
-void events_init_game3_app (lv_ui *ui)
-{
-    lv_obj_add_event_cb(ui->game3_app, game3_app_event_handler, LV_EVENT_ALL, ui);
-}
-
-static void game5_app_event_handler (lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-    case LV_EVENT_GESTURE:
-    {
-        lv_dir_t dir = lv_indev_get_gesture_dir(lv_indev_get_act());
-        switch(dir) {
-        case LV_DIR_LEFT:
-        {
-            lv_indev_wait_release(lv_indev_get_act());
-            nav_back(&guider_ui);
-            break;
-        }
-        case LV_DIR_RIGHT:
-        {
-            lv_indev_wait_release(lv_indev_get_act());
-            nav_back(&guider_ui);
-            break;
-        }
-        default:
-            break;
-        }
-        break;
-    }
-    default:
-        break;
-    }
-}
-
-void events_init_game5_app (lv_ui *ui)
-{
-    lv_obj_add_event_cb(ui->game5_app, game5_app_event_handler, LV_EVENT_ALL, ui);
 }
 
 

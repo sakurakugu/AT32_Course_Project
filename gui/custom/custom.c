@@ -244,7 +244,6 @@ static int nav_sp = 0;
 // 前置声明：各屏幕的 setup_scr 函数（由生成代码提供）
 void setup_scr_home_app1(lv_ui *ui);
 void setup_scr_home_app2(lv_ui *ui);
-void setup_scr_status_app(lv_ui *ui);
 void setup_scr_weather_app(lv_ui *ui);
 void setup_scr_music_app(lv_ui *ui);
 void setup_scr_smart_home_app(lv_ui *ui);
@@ -255,8 +254,6 @@ void setup_scr_electronic_organ_app(lv_ui *ui);
 void setup_scr_drawing_board_app(lv_ui *ui);
 void setup_scr_minecraft_app(lv_ui *ui);
 void setup_scr_link_game_app(lv_ui *ui);
-void setup_scr_game3_app(lv_ui *ui);
-void setup_scr_game5_app(lv_ui *ui);
 
 static bool get_meta_for_obj(lv_ui *ui, lv_obj_t *obj, ScreenMeta *out) {
     if (!ui || !obj || !out)
@@ -271,12 +268,6 @@ static bool get_meta_for_obj(lv_ui *ui, lv_obj_t *obj, ScreenMeta *out) {
         out->obj_pp = &ui->home_app2;
         out->del_flag_p = &ui->home_app2_del;
         out->setup = setup_scr_home_app2;
-        return true;
-    }
-    if (obj == ui->status_app) {
-        out->obj_pp = &ui->status_app;
-        out->del_flag_p = &ui->status_app_del;
-        out->setup = setup_scr_status_app;
         return true;
     }
     if (obj == ui->weather_app) {
@@ -337,18 +328,6 @@ static bool get_meta_for_obj(lv_ui *ui, lv_obj_t *obj, ScreenMeta *out) {
         out->obj_pp = &ui->link_game_app;
         out->del_flag_p = &ui->link_game_app_del;
         out->setup = setup_scr_link_game_app;
-        return true;
-    }
-    if (obj == ui->game3_app) {
-        out->obj_pp = &ui->game3_app;
-        out->del_flag_p = &ui->game3_app_del;
-        out->setup = setup_scr_game3_app;
-        return true;
-    }
-    if (obj == ui->game5_app) {
-        out->obj_pp = &ui->game5_app;
-        out->del_flag_p = &ui->game5_app_del;
-        out->setup = setup_scr_game5_app;
         return true;
     }
     return false;
@@ -657,7 +636,8 @@ drawing_board_ctx_t s_drawing_ctx; // 单屏上下文
 // 屏幕删除时释放画布缓冲
 void drawing_board_app_delete_cb(lv_event_t *e) {
     drawing_board_ctx_t *ctx = (drawing_board_ctx_t *)lv_event_get_user_data(e);
-    if (!ctx) return;
+    if (!ctx)
+        return;
     ctx->seg_count = 0;
     ctx->last_valid = false;
 }
@@ -697,11 +677,12 @@ void drawing_board_canvas_event_cb(lv_event_t *e) {
         ctx->last_pt.x = x;
         ctx->last_pt.y = y;
         ctx->last_valid = true;
-        if(ctx->seg_count < DRAW_MAX_SEGMENTS) {
+        if (ctx->seg_count < DRAW_MAX_SEGMENTS) {
             draw_seg_t *s = &ctx->segs[ctx->seg_count++];
             s->color = lv_colorwheel_get_rgb(guider_ui.drawing_board_app_colorwheel);
             uint16_t w = (uint16_t)lv_slider_get_value(guider_ui.drawing_board_app_width_slider);
-            if(w == 0) w = 1;
+            if (w == 0)
+                w = 1;
             s->width = w;
             s->p1.x = (lv_coord_t)x;
             s->p1.y = (lv_coord_t)y;
@@ -713,11 +694,12 @@ void drawing_board_canvas_event_cb(lv_event_t *e) {
     case LV_EVENT_PRESSING: {
         if (!ctx->last_valid)
             break;
-        if(ctx->seg_count < DRAW_MAX_SEGMENTS) {
+        if (ctx->seg_count < DRAW_MAX_SEGMENTS) {
             draw_seg_t *s = &ctx->segs[ctx->seg_count++];
             s->color = lv_colorwheel_get_rgb(guider_ui.drawing_board_app_colorwheel);
             uint16_t w = (uint16_t)lv_slider_get_value(guider_ui.drawing_board_app_width_slider);
-            if(w == 0) w = 1;
+            if (w == 0)
+                w = 1;
             s->width = w;
             s->p1 = ctx->last_pt;
             s->p2.x = (lv_coord_t)x;
@@ -738,7 +720,8 @@ void drawing_board_canvas_event_cb(lv_event_t *e) {
 
 void drawing_board_clear_event_cb(lv_event_t *e) {
     drawing_board_ctx_t *ctx = (drawing_board_ctx_t *)lv_event_get_user_data(e);
-    if(!ctx) return;
+    if (!ctx)
+        return;
     ctx->seg_count = 0;
     lv_obj_invalidate(ctx->canvas);
 }
@@ -764,7 +747,7 @@ void drawing_board_paint_draw_event_cb(lv_event_t *e) {
     rd.bg_color = lv_color_white();
     rd.bg_opa = LV_OPA_COVER;
     lv_draw_rect(draw_ctx, &rd, &area);
-    for(uint16_t i = 0; i < ctx->seg_count; i++) {
+    for (uint16_t i = 0; i < ctx->seg_count; i++) {
         draw_seg_t *s = &ctx->segs[i];
         lv_draw_line_dsc_t ld;
         lv_draw_line_dsc_init(&ld);
@@ -973,7 +956,8 @@ void smart_home_color_led_cpicker_event_handler(lv_event_t *e) {
     lv_obj_t *cpicker = lv_event_get_target(e);
     lv_color_t color = lv_colorwheel_get_rgb(cpicker);
     uint32_t raw = lv_color_to32(color);
-    lv_color32_t c32; c32.full = raw;
+    lv_color32_t c32;
+    c32.full = raw;
     uint8_t r = c32.ch.red;
     uint8_t g = c32.ch.green;
     uint8_t b = c32.ch.blue;
@@ -1012,7 +996,8 @@ void smart_home_color_led_light_slider_event_handler(lv_event_t *e) {
     // 获取当前颜色
     lv_color_t color = lv_colorwheel_get_rgb(ui->smart_home_app_color_led_cpicker);
     uint32_t raw = lv_color_to32(color);
-    lv_color32_t c32; c32.full = raw;
+    lv_color32_t c32;
+    c32.full = raw;
     uint8_t r = c32.ch.red;
     uint8_t g = c32.ch.green;
     uint8_t b = c32.ch.blue;
@@ -1088,4 +1073,161 @@ void minecraft_app_screen_delete_event_handler(lv_event_t *e) {
     default:
         break;
     }
+}
+
+// ===============================
+// 时钟事件实现
+// ===============================
+
+static lv_timer_t *s_sw_timer;
+static int s_sw_cs;
+static uint8_t s_sw_running;
+static void s_stopwatch_cb(lv_timer_t *t) {
+    (void)t;
+    s_sw_cs++;
+    int cs = s_sw_cs % 100;
+    int total_s = s_sw_cs / 100;
+    int s = total_s % 60;
+    int m = total_s / 60;
+    if (lv_obj_is_valid(guider_ui.clock_app_second_chronograph)) {
+        char buf[16];
+        lv_snprintf(buf, sizeof(buf), "%02d:%02d.%02d", m, s, cs);
+        lv_label_set_text(guider_ui.clock_app_second_chronograph, buf);
+    }
+}
+void clock_app_start_or_pausing_btn_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
+    if (!s_sw_running) {
+        if (!s_sw_timer)
+            s_sw_timer = lv_timer_create(s_stopwatch_cb, 10, NULL);
+        s_sw_running = 1;
+    } else {
+        if (s_sw_timer) {
+            lv_timer_del(s_sw_timer);
+            s_sw_timer = NULL;
+        }
+        s_sw_running = 0;
+    }
+}
+void clock_app_reset_btn_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
+    if (s_sw_timer) {
+        lv_timer_del(s_sw_timer);
+        s_sw_timer = NULL;
+    }
+    s_sw_running = 0;
+    s_sw_cs = 0;
+    if (lv_obj_is_valid(guider_ui.clock_app_second_chronograph)) {
+        lv_label_set_text(guider_ui.clock_app_second_chronograph, "00:00.00");
+    }
+}
+
+static lv_timer_t *s_timer;
+static int s_timer_remain;
+static uint8_t s_timer_running;
+static uint8_t s_timer_bell_on;
+static uint8_t s_timer_ringing;
+static lv_timer_t *s_ring_flag_clear;
+static void s_ring_clear_cb(lv_timer_t *tt) {
+    (void)tt;
+    s_timer_ringing = 0;
+    if (s_ring_flag_clear) {
+        lv_timer_del(s_ring_flag_clear);
+        s_ring_flag_clear = NULL;
+    }
+}
+static int parse_hhmmss(const char *txt) {
+    int h = 0, m = 0, s = 0;
+    if (!txt)
+        return 0;
+    int n = sscanf(txt, "%d:%d:%d", &h, &m, &s);
+    if (n != 3)
+        return 0;
+    if (h < 0 || m < 0 || s < 0)
+        return 0;
+    if (m >= 60 || s >= 60)
+        return 0;
+    return h * 3600 + m * 60 + s;
+}
+static void update_timer_display() {
+    int h = s_timer_remain / 3600;
+    int m = (s_timer_remain % 3600) / 60;
+    int s = s_timer_remain % 60;
+    char buf[16];
+    lv_snprintf(buf, sizeof(buf), "%02d:%02d:%02d", h, m, s);
+    if (lv_obj_is_valid(guider_ui.clock_app_timer_show))
+        lv_textarea_set_text(guider_ui.clock_app_timer_show, buf);
+}
+static void s_countdown_cb(lv_timer_t *t) {
+    (void)t;
+    if (s_timer_remain > 0) {
+        s_timer_remain--;
+        update_timer_display();
+        if (s_timer_remain == 0) {
+            if (s_timer) {
+                lv_timer_del(s_timer);
+                s_timer = NULL;
+            }
+            s_timer_running = 0;
+            if (s_timer_bell_on) {
+                beep_setFreq(1500);
+                beep_start(3000, 1, 1);
+                s_timer_ringing = 1;
+                if (s_ring_flag_clear) {
+                    lv_timer_del(s_ring_flag_clear);
+                    s_ring_flag_clear = NULL;
+                }
+                s_ring_flag_clear = lv_timer_create(s_ring_clear_cb, 30000, NULL);
+            }
+        }
+    }
+}
+void clock_app_timer_SPC_btn_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
+    if (s_timer_ringing) {
+        beep_stop();
+        s_timer_ringing = 0;
+        return;
+    }
+    if (!s_timer_running) {
+        const char *txt = lv_textarea_get_text(guider_ui.clock_app_timer_show);
+        int sec = parse_hhmmss(txt);
+        if (sec <= 0)
+            return;
+        s_timer_remain = sec;
+        update_timer_display();
+        if (!s_timer)
+            s_timer = lv_timer_create(s_countdown_cb, 1000, NULL);
+        s_timer_running = 1;
+    } else {
+        if (s_timer) {
+            lv_timer_del(s_timer);
+            s_timer = NULL;
+        }
+        s_timer_running = 0;
+    }
+}
+void clock_app_timer_reset_btn_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
+    if (s_timer) {
+        lv_timer_del(s_timer);
+        s_timer = NULL;
+    }
+    s_timer_running = 0;
+    s_timer_remain = 0;
+    if (s_timer_ringing) {
+        beep_stop();
+        s_timer_ringing = 0;
+    }
+    if (lv_obj_is_valid(guider_ui.clock_app_timer_show))
+        lv_textarea_set_text(guider_ui.clock_app_timer_show, "00:00:00");
+}
+void clock_app_timer_bell_btn_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
+    s_timer_bell_on = !s_timer_bell_on;
 }

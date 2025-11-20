@@ -77,7 +77,6 @@ void init_scr_del_flag(lv_ui *ui)
 
     ui->home_app1_del = true;
     ui->home_app2_del = true;
-    ui->status_app_del = true;
     ui->weather_app_del = true;
     ui->music_app_del = true;
     ui->smart_home_app_del = true;
@@ -88,8 +87,6 @@ void init_scr_del_flag(lv_ui *ui)
     ui->drawing_board_app_del = true;
     ui->minecraft_app_del = true;
     ui->link_game_app_del = true;
-    ui->game3_app_del = true;
-    ui->game5_app_del = true;
 }
 
 void setup_ui(lv_ui *ui)

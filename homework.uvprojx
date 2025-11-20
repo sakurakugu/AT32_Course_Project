@@ -2415,16 +2415,6 @@
               <FilePath>.\gui\generated\setup_scr_link_game_app.c</FilePath>
             </File>
             <File>
-              <FileName>setup_scr_game3_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gui\generated\setup_scr_game3_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>setup_scr_game5_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gui\generated\setup_scr_game5_app.c</FilePath>
-            </File>
-            <File>
               <FileName>setup_scr_home_app1.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\setup_scr_home_app1.c</FilePath>
@@ -2448,11 +2438,6 @@
               <FileName>setup_scr_smart_home_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\setup_scr_smart_home_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>setup_scr_status_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gui\generated\setup_scr_status_app.c</FilePath>
             </File>
             <File>
               <FileName>setup_scr_weather_app.c</FileName>
@@ -2552,6 +2537,11 @@
               <FileName>lv_font_montserratMedium_18.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\guider_fonts\lv_font_montserratMedium_18.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_montserratMedium_32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\guider_fonts\lv_font_montserratMedium_32.c</FilePath>
             </File>
             <File>
               <FileName>lv_font_montserratMedium_64.c</FileName>

@@ -3,6 +3,7 @@
 #include "../network/wifi.hpp"
 #include "logger.h"
 #include "lvgl.h"
+#include "../../gui/generated/gui_guider.h"
 #include "uart.h"
 #include <stdint.h>
 #include <stdio.h>
@@ -32,6 +33,10 @@ extern int g_time_min_value;
 extern int g_time_sec_value;
 
 extern lv_obj_t *g_status_bar_date;
+extern int clock_app_analog_clock_1_hour_value;
+extern int clock_app_analog_clock_1_min_value;
+extern int clock_app_analog_clock_1_sec_value;
+extern lv_ui guider_ui;
 
 bool Setting::sync_network_time(bool sync) {
     auto &wifi = Wifi::GetInstance();
@@ -167,9 +172,17 @@ bool Setting::parse_datetime_iso8601(const char *json, int *year, int *month, in
 }
 
 void Setting::apply_time_to_all(int hour, int min, int sec) {
+    // 更新全局时间变量
     g_time_hour_value = hour;
     g_time_min_value = min;
     g_time_sec_value = sec;
+    // 更新时钟显示
+    clock_app_analog_clock_1_hour_value = hour;
+    clock_app_analog_clock_1_min_value = min;
+    clock_app_analog_clock_1_sec_value = sec;
+    if (lv_obj_is_valid(guider_ui.clock_app_analog_clock_1)) {
+        lv_analogclock_set_time(guider_ui.clock_app_analog_clock_1, hour, min, sec);
+    }
 }
 
 void Setting::apply_date_labels(int year, int month, int day) {

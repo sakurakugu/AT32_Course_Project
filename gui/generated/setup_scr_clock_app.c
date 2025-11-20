@@ -13,7 +13,7 @@
 #include "events_init.h"
 #include "widgets_init.h"
 #include "custom.h"
-
+#include "../../src/board/sound/beep.h"
 
 
 int clock_app_analog_clock_1_hour_value = 3;
@@ -182,7 +182,7 @@ void setup_scr_clock_app(lv_ui *ui)
         lv_timer_create(clock_app_analog_clock_1_timer, 1000, NULL);
         clock_app_analog_clock_1_timer_enabled = true;
     }
-    lv_obj_set_pos(ui->clock_app_analog_clock_1, 140, 60);
+    lv_obj_set_pos(ui->clock_app_analog_clock_1, 64, 30);
     lv_obj_set_size(ui->clock_app_analog_clock_1, 200, 200);
 
     //Write style for clock_app_analog_clock_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -204,14 +204,10 @@ void setup_scr_clock_app(lv_ui *ui)
 
 
 
-
-
-
-
     //Write codes clock_app_placeholder_div2
-    ui->clock_app_placeholder_div2 = lv_obj_create(ui->clock_app_clock_page_subpage_4);
+    ui->clock_app_placeholder_div2 = lv_obj_create(ui->clock_app_clock_page_subpage_2);
     lv_obj_set_pos(ui->clock_app_placeholder_div2, 90, 60);
-    lv_obj_set_size(ui->clock_app_placeholder_div2, 10, 40);
+    lv_obj_set_size(ui->clock_app_placeholder_div2, 300, 60);
     lv_obj_set_scrollbar_mode(ui->clock_app_placeholder_div2, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for clock_app_placeholder_div2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -225,6 +221,335 @@ void setup_scr_clock_app(lv_ui *ui)
     lv_obj_set_style_pad_left(ui->clock_app_placeholder_div2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui->clock_app_placeholder_div2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->clock_app_placeholder_div2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes clock_app_second_chronograph
+    ui->clock_app_second_chronograph = lv_label_create(ui->clock_app_clock_page_subpage_2);
+    lv_label_set_text(ui->clock_app_second_chronograph, "00:00.00");
+    lv_label_set_long_mode(ui->clock_app_second_chronograph, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->clock_app_second_chronograph, 47, 144);
+    lv_obj_set_size(ui->clock_app_second_chronograph, 174, 37);
+
+    //Write style for clock_app_second_chronograph, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->clock_app_second_chronograph, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_second_chronograph, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->clock_app_second_chronograph, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->clock_app_second_chronograph, &lv_font_montserratMedium_32, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->clock_app_second_chronograph, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->clock_app_second_chronograph, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->clock_app_second_chronograph, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->clock_app_second_chronograph, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->clock_app_second_chronograph, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->clock_app_second_chronograph, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->clock_app_second_chronograph, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->clock_app_second_chronograph, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->clock_app_second_chronograph, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_second_chronograph, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes clock_app_clock_font
+    ui->clock_app_clock_font = lv_label_create(ui->clock_app_clock_page_subpage_2);
+    lv_label_set_text(ui->clock_app_clock_font, "0123456789");
+    lv_label_set_long_mode(ui->clock_app_clock_font, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->clock_app_clock_font, 17, 293);
+    lv_obj_set_size(ui->clock_app_clock_font, 204, 30);
+    lv_obj_add_flag(ui->clock_app_clock_font, LV_OBJ_FLAG_HIDDEN);
+
+    //Write style for clock_app_clock_font, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->clock_app_clock_font, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_clock_font, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->clock_app_clock_font, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->clock_app_clock_font, &lv_font_montserratMedium_32, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->clock_app_clock_font, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->clock_app_clock_font, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->clock_app_clock_font, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->clock_app_clock_font, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->clock_app_clock_font, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->clock_app_clock_font, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->clock_app_clock_font, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->clock_app_clock_font, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->clock_app_clock_font, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_clock_font, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes clock_app_placeholder_div3
+    ui->clock_app_placeholder_div3 = lv_obj_create(ui->clock_app_clock_page_subpage_2);
+    lv_obj_set_pos(ui->clock_app_placeholder_div3, 105, 116);
+    lv_obj_set_size(ui->clock_app_placeholder_div3, 300, 30);
+    lv_obj_set_scrollbar_mode(ui->clock_app_placeholder_div3, LV_SCROLLBAR_MODE_OFF);
+
+    //Write style for clock_app_placeholder_div3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->clock_app_placeholder_div3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_placeholder_div3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->clock_app_placeholder_div3, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_placeholder_div3, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_placeholder_div3, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->clock_app_placeholder_div3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->clock_app_placeholder_div3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->clock_app_placeholder_div3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->clock_app_placeholder_div3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_placeholder_div3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes clock_app_start_or_pausing_btn
+    ui->clock_app_start_or_pausing_btn = lv_btn_create(ui->clock_app_clock_page_subpage_2);
+    ui->clock_app_start_or_pausing_btn_label = lv_label_create(ui->clock_app_start_or_pausing_btn);
+    lv_label_set_text(ui->clock_app_start_or_pausing_btn_label, "开始暂停");
+    lv_label_set_long_mode(ui->clock_app_start_or_pausing_btn_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->clock_app_start_or_pausing_btn_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->clock_app_start_or_pausing_btn, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->clock_app_start_or_pausing_btn_label, LV_PCT(100));
+    lv_obj_set_pos(ui->clock_app_start_or_pausing_btn, 190, 135);
+    lv_obj_set_size(ui->clock_app_start_or_pausing_btn, 80, 40);
+
+    //Write style for clock_app_start_or_pausing_btn, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->clock_app_start_or_pausing_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_start_or_pausing_btn, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_start_or_pausing_btn, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->clock_app_start_or_pausing_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_start_or_pausing_btn, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_start_or_pausing_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->clock_app_start_or_pausing_btn, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->clock_app_start_or_pausing_btn, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->clock_app_start_or_pausing_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->clock_app_start_or_pausing_btn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes clock_app_placeholder_div4
+    ui->clock_app_placeholder_div4 = lv_obj_create(ui->clock_app_clock_page_subpage_2);
+    lv_obj_set_pos(ui->clock_app_placeholder_div4, 96, 77);
+    lv_obj_set_size(ui->clock_app_placeholder_div4, 300, 30);
+    lv_obj_set_scrollbar_mode(ui->clock_app_placeholder_div4, LV_SCROLLBAR_MODE_OFF);
+
+    //Write style for clock_app_placeholder_div4, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->clock_app_placeholder_div4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_placeholder_div4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->clock_app_placeholder_div4, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_placeholder_div4, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_placeholder_div4, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->clock_app_placeholder_div4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->clock_app_placeholder_div4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->clock_app_placeholder_div4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->clock_app_placeholder_div4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_placeholder_div4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes clock_app_reset_btn
+    ui->clock_app_reset_btn = lv_btn_create(ui->clock_app_clock_page_subpage_2);
+    ui->clock_app_reset_btn_label = lv_label_create(ui->clock_app_reset_btn);
+    lv_label_set_text(ui->clock_app_reset_btn_label, "重置");
+    lv_label_set_long_mode(ui->clock_app_reset_btn_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->clock_app_reset_btn_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->clock_app_reset_btn, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->clock_app_reset_btn_label, LV_PCT(100));
+    lv_obj_set_pos(ui->clock_app_reset_btn, 118, 165);
+    lv_obj_set_size(ui->clock_app_reset_btn, 80, 40);
+
+    //Write style for clock_app_reset_btn, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->clock_app_reset_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_reset_btn, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_reset_btn, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->clock_app_reset_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_reset_btn, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_reset_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->clock_app_reset_btn, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->clock_app_reset_btn, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->clock_app_reset_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->clock_app_reset_btn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+
+
+    //Write codes clock_app_placeholder_div5
+    ui->clock_app_placeholder_div5 = lv_obj_create(ui->clock_app_clock_page_subpage_3);
+    lv_obj_set_pos(ui->clock_app_placeholder_div5, 141, 168);
+    lv_obj_set_size(ui->clock_app_placeholder_div5, 300, 30);
+    lv_obj_set_scrollbar_mode(ui->clock_app_placeholder_div5, LV_SCROLLBAR_MODE_OFF);
+
+    //Write style for clock_app_placeholder_div5, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->clock_app_placeholder_div5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_placeholder_div5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->clock_app_placeholder_div5, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_placeholder_div5, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_placeholder_div5, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->clock_app_placeholder_div5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->clock_app_placeholder_div5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->clock_app_placeholder_div5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->clock_app_placeholder_div5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_placeholder_div5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes clock_app_timer_show
+    ui->clock_app_timer_show = lv_textarea_create(ui->clock_app_clock_page_subpage_3);
+    lv_textarea_set_text(ui->clock_app_timer_show, "00:00:00");
+    lv_textarea_set_placeholder_text(ui->clock_app_timer_show, "");
+    lv_textarea_set_password_bullet(ui->clock_app_timer_show, "*");
+    lv_textarea_set_password_mode(ui->clock_app_timer_show, false);
+    lv_textarea_set_one_line(ui->clock_app_timer_show, true);
+    lv_textarea_set_accepted_chars(ui->clock_app_timer_show, "");
+    lv_textarea_set_max_length(ui->clock_app_timer_show, 8);
+#if LV_USE_KEYBOARD != 0 || LV_USE_ZH_KEYBOARD != 0
+    lv_obj_add_event_cb(ui->clock_app_timer_show, ta_event_cb, LV_EVENT_ALL, ui->g_kb_top_layer);
+#endif
+    lv_obj_set_pos(ui->clock_app_timer_show, 13, 35);
+    lv_obj_set_size(ui->clock_app_timer_show, 225, 46);
+
+    //Write style for clock_app_timer_show, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->clock_app_timer_show, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->clock_app_timer_show, &lv_font_montserratMedium_32, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->clock_app_timer_show, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->clock_app_timer_show, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->clock_app_timer_show, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->clock_app_timer_show, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_timer_show, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_timer_show, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->clock_app_timer_show, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_timer_show, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->clock_app_timer_show, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->clock_app_timer_show, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->clock_app_timer_show, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_timer_show, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style for clock_app_timer_show, Part: LV_PART_SCROLLBAR, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->clock_app_timer_show, 255, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_timer_show, lv_color_hex(0x2195f6), LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_timer_show, LV_GRAD_DIR_NONE, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_timer_show, 0, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+
+    //Write codes clock_app_placeholder_div6
+    ui->clock_app_placeholder_div6 = lv_obj_create(ui->clock_app_clock_page_subpage_3);
+    lv_obj_set_pos(ui->clock_app_placeholder_div6, 111, 154);
+    lv_obj_set_size(ui->clock_app_placeholder_div6, 300, 30);
+    lv_obj_set_scrollbar_mode(ui->clock_app_placeholder_div6, LV_SCROLLBAR_MODE_OFF);
+
+    //Write style for clock_app_placeholder_div6, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->clock_app_placeholder_div6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_placeholder_div6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->clock_app_placeholder_div6, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_placeholder_div6, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_placeholder_div6, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->clock_app_placeholder_div6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->clock_app_placeholder_div6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->clock_app_placeholder_div6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->clock_app_placeholder_div6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_placeholder_div6, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes clock_app_timer_SPC_btn
+    ui->clock_app_timer_SPC_btn = lv_btn_create(ui->clock_app_clock_page_subpage_3);
+    ui->clock_app_timer_SPC_btn_label = lv_label_create(ui->clock_app_timer_SPC_btn);
+    lv_label_set_text(ui->clock_app_timer_SPC_btn_label, "开始暂停关闭");
+    lv_label_set_long_mode(ui->clock_app_timer_SPC_btn_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->clock_app_timer_SPC_btn_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->clock_app_timer_SPC_btn, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->clock_app_timer_SPC_btn_label, LV_PCT(100));
+    lv_obj_set_pos(ui->clock_app_timer_SPC_btn, 203, 140);
+    lv_obj_set_size(ui->clock_app_timer_SPC_btn, 80, 40);
+
+    //Write style for clock_app_timer_SPC_btn, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->clock_app_timer_SPC_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_timer_SPC_btn, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_timer_SPC_btn, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->clock_app_timer_SPC_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_timer_SPC_btn, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_timer_SPC_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->clock_app_timer_SPC_btn, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->clock_app_timer_SPC_btn, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->clock_app_timer_SPC_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->clock_app_timer_SPC_btn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes clock_app_placeholder_div7
+    ui->clock_app_placeholder_div7 = lv_obj_create(ui->clock_app_clock_page_subpage_3);
+    lv_obj_set_pos(ui->clock_app_placeholder_div7, 109, 151);
+    lv_obj_set_size(ui->clock_app_placeholder_div7, 300, 20);
+    lv_obj_set_scrollbar_mode(ui->clock_app_placeholder_div7, LV_SCROLLBAR_MODE_OFF);
+
+    //Write style for clock_app_placeholder_div7, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->clock_app_placeholder_div7, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_placeholder_div7, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->clock_app_placeholder_div7, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_placeholder_div7, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_placeholder_div7, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->clock_app_placeholder_div7, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->clock_app_placeholder_div7, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->clock_app_placeholder_div7, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->clock_app_placeholder_div7, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_placeholder_div7, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes clock_app_timer_reset_btn
+    ui->clock_app_timer_reset_btn = lv_btn_create(ui->clock_app_clock_page_subpage_3);
+    ui->clock_app_timer_reset_btn_label = lv_label_create(ui->clock_app_timer_reset_btn);
+    lv_label_set_text(ui->clock_app_timer_reset_btn_label, "重置");
+    lv_label_set_long_mode(ui->clock_app_timer_reset_btn_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->clock_app_timer_reset_btn_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->clock_app_timer_reset_btn, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->clock_app_timer_reset_btn_label, LV_PCT(100));
+    lv_obj_set_pos(ui->clock_app_timer_reset_btn, 215, 157);
+    lv_obj_set_size(ui->clock_app_timer_reset_btn, 80, 40);
+
+    //Write style for clock_app_timer_reset_btn, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->clock_app_timer_reset_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_timer_reset_btn, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_timer_reset_btn, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->clock_app_timer_reset_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_timer_reset_btn, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_timer_reset_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->clock_app_timer_reset_btn, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->clock_app_timer_reset_btn, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->clock_app_timer_reset_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->clock_app_timer_reset_btn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes clock_app_placeholder_div8
+    ui->clock_app_placeholder_div8 = lv_obj_create(ui->clock_app_clock_page_subpage_3);
+    lv_obj_set_pos(ui->clock_app_placeholder_div8, 120, 132);
+    lv_obj_set_size(ui->clock_app_placeholder_div8, 300, 20);
+    lv_obj_set_scrollbar_mode(ui->clock_app_placeholder_div8, LV_SCROLLBAR_MODE_OFF);
+
+    //Write style for clock_app_placeholder_div8, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->clock_app_placeholder_div8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_placeholder_div8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->clock_app_placeholder_div8, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_placeholder_div8, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_placeholder_div8, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->clock_app_placeholder_div8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->clock_app_placeholder_div8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->clock_app_placeholder_div8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->clock_app_placeholder_div8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_placeholder_div8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes clock_app_timer_bell_btn
+    ui->clock_app_timer_bell_btn = lv_btn_create(ui->clock_app_clock_page_subpage_3);
+    ui->clock_app_timer_bell_btn_label = lv_label_create(ui->clock_app_timer_bell_btn);
+    lv_label_set_text(ui->clock_app_timer_bell_btn_label, "响铃");
+    lv_label_set_long_mode(ui->clock_app_timer_bell_btn_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->clock_app_timer_bell_btn_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->clock_app_timer_bell_btn, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->clock_app_timer_bell_btn_label, LV_PCT(100));
+    lv_obj_set_pos(ui->clock_app_timer_bell_btn, 223, 181);
+    lv_obj_set_size(ui->clock_app_timer_bell_btn, 80, 40);
+
+    //Write style for clock_app_timer_bell_btn, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->clock_app_timer_bell_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_timer_bell_btn, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_timer_bell_btn, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->clock_app_timer_bell_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_timer_bell_btn, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_timer_bell_btn, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->clock_app_timer_bell_btn, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->clock_app_timer_bell_btn, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->clock_app_timer_bell_btn, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->clock_app_timer_bell_btn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+
+
+    //Write codes clock_app_placeholder_div9
+    ui->clock_app_placeholder_div9 = lv_obj_create(ui->clock_app_clock_page_subpage_4);
+    lv_obj_set_pos(ui->clock_app_placeholder_div9, 90, 60);
+    lv_obj_set_size(ui->clock_app_placeholder_div9, 10, 40);
+    lv_obj_set_scrollbar_mode(ui->clock_app_placeholder_div9, LV_SCROLLBAR_MODE_OFF);
+
+    //Write style for clock_app_placeholder_div9, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->clock_app_placeholder_div9, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->clock_app_placeholder_div9, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->clock_app_placeholder_div9, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_placeholder_div9, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_placeholder_div9, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->clock_app_placeholder_div9, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->clock_app_placeholder_div9, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->clock_app_placeholder_div9, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->clock_app_placeholder_div9, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_placeholder_div9, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes clock_app_calendar
     ui->clock_app_calendar = lv_calendar_create(ui->clock_app_clock_page_subpage_4);
@@ -286,7 +611,11 @@ void setup_scr_clock_app(lv_ui *ui)
     lv_obj_add_style(lv_calendar_get_btnmatrix(ui->clock_app_calendar), &style_clock_app_calendar_main_items_default, LV_PART_ITEMS|LV_STATE_DEFAULT);
 
     //The custom code of clock_app.
-
+    lv_obj_add_event_cb(ui->clock_app_start_or_pausing_btn, clock_app_start_or_pausing_btn_event_handler, LV_EVENT_CLICKED, ui);
+    lv_obj_add_event_cb(ui->clock_app_reset_btn, clock_app_reset_btn_event_handler, LV_EVENT_CLICKED, ui);
+    lv_obj_add_event_cb(ui->clock_app_timer_SPC_btn, clock_app_timer_SPC_btn_event_handler, LV_EVENT_CLICKED, ui);
+    lv_obj_add_event_cb(ui->clock_app_timer_reset_btn, clock_app_timer_reset_btn_event_handler, LV_EVENT_CLICKED, ui);
+    lv_obj_add_event_cb(ui->clock_app_timer_bell_btn, clock_app_timer_bell_btn_event_handler, LV_EVENT_CLICKED, ui);
 
     //Update current screen layout.
     lv_obj_update_layout(ui->clock_app);

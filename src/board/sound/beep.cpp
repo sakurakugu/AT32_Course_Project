@@ -97,10 +97,7 @@ void Beep::start(uint16_t bt, uint16_t st, uint16_t cy) {
  */
 void Beep::stop() {
     enableFlag = 0;
-
-    if ((stopTime == 0) || (cycle == 0)) {
-        disableOutput();
-    }
+    disableOutput();
 }
 
 /*
@@ -196,4 +193,7 @@ void beep_setFreq(int freq) {
 }
 void beep_start(uint16_t beepTime, uint16_t stopTime, uint16_t cycle) {
     g_beep.start(beepTime, stopTime, cycle);
+}
+void beep_stop(void) {
+    g_beep.stop();
 }
