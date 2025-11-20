@@ -81,8 +81,8 @@ void init_scr_del_flag(lv_ui *ui)
     ui->weather_app_del = true;
     ui->music_app_del = true;
     ui->smart_home_app_del = true;
+    ui->clock_app_del = true;
     ui->calculator_app_del = true;
-    ui->deepseek_app_del = true;
     ui->setting_app_del = true;
     ui->electronic_organ_app_del = true;
     ui->drawing_board_app_del = true;

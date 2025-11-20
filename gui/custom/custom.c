@@ -249,7 +249,7 @@ void setup_scr_weather_app(lv_ui *ui);
 void setup_scr_music_app(lv_ui *ui);
 void setup_scr_smart_home_app(lv_ui *ui);
 void setup_scr_calculator_app(lv_ui *ui);
-void setup_scr_deepseek_app(lv_ui *ui);
+void setup_scr_clock_app(lv_ui *ui);
 void setup_scr_setting_app(lv_ui *ui);
 void setup_scr_electronic_organ_app(lv_ui *ui);
 void setup_scr_drawing_board_app(lv_ui *ui);
@@ -303,10 +303,10 @@ static bool get_meta_for_obj(lv_ui *ui, lv_obj_t *obj, ScreenMeta *out) {
         out->setup = setup_scr_calculator_app;
         return true;
     }
-    if (obj == ui->deepseek_app) {
-        out->obj_pp = &ui->deepseek_app;
-        out->del_flag_p = &ui->deepseek_app_del;
-        out->setup = setup_scr_deepseek_app;
+    if (obj == ui->clock_app) {
+        out->obj_pp = &ui->clock_app;
+        out->del_flag_p = &ui->clock_app_del;
+        out->setup = setup_scr_clock_app;
         return true;
     }
     if (obj == ui->setting_app) {

@@ -2390,9 +2390,9 @@
               <FilePath>.\gui\generated\setup_scr_calculator_app.c</FilePath>
             </File>
             <File>
-              <FileName>setup_scr_deepseek_app.c</FileName>
+              <FileName>setup_scr_clock_app.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\generated\setup_scr_deepseek_app.c</FilePath>
+              <FilePath>.\gui\generated\setup_scr_clock_app.c</FilePath>
             </File>
             <File>
               <FileName>setup_scr_electronic_organ_app.c</FileName>
@@ -2648,6 +2648,11 @@
               <FilePath>.\gui\generated\images\_calculator_app_alpha_80x80.c</FilePath>
             </File>
             <File>
+              <FileName>_clock_alpha_80x80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_clock_alpha_80x80.c</FilePath>
+            </File>
+            <File>
               <FileName>_color_led_alpha_80x80.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\images\_color_led_alpha_80x80.c</FilePath>
@@ -2661,6 +2666,11 @@
               <FileName>_electronic_organ_app_alpha_80x80.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\images\_electronic_organ_app_alpha_80x80.c</FilePath>
+            </File>
+            <File>
+              <FileName>_link_game_app_alpha_80x80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_link_game_app_alpha_80x80.c</FilePath>
             </File>
             <File>
               <FileName>_minecraft_icon_alpha_80x80.c</FileName>
@@ -2731,11 +2741,6 @@
               <FileName>_wifi_alpha_16x16.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\images\_wifi_alpha_16x16.c</FilePath>
-            </File>
-            <File>
-              <FileName>_link_game_app_alpha_80x80.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gui\generated\images\_link_game_app_alpha_80x80.c</FilePath>
             </File>
           </Files>
         </Group>

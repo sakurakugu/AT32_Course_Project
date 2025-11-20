@@ -27,6 +27,11 @@ void home_app1_time_timer(lv_timer_t *timer);
 void home_app1_date_event_handler(lv_event_t *e);
 void home_app1_date_calendar_event_handler(lv_event_t *e);
 void home_app1_date_init_calendar(lv_obj_t *obj, char * s);
+void clock_app_analog_clock_1_timer(lv_timer_t *timer);
+extern lv_calendar_date_t clock_app_calendar_today;
+extern lv_calendar_date_t clock_app_calendar_highlihted_days[1];
+void clock_app_calendar_event_handler(lv_event_t * e);
+void clock_app_calendar_draw_part_begin_event_cb(lv_event_t * e);
 
 #ifdef __cplusplus
 }

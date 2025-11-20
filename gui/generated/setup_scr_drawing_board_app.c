@@ -164,6 +164,7 @@ void setup_scr_drawing_board_app(lv_ui *ui)
     lv_obj_add_event_cb(ctx->canvas, drawing_board_paint_draw_event_cb, LV_EVENT_DRAW_MAIN, ctx);
     lv_obj_set_style_border_width(ctx->canvas, 1, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_color(ctx->canvas, lv_color_hex(0x888888), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ctx->canvas, 0, LV_PART_MAIN | LV_STATE_DEFAULT); // 取消圆角
 
     // 颜色选择器
     lv_obj_add_event_cb(ui->drawing_board_app_colorwheel, drawing_board_color_event_cb, LV_EVENT_VALUE_CHANGED, ctx);

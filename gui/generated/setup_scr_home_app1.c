@@ -203,45 +203,46 @@ void setup_scr_home_app1(lv_ui *ui)
     lv_obj_set_style_img_recolor_opa(ui->home_app1_setting_app_icon, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
     lv_obj_set_style_img_opa(ui->home_app1_setting_app_icon, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
-    //Write codes home_app1_deepseek_app_icon
-    ui->home_app1_deepseek_app_icon = lv_imgbtn_create(ui->home_app1_home_page);
-    lv_obj_add_flag(ui->home_app1_deepseek_app_icon, LV_OBJ_FLAG_CHECKABLE);
-    ui->home_app1_deepseek_app_icon_label = lv_label_create(ui->home_app1_deepseek_app_icon);
-    lv_label_set_text(ui->home_app1_deepseek_app_icon_label, "");
-    lv_label_set_long_mode(ui->home_app1_deepseek_app_icon_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->home_app1_deepseek_app_icon_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->home_app1_deepseek_app_icon, 0, LV_STATE_DEFAULT);
-    lv_obj_set_pos(ui->home_app1_deepseek_app_icon, 200, 150);
-    lv_obj_set_size(ui->home_app1_deepseek_app_icon, 80, 80);
+    //Write codes home_app1_clock_app_icon
+    ui->home_app1_clock_app_icon = lv_imgbtn_create(ui->home_app1_home_page);
+    lv_obj_add_flag(ui->home_app1_clock_app_icon, LV_OBJ_FLAG_CHECKABLE);
+    lv_imgbtn_set_src(ui->home_app1_clock_app_icon, LV_IMGBTN_STATE_RELEASED, NULL, &_clock_alpha_80x80, NULL);
+    ui->home_app1_clock_app_icon_label = lv_label_create(ui->home_app1_clock_app_icon);
+    lv_label_set_text(ui->home_app1_clock_app_icon_label, "");
+    lv_label_set_long_mode(ui->home_app1_clock_app_icon_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->home_app1_clock_app_icon_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->home_app1_clock_app_icon, 0, LV_STATE_DEFAULT);
+    lv_obj_set_pos(ui->home_app1_clock_app_icon, 70, 150);
+    lv_obj_set_size(ui->home_app1_clock_app_icon, 80, 80);
 
-    //Write style for home_app1_deepseek_app_icon, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->home_app1_deepseek_app_icon, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->home_app1_deepseek_app_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->home_app1_deepseek_app_icon, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->home_app1_deepseek_app_icon, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->home_app1_deepseek_app_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->home_app1_deepseek_app_icon, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->home_app1_deepseek_app_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for home_app1_clock_app_icon, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->home_app1_clock_app_icon, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->home_app1_clock_app_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->home_app1_clock_app_icon, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->home_app1_clock_app_icon, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->home_app1_clock_app_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->home_app1_clock_app_icon, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->home_app1_clock_app_icon, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write style for home_app1_deepseek_app_icon, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app1_deepseek_app_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_img_opa(ui->home_app1_deepseek_app_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_color(ui->home_app1_deepseek_app_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_font(ui->home_app1_deepseek_app_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_text_opa(ui->home_app1_deepseek_app_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
-    lv_obj_set_style_shadow_width(ui->home_app1_deepseek_app_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    //Write style for home_app1_clock_app_icon, Part: LV_PART_MAIN, State: LV_STATE_PRESSED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app1_clock_app_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_img_opa(ui->home_app1_clock_app_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_color(ui->home_app1_clock_app_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_font(ui->home_app1_clock_app_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_text_opa(ui->home_app1_clock_app_icon, 255, LV_PART_MAIN|LV_STATE_PRESSED);
+    lv_obj_set_style_shadow_width(ui->home_app1_clock_app_icon, 0, LV_PART_MAIN|LV_STATE_PRESSED);
 
-    //Write style for home_app1_deepseek_app_icon, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app1_deepseek_app_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_img_opa(ui->home_app1_deepseek_app_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_color(ui->home_app1_deepseek_app_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_font(ui->home_app1_deepseek_app_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_text_opa(ui->home_app1_deepseek_app_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
-    lv_obj_set_style_shadow_width(ui->home_app1_deepseek_app_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    //Write style for home_app1_clock_app_icon, Part: LV_PART_MAIN, State: LV_STATE_CHECKED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app1_clock_app_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_img_opa(ui->home_app1_clock_app_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_color(ui->home_app1_clock_app_icon, lv_color_hex(0xFF33FF), LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_font(ui->home_app1_clock_app_icon, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_text_opa(ui->home_app1_clock_app_icon, 255, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_set_style_shadow_width(ui->home_app1_clock_app_icon, 0, LV_PART_MAIN|LV_STATE_CHECKED);
 
-    //Write style for home_app1_deepseek_app_icon, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
-    lv_obj_set_style_img_recolor_opa(ui->home_app1_deepseek_app_icon, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
-    lv_obj_set_style_img_opa(ui->home_app1_deepseek_app_icon, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    //Write style for home_app1_clock_app_icon, Part: LV_PART_MAIN, State: LV_IMGBTN_STATE_RELEASED.
+    lv_obj_set_style_img_recolor_opa(ui->home_app1_clock_app_icon, 0, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
+    lv_obj_set_style_img_opa(ui->home_app1_clock_app_icon, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
     //Write codes home_app1_calculator_app_icon
     ui->home_app1_calculator_app_icon = lv_imgbtn_create(ui->home_app1_home_page);
@@ -252,7 +253,7 @@ void setup_scr_home_app1(lv_ui *ui)
     lv_label_set_long_mode(ui->home_app1_calculator_app_icon_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->home_app1_calculator_app_icon_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->home_app1_calculator_app_icon, 0, LV_STATE_DEFAULT);
-    lv_obj_set_pos(ui->home_app1_calculator_app_icon, 70, 150);
+    lv_obj_set_pos(ui->home_app1_calculator_app_icon, 200, 150);
     lv_obj_set_size(ui->home_app1_calculator_app_icon, 80, 80);
 
     //Write style for home_app1_calculator_app_icon, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
