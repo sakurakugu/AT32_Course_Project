@@ -1,10 +1,7 @@
-/*
-*********************************************************************************************************
-*
-*  串口中断 + FIFO驱动模块 + 保留兼容的 C 接口
-*
-*********************************************************************************************************
-*/
+/**
+ *
+ *  @brief 串口中断 + FIFO驱动模块 + 保留兼容的 C 接口
+ */
 
 #include "uart.h"
 #include <stdio.h>
@@ -63,12 +60,12 @@ void Uart::sendChar(uint8_t byte) {
     sendBuf(&byte, 1);
 }
 
-/*
- *	函 数 名: UartGetChar
- *	功能说明: 从串口接收缓冲区读取1字节数据 （用于主程序调用）
- *	形    参: _pUart : 串口设备
- *			  _pByte : 存放读取数据的指针
- *	返 回 值: 0 表示无数据  1表示读取到数据
+/**
+ *	 @brief UartGetChar
+ *	 @details 从串口接收缓冲区读取1字节数据 （用于主程序调用）
+ *	 @param _pUart : 串口设备
+ *	 @param _pByte : 存放读取数据的指针
+ *	 @return 0 表示无数据  1表示读取到数据
  */
 uint8_t Uart::getChar(uint8_t *out_byte) {
     uint16_t count;
@@ -101,11 +98,11 @@ void Uart::clearRx() {
     rx_count_ = 0;
 }
 
-/*
- *   函 数 名: UartTxEmpty
- *   功能说明: 判断发送缓冲区是否为空。
- *   形    参:  _pUart : 串口设备
- *   返 回 值: 1为空。0为不空。
+/**
+ *	 @brief UartTxEmpty
+ *	 @details 判断发送缓冲区是否为空。
+ *	 @param _pUart : 串口设备
+ *	 @return 1为空。0为不空。
  */
 uint8_t Uart::txEmpty() const {
     return tx_count_ == 0 ? 1 : 0;
@@ -176,8 +173,11 @@ void Uart::onIRQ() {
 
 #endif /* __cplusplus */
 
-/*
- * COM 端口到 Uart 类实例的映射
+/**
+ *	 @brief PortToUart
+ *	 @details 将 COM 端口映射到对应的 Uart 类实例
+ *	 @param port : COM 端口枚举值
+ *	 @return 指向 Uart 类实例的指针
  */
 
 #if UART1_FIFO_EN == 1
@@ -214,14 +214,14 @@ static inline Uart *PortToUart(COM_PORT_E port) {
 void esp12_uart_init(uint32_t baudrate) {
     gpio_init_type gpio_init_struct;
 
-    /* enable the uart and gpio clock */
+    /* 开启 UART 和 GPIO 时钟 */
     crm_periph_clock_enable(ESP12_UART_CRM_CLK, TRUE);
     crm_periph_clock_enable(ESP12_UART_TX_GPIO_CRM_CLK, TRUE);
     crm_periph_clock_enable(ESP12_UART_RX_GPIO_CRM_CLK, TRUE);
 
     gpio_default_para_init(&gpio_init_struct);
 
-    /* configure the uart tx pin */
+    /* 配置 UART 发送引脚 */
     gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
     gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
     gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
@@ -238,7 +238,7 @@ void esp12_uart_init(uint32_t baudrate) {
 
     gpio_pin_mux_config(ESP12_UART_TX_GPIO, ESP12_UART_TX_PIN_SOURCE, ESP12_UART_TX_PIN_MUX_NUM);
     gpio_pin_mux_config(ESP12_UART_RX_GPIO, ESP12_UART_RX_PIN_SOURCE, ESP12_UART_RX_PIN_MUX_NUM);
-    /* config usart nvic interrupt */
+    /* 配置 UART 接收引脚 */
     nvic_priority_group_config(NVIC_PRIORITY_GROUP_4);
     nvic_irq_enable(USART3_IRQn, 1, 1);
 
@@ -247,8 +247,8 @@ void esp12_uart_init(uint32_t baudrate) {
 }
 
 /**
- * @brief  initialize uart
- * @param  baudrate: uart baudrate
+ * @brief  初始化 UART 打印功能
+ * @param  baudrate: UART 波特率
  * @retval none
  */
 void uart_print_init(uint32_t baudrate) {
@@ -258,13 +258,13 @@ void uart_print_init(uint32_t baudrate) {
     setvbuf(stdout, NULL, _IONBF, 0);
 #endif
 
-    /* enable the uart and gpio clock */
+    /* 开启 UART 和 GPIO 时钟 */
     crm_periph_clock_enable(PRINT_UART_CRM_CLK, TRUE);
     crm_periph_clock_enable(PRINT_UART_TX_GPIO_CRM_CLK, TRUE);
 
     gpio_default_para_init(&gpio_init_struct);
 
-    /* configure the uart tx pin */
+    /* 配置 UART 发送引脚 */
     gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
     gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
     gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
@@ -282,7 +282,7 @@ void uart_print_init(uint32_t baudrate) {
 
     gpio_pin_mux_config(PRINT_UART_TX_GPIO, PRINT_UART_TX_PIN_SOURCE, PRINT_UART_TX_PIN_MUX_NUM);
     gpio_pin_mux_config(PRINT_UART_RX_GPIO, PRINT_UART_RX_PIN_SOURCE, PRINT_UART_RX_PIN_MUX_NUM);
-    /* config usart nvic interrupt */
+    /* 配置 UART 接收引脚 */
     nvic_priority_group_config(NVIC_PRIORITY_GROUP_4);
     nvic_irq_enable(USART1_IRQn, 0, 0);
     ///
@@ -292,16 +292,13 @@ void uart_print_init(uint32_t baudrate) {
     g_Uart1.begin(baudrate);
 }
 
-/*
-*********************************************************************************************************
-*	函 数 名: comSendBuf
-*	功能说明: 向串口发送一组数据。数据放到发送缓冲区后立即返回，由中断服务程序在后台完成发送
-*	形    参: _ucPort: 端口号(COM1 - COM8)
-*			  _ucaBuf: 待发送的数据缓冲区
-*			  _usLen : 数据长度
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+/**
+ * @brief  向串口发送一组数据
+ * @param  _ucPort: 端口号(COM1 - COM8)
+ * @param  _ucaBuf: 待发送的数据缓冲区
+ * @param  _usLen : 数据长度
+ * @retval none
+ */
 void comSendBuf(COM_PORT_E _ucPort, uint8_t *_ucaBuf, uint16_t _usLen) {
     Uart *uart = PortToUart(_ucPort);
     if (!uart)
@@ -309,15 +306,12 @@ void comSendBuf(COM_PORT_E _ucPort, uint8_t *_ucaBuf, uint16_t _usLen) {
     uart->sendBuf(_ucaBuf, _usLen);
 }
 
-/*
-*********************************************************************************************************
-*	函 数 名: comSendChar
-*	功能说明: 向串口发送1个字节。数据放到发送缓冲区后立即返回，由中断服务程序在后台完成发送
-*	形    参: _ucPort: 端口号(COM1 - COM8)
-*			  _ucByte: 待发送的数据
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+/**
+ * @brief  向串口发送1个字节
+ * @param  _ucPort: 端口号(COM1 - COM8)
+ * @param  _ucByte: 待发送的数据
+ * @retval none
+ */
 void comSendChar(COM_PORT_E _ucPort, uint8_t _ucByte) {
     Uart *uart = PortToUart(_ucPort);
     if (!uart)
@@ -325,15 +319,12 @@ void comSendChar(COM_PORT_E _ucPort, uint8_t _ucByte) {
     uart->sendChar(_ucByte);
 }
 
-/*
-*********************************************************************************************************
-*	函 数 名: comGetChar
-*	功能说明: 从接收缓冲区读取1字节，非阻塞。无论有无数据均立即返回。
-*	形    参: _ucPort: 端口号(COM1 - COM8)
-*			  _pByte: 接收到的数据存放在这个地址
-*	返 回 值: 0 表示无数据, 1 表示读取到有效字节
-*********************************************************************************************************
-*/
+/**
+ * @brief  从接收缓冲区读取1字节，非阻塞。无论有无数据均立即返回。
+ * @param  _ucPort: 端口号(COM1 - COM8)
+ * @param  _pByte: 接收到的数据存放在这个地址
+ * @retval 0 表示无数据, 1 表示读取到有效字节
+ */
 uint8_t comGetChar(COM_PORT_E _ucPort, uint8_t *_pByte) {
     Uart *uart = PortToUart(_ucPort);
     if (!uart)
@@ -341,14 +332,11 @@ uint8_t comGetChar(COM_PORT_E _ucPort, uint8_t *_pByte) {
     return uart->getChar(_pByte);
 }
 
-/*
-*********************************************************************************************************
-*	函 数 名: comClearTxFifo
-*	功能说明: 清零串口发送缓冲区
-*	形    参: _ucPort: 端口号(COM1 - COM8)
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+/**
+ * @brief  清零串口发送缓冲区
+ * @param  _ucPort: 端口号(COM1 - COM8)
+ * @retval none
+ */
 void comClearTxFifo(COM_PORT_E _ucPort) {
     Uart *uart = PortToUart(_ucPort);
     if (!uart)
@@ -356,14 +344,11 @@ void comClearTxFifo(COM_PORT_E _ucPort) {
     uart->clearTx();
 }
 
-/*
-*********************************************************************************************************
-*	函 数 名: comClearRxFifo
-*	功能说明: 清零串口接收缓冲区
-*	形    参: _ucPort: 端口号(COM1 - COM8)
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+/**
+ * @brief  清零串口接收缓冲区
+ * @param  _ucPort: 端口号(COM1 - COM8)
+ * @retval none
+ */
 void comClearRxFifo(COM_PORT_E _ucPort) {
     Uart *uart = PortToUart(_ucPort);
     if (!uart)
@@ -373,20 +358,18 @@ void comClearRxFifo(COM_PORT_E _ucPort) {
 
 /* 如果是RS485通信，请按如下格式编写函数， 我们仅举了 USART3作为RS485的例子 */
 
-/*
-*********************************************************************************************************
-*   函 数 名: UartTxEmpty
-*   功能说明: 判断发送缓冲区是否为空。
-*   形    参:  _pUart : 串口设备
-*   返 回 值: 1为空。0为不空。
-*********************************************************************************************************
-*/
+/**
+ * @brief  判断发送缓冲区是否为空。
+ * @param  _ucPort: 端口号(COM1 - COM8)
+ * @retval 1为空。0为不空。
+ */
 uint8_t UartTxEmpty(COM_PORT_E _ucPort) {
     Uart *uart = PortToUart(_ucPort);
     if (!uart)
         return 0;
     return uart->txEmpty();
 }
+
 /**
  * @brief  供中断服务程序调用，通用串口中断处理函数
  * @param  none

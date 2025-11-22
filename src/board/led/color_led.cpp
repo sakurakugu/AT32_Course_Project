@@ -39,7 +39,7 @@ void ColorLed::Init() {
     if (presc == 0) presc = 1;
     prescalervalue = (uint16_t)(presc - 1U);
 
-    /* tmr3 time base configuration */
+    /* TMR3 时间基础配置 */
     tmr_base_init(TMR3, 665, prescalervalue);
     tmr_cnt_dir_set(TMR3, TMR_COUNT_UP);
     tmr_clock_source_div_set(TMR3, TMR_CLOCK_DIV1);
@@ -63,7 +63,7 @@ void ColorLed::Init() {
 
     tmr_period_buffer_enable(TMR3, TRUE);
 
-    /* tmr enable counter */
+    /* TMR3 使能计数器 */
     tmr_counter_enable(TMR3, TRUE);
 }
 

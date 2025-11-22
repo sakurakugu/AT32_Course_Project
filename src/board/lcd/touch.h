@@ -1,67 +1,47 @@
 /**
  **************************************************************************
- * @file     at_surf_f437_board_touch.h
+ * @file     touch.h
  * @version  v2.0.0
  * @date     2020-11-02
- * @brief    touch application libray header file.
- **************************************************************************
- *                       Copyright notice & Disclaimer
- *
- * The software Board Support Package (BSP) that is made available to
- * download from Artery official website is the copyrighted work of Artery.
- * Artery authorizes customers to use, copy, and distribute the BSP
- * software and its related documentation for the purpose of design and
- * development in conjunction with Artery microcontrollers. Use of the
- * software is governed by this copyright notice and the following disclaimer.
- *
- * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
- * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
- * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
- * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
- * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
- *
- **************************************************************************
+ * @brief    触摸屏应用库头文件
  */
 
-/* define to prevent recursive inclusion -------------------------------------*/
 #pragma once
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/* includes ------------------------------------------------------------------*/
 #include "i2c_application.h"
 #include <stdbool.h>
 
 /**
- * @brief touch register definition
+ * @brief 触摸屏寄存器定义
  */
-#define TOUCH_CTRL_REG 0x8040  /* control register */
-#define TOUCH_CFG_REG 0x8047   /* config version */
-#define TOUCH_CHECK_REG 0x80FF /* config check sum */
-#define TOUCH_PID_REG 0x8140   /* product ID */
-#define TOUCH_STS_REG 0x814E   /* touch status register */
-#define TOUCH_TP1_REG 0x8150   /* point 1 coordinate */
-#define TOUCH_TP2_REG 0x8158   /* point 2 coordinate */
-#define TOUCH_TP3_REG 0x8160   /* point 3 coordinate */
-#define TOUCH_TP4_REG 0x8168   /* point 4 coordinate */
-#define TOUCH_TP5_REG 0x8170   /* point 5 coordinate */
+#define TOUCH_CTRL_REG 0x8040  /* 控制寄存器 */
+#define TOUCH_CFG_REG 0x8047   /* 配置版本寄存器 */
+#define TOUCH_CHECK_REG 0x80FF /* 配置校验和寄存器 */
+#define TOUCH_PID_REG 0x8140   /* 产品ID寄存器 */
+#define TOUCH_STS_REG 0x814E   /* 触摸状态寄存器 */
+#define TOUCH_TP1_REG 0x8150   /* 点1坐标寄存器 */
+#define TOUCH_TP2_REG 0x8158   /* 点2坐标寄存器 */
+#define TOUCH_TP3_REG 0x8160   /* 点3坐标寄存器 */
+#define TOUCH_TP4_REG 0x8168   /* 点4坐标寄存器 */
+#define TOUCH_TP5_REG 0x8170   /* 点5坐标寄存器 */
 
 /**
- * @brief touch scan direction
+ * @brief 触摸屏扫描方向定义
  */
 typedef enum {
-    TOUCH_SCAN_VERTICAL = 0x00,      /*!< vertical display */
-    TOUCH_SCAN_HORIZONTAL = 0x01,    /*!< horizontal display */
-    TOUCH_SCAN_VERTICAL_180 = 0x02,  /*!< vertical display 180 deg */
-    TOUCH_SCAN_HORIZONTAL_180 = 0x03 /*!< horizontal display 180 deg */
+    TOUCH_SCAN_VERTICAL = 0x00,      /*!< 垂直扫描方向 */
+    TOUCH_SCAN_HORIZONTAL = 0x01,    /*!< 水平扫描方向 */
+    TOUCH_SCAN_VERTICAL_180 = 0x02,  /*!< 垂直扫描方向180度 */
+    TOUCH_SCAN_HORIZONTAL_180 = 0x03 /*!< 水平扫描方向180度 */
 } touch_scan_type;
 
 
 /**
- * @brief io definition
+ * @brief 触摸屏IO定义
  */
 #define TOUCH_I2C_TIMEOUT 0xFFFFFFF
 
@@ -101,7 +81,7 @@ typedef enum {
 #define TOUCH_INT_READ() gpio_input_data_bit_read(TOUCH_INT_GPIO_PORT, TOUCH_INT_GPIO_PIN)
 
 /**
- * @brief touch exported functions
+ * @brief 触摸屏导出函数
  */
 bool Touch_ReadXY(uint16_t *x, uint16_t *y);
 

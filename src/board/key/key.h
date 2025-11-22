@@ -1,9 +1,7 @@
-/*
-*
-*	模块名称 : 按键驱动模块
-*	文件名称 : bsp_key.h
-*
-*/
+/**
+ * @brief 按键驱动模块
+ * @file bsp_key.h
+ */
 
 #pragma once
 #include <stdint.h>
@@ -20,17 +18,17 @@ typedef enum {
     KID_K8
 } KEY_ID_E;
 
-/*
-    按键滤波时间50ms, 单位10ms。
-    只有连续检测到50ms状态不变才认为有效，包括弹起和按下两种事件
-    即使按键电路不做硬件滤波，该滤波机制也可以保证可靠地检测到按键事件
-*/
+/**
+ * @brief 按键滤波时间50ms, 单位10ms。
+ *        只有连续检测到50ms状态不变才认为有效，包括弹起和按下两种事件
+ *        即使按键电路不做硬件滤波，该滤波机制也可以保证可靠地检测到按键事件
+ */
 #define KEY_FILTER_TIME 5
 #define KEY_LONG_TIME 100 /* 单位10ms， 持续1秒，认为长按事件 */
 
-/*
-    每个按键对应1个全局的结构体变量。
-*/
+/**
+ * @brief 每个按键对应1个全局的结构体变量。
+ */
 typedef struct {
     /* 下面是一个函数指针，指向判断按键手否按下的函数 */
     uint8_t (*IsKeyDownFunc)(void); /* 按键按下的判断函数,1表示按下 */
@@ -43,13 +41,12 @@ typedef struct {
     uint8_t RepeatCount; /* 连续按键计数器 */
 } KEY_T;
 
-/*
-    定义键值代码, 必须按如下次序定时每个键的按下、弹起和长按事件
-
-    推荐使用enum, 不用#define，原因：
-    (1) 便于新增键值,方便调整顺序，使代码看起来舒服点
-    (2) 编译器可帮我们避免键值重复。
-*/
+/**
+ * @brief 定义键值代码, 必须按如下次序定时每个键的按下、弹起和长按事件
+ *        推荐使用enum, 不用#define，原因：
+ *        (1) 便于新增键值,方便调整顺序，使代码看起来舒服点
+ *        (2) 编译器可帮我们避免键值重复。
+ */
 typedef enum {
     KEY_NONE = 0, /* 0 表示按键事件 */
 
@@ -95,8 +92,8 @@ typedef struct {
     uint8_t Read2;              /* 缓冲区读指针2 */
 } KEY_FIFO_T;
 
-#define HARD_KEY_NUM 8 /* 实体按键个数 */
-#define KEY_COUNT 8    /* 8个独立键 */
+constexpr uint8_t HARD_KEY_NUM = 8; /* 实体按键个数 */
+constexpr uint8_t KEY_COUNT = 8;    /* 8个独立键 */
 
 class Key {
   public:

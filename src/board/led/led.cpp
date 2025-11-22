@@ -2,26 +2,26 @@
 #include "at32f435_437_crm.h"
 #include "at32f435_437_gpio.h"
 
-/* at-start led resouce array */
+/* 开始时的LED资源数组 */
 gpio_type *led_gpio_port[LED_NUM] = {LED_Green_GPIO, LED_Yellow_GPIO};
 uint16_t led_gpio_pin[LED_NUM] = {LED_Green_PIN, LED_Yellow_PIN};
 crm_periph_clock_type led_gpio_crm_clk[LED_NUM] = {LED_Green_GPIO_CRM_CLK, LED_Yellow_GPIO_CRM_CLK};
 
 /**
- * @brief  configure led gpio
- * @param  led: specifies the led to be configured.
+ * @brief  配置LED GPIO
+ * @param  led: 指定要配置的LED
  * @retval none
  */
 void LED::Init(led_type led) {
     gpio_init_type gpio_init_struct;
 
-    /* enable the led clock */
+    /* 使能LED时钟 */
     crm_periph_clock_enable(led_gpio_crm_clk[led], TRUE);
 
-    /* set default parameter */
+    /* 设置默认参数 */
     gpio_default_para_init(&gpio_init_struct);
 
-    /* configure the led gpio */
+    /* 配置LED GPIO */
     gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
     gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
     gpio_init_struct.gpio_mode = GPIO_MODE_OUTPUT;
@@ -31,12 +31,8 @@ void LED::Init(led_type led) {
 }
 
 /**
- * @brief  turns selected led on.
- * @param  led: specifies the led to be set on.
- *   this parameter can be one of following parameters:
- *     @arg LED_Green
- *     @arg LED_Yellow
- *     @arg LED4
+ * @brief  打开指定LED
+ * @param  led: 指定要打开的LED
  * @retval none
  */
 void LED::TurnOn(led_type led) {
@@ -47,12 +43,8 @@ void LED::TurnOn(led_type led) {
 }
 
 /**
- * @brief  turns selected led off.
- * @param  led: specifies the led to be set off.
- *   this parameter can be one of following parameters:
- *     @arg LED_Green
- *     @arg LED_Yellow
- *     @arg LED4
+ * @brief  关闭指定LED
+ * @param  led: 指定要关闭的LED
  * @retval none
  */
 void LED::TurnOff(led_type led) {
@@ -63,12 +55,8 @@ void LED::TurnOff(led_type led) {
 }
 
 /**
- * @brief  turns selected led toggle.
- * @param  led: specifies the led to be set off.
- *   this parameter can be one of following parameters:
- *     @arg LED_Green
- *     @arg LED_Yellow
- *     @arg LED4
+ * @brief  切换指定LED状态
+ * @param  led: 指定要切换状态的LED
  * @retval none
  */
 void LED::Toggle(led_type led) {

@@ -17,36 +17,36 @@ void OLED::Init() {
     delay_ms(10);
     RSTSet();
 
-    WriteByte(0xAE, OLED_CMD); //--turn off oled panel
-    WriteByte(0x00, OLED_CMD); //---set low column address
-    WriteByte(0x10, OLED_CMD); //---set high column address
-    WriteByte(0x40, OLED_CMD); //--set start line address
-    WriteByte(0x81, OLED_CMD); //--set contrast control register
-    WriteByte(0xCF, OLED_CMD); // brightness
-    WriteByte(0xA1, OLED_CMD); //--SEG/Column Mapping
-    WriteByte(0xC8, OLED_CMD); //--COM/Row Scan Direction
-    WriteByte(0xA6, OLED_CMD); //--normal display
-    WriteByte(0xA8, OLED_CMD); //--multiplex ratio(1 to 64) 
-    WriteByte(0x3f, OLED_CMD); //--1/64 duty
-    WriteByte(0xD3, OLED_CMD); //--display offset
-    WriteByte(0x00, OLED_CMD); //--not offset
-    WriteByte(0xd5, OLED_CMD); //--display clock divide ratio
-    WriteByte(0x80, OLED_CMD); //--Set Clock as 100 Frames/Sec
-    WriteByte(0xD9, OLED_CMD); //--pre-charge period
-    WriteByte(0xF1, OLED_CMD); //--Pre-Charge as 15 Clocks & Discharge as 1 Clock
-    WriteByte(0xDA, OLED_CMD); //--com pins hardware configuration
-    WriteByte(0x12, OLED_CMD);
-    WriteByte(0xDB, OLED_CMD); //--vcomh
-    WriteByte(0x40, OLED_CMD); //--VCOM Deselect Level
-    WriteByte(0x20, OLED_CMD); //--Page Addressing Mode
+    WriteByte(0xAE, OLED_CMD); //--关闭OLED面板
+    WriteByte(0x00, OLED_CMD); //---设置低列地址
+    WriteByte(0x10, OLED_CMD); //---设置高列地址
+    WriteByte(0x40, OLED_CMD); //--设置起始行地址
+    WriteByte(0x81, OLED_CMD); //--设置对比度控制寄存器
+    WriteByte(0xCF, OLED_CMD); // 亮度
+    WriteByte(0xA1, OLED_CMD); //--SEG/列映射
+    WriteByte(0xC8, OLED_CMD); //--COM/行扫描方向
+    WriteByte(0xA6, OLED_CMD); //--正常显示
+    WriteByte(0xA8, OLED_CMD); //--设置复用率(1到64)
+    WriteByte(0x3f, OLED_CMD); //--设置复用率为64
+    WriteByte(0xD3, OLED_CMD); //--设置显示偏移
+    WriteByte(0x00, OLED_CMD); //--不偏移
+    WriteByte(0xd5, OLED_CMD); //--设置显示时钟分频比/振荡器频率
+    WriteByte(0x80, OLED_CMD); //--设置时钟为100帧/秒
+    WriteByte(0xD9, OLED_CMD); //--预充电周期
+    WriteByte(0xF1, OLED_CMD); //--预充电周期为15个时钟周期，放电周期为1个时钟周期
+    WriteByte(0xDA, OLED_CMD); //--COM引脚硬件配置
+    WriteByte(0x12, OLED_CMD); //--设置COM引脚硬件配置为 Alternative COM 配置
+    WriteByte(0xDB, OLED_CMD); //--设置VCOMH电压倍率
+    WriteByte(0x40, OLED_CMD); //--设置VCOM Deselect Level为0.77xVCC
+    WriteByte(0x20, OLED_CMD); //--设置页地址模式
     WriteByte(0x02, OLED_CMD);
-    WriteByte(0x8D, OLED_CMD); //--Charge Pump enable
+    WriteByte(0x8D, OLED_CMD); //--设置充电泵使能
     WriteByte(0x14, OLED_CMD);
-    WriteByte(0xA4, OLED_CMD); //--Disable Entire Display On
-    WriteByte(0xA6, OLED_CMD); //--Disable Inverse Display On
-    WriteByte(0xAF, OLED_CMD); //--turn on oled panel
+    WriteByte(0xA4, OLED_CMD); //--设置整个显示关闭
+    WriteByte(0xA6, OLED_CMD); //--设置正常显示
+    WriteByte(0xAF, OLED_CMD); //--打开OLED面板
 
-    WriteByte(0xAF, OLED_CMD); /*display ON*/
+    WriteByte(0xAF, OLED_CMD); /*显示打开*/
     Clear();
     SetPos(0, 0);
 }
@@ -276,7 +276,7 @@ void OLED::GPIOConfig() {
     gpio_init(GPIOB, &gpio_initstructure);
     gpio_pin_mux_config(GPIOB, GPIO_PINS_SOURCE5, GPIO_MUX_6);
 
-    // default parameter
+    // 默认参数
     gpio_default_para_init(&gpio_initstructure);
 
     // CS, DC pins on GPIOD

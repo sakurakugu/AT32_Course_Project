@@ -1,27 +1,8 @@
 /**
- **************************************************************************
- * @file     at_surf_f437_board_touch.c
+ * @file     touch.cpp
  * @version  v2.0.0
  * @date     2020-11-02
- * @brief    touch application libray header file.
- **************************************************************************
- *                       Copyright notice & Disclaimer
- *
- * The software Board Support Package (BSP) that is made available to
- * download from Artery official website is the copyrighted work of Artery.
- * Artery authorizes customers to use, copy, and distribute the BSP
- * software and its related documentation for the purpose of design and
- * development in conjunction with Artery microcontrollers. Use of the
- * software is governed by this copyright notice and the following disclaimer.
- *
- * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
- * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
- * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
- * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
- * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
- *
- **************************************************************************
+ * @brief    触摸屏应用库源文件.
  */
 
 #include "touch.hpp"
@@ -572,7 +553,7 @@ bool Touch::Init(touch_scan_type direction) {
  * @retval bool
  */
 bool Touch::Adjust() {
-    /* touch adjust code */
+    /* 校准触摸模块 */
     return true;
 }
 
@@ -582,13 +563,13 @@ bool Touch::Read(uint16_t &x, uint16_t &y) {
     uint8_t mode, num = 0;
     bool pressed = false;
 
-    /* read touch point status */
+    /* 读取触摸点状态 */
     touch_reg_read(TOUCH_STS_REG, &mode, 1);
 
     num = (mode & 0xF);
 
     if ((mode & 0x80) && (num < 6)) {
-        /* clear touch flag */
+        /* 清除触摸标志位 */
         touch_reg_write(TOUCH_STS_REG, &temp, 1);
 
         // uint8_t i = 0;
@@ -619,7 +600,7 @@ bool Touch::Read(uint16_t &x, uint16_t &y) {
         //         y[i] = raw_y;
         //         break;
         //     }
-        /* read first touch point coordinates */
+        /* 读取第一个触摸点坐标 */
         touch_reg_read(Touch_TPX_TBL[0], buf, 4);
         uint16_t raw_x = (((uint16_t)buf[1] << 8) | buf[0]);
         uint16_t raw_y = (((uint16_t)buf[3] << 8) | buf[2]);

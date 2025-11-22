@@ -1,6 +1,4 @@
-/** @addtogroup AT32F403A_periph_examples
- * @{
- */
+
 
 #include "mpu6050.h"
 #include "delay.h"
@@ -37,8 +35,8 @@ extern i2c_handle_type hi2cx; // I2C 句柄
 void i2c_lowlevel_init(i2c_handle_type *hi2c); // I2C 低电平初始化函数
 
 /**
- * @brief  error handler program
- * @param  i2c_status
+ * @brief  I2C 错误处理函数
+ * @param  error_code: I2C 错误码
  * @retval none
  */
 static void error_handler(uint32_t error_code) { // I2C 错误处理函数
@@ -47,48 +45,48 @@ static void error_handler(uint32_t error_code) { // I2C 错误处理函数
 
 #if 0
 /**
-  * @brief  initializes peripherals used by the i2c.
-  * @param  none
-  * @retval none
-  */
+ * @brief  I2C 低电平初始化函数
+ * @param  none
+ * @retval none
+ */
 void i2c_lowlevel_init(i2c_handle_type* hi2c) //I2C 低电平初始化函数
 {
   gpio_init_type gpio_initstructure;
 
   if(hi2c->i2cx == I2Cx_PORT)
   {
-    /* i2c periph clock enable */
+    /* i2c 时钟使能 */
     crm_periph_clock_enable(I2Cx_CLK, TRUE);
     crm_periph_clock_enable(I2Cx_SCL_GPIO_CLK, TRUE);
     crm_periph_clock_enable(I2Cx_SDA_GPIO_CLK, TRUE);
 
-    /* gpio configuration */
+    /* gpio 配置 */
     gpio_initstructure.gpio_out_type       = GPIO_OUTPUT_OPEN_DRAIN;
     gpio_initstructure.gpio_pull           = GPIO_PULL_UP;
     gpio_initstructure.gpio_mode           = GPIO_MODE_MUX;
     gpio_initstructure.gpio_drive_strength = GPIO_DRIVE_STRENGTH_MODERATE;
 
-    /* configure i2c pins: scl */
+    /* 配置 i2c pins: scl */
     gpio_initstructure.gpio_pins = I2Cx_SCL_PIN;
     gpio_init(I2Cx_SCL_GPIO_PORT, &gpio_initstructure);
 
-    /* configure i2c pins: sda */
+    /* 配置 i2c pins: sda */
     gpio_initstructure.gpio_pins = I2Cx_SDA_PIN;
     gpio_init(I2Cx_SDA_GPIO_PORT, &gpio_initstructure);
 #if USING_IIC_INT_DMA
-    /* configure and enable i2c dma channel interrupt */
+    /* 配置并使能 i2c dma 通道中断 */
     nvic_irq_enable(I2Cx_DMA_TX_IRQn, 0, 0);
     nvic_irq_enable(I2Cx_DMA_RX_IRQn, 0, 0);
 
-    /* configure and enable i2c interrupt */
+    /* 配置并使能 i2c 中断 */
     nvic_irq_enable(I2Cx_EVT_IRQn, 0, 0);
     nvic_irq_enable(I2Cx_ERR_IRQn, 0, 0);
 
-    /* i2c dma tx and rx channels configuration */
-    /* enable the dma clock */
+    /* i2c dma tx 和 rx 通道配置 */
+    /* 使能 i2c dma 时钟 */
     crm_periph_clock_enable(I2Cx_DMA_CLK, TRUE);
 
-    /* i2c dma channel configuration */
+    /* i2c dma 通道配置 */
     dma_reset(hi2c->dma_tx_channel);
     dma_reset(hi2c->dma_rx_channel);
 
@@ -109,7 +107,7 @@ void i2c_lowlevel_init(i2c_handle_type* hi2c) //I2C 低电平初始化函数
 #endif
     i2c_init(hi2c->i2cx, I2C_FSMODE_DUTY_2_1, I2Cx_SPEED);
 
-    i2c_own_address1_set(hi2c->i2cx, I2C_ADDRESS_MODE_7BIT, 0xb0); //0x0b0 is the own address,useless
+    i2c_own_address1_set(hi2c->i2cx, I2C_ADDRESS_MODE_7BIT, 0xb0); //0x0b0 是 MPU6050 的默认地址,useless
   }
 }
 #endif
@@ -163,9 +161,7 @@ uint8_t MPU6050_ReadLen(uint8_t regAddr, uint8_t len, uint8_t *buf) {
     }
     return 0;
 }
-/**********************************************
-MPU_Set_LPF
-*/
+
 
 uint8_t MPU6050_SetLPF(u16 lpf) // 设置低通滤波器 ，lpf为低通滤波器截止频率，单位为Hz
 {
@@ -231,8 +227,8 @@ uint8_t MPU6050_SetRate(u16 rate) // 设置采样率 ，rate为采样率，单�
     if (rate < 4)
         rate = 4;
     data = 1000 / rate - 1;
-    data = MPU6050_WrReg(MPU_SAMPLE_RATE_REG, data); //?????????
-    return MPU6050_SetLPF(rate / 2);                 //????LPF???????
+    data = MPU6050_WrReg(MPU_SAMPLE_RATE_REG, data); // 设置采样率
+    return MPU6050_SetLPF(rate / 2);                 // 设置低通滤波器
 }
 
 /*
@@ -240,12 +236,12 @@ uint8_t MPU6050_SetRate(u16 rate) // 设置采样率 ，rate为采样率，单�
 */
 uint8_t MPU6050_SetGyroFsr(uint8_t fsr) // 设置陀螺仪满量程范围 ，fsr为满量程范围，单位为dps
 {
-    return MPU6050_WrReg(MPU6050_GYRO_CONFIG, fsr << 3); //??????????
+    return MPU6050_WrReg(MPU6050_GYRO_CONFIG, fsr << 3); // 设置陀螺仪满量程范围
 }
 
 uint8_t MPU6050_SetAccFsr(uint8_t fsr) // 设置加速度器满量程范围 ，fsr为满量程范围，单位为g
 {
-    return MPU6050_WrReg(MPU6050_ACCEL_CONFIG, fsr << 3); //?????????????
+    return MPU6050_WrReg(MPU6050_ACCEL_CONFIG, fsr << 3); // 设置加速度器满量程范围
 }
 
 uint8_t MPU6050_Init(void) // 初始化 MPU6050
@@ -259,20 +255,20 @@ uint8_t MPU6050_Init(void) // 初始化 MPU6050
     MPU6050_SetAccFsr(0);  // Acc：+-2g
     MPU6050_SetRate(50);   // data-rate:50Hz
 
-    MPU6050_WrReg(MPU6050_INT_EN_REG, 0X00);    // disable the interrupt
-    MPU6050_WrReg(MPU6050_USER_CTRL_REG, 0X00); // diable I2C master mode
-    MPU6050_WrReg(MPU6050_FIFO_EN_REG, 0X00);   // disable FIFO
-    MPU6050_WrReg(MPU6050_INTBP_CFG_REG, 0X80); // INT Low-- not used
+    MPU6050_WrReg(MPU6050_INT_EN_REG, 0X00);    // 关闭中断
+    MPU6050_WrReg(MPU6050_USER_CTRL_REG, 0X00); // 禁用I2C主模式
+    MPU6050_WrReg(MPU6050_FIFO_EN_REG, 0X00);   // 禁用FIFO
+    MPU6050_WrReg(MPU6050_INTBP_CFG_REG, 0X80); // INT Low-- 未使用
 
     res = MPU6050_ReadByte(MPU6050_DEVICE_ID_REG);
-    if (res == (MPU6050_ADDRESS >> 1)) // device ID is correct
+    if (res == (MPU6050_ADDRESS >> 1)) // 设备ID正确
     {
-        MPU6050_WrReg(MPU6050_PWR_MGMT_1, 0X01); // CLKSEL,PLL X is the ref
-        MPU6050_WrReg(MPU6050_PWR_MGMT_2, 0X00); // enable Gyro and acc
-        MPU6050_SetRate(50);                     // set rate is 50Hz
+        MPU6050_WrReg(MPU6050_PWR_MGMT_1, 0X01); // CLKSEL,PLL X 是外部8MHz晶振
+        MPU6050_WrReg(MPU6050_PWR_MGMT_2, 0X00); // 使能 Gyro 和 acc
+        MPU6050_SetRate(50);                     // 设置采样率为50Hz
     } else
-        return 1; // init failed
-    return 0;     // init success
+        return 1; // 初始化失败
+    return 0;     // 初始化成功
     /*
         MPU6050_WrReg(MPU6050_PWR_MGMT_1, 0x01);//
         MPU6050_WrReg(MPU6050_PWR_MGMT_2, 0x00);//

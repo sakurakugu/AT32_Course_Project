@@ -1,6 +1,6 @@
 /**
- * @file     lcd.h
- * @brief     LCD类 的 C接口, 为LVGL和C模块提供.
+ * @file  lcd.h
+ * @brief LCD类 的 C接口, 为LVGL和C模块提供.
  */
 
 #pragma once

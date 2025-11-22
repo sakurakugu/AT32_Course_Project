@@ -18,7 +18,7 @@ extern "C" {
 #include "at32f435_437_clock.h"
 
 /**
- * @brief  retargets the c library printf function to the usart.
+ * @brief  初始化板级资源。
  * @param  none
  * @retval none
  */
@@ -80,13 +80,13 @@ void Board::Init(void) {
 
 extern "C" {
 
-/* support printf function, usemicrolib is unnecessary */
+/* 支持 printf 函数, 无需使用半主机模式 */
 #if (__ARMCC_VERSION > 6000000)
 __asm(".global __use_no_semihosting\n\t");
 void _sys_exit(int x) {
     (void)x;
 }
-/* __use_no_semihosting was requested, but _ttywrch was */
+/* __use_no_semihosting 模式下, 无需实现 _ttywrch 函数 */
 void _ttywrch(int ch) {
     (void)ch;
 }
@@ -101,7 +101,7 @@ FILE __stdout;
 void _sys_exit(int x) {
     (void)x;
 }
-/* __use_no_semihosting was requested, but _ttywrch was */
+/* __use_no_semihosting 模式下, 无需实现 _ttywrch 函数 */
 void _ttywrch(int ch) {
     (void)ch;
 }
@@ -115,9 +115,9 @@ void _ttywrch(int ch) {
 #endif
 
 /**
- * @brief  retargets the c library printf function to the usart.
- * @param  none
- * @retval none
+ * @brief  打印字符到串口。
+ * @param  ch 要打印的字符
+ * @retval ch 打印的字符
  */
 PUTCHAR_PROTOTYPE {
     while (usart_flag_get(PRINT_UART, USART_TDBE_FLAG) == RESET)
@@ -136,28 +136,22 @@ int _write(int fd, char *pbuffer, int size) {
 }
 #endif
 
-/*
-*********************************************************************************************************
-*	函 数 名: bsp_RunPer10ms
-*	功能说明: 该函数每隔10ms被Systick中断调用1次。详见 bsp_timer.c的定时中断服务程序。一些处理时间要求不严格的
-*			任务可以放在此函数。比如：按键扫描、蜂鸣器鸣叫控制等。
-*	形    参: 无
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+/**
+ * @brief  每10ms被Systick中断调用1次。详见 bsp_timer.c的定时中断服务程序。一些处理时间要求不严格的
+ *			任务可以放在此函数。比如：按键扫描、蜂鸣器鸣叫控制等。
+ * @param  none
+ * @retval none
+ */
 void bsp_RunPer10ms(void) {
     Key::GetInstance().Scan10ms();
     g_beep.Process();
 }
 
-/*
-*********************************************************************************************************
-*	函 数 名: bsp_RunPer1ms
-*	功能说明: 该函数每隔1ms被Systick中断调用1次。详见 bsp_timer.c的定时中断服务程序。一些需要周期性处理的事务
-*			 可以放在此函数。比如：触摸坐标扫描。
-*	形    参: 无
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+/**
+ * @brief  每1ms被Systick中断调用1次。详见 bsp_timer.c的定时中断服务程序。一些需要周期性处理的事务
+ *			 可以放在此函数。比如：触摸坐标扫描。
+ * @param  none
+ * @retval none
+ */
 void bsp_RunPer1ms(void) {}
 }

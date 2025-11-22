@@ -35,12 +35,17 @@ void I2C_Init(void);
 void EEP_Write(uint16_t mem_address, uint8_t *pdata, uint16_t size);
 void EEP_Read(uint16_t mem_address, uint8_t *pdata, uint16_t size);
 
-/* expose common i2c buffers for application use */
+/**
+ * @brief 提供公共的I2C缓冲区，用于应用程序使用
+ */
 extern uint8_t eep_write[16];
 extern uint8_t eep_read_buf[32];
 extern uint8_t lm75_buf[2];
 extern i2c_handle_type hi2cx;
-/* I2C bus guard APIs */
+/**
+ * @brief I2C总线守卫API
+ *        用于在多任务环境下保护I2C总线不被同时访问
+ */
 void I2C_BusLock(void);
 void I2C_BusUnlock(void);
 

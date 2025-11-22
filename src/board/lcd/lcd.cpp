@@ -1,28 +1,9 @@
 /**
- **************************************************************************
- * @file     at_surf_f437_board_lcd.c
+ * @file     lcd.cpp
  * @version  v2.0.0
  * @date     2020-11-02
- * @brief    set of firmware functions to manage leds and push-button.
- *           initialize delay function.
- **************************************************************************
- *                       Copyright notice & Disclaimer
- *
- * The software Board Support Package (BSP) that is made available to
- * download from Artery official website is the copyrighted work of Artery.
- * Artery authorizes customers to use, copy, and distribute the BSP
- * software and its related documentation for the purpose of design and
- * development in conjunction with Artery microcontrollers. Use of the
- * software is governed by this copyright notice and the following disclaimer.
- *
- * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
- * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
- * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
- * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
- * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
- *
- **************************************************************************
+ * @brief    一组用于管理LED和按键的固件函数
+ *           初始化延迟函数
  */
 
 #include "lcd.hpp"
@@ -33,9 +14,8 @@ lcd_device_type lcddev;
 uint16_t POINT_COLOR = 0x0000, BACK_COLOR = 0xFFFF;
 
 /**
- * @brief  configures the xmc and gpios to interface with the lcd.
- *         this function must be called before any write/read operation
- *         on the lcd.
+ * @brief  初始化XMC和GPIO以与LCD接口
+ *         必须在任何对LCD的写/读操作之前调用此函数
  * @param  none
  * @retval none
  */
@@ -44,7 +24,7 @@ void LCD::XMCInit() {
     xmc_norsram_init_type xmc_norsram_init_struct;
     xmc_norsram_timing_init_type rw_timing_struct, w_timing_struct;
 
-    /* enable the gpio clock */
+    /* 开启LCD相关GPIO的时钟 */
     crm_periph_clock_enable(LCD_D0_GPIO_CLK, TRUE);
     crm_periph_clock_enable(LCD_D1_GPIO_CLK, TRUE);
     crm_periph_clock_enable(LCD_D2_GPIO_CLK, TRUE);
@@ -68,10 +48,10 @@ void LCD::XMCInit() {
     crm_periph_clock_enable(LCD_BL_GPIO_CLK, TRUE);
     crm_periph_clock_enable(LCD_RESET_GPIO_CLK, TRUE);
 
-    /* enable the xmc clock */
+    /* 开启XMC时钟 */
     crm_periph_clock_enable(CRM_XMC_PERIPH_CLOCK, TRUE);
 
-    /*-- gpio configuration ------------------------------------------------------*/
+    /*-- gpio 配置 ------------------------------------------------------*/
     gpio_pin_mux_config(LCD_D0_GPIO_PORT, LCD_D0_GPIO_PINS_SOURCE, LCD_D0_GPIO_MUX);
     gpio_pin_mux_config(LCD_D1_GPIO_PORT, LCD_D1_GPIO_PINS_SOURCE, LCD_D1_GPIO_MUX);
     gpio_pin_mux_config(LCD_D2_GPIO_PORT, LCD_D2_GPIO_PINS_SOURCE, LCD_D2_GPIO_MUX);
@@ -93,7 +73,7 @@ void LCD::XMCInit() {
     gpio_pin_mux_config(LCD_NOE_GPIO_PORT, LCD_NOE_GPIO_PINS_SOURCE, LCD_NOE_GPIO_MUX);
     gpio_pin_mux_config(LCD_A16_GPIO_PORT, LCD_A16_GPIO_PINS_SOURCE, LCD_A16_GPIO_MUX);
 
-    /* lcd data lines configuration */
+    /* lcd 数据线配置 */
     gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
     gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
     gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
@@ -158,7 +138,7 @@ void LCD::XMCInit() {
 
     gpio_init_struct.gpio_pins = LCD_A16_GPIO_PIN;
     gpio_init(LCD_A16_GPIO_PORT, &gpio_init_struct);
-    // /* lcd BL  configuration */
+    // /* lcd BL  背光引脚配置 */
     // gpio_init_struct.gpio_pins = LCD_BL_GPIO_PIN;
     // gpio_init_struct.gpio_mode = GPIO_MODE_OUTPUT;
     // gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
@@ -167,7 +147,7 @@ void LCD::XMCInit() {
     // gpio_init(LCD_BL_GPIO_PORT, &gpio_init_struct);
     // 背光由独立的 PWM 驱动模块初始化
 
-    /* lcd rst  configuration */
+    /* lcd rst  复位引脚配置 */
     gpio_init_struct.gpio_pins = LCD_RESET_GPIO_PIN;
     gpio_init_struct.gpio_mode = GPIO_MODE_OUTPUT;
     gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
@@ -175,7 +155,7 @@ void LCD::XMCInit() {
     gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
     gpio_init(LCD_RESET_GPIO_PORT, &gpio_init_struct);
 
-    /*-- xmc configuration ------------------------------------------------------*/
+    /*-- xmc 配置 ------------------------------------------------------*/
     xmc_norsram_default_para_init(&xmc_norsram_init_struct);
     xmc_norsram_init_struct.subbank = XMC_BANK1_NOR_SRAM1;
     xmc_norsram_init_struct.data_addr_multiplex = XMC_DATA_ADDR_MUX_DISABLE;
@@ -192,7 +172,7 @@ void LCD::XMCInit() {
     xmc_norsram_init_struct.write_burst_syn = XMC_WRITE_BURST_SYN_DISABLE;
     xmc_nor_sram_init(&xmc_norsram_init_struct);
 
-    /* timing configuration */
+    /* timing 配置 */
     xmc_norsram_timing_default_para_init(&rw_timing_struct, &w_timing_struct);
     rw_timing_struct.subbank = XMC_BANK1_NOR_SRAM1;
     rw_timing_struct.write_timing_enable = XMC_WRITE_TIMING_ENABLE;
@@ -215,12 +195,12 @@ void LCD::XMCInit() {
     xmc_nor_sram_timing_config(&rw_timing_struct, &w_timing_struct);
 
     xmc_ext_timing_config(XMC_BANK1_NOR_SRAM1, 0, 0);
-    /* enable xmc_bank1_nor_sram4 */
+    /* 开启 xmc bank1_nor_sram1 */
     xmc_nor_sram_enable(XMC_BANK1_NOR_SRAM1, TRUE);
 }
 
 /**
- * @brief  lcd data read
+ * @brief  lcd 数据读取
  * @param  none
  * @retval data
  */
@@ -233,8 +213,8 @@ uint16_t LCD::Read() {
 }
 
 /**
- * @brief  write an 16-bit command to the lcd screen
- * @param  data:command value to be written
+ * @brief  lcd 寄存器写入
+ * @param  data:要写入的寄存器值
  * @retval none
  */
 void LCD::RegWrite(uint16_t data) {
@@ -242,8 +222,8 @@ void LCD::RegWrite(uint16_t data) {
 }
 
 /**
- * @brief  write an 16-bit data to the lcd screen
- * @param  data:data value to be written
+ * @brief  lcd 数据写入
+ * @param  data:要写入的数据值
  * @retval none
  */
 void LCD::DataWrite(uint16_t data) {
@@ -251,18 +231,18 @@ void LCD::DataWrite(uint16_t data) {
 }
 
 /**
- * @brief  read an 16-bit value from the lcd screen
+ * @brief  lcd 数据读取
  * @param  none
- * @retval read value
+ * @retval 读取到的数据值
  */
 uint16_t LCD::DataRead() {
     return Read();
 }
 
 /**
- * @brief  write data into registers
- * @param  lcd_reg: register address
- * @param  lcd_regvalue: data to be written
+ * @brief  lcd 寄存器写入
+ * @param  lcd_reg:寄存器地址
+ * @param  lcd_regvalue:要写入的数据值
  * @retval none
  */
 void LCD::CommandWrite(uint16_t lcd_comm, uint16_t lcd_regvalue) {
@@ -271,9 +251,9 @@ void LCD::CommandWrite(uint16_t lcd_comm, uint16_t lcd_regvalue) {
 }
 
 /**
- * @brief  read value from specially registers
- * @param  lcd_reg:register address
- * @retval read value
+ * @brief  lcd 寄存器读取
+ * @param  lcd_reg:寄存器地址
+ * @retval 读取到的数据值
  */
 void LCD::CommandRead(uint16_t lcd_comm, uint8_t *rval, int32_t n) {
     RegWrite(lcd_comm);
@@ -284,7 +264,7 @@ void LCD::CommandRead(uint16_t lcd_comm, uint8_t *rval, int32_t n) {
 }
 
 /**
- * @brief  write gram
+ * @brief  lcd GRAM 写入
  * @param  none
  * @retval none
  */
@@ -293,7 +273,7 @@ void LCD::RamPrepareWrite() {
 }
 
 /**
- * @brief  read gram
+ * @brief  lcd GRAM 读取
  * @param  none
  * @retval none
  */
@@ -302,8 +282,8 @@ void LCD::RamPrepareRead() {
 }
 
 /**
- * @brief  write an 16-bit command to the lcd screen
- * @param  data:data to be written
+ * @brief  lcd 数据写入
+ * @param  data:要写入的数据值
  * @retval none
  */
 void LCD::Data16BitWrite(uint16_t data) {
@@ -316,20 +296,20 @@ void LCD::Data16BitWrite(uint16_t data) {
 }
 
 /**
- * @brief  transform rgb format to 565
- * @param  red: color red
- * @param  green: color green
- * @param  blue: color blue
- * @retval none
+ * @brief  将RGB颜色值转换为565格式
+ * @param  red: 颜色红色值
+ * @param  green: 颜色绿色值
+ * @param  blue: 颜色蓝色值
+ * @retval 转换后的565格式颜色值
  */
 uint16_t LCD::ColorTo565(uint8_t red, uint8_t green, uint8_t blue) {
     return ((red & 0xF8) << 8) | ((green & 0xFC) << 3) | ((blue & 0xF8) >> 3);
 }
 
 /**
- * @brief  read an 16-bit value from the lcd screen
+ * @brief  lcd 数据读取
  * @param  none
- * @retval read value
+ * @retval 读取到的数据值
  */
 uint16_t LCD::Data16BitRead() {
     uint16_t r, g, b;
@@ -355,10 +335,10 @@ uint16_t LCD::Data16BitRead() {
 }
 
 /**
- * @brief  write a pixel data at a specified location
- * @param  x:the x coordinate of the pixel
- * @param  y:the y coordinate of the pixel
- * @param  color:the color of the pixel
+ * @brief  lcd 像素点写入
+ * @param  x:像素点的x坐标
+ * @param  y:像素点的y坐标
+ * @param  color:像素点的颜色值
  * @retval none
  */
 void LCD::PointDraw(uint16_t x, uint16_t y, uint16_t color) {
@@ -367,12 +347,12 @@ void LCD::PointDraw(uint16_t x, uint16_t y, uint16_t color) {
 }
 
 /**
- * @brief  draw a line at a specified location
- * @param  x_start:the x start coordinate of the line
- * @param  x_end  :the x end   coordinate of the line
- * @param  y_start:the y start coordinate of the line
- * @param  y_end  :the x end   coordinate of the line
- * @param  color  :the color of the line
+ * @brief  lcd 直线绘制
+ * @param  x_start:直线的起始x坐标
+ * @param  x_end  :直线的结束x坐标
+ * @param  y_start:直线的起始y坐标
+ * @param  y_end  :直线的结束y坐标
+ * @param  color  :直线的颜色值
  * @retval none
  */
 void LCD::DrawLine(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color) {
@@ -419,10 +399,10 @@ void LCD::DrawLine(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t 
 }
 
 /**
- * @brief  read a pixel color value at a specified location
- * @param  x:the x coordinate of the pixel
- * @param  y:the y coordinate of the pixel
- * @retval the read color value
+ * @brief  lcd 像素点读取
+ * @param  x:像素点的x坐标
+ * @param  y:像素点的y坐标
+ * @retval 读取到的像素点颜色值
  */
 uint16_t LCD::PointRead(uint16_t x, uint16_t y) {   
     uint16_t color;
@@ -440,8 +420,8 @@ uint16_t LCD::PointRead(uint16_t x, uint16_t y) {
 }
 
 /**
- * @brief  full screen filled lcd screen
- * @param  color:filled color
+ * @brief  lcd 全屏填充
+ * @param  color:填充颜色值
  * @retval none
  */
 void LCD::Clear(uint16_t color) {
@@ -462,11 +442,11 @@ void LCD::Clear(uint16_t color) {
 }
 
 /**
- * @brief  initialization lcd screen
- * @param  direction: display direction
- *         this parameter can be one of the following values:
- *         - LCD_DISPLAY_VERTICAL: vertical display.
- *         - LCD_DISPLAY_HORIZONTAL: horizontal display.
+ * @brief  lcd 初始化
+ * @param  direction: 显示方向
+ *         该参数可以是以下值之一:
+ *         - LCD_DISPLAY_VERTICAL: 垂直显示.
+ *         - LCD_DISPLAY_HORIZONTAL: 水平显示.
  * @retval none
  */
 void LCD::Init(lcd_display_type direction_) {
@@ -571,11 +551,11 @@ void LCD::Init(lcd_display_type direction_) {
 }
 
 /**
- * @brief  setting lcd display window
- * @param  xstar:the bebinning x coordinate of the lcd display window
- * @param  ystar:the bebinning y coordinate of the lcd display window
- * @param  xend:the endning x coordinate of the lcd display window
- * @param  yend:the endning y coordinate of the lcd display window
+ * @brief  lcd 窗口设置
+ * @param  xstar:窗口的起始x坐标
+ * @param  ystar:窗口的起始y坐标
+ * @param  xend:窗口的结束x坐标
+ * @param  yend:窗口的结束y坐标
  * @retval none
  */
 void LCD::WindowsSet(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yend) {
@@ -595,9 +575,9 @@ void LCD::WindowsSet(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yen
 }
 
 /**
- * @brief  set coordinate value
- * @param  xpos:the  x coordinate of the pixel
- * @param  ypos:the  y coordinate of the pixel
+ * @brief  lcd 光标设置
+ * @param  xpos:像素点的x坐标
+ * @param  ypos:像素点的y坐标
  * @retval none
  */
 void LCD::CursorSet(uint16_t xpos, uint16_t ypos) {
@@ -605,11 +585,11 @@ void LCD::CursorSet(uint16_t xpos, uint16_t ypos) {
 }
 
 /**
- * @brief  setting the display direction of lcd screen
- * @param  direction:0-0 degree
- *                   1-90 degree
- *                   2-180 degree
- *                   3-270 degree
+ * @brief  lcd 显示方向设置
+ * @param  direction:显示方向
+ *         该参数可以是以下值之一:
+ *         - LCD_DISPLAY_VERTICAL: 垂直显示.
+ *         - LCD_DISPLAY_HORIZONTAL: 水平显示.
  * @retval none
  */
 void LCD::Direction(uint8_t direction) {
@@ -646,9 +626,9 @@ void LCD::Direction(uint8_t direction) {
 }
 
 /**
- * @brief  read id
+ * @brief  lcd id读取
  * @param  none
- * @retval id value
+ * @retval id 值
  */
 uint16_t LCD::IDRead(void) {
     uint8_t val[4] = {0};
@@ -658,7 +638,7 @@ uint16_t LCD::IDRead(void) {
     return (val[2] << 8) | val[3];
 }
 
-// C interface wrappers to keep compatibility with lcd.h
+// C 接口包装器，保持与 lcd.h 兼容
 extern "C" {
 void LCD_XMCInit(void) {
     LCD::GetInstance().XMCInit();
@@ -726,12 +706,12 @@ uint16_t LCD_IDRead(void) {
 }
 
 /**
- * @brief  this function is fill in lcd with concolorous
- * @param  sx : row coordinates starting vaule
- * @param  sy : column coordinates starting vaule
- * @param  ex : row coordinates ending vaule
- * @param  ey : column coordinates ending vaule
- * @param  color : color for fill in lcd
+ * @brief  lcd 区域填充
+ * @param  sx : 行坐标起始值
+ * @param  sy : 列坐标起始值
+ * @param  ex : 行坐标结束值
+ * @param  ey : 列坐标结束值
+ * @param  color : 填充颜色
  * @retval none
  */
 void LCD_Fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t color) {
@@ -751,12 +731,12 @@ void LCD_Fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t color
 }
 
 /**
- * @brief  this function is fill in lcd with color-pointer
- * @param  sx : row coordinates starting vaule
- * @param  sy : column coordinates starting vaule
- * @param  ex : row coordinates ending vaule
- * @param  ey : column coordinates ending vaule
- * @param  color : color-point for fill in lcd
+ * @brief  lcd 区域颜色填充
+ * @param  sx : 行坐标起始值
+ * @param  sy : 列坐标起始值
+ * @param  ex : 行坐标结束值
+ * @param  ey : 列坐标结束值
+ * @param  color : 颜色指针，用于填充lcd区域
  * @retval none
  */
 void LCD_ColorFill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color) {
@@ -778,11 +758,11 @@ void LCD_ColorFill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t 
 void LCD::BacklightInitPWM(void) {
     if (m_backlight_initialized) return;
 
-    // Enable clocks
+    // 开启定时器1和背光GPIO时钟
     crm_periph_clock_enable(CRM_TMR1_PERIPH_CLOCK, TRUE);
     crm_periph_clock_enable(LCD_BL_GPIO_CLK, TRUE);
 
-    // Configure PA8 as TIM1_CH1 (alternate function)
+    // 将 PA8 配置为 TIM1_CH1 (备用功能) 
     gpio_init_type gpio_init_struct;
     gpio_default_para_init(&gpio_init_struct);
     gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
@@ -793,7 +773,7 @@ void LCD::BacklightInitPWM(void) {
     gpio_init(LCD_BL_GPIO_PORT, &gpio_init_struct);
     gpio_pin_mux_config(LCD_BL_GPIO_PORT, LCD_BL_GPIO_PINS_SOURCE, LCD_BL_GPIO_MUX);
 
-    // Timer base: 1MHz tick -> 10kHz PWM (period=100)
+    // 配置定时器1为PWM模式，周期为1000000/100000=1000（10kHz）
     crm_clocks_freq_type clocks = {0};
     crm_clocks_freq_get(&clocks);
     m_prescaler = (uint16_t)((clocks.apb2_freq * 2) / 1000000) - 1; // 1MHz
@@ -802,7 +782,7 @@ void LCD::BacklightInitPWM(void) {
     tmr_cnt_dir_set(TMR1, TMR_COUNT_UP);
     tmr_clock_source_div_set(TMR1, TMR_CLOCK_DIV1);
 
-    // PWM channel config
+    // PWM 通道配置
     tmr_output_config_type oc;
     tmr_output_default_para_init(&oc);
     oc.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
@@ -815,15 +795,20 @@ void LCD::BacklightInitPWM(void) {
     tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_1, TRUE);
     tmr_period_buffer_enable(TMR1, TRUE);
 
-    // Advanced timer output enable (MOE)
+    // 开启定时器1输出通道1
     tmr_output_enable(TMR1, TRUE);
 
-    // Start timer
+    // 启动定时器1
     tmr_counter_enable(TMR1, TRUE);
 
     m_backlight_initialized = true;
 }
 
+/**
+ * @brief  设置lcd背光亮度
+ * @param  percent : 背光亮度百分比，范围0-100
+ * @retval none
+ */
 void LCD::BacklightSetPercent(uint8_t percent) {
     if (!m_backlight_initialized) {
         BacklightInitPWM();

@@ -1,11 +1,8 @@
 
-/*
-*********************************************************************************************************
-*
-*	模块名称 : 串口中断+FIFO驱动模块
-*	文件名称 : bsp_uart.h
-*********************************************************************************************************
-*/
+/**
+ * @brief  串口中断+FIFO驱动模块
+ * @file   bsp_uart.h
+ */
 
 #pragma once
 #include "at32f435_437.h"
@@ -28,7 +25,7 @@ extern "C" {
 #define PRINT_UART_TX_GPIO_CRM_CLK CRM_GPIOB_PERIPH_CLOCK
 #define PRINT_UART_TX_PIN_SOURCE GPIO_PINS_SOURCE6
 #define PRINT_UART_TX_PIN_MUX_NUM GPIO_MUX_7
-/* add rx pin defines to support bsp.c uart_print_init */
+//    打印串口接收引脚定义，用于 uart_print_init
 #define PRINT_UART_RX_PIN GPIO_PINS_7
 #define PRINT_UART_RX_GPIO GPIOB
 #define PRINT_UART_RX_GPIO_CRM_CLK CRM_GPIOB_PERIPH_CLOCK

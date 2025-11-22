@@ -1,5 +1,5 @@
 
-// Author: PanYanWei 潘彦玮 2023030103024
+// PanYanWei 潘彦玮 2023030103024
 
 #include "lm75.h"
 #include "eeprom.h"
