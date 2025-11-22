@@ -157,7 +157,7 @@ void IoT::Send_Heartbeat() {
 
 void IoT::Send_Status_Report() {
     lm75_temp = LM75::GetInstance().Read(); // 读取lm75温度值
-    adc_value = analogRead();               // 读取ADC值
+    adc_value = AnalogRead();               // 读取ADC值
     sprintf(TlinkCommandStr, "#%d,%d,%d,%d#", lm75_temp, adc_value, 0, lighting_status);
 
     LOGI("\r\n上报状态: %s\r\n", TlinkCommandStr);
@@ -173,10 +173,10 @@ void IoT::Send_Status_Report() {
 void IoT::Control_Lighting(uint8_t status) {
     lighting_status = status;
     if (status) {
-        LED::GetInstance().On(LED_Green);
+        LED::GetInstance().TurnOn(LED_Green);
         LOGI("\r\n照明已开启 (LED_GREEN ON)\r\n");
     } else {
-        LED::GetInstance().Off(LED_Green);
+        LED::GetInstance().TurnOff(LED_Green);
         LOGI("\r\n照明已关闭 (LED_GREEN OFF)\r\n");
     }
 }

@@ -47,8 +47,8 @@ bool Setting::sync_network_time(bool sync) {
     g_com3_guard = 1;
 
     // 建立到 quan.suning.com 的 TCP 连接
-    wifi.sendAT("AT+CIPSTART=\"TCP\",\"quan.suning.com\",80");
-    if (wifi.waitResponse("OK", 5000) != 1) {
+    wifi.SendAT("AT+CIPSTART=\"TCP\",\"quan.suning.com\",80");
+    if (wifi.WaitResponse("OK", 5000) != 1) {
         g_com3_guard = 0;
         return false;
     }
@@ -66,10 +66,10 @@ bool Setting::sync_network_time(bool sync) {
                       "Connection: close\r\n\r\n";
     char cmd[32];
     sprintf(cmd, "AT+CIPSEND=%d", (int)strlen(req));
-    wifi.sendAT(cmd);
-    if (wifi.waitResponse(">", 2000) != 1) {
-        wifi.sendAT("AT+CIPCLOSE");
-        wifi.waitResponse("OK", 1000);
+    wifi.SendAT(cmd);
+    if (wifi.WaitResponse(">", 2000) != 1) {
+        wifi.SendAT("AT+CIPCLOSE");
+        wifi.WaitResponse("OK", 1000);
         g_com3_guard = 0;
         return false;
     }
@@ -77,14 +77,14 @@ bool Setting::sync_network_time(bool sync) {
     comSendBuf(COM3, (uint8_t *)req, (uint32_t)strlen(req));
     // 不再等待 "SEND OK"，直接读取所有行直到连接关闭
     // 等待数据到来标记 "+IPD"，确认服务端已返回数据
-    wifi.waitResponse("+IPD", 8000);
+    wifi.WaitResponse("+IPD", 8000);
 
     // 读取响应（按行叠加到缓冲区）
     char resp[2048] = {0};
     char line[512];
     int pos = 0;
     while (1) {
-        uint16_t n = wifi.readLine(line, sizeof(line), 1500);
+        uint16_t n = wifi.ReadLine(line, sizeof(line), 1500);
         if (n == 0)
             break;
         if (pos + n >= (int)sizeof(resp) - 1)
@@ -100,8 +100,8 @@ bool Setting::sync_network_time(bool sync) {
     // 在解析前先检查HTTP状态码
     if (strstr(resp, "HTTP/1.1 200") == NULL) {
         // 关闭连接并报告错误
-        wifi.sendAT("AT+CIPCLOSE");
-        wifi.waitResponse("OK", 2000);
+        wifi.SendAT("AT+CIPCLOSE");
+        wifi.WaitResponse("OK", 2000);
         LOGI("HTTP状态非200，响应前200字节: %.*s\n", 200, resp);
         g_com3_guard = 0;
         return false;
@@ -112,8 +112,8 @@ bool Setting::sync_network_time(bool sync) {
     bool ok = parse_datetime_iso8601(resp, &year, &month, &day, &hour, &min, &sec);
 
     // 关闭连接
-    wifi.sendAT("AT+CIPCLOSE");
-    wifi.waitResponse("OK", 2000);
+    wifi.SendAT("AT+CIPCLOSE");
+    wifi.WaitResponse("OK", 2000);
 
     if (!ok) {
         // 打印响应片段帮助定位问题
@@ -193,5 +193,5 @@ void Setting::apply_date_labels(int year, int month, int day) {
 }
 
 void Setting::backlight_set_percent(uint8_t percent) {
-    LCD::GetInstance().backlight_set_percent(percent);
+    LCD::GetInstance().BacklightSetPercent(percent);
 }

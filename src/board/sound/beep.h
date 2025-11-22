@@ -11,9 +11,9 @@
 extern "C" {
 #endif
 
-extern void beep_setFreq(int freq);
-extern void beep_start(uint16_t beepTime, uint16_t stopTime, uint16_t cycle);
-extern void beep_stop(void);
+extern void Beep_SetFreq(int freq);
+extern void Beep_Start(uint16_t beepTime, uint16_t stopTime, uint16_t cycle);
+extern void Beep_Stop(void);
 
 #ifdef __cplusplus
 }

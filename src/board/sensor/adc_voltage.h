@@ -5,8 +5,8 @@
 extern "C" {
 #endif
 
-void adc_config(void);
-uint16_t analogRead(void);
+void ADC_Config(void);
+uint16_t AnalogRead(void);
 
 #ifdef __cplusplus
 }

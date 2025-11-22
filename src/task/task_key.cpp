@@ -49,7 +49,7 @@ static inline void set_smart_home_key_btn_pressed(uint8_t idx, bool pressed) {
 
 void TaskKeys([[maybe_unused]] void *pvParameters) {
     for (;;) {
-        uint8_t keyvalue = Key::GetInstance().get();
+        uint8_t keyvalue = Key::GetInstance().Get();
 
         // 检查当前是否在Minecraft游戏界面
         lv_obj_t *current_screen = lv_scr_act();
@@ -94,7 +94,7 @@ void TaskKeys([[maybe_unused]] void *pvParameters) {
             uint8_t idx = ((keyvalue - 1) / 3) + 1; // 1~8
             uint8_t type = ((keyvalue - 1) % 3);    // 0:DOWN, 1:UP, 2:LONG
             if (type == 0) {
-                g_beep.keyTone();
+                g_beep.KeyTone();
                 set_smart_home_key_btn_pressed(idx, true);
             } else if (type == 1) {
                 set_smart_home_key_btn_pressed(idx, false);

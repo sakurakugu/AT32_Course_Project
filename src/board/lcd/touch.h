@@ -38,16 +38,16 @@ extern "C" {
 /**
  * @brief touch register definition
  */
-#define GT_CTRL_REG 0x8040  /* control register */
-#define GT_CFG_REG 0x8047   /* config version */
-#define GT_CHECK_REG 0x80FF /* config check sum */
-#define GT_PID_REG 0x8140   /* product ID */
-#define GT_STS_REG 0x814E   /* touch status register */
-#define GT_TP1_REG 0x8150   /* point 1 coordinate */
-#define GT_TP2_REG 0x8158   /* point 2 coordinate */
-#define GT_TP3_REG 0x8160   /* point 3 coordinate */
-#define GT_TP4_REG 0x8168   /* point 4 coordinate */
-#define GT_TP5_REG 0x8170   /* point 5 coordinate */
+#define TOUCH_CTRL_REG 0x8040  /* control register */
+#define TOUCH_CFG_REG 0x8047   /* config version */
+#define TOUCH_CHECK_REG 0x80FF /* config check sum */
+#define TOUCH_PID_REG 0x8140   /* product ID */
+#define TOUCH_STS_REG 0x814E   /* touch status register */
+#define TOUCH_TP1_REG 0x8150   /* point 1 coordinate */
+#define TOUCH_TP2_REG 0x8158   /* point 2 coordinate */
+#define TOUCH_TP3_REG 0x8160   /* point 3 coordinate */
+#define TOUCH_TP4_REG 0x8168   /* point 4 coordinate */
+#define TOUCH_TP5_REG 0x8170   /* point 5 coordinate */
 
 /**
  * @brief touch scan direction
@@ -63,47 +63,47 @@ typedef enum {
 /**
  * @brief io definition
  */
-#define GT_I2C_TIMEOUT 0xFFFFFFF
+#define TOUCH_I2C_TIMEOUT 0xFFFFFFF
 
-#define GT_I2C_CLKCTRL_100K 0x80504C4E
-#define GT_I2C_CLKCTRL_200K 0x30F03C6B
+#define TOUCH_I2C_CLKCTRL_100K 0x80504C4E
+#define TOUCH_I2C_CLKCTRL_200K 0x30F03C6B
 
-#define GT_I2C_ADDRESS 0xBA
+#define TOUCH_I2C_ADDRESS 0xBA
 
-#define GT_I2C_PORT I2C2
-#define GT_I2C_CLK CRM_I2C2_PERIPH_CLOCK
+#define TOUCH_I2C_PORT I2C2
+#define TOUCH_I2C_CLK CRM_I2C2_PERIPH_CLOCK
 
-#define GT_SCL_GPIO_CLK CRM_GPIOB_PERIPH_CLOCK
-#define GT_SCL_GPIO_PIN GPIO_PINS_10
-#define GT_SCL_GPIO_PINS_SOURCE GPIO_PINS_SOURCE10
-#define GT_SCL_GPIO_PORT GPIOB
-#define GT_SCL_GPIO_MUX GPIO_MUX_4
+#define TOUCH_SCL_GPIO_CLK CRM_GPIOB_PERIPH_CLOCK
+#define TOUCH_SCL_GPIO_PIN GPIO_PINS_10
+#define TOUCH_SCL_GPIO_PINS_SOURCE GPIO_PINS_SOURCE10
+#define TOUCH_SCL_GPIO_PORT GPIOB
+#define TOUCH_SCL_GPIO_MUX GPIO_MUX_4
 
-#define GT_SDA_GPIO_CLK CRM_GPIOB_PERIPH_CLOCK
-#define GT_SDA_GPIO_PIN GPIO_PINS_11
-#define GT_SDA_GPIO_PINS_SOURCE GPIO_PINS_SOURCE11
-#define GT_SDA_GPIO_PORT GPIOB
-#define GT_SDA_GPIO_MUX GPIO_MUX_4
+#define TOUCH_SDA_GPIO_CLK CRM_GPIOB_PERIPH_CLOCK
+#define TOUCH_SDA_GPIO_PIN GPIO_PINS_11
+#define TOUCH_SDA_GPIO_PINS_SOURCE GPIO_PINS_SOURCE11
+#define TOUCH_SDA_GPIO_PORT GPIOB
+#define TOUCH_SDA_GPIO_MUX GPIO_MUX_4
 
-#define GT_RST_GPIO_CLK CRM_GPIOB_PERIPH_CLOCK
-#define GT_RST_GPIO_PIN GPIO_PINS_9
-#define GT_RST_GPIO_PORT GPIOB
+#define TOUCH_RST_GPIO_CLK CRM_GPIOB_PERIPH_CLOCK
+#define TOUCH_RST_GPIO_PIN GPIO_PINS_9
+#define TOUCH_RST_GPIO_PORT GPIOB
 
-#define GT_INT_GPIO_CLK CRM_GPIOE_PERIPH_CLOCK
-#define GT_INT_GPIO_PIN GPIO_PINS_3
-#define GT_INT_GPIO_PORT GPIOE
+#define TOUCH_INT_GPIO_CLK CRM_GPIOE_PERIPH_CLOCK
+#define TOUCH_INT_GPIO_PIN GPIO_PINS_3
+#define TOUCH_INT_GPIO_PORT GPIOE
 
-#define GT_RST_LOW() gpio_bits_reset(GT_RST_GPIO_PORT, GT_RST_GPIO_PIN)
-#define GT_RST_HIGH() gpio_bits_set(GT_RST_GPIO_PORT, GT_RST_GPIO_PIN)
+#define TOUCH_RST_LOW() gpio_bits_reset(TOUCH_RST_GPIO_PORT, TOUCH_RST_GPIO_PIN)
+#define TOUCH_RST_HIGH() gpio_bits_set(TOUCH_RST_GPIO_PORT, TOUCH_RST_GPIO_PIN)
 
-#define GT_INT_LOW() gpio_bits_reset(GT_INT_GPIO_PORT, GT_INT_GPIO_PIN)
-#define GT_INT_HIGH() gpio_bits_set(GT_INT_GPIO_PORT, GT_INT_GPIO_PIN)
-#define GT_INT_READ() gpio_input_data_bit_read(GT_INT_GPIO_PORT, GT_INT_GPIO_PIN)
+#define TOUCH_INT_LOW() gpio_bits_reset(TOUCH_INT_GPIO_PORT, TOUCH_INT_GPIO_PIN)
+#define TOUCH_INT_HIGH() gpio_bits_set(TOUCH_INT_GPIO_PORT, TOUCH_INT_GPIO_PIN)
+#define TOUCH_INT_READ() gpio_input_data_bit_read(TOUCH_INT_GPIO_PORT, TOUCH_INT_GPIO_PIN)
 
 /**
  * @brief touch exported functions
  */
-bool touch_read_xy(uint16_t *x, uint16_t *y);
+bool Touch_ReadXY(uint16_t *x, uint16_t *y);
 
 #ifdef __cplusplus
 }

@@ -160,14 +160,14 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
     {
         char cmd_ssl[64];
         snprintf(cmd_ssl, sizeof(cmd_ssl), "AT+CIPSTART=\"SSL\",\"%s\",443", kHost);
-        wifi.sendAT(cmd_ssl);
+        wifi.SendAT(cmd_ssl);
     }
-    if (wifi.waitResponse("OK", 3000) != 1) {
+    if (wifi.WaitResponse("OK", 3000) != 1) {
         // 回落到 HTTP
         char cmd_tcp[64];
         snprintf(cmd_tcp, sizeof(cmd_tcp), "AT+CIPSTART=\"TCP\",\"%s\",80", kHost);
-        wifi.sendAT(cmd_tcp);
-        if (wifi.waitResponse("OK", 5000) != 1) {
+        wifi.SendAT(cmd_tcp);
+        if (wifi.WaitResponse("OK", 5000) != 1) {
             g_com3_guard = 0;
             return false;
         }
@@ -185,8 +185,8 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
                            "Connection: close\r\n\r\n",
                            path, kHost);
     if (req_len <= 0 || req_len >= (int)sizeof(req)) {
-        wifi.sendAT("AT+CIPCLOSE");
-        wifi.waitResponse("OK", 1000);
+        wifi.SendAT("AT+CIPCLOSE");
+        wifi.WaitResponse("OK", 1000);
         g_com3_guard = 0;
         return false;
     }
@@ -194,17 +194,17 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
     // 发送请求
     char cmd[32];
     sprintf(cmd, "AT+CIPSEND=%d", req_len);
-    wifi.sendAT(cmd);
-    if (wifi.waitResponse(">", 2000) != 1) {
-        wifi.sendAT("AT+CIPCLOSE");
-        wifi.waitResponse("OK", 1000);
+    wifi.SendAT(cmd);
+    if (wifi.WaitResponse(">", 2000) != 1) {
+        wifi.SendAT("AT+CIPCLOSE");
+        wifi.WaitResponse("OK", 1000);
         g_com3_guard = 0;
         return false;
     }
     comSendBuf(COM3, (uint8_t *)req, (uint32_t)req_len);
 
     // 等到数据到来
-    wifi.waitResponse("+IPD", 8000);
+    wifi.WaitResponse("+IPD", 8000);
 
     // 先快速读取HTTP头部,提取Content-Length
     int content_length = -1;
@@ -214,7 +214,7 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
     
     // 阶段1: 读取头部并提取Content-Length
     for (int i = 0; i < 20; ++i) { // 最多读20行头部
-        uint16_t n = wifi.readLine(line, sizeof(line), 1500);
+        uint16_t n = wifi.ReadLine(line, sizeof(line), 1500);
         if (n == 0) break;
         
         if (pos + (int)n >= resp_out_size - 1) {
@@ -266,7 +266,7 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
                 break;
             }
             
-            uint16_t n = wifi.readLine(line, sizeof(line), 3000); // 单次读取超时3秒
+            uint16_t n = wifi.ReadLine(line, sizeof(line), 3000); // 单次读取超时3秒
             if (n == 0) {
                 no_data_count++;
                 if (no_data_count > 3) { // 连续3次无数据则放弃
@@ -298,7 +298,7 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
         int no_data_count = 0;
         bool closed_seen = false;
         while (1) {
-            uint16_t n = wifi.readLine(line, sizeof(line), 1500);
+            uint16_t n = wifi.ReadLine(line, sizeof(line), 1500);
             if (n == 0) {
                 no_data_count++;
                 if (closed_seen && no_data_count >= 2) break;
@@ -324,8 +324,8 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
     LOGD("HTTP 响应总长度=%d 字节", pos);
 
     // 关闭连接
-    wifi.sendAT("AT+CIPCLOSE");
-    wifi.waitResponse("OK", 2000);
+    wifi.SendAT("AT+CIPCLOSE");
+    wifi.WaitResponse("OK", 2000);
 
     // 检查状态码
     if (strstr(resp_out, "HTTP/1.1 200") == NULL) {

@@ -3,17 +3,17 @@
 
 class Beep {
   public:
-    void init();
-    void setFreq(int freq);
-    void start(uint16_t beepTime, uint16_t stopTime, uint16_t cycle);
-    void stop();
-    void keyTone();
-    void process();
-    void pause();
-    void resume();
+    void Init();
+    void SetFreq(int freq);
+    void Start(uint16_t beepTime, uint16_t stopTime, uint16_t cycle);
+    void Stop();
+    void KeyTone();
+    void Process();
+    void Pause();
+    void Resume();
 
-    void enableOutput();
-    void disableOutput();
+    void EnableOutput();
+    void DisableOutput();
 
   private:
     // 状态参数

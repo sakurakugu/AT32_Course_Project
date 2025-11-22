@@ -21,8 +21,8 @@ extern "C" {
 #endif
 
 // extern void LED_Init(led_type led);
-extern void LED_On(led_type led);
-extern void LED_Off(led_type led);
+extern void LED_TurnOn(led_type led);
+extern void LED_TurnOff(led_type led);
 // extern void LED_Toggle(led_type led);
 
 #ifdef __cplusplus

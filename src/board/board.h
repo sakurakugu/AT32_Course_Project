@@ -15,8 +15,8 @@ extern "C" {
 #define ESP12_DEBUG 0
 
 #define ERROR_HANDLER() Error_Handler(__FILE__, __LINE__);
-void adc_config(void);
-uint16_t analogRead(void);
+void ADC_Config(void);
+uint16_t AnalogRead(void);
 
 /* 默认是关闭状态 */
 #define Enable_EventRecorder 0
@@ -38,8 +38,8 @@ uint16_t analogRead(void);
 
 /* 提供给其他C文件调用的函数 */
 void delay_us(uint32_t nus);
-void adc_config(void);
-uint16_t analogRead(void);
+void ADC_Config(void);
+uint16_t AnalogRead(void);
 void delay_ms(uint16_t nms);
 }
 
@@ -61,7 +61,7 @@ class Board {
     Board();
     ~Board();
 
-    // Button *button_;      // 声明按键
-    // LcdDisplay *display_; // 声明液晶屏
-    Color_Led *color_led_; // 声明颜色LED
+    // Key *key_;      // 声明按键
+    // Lcd *display_; // 声明液晶屏
+    ColorLed *color_led_; // 声明颜色LED
 };

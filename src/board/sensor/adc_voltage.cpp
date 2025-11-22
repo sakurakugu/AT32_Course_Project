@@ -6,7 +6,7 @@
  * @param  none
  * @retval none
  */
-void adc_config(void) {
+void ADC_Config(void) {
     gpio_init_type gpio_initstructure;
     adc_common_config_type adc_common_struct;
     adc_base_config_type adc_base_struct;
@@ -93,7 +93,7 @@ void adc_config(void) {
  * @param  none
  * @retval adc 值
  */
-uint16_t analogRead(void) {
+uint16_t AnalogRead(void) {
     adc_ordinary_software_trigger_enable(ADC1, TRUE);
     while (adc_flag_get(ADC1, ADC_OCCE_FLAG) == RESET)
         ;

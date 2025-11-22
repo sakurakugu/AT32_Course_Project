@@ -35,7 +35,7 @@ int _write(int fd, char *pbuffer, int size) {
 
 Board::Board() {
     // 初始化板级资源
-    color_led_ = &Color_Led::GetInstance();
+    color_led_ = &ColorLed::GetInstance();
 }
 
 Board::~Board() {
@@ -56,26 +56,26 @@ void Board::Init(void) {
     EventRecorderStart();
 #endif
     delay_init();
-    adc_config();
+    ADC_Config();
     iic_init(); /* 初始化I2C接口，用于LM75温度传感器 */
     // g_eep_lm75.init(); /* 初始化I2C接口，用于LM75温度传感器 */
-    Key::GetInstance().init(); /* 按键初始化，要放在滴答定时器之前，因为按钮检测是通过滴答定时器扫描 */
+    Key::GetInstance().Init(); /* 按键初始化，要放在滴答定时器之前，因为按钮检测是通过滴答定时器扫描 */
     bsp_InitTimer();           /* 初始化滴答定时器 */
                                // bsp_InitESP12();
     uart_print_init(UART1_BAUD); // 初始化COM1串口，用于打印调试信息
-    OLED::GetInstance().init(); /* 初始化OLED屏幕 */
-    g_beep.init();              /* 初始化蜂鸣器 */
+    OLED::GetInstance().Init(); /* 初始化OLED屏幕 */
+    g_beep.Init();              /* 初始化蜂鸣器 */
                                 // bsp_InitDWT();      /* 初始化DWT时钟周期计数器 */
     color_led_->Init();
     auto &led = LED::GetInstance();
     led.Init(LED_Green);
     led.Init(LED_Yellow);
-    led.Off(LED_Green);
-    led.Off(LED_Yellow);
+    led.TurnOff(LED_Green);
+    led.TurnOff(LED_Yellow);
 
     /* 初始化OLED显示 */
-    OLED::GetInstance().clear();                                      /* 清屏 */
-    OLED::GetInstance().showString(0, 0, (uint8_t *)"2023030103024"); /* 在(0,0)位置显示字符串 */
+    OLED::GetInstance().Clear();                                      /* 清屏 */
+    OLED::GetInstance().ShowString(0, 0, (uint8_t *)"2023030103024"); /* 在(0,0)位置显示字符串 */
 }
 
 extern "C" {
@@ -146,8 +146,8 @@ int _write(int fd, char *pbuffer, int size) {
 *********************************************************************************************************
 */
 void bsp_RunPer10ms(void) {
-    Key::GetInstance().scan10ms();
-    g_beep.process();
+    Key::GetInstance().Scan10ms();
+    g_beep.Process();
 }
 
 /*

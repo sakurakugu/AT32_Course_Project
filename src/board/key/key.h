@@ -108,25 +108,25 @@ class Key {
     Key(const Key &) = delete;
     Key &operator=(const Key &) = delete;
 
-    void init();
-    void scan10ms();
-    void scan1ms();
-    void put(uint8_t code);
-    uint8_t get();
-    uint8_t get2();
-    uint8_t state(KEY_ID_E id) const;
-    void set_param(uint8_t id, uint16_t long_time, uint8_t repeat_speed);
-    void clear();
+    void Init();
+    void Scan10ms();
+    void Scan1ms();
+    void Put(uint8_t code);
+    uint8_t Get();
+    uint8_t Get2();
+    uint8_t State(KEY_ID_E id) const;
+    void SetParam(uint8_t id, uint16_t long_time, uint8_t repeat_speed);
+    void Clear();
 
   private:
     Key();
     KEY_T btn[KEY_COUNT] = {0};
     KEY_FIFO_T fifo{};
 
-    void init_vars();
-    void init_hw();
-    uint8_t pin_active(uint8_t id) const;
-    uint8_t is_down(uint8_t id) const;
-    void detect_key(uint8_t i);
-    void detect_fast(uint8_t i);
+    void InitVars();
+    void InitHardware();
+    uint8_t PinActive(uint8_t id) const;
+    uint8_t IsDown(uint8_t id) const;
+    void DetectKey(uint8_t i);
+    void DetectFast(uint8_t i);
 };

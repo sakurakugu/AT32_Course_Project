@@ -34,17 +34,17 @@ static bool wifi_connect(const char *ssid, const char *pwd, uint16_t timeout_ms 
         return false;
     auto &wifi = Wifi::GetInstance();
 
-    wifi.sendAT("AT");
-    wifi.waitResponse("OK", 1000);
-    wifi.sendAT("ATE0");
-    wifi.waitResponse("OK", 1000);
+    wifi.SendAT("AT");
+    wifi.WaitResponse("OK", 1000);
+    wifi.SendAT("ATE0");
+    wifi.WaitResponse("OK", 1000);
 
-    if (wifi.setWiFiMode(1) != 1) {
+    if (wifi.SetWiFiMode(1) != 1) {
         LOGE("\r\n CWMODE fail\r\n");
         return false;
     }
 
-    if (wifi.joinAP(ssid, pwd, timeout_ms) != 1) {
+    if (wifi.JoinAP(ssid, pwd, timeout_ms) != 1) {
         LOGE("\r\n CWJAP fail\r\n");
         return false;
     }

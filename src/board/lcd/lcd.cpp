@@ -39,7 +39,7 @@ uint16_t POINT_COLOR = 0x0000, BACK_COLOR = 0xFFFF;
  * @param  none
  * @retval none
  */
-void LCD::xmc_init() {
+void LCD::XMCInit() {
     gpio_init_type gpio_init_struct = {0};
     xmc_norsram_init_type xmc_norsram_init_struct;
     xmc_norsram_timing_init_type rw_timing_struct, w_timing_struct;
@@ -224,7 +224,7 @@ void LCD::xmc_init() {
  * @param  none
  * @retval data
  */
-uint16_t LCD::read() {
+uint16_t LCD::Read() {
     uint16_t data;
 
     data = *(__IO uint16_t *)XMC_LCD_DATA;
@@ -237,7 +237,7 @@ uint16_t LCD::read() {
  * @param  data:command value to be written
  * @retval none
  */
-void LCD::reg_write(uint16_t data) {
+void LCD::RegWrite(uint16_t data) {
     *(__IO uint16_t *)XMC_LCD_COMMAND = data;
 }
 
@@ -246,7 +246,7 @@ void LCD::reg_write(uint16_t data) {
  * @param  data:data value to be written
  * @retval none
  */
-void LCD::data_write(uint16_t data) {
+void LCD::DataWrite(uint16_t data) {
     *(__IO uint16_t *)XMC_LCD_DATA = data;
 }
 
@@ -255,8 +255,8 @@ void LCD::data_write(uint16_t data) {
  * @param  none
  * @retval read value
  */
-uint16_t LCD::data_read() {
-    return read();
+uint16_t LCD::DataRead() {
+    return Read();
 }
 
 /**
@@ -265,7 +265,7 @@ uint16_t LCD::data_read() {
  * @param  lcd_regvalue: data to be written
  * @retval none
  */
-void LCD::command_write(uint16_t lcd_comm, uint16_t lcd_regvalue) {
+void LCD::CommandWrite(uint16_t lcd_comm, uint16_t lcd_regvalue) {
     *(__IO uint16_t *)XMC_LCD_COMMAND = lcd_comm;
     *(__IO uint16_t *)XMC_LCD_DATA = lcd_regvalue;
 }
@@ -275,11 +275,11 @@ void LCD::command_write(uint16_t lcd_comm, uint16_t lcd_regvalue) {
  * @param  lcd_reg:register address
  * @retval read value
  */
-void LCD::command_read(uint16_t lcd_comm, uint8_t *rval, int32_t n) {
-    reg_write(lcd_comm);
+void LCD::CommandRead(uint16_t lcd_comm, uint8_t *rval, int32_t n) {
+    RegWrite(lcd_comm);
 
     while (n--) {
-        *(rval++) = data_read();
+        *(rval++) = DataRead();
     }
 }
 
@@ -288,8 +288,8 @@ void LCD::command_read(uint16_t lcd_comm, uint8_t *rval, int32_t n) {
  * @param  none
  * @retval none
  */
-void LCD::ram_prepare_write() {
-    reg_write(lcddev.wramcmd);
+void LCD::RamPrepareWrite() {
+    RegWrite(lcddev.wramcmd);
 }
 
 /**
@@ -297,8 +297,8 @@ void LCD::ram_prepare_write() {
  * @param  none
  * @retval none
  */
-void LCD::ram_prepare_read() {
-    reg_write(lcddev.rramcmd);
+void LCD::RamPrepareRead() {
+    RegWrite(lcddev.rramcmd);
 }
 
 /**
@@ -306,7 +306,7 @@ void LCD::ram_prepare_read() {
  * @param  data:data to be written
  * @retval none
  */
-void LCD::data_16bit_write(uint16_t data) {
+void LCD::Data16BitWrite(uint16_t data) {
 #if LCD_USE8BIT_MODEL
     LCD->LCD_RAM = data >> 8;
     LCD->LCD_RAM = data;
@@ -322,7 +322,7 @@ void LCD::data_16bit_write(uint16_t data) {
  * @param  blue: color blue
  * @retval none
  */
-uint16_t LCD::color_to_565(uint8_t red, uint8_t green, uint8_t blue) {
+uint16_t LCD::ColorTo565(uint8_t red, uint8_t green, uint8_t blue) {
     return ((red & 0xF8) << 8) | ((green & 0xFC) << 3) | ((blue & 0xF8) >> 3);
 }
 
@@ -331,16 +331,16 @@ uint16_t LCD::color_to_565(uint8_t red, uint8_t green, uint8_t blue) {
  * @param  none
  * @retval read value
  */
-uint16_t LCD::data_16bit_read() {
+uint16_t LCD::Data16BitRead() {
     uint16_t r, g, b;
 
-    r = data_read();
+    r = DataRead();
     // delay_us(1);
 
-    r = data_read();
+    r = DataRead();
     // delay_us(1);
 
-    g = data_read();
+    g = DataRead();
 
 #if LCD_USE8BIT_MODEL
     delay_us(1);
@@ -351,7 +351,7 @@ uint16_t LCD::data_16bit_read() {
     r = r >> 8;
 #endif
 
-    return color_to_565(r, g, b);
+    return ColorTo565(r, g, b);
 }
 
 /**
@@ -361,9 +361,9 @@ uint16_t LCD::data_16bit_read() {
  * @param  color:the color of the pixel
  * @retval none
  */
-void LCD::point_draw(uint16_t x, uint16_t y, uint16_t color) {
-    cursor_set(x, y);
-    data_16bit_write(color);
+void LCD::PointDraw(uint16_t x, uint16_t y, uint16_t color) {
+    CursorSet(x, y);
+    Data16BitWrite(color);
 }
 
 /**
@@ -375,7 +375,7 @@ void LCD::point_draw(uint16_t x, uint16_t y, uint16_t color) {
  * @param  color  :the color of the line
  * @retval none
  */
-void LCD::draw_line(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color) {
+void LCD::DrawLine(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color) {
     uint16_t t;
     int xerr = 0, yerr = 0, delta_x, delta_y, distance;
     int incx, incy, uRow, uCol;
@@ -404,7 +404,7 @@ void LCD::draw_line(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t
     else
         distance = delta_y;
     for (t = 0; t <= distance + 1; t++) {
-        point_draw(uRow, uCol, color);
+        PointDraw(uRow, uCol, color);
         xerr += delta_x;
         yerr += delta_y;
         if (xerr > distance) {
@@ -424,17 +424,17 @@ void LCD::draw_line(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t
  * @param  y:the y coordinate of the pixel
  * @retval the read color value
  */
-uint16_t LCD::point_read(uint16_t x, uint16_t y) {
+uint16_t LCD::PointRead(uint16_t x, uint16_t y) {   
     uint16_t color;
     if (x >= lcddev.width || y >= lcddev.height) {
         return 0;
     }
 
-    cursor_set(x, y);
+    CursorSet(x, y);
 
-    ram_prepare_read();
+    RamPrepareRead();
 
-    color = data_16bit_read();
+    color = Data16BitRead();
 
     return color;
 }
@@ -444,12 +444,12 @@ uint16_t LCD::point_read(uint16_t x, uint16_t y) {
  * @param  color:filled color
  * @retval none
  */
-void LCD::clear(uint16_t color) {
+void LCD::Clear(uint16_t color) {
     uint32_t i;
 
     uint32_t total_point = lcddev.width * lcddev.height;
 
-    windows_set(0, 0, lcddev.width - 1, lcddev.height - 1);
+    WindowsSet(0, 0, lcddev.width - 1, lcddev.height - 1);
 
     for (i = 0; i < total_point; i++) {
 #if LCD_USE8BIT_MODEL
@@ -469,8 +469,8 @@ void LCD::clear(uint16_t color) {
  *         - LCD_DISPLAY_HORIZONTAL: horizontal display.
  * @retval none
  */
-void LCD::init(lcd_display_type direction_) {
-    xmc_init();
+void LCD::Init(lcd_display_type direction_) {
+    XMCInit();
     LCD_RESET_HIGH();
     delay_ms(10);
     LCD_RESET_LOW();
@@ -478,95 +478,95 @@ void LCD::init(lcd_display_type direction_) {
     LCD_RESET_HIGH();
     delay_ms(10);
 
-    reg_write(0xF7);
-    data_write(0xA9);
-    data_write(0x51);
-    data_write(0x2C);
-    data_write(0x82);
+    RegWrite(0xF7);
+    DataWrite(0xA9);
+    DataWrite(0x51);
+    DataWrite(0x2C);
+    DataWrite(0x82);
 
-    reg_write(0xC0);
-    data_write(0x11);
-    data_write(0x09);
+    RegWrite(0xC0);
+    DataWrite(0x11);
+    DataWrite(0x09);
 
-    reg_write(0xC1);
-    data_write(0x41);
+    RegWrite(0xC1);
+    DataWrite(0x41);
 
-    reg_write(0xC5);
-    data_write(0x00);
-    data_write(0x0A);
-    data_write(0x80);
+    RegWrite(0xC5);
+    DataWrite(0x00);
+    DataWrite(0x0A);
+    DataWrite(0x80);
 
-    reg_write(0xB1);
-    data_write(0xB0);
-    data_write(0x11);
+    RegWrite(0xB1);
+    DataWrite(0xB0);
+    DataWrite(0x11);
 
-    reg_write(0xB4);
-    data_write(0x02);
+    RegWrite(0xB4);
+    DataWrite(0x02);
 
-    reg_write(0xB6);
-    data_write(0x02);
-    data_write(0x22);
+    RegWrite(0xB6);
+    DataWrite(0x02);
+    DataWrite(0x22);
 
-    reg_write(0xB7);
-    data_write(0xc6);
+    RegWrite(0xB7);
+    DataWrite(0xc6);
 
-    reg_write(0xBE);
-    data_write(0x00);
-    data_write(0x04);
+    RegWrite(0xBE);
+    DataWrite(0x00);
+    DataWrite(0x04);
 
-    reg_write(0xE9);
-    data_write(0x00);
+    RegWrite(0xE9);
+    DataWrite(0x00);
 
-    reg_write(0x36);
-    data_write(0x08);
+    RegWrite(0x36);
+    DataWrite(0x08);
 
-    reg_write(0x3A);
-    data_write(0x55);
+    RegWrite(0x3A);
+    DataWrite(0x55);
 
-    reg_write(0xE0);
-    data_write(0x00);
-    data_write(0x07);
-    data_write(0x10);
-    data_write(0x09);
-    data_write(0x17);
-    data_write(0x0B);
-    data_write(0x41);
-    data_write(0x89);
-    data_write(0x4B);
-    data_write(0x0A);
-    data_write(0x0C);
-    data_write(0x0E);
-    data_write(0x18);
-    data_write(0x1B);
-    data_write(0x0F);
+    RegWrite(0xE0);
+    DataWrite(0x00);
+    DataWrite(0x07);
+    DataWrite(0x10);
+    DataWrite(0x09);
+    DataWrite(0x17);
+    DataWrite(0x0B);
+    DataWrite(0x41);
+    DataWrite(0x89);
+    DataWrite(0x4B);
+    DataWrite(0x0A);
+    DataWrite(0x0C);
+    DataWrite(0x0E);
+    DataWrite(0x18);
+    DataWrite(0x1B);
+    DataWrite(0x0F);
 
-    reg_write(0xE1);
-    data_write(0x00);
-    data_write(0x17);
-    data_write(0x1A);
-    data_write(0x04);
-    data_write(0x0E);
-    data_write(0x06);
-    data_write(0x2F);
-    data_write(0x45);
-    data_write(0x43);
-    data_write(0x02);
-    data_write(0x0A);
-    data_write(0x09);
-    data_write(0x32);
-    data_write(0x36);
-    data_write(0x0F);
+    RegWrite(0xE1);
+    DataWrite(0x00);
+    DataWrite(0x17);
+    DataWrite(0x1A);
+    DataWrite(0x04);
+    DataWrite(0x0E);
+    DataWrite(0x06);
+    DataWrite(0x2F);
+    DataWrite(0x45);
+    DataWrite(0x43);
+    DataWrite(0x02);
+    DataWrite(0x0A);
+    DataWrite(0x09);
+    DataWrite(0x32);
+    DataWrite(0x36);
+    DataWrite(0x0F);
 
-    reg_write(0x11);
+    RegWrite(0x11);
     delay_ms(10);
-    reg_write(0x29);
+    RegWrite(0x29);
     delay_ms(10);
 
-    direction(direction_);
+    Direction(direction_);
     delay_ms(10);
     // 初始化背光PWM并设置默认亮度（80%）
-    backlight_init_pwm();
-    backlight_set_percent(80);
+    BacklightInitPWM();
+    BacklightSetPercent(80);
     delay_ms(10);
 }
 
@@ -578,20 +578,20 @@ void LCD::init(lcd_display_type direction_) {
  * @param  yend:the endning y coordinate of the lcd display window
  * @retval none
  */
-void LCD::windows_set(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yend) {
-    reg_write(lcddev.setxcmd);
-    data_write(xstar >> 8);
-    data_write(0x00FF & xstar);
-    data_write(xend >> 8);
-    data_write(0x00FF & xend);
+void LCD::WindowsSet(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yend) {
+    RegWrite(lcddev.setxcmd);
+    DataWrite(xstar >> 8);
+    DataWrite(0x00FF & xstar);
+    DataWrite(xend >> 8);
+    DataWrite(0x00FF & xend);
 
-    reg_write(lcddev.setycmd);
-    data_write(ystar >> 8);
-    data_write(0x00FF & ystar);
-    data_write(yend >> 8);
-    data_write(0x00FF & yend);
+    RegWrite(lcddev.setycmd);
+    DataWrite(ystar >> 8);
+    DataWrite(0x00FF & ystar);
+    DataWrite(yend >> 8);
+    DataWrite(0x00FF & yend);
 
-    ram_prepare_write();
+    RamPrepareWrite();
 }
 
 /**
@@ -600,8 +600,8 @@ void LCD::windows_set(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t ye
  * @param  ypos:the  y coordinate of the pixel
  * @retval none
  */
-void LCD::cursor_set(uint16_t xpos, uint16_t ypos) {
-    windows_set(xpos, ypos, xpos, ypos);
+void LCD::CursorSet(uint16_t xpos, uint16_t ypos) {
+    WindowsSet(xpos, ypos, xpos, ypos);
 }
 
 /**
@@ -612,7 +612,7 @@ void LCD::cursor_set(uint16_t xpos, uint16_t ypos) {
  *                   3-270 degree
  * @retval none
  */
-void LCD::direction(uint8_t direction) {
+void LCD::Direction(uint8_t direction) {
     lcddev.setxcmd = 0x2A;
     lcddev.setycmd = 0x2B;
     lcddev.wramcmd = 0x2C;
@@ -623,22 +623,22 @@ void LCD::direction(uint8_t direction) {
     case LCD_DISPLAY_HORIZONTAL:
         lcddev.width = LCD_H;
         lcddev.height = LCD_W;
-        command_write(0x36, (1 << 3) | (1 << 6) | (1 << 5));
+        CommandWrite(0x36, (1 << 3) | (1 << 6) | (1 << 5));
         break;
     case LCD_DISPLAY_HORIZONTAL_180:
         lcddev.width = LCD_H;
         lcddev.height = LCD_W;
-        command_write(0x36, (1 << 3) | (1 << 7) | (1 << 5));
+        CommandWrite(0x36, (1 << 3) | (1 << 7) | (1 << 5));
         break;
     case LCD_DISPLAY_VERTICAL:
         lcddev.width = LCD_W;
         lcddev.height = LCD_H;
-        command_write(0x36, (1 << 3) | (1 << 6) | (1 << 7));
+        CommandWrite(0x36, (1 << 3) | (1 << 6) | (1 << 7));
         break;
     case LCD_DISPLAY_VERTICAL_180:
         lcddev.width = LCD_W;
         lcddev.height = LCD_H;
-        command_write(0x36, (1 << 3));
+        CommandWrite(0x36, (1 << 3));
         break;
     default:
         break;
@@ -650,78 +650,78 @@ void LCD::direction(uint8_t direction) {
  * @param  none
  * @retval id value
  */
-uint16_t LCD::id_read() {
+uint16_t LCD::IDRead(void) {
     uint8_t val[4] = {0};
 
-    command_read(0xD3, val, 4);
+    CommandRead(0xD3, val, 4);
 
     return (val[2] << 8) | val[3];
 }
 
 // C interface wrappers to keep compatibility with lcd.h
 extern "C" {
-void xmc_init(void) {
-    LCD::GetInstance().xmc_init();
+void LCD_XMCInit(void) {
+    LCD::GetInstance().XMCInit();
 }
-uint16_t lcd_read(void) {
-    return LCD::GetInstance().read();
+uint16_t LCD_Read(void) {
+    return LCD::GetInstance().Read();
 }
-void lcd_reg_write(uint16_t data) {
-    LCD::GetInstance().reg_write(data);
+void LCD_RegWrite(uint16_t data) {
+    LCD::GetInstance().RegWrite(data);
 }
-void lcd_data_write(uint16_t data) {
-    LCD::GetInstance().data_write(data);
+void LCD_DataWrite(uint16_t data) {
+    LCD::GetInstance().DataWrite(data);
 }
-uint16_t lcd_data_read(void) {
-    return LCD::GetInstance().data_read();
+uint16_t LCD_DataRead(void) {
+    return LCD::GetInstance().DataRead();
 }
-void lcd_command_write(uint16_t lcd_comm, uint16_t lcd_regvalue) {
-    LCD::GetInstance().command_write(lcd_comm, lcd_regvalue);
+void LCD_CommandWrite(uint16_t lcd_comm, uint16_t lcd_regvalue) {
+    LCD::GetInstance().CommandWrite(lcd_comm, lcd_regvalue);
 }
-void lcd_command_read(uint16_t lcd_comm, uint8_t *rval, int32_t n) {
-    LCD::GetInstance().command_read(lcd_comm, rval, n);
+void LCD_CommandRead(uint16_t lcd_comm, uint8_t *rval, int32_t n) {
+    LCD::GetInstance().CommandRead(lcd_comm, rval, n);
 }
-void lcd_ram_prepare_write(void) {
-    LCD::GetInstance().ram_prepare_write();
+void LCD_RamPrepareWrite(void) {
+    LCD::GetInstance().RamPrepareWrite();
 }
-void lcd_ram_prepare_read(void) {
-    LCD::GetInstance().ram_prepare_read();
+void LCD_RamPrepareRead(void) {
+    LCD::GetInstance().RamPrepareRead();
 }
-void lcd_data_16bit_write(uint16_t data) {
-    LCD::GetInstance().data_16bit_write(data);
+void LCD_Data16BitWrite(uint16_t data) {
+    LCD::GetInstance().Data16BitWrite(data);
 }
-uint16_t color_to_565(uint8_t r, uint8_t g, uint8_t b) {
-    return LCD::GetInstance().color_to_565(r, g, b);
+uint16_t LCD_ColorTo565(uint8_t r, uint8_t g, uint8_t b) {
+    return LCD::GetInstance().ColorTo565(r, g, b);
 }
-uint16_t lcd_data_16bit_read(void) {
-    return LCD::GetInstance().data_16bit_read();
+uint16_t LCD_Data16BitRead(void) {
+    return LCD::GetInstance().Data16BitRead();
 }
-void lcd_point_draw(uint16_t x, uint16_t y, uint16_t color) {
-    LCD::GetInstance().point_draw(x, y, color);
+void LCD_PointDraw(uint16_t x, uint16_t y, uint16_t color) {
+    LCD::GetInstance().PointDraw(x, y, color);
 }
-uint16_t lcd_point_read(uint16_t x, uint16_t y) {
-    return LCD::GetInstance().point_read(x, y);
+uint16_t LCD_PointRead(uint16_t x, uint16_t y) {
+    return LCD::GetInstance().PointRead(x, y);
 }
-void lcd_draw_line(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color) {
-    LCD::GetInstance().draw_line(x_start, y_start, x_end, y_end, color);
+void LCD_DrawLine(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color) {
+    LCD::GetInstance().DrawLine(x_start, y_start, x_end, y_end, color);
 }
-void lcd_clear(uint16_t color) {
-    LCD::GetInstance().clear(color);
+void LCD_Clear(uint16_t color) {
+    LCD::GetInstance().Clear(color);
 }
-void lcd_init(lcd_display_type direction) {
-    LCD::GetInstance().init(direction);
+void LCD_Init(lcd_display_type direction) {
+    LCD::GetInstance().Init(direction);
 }
-void lcd_windows_set(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yend) {
-    LCD::GetInstance().windows_set(xstar, ystar, xend, yend);
+void LCD_WindowsSet(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yend) {
+    LCD::GetInstance().WindowsSet(xstar, ystar, xend, yend);
 }
-void lcd_cursor_set(uint16_t xpos, uint16_t ypos) {
-    LCD::GetInstance().cursor_set(xpos, ypos);
+void LCD_CursorSet(uint16_t xpos, uint16_t ypos) {
+    LCD::GetInstance().CursorSet(xpos, ypos);
 }
-void lcd_direction(uint8_t direction) {
-    LCD::GetInstance().direction(direction);
+void LCD_Direction(uint8_t direction) {
+    LCD::GetInstance().Direction(direction);
 }
-uint16_t lcd_id_read(void) {
-    return LCD::GetInstance().id_read();
+uint16_t LCD_IDRead(void) {
+    return LCD::GetInstance().IDRead();
 }
 }
 
@@ -734,18 +734,18 @@ uint16_t lcd_id_read(void) {
  * @param  color : color for fill in lcd
  * @retval none
  */
-void lcd_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t color) {
+void LCD_Fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t color) {
     uint16_t height, width;
     uint16_t i, j;
 
     width = ex - sx + 1;
     height = ey - sy + 1;
 
-    lcd_windows_set(sx, sy, ex, ey);
+    LCD::GetInstance().WindowsSet(sx, sy, ex, ey);
 
     for (i = 0; i < height; i++) {
         for (j = 0; j < width; j++) {
-            lcd_data_16bit_write(color);
+            LCD::GetInstance().Data16BitWrite(color);
         }
     }
 }
@@ -759,23 +759,23 @@ void lcd_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t color
  * @param  color : color-point for fill in lcd
  * @retval none
  */
-void lcd_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color) {
+void LCD_ColorFill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color) {
     uint16_t height, width;
     uint16_t i, j;
 
     width = ex - sx + 1;
     height = ey - sy + 1;
 
-    lcd_windows_set(sx, sy, ex, ey);
+    LCD::GetInstance().WindowsSet(sx, sy, ex, ey);
 
     for (i = 0; i < height; i++) {
         for (j = 0; j < width; j++) {
-            lcd_data_16bit_write(color[i * width + j]);
+            LCD::GetInstance().Data16BitWrite(color[i * width + j]);
         }
     }
 }
 
-void LCD::backlight_init_pwm(void) {
+void LCD::BacklightInitPWM(void) {
     if (m_backlight_initialized) return;
 
     // Enable clocks
@@ -824,9 +824,9 @@ void LCD::backlight_init_pwm(void) {
     m_backlight_initialized = true;
 }
 
-void LCD::backlight_set_percent(uint8_t percent) {
+void LCD::BacklightSetPercent(uint8_t percent) {
     if (!m_backlight_initialized) {
-        backlight_init_pwm();
+        BacklightInitPWM();
     }
     if (percent > 100) percent = 100;
 

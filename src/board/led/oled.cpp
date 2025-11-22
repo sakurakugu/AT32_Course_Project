@@ -7,78 +7,78 @@
 #include "delay.h"
 #include "oled_font.h"
 
-void OLED::init() {
-    gpioConfig();
-    spiConfig();
-    csClr();
-    rstSet();
+void OLED::Init() {
+    GPIOConfig();
+    SPIConfig();
+    CSClr();
+    RSTSet();
     delay_ms(10);
-    rstClr();
+    RSTClr();
     delay_ms(10);
-    rstSet();
+    RSTSet();
 
-    writeByte(0xAE, OLED_CMD); //--turn off oled panel
-    writeByte(0x00, OLED_CMD); //---set low column address
-    writeByte(0x10, OLED_CMD); //---set high column address
-    writeByte(0x40, OLED_CMD); //--set start line address
-    writeByte(0x81, OLED_CMD); //--set contrast control register
-    writeByte(0xCF, OLED_CMD); // brightness
-    writeByte(0xA1, OLED_CMD); //--SEG/Column Mapping
-    writeByte(0xC8, OLED_CMD); //--COM/Row Scan Direction
-    writeByte(0xA6, OLED_CMD); //--normal display
-    writeByte(0xA8, OLED_CMD); //--multiplex ratio(1 to 64)
-    writeByte(0x3f, OLED_CMD); //--1/64 duty
-    writeByte(0xD3, OLED_CMD); //--display offset
-    writeByte(0x00, OLED_CMD); //--not offset
-    writeByte(0xd5, OLED_CMD); //--display clock divide ratio
-    writeByte(0x80, OLED_CMD); //--Set Clock as 100 Frames/Sec
-    writeByte(0xD9, OLED_CMD); //--pre-charge period
-    writeByte(0xF1, OLED_CMD); //--Pre-Charge as 15 Clocks & Discharge as 1 Clock
-    writeByte(0xDA, OLED_CMD); //--com pins hardware configuration
-    writeByte(0x12, OLED_CMD);
-    writeByte(0xDB, OLED_CMD); //--vcomh
-    writeByte(0x40, OLED_CMD); //--VCOM Deselect Level
-    writeByte(0x20, OLED_CMD); //--Page Addressing Mode
-    writeByte(0x02, OLED_CMD);
-    writeByte(0x8D, OLED_CMD); //--Charge Pump enable
-    writeByte(0x14, OLED_CMD);
-    writeByte(0xA4, OLED_CMD); //--Disable Entire Display On
-    writeByte(0xA6, OLED_CMD); //--Disable Inverse Display On
-    writeByte(0xAF, OLED_CMD); //--turn on oled panel
+    WriteByte(0xAE, OLED_CMD); //--turn off oled panel
+    WriteByte(0x00, OLED_CMD); //---set low column address
+    WriteByte(0x10, OLED_CMD); //---set high column address
+    WriteByte(0x40, OLED_CMD); //--set start line address
+    WriteByte(0x81, OLED_CMD); //--set contrast control register
+    WriteByte(0xCF, OLED_CMD); // brightness
+    WriteByte(0xA1, OLED_CMD); //--SEG/Column Mapping
+    WriteByte(0xC8, OLED_CMD); //--COM/Row Scan Direction
+    WriteByte(0xA6, OLED_CMD); //--normal display
+    WriteByte(0xA8, OLED_CMD); //--multiplex ratio(1 to 64) 
+    WriteByte(0x3f, OLED_CMD); //--1/64 duty
+    WriteByte(0xD3, OLED_CMD); //--display offset
+    WriteByte(0x00, OLED_CMD); //--not offset
+    WriteByte(0xd5, OLED_CMD); //--display clock divide ratio
+    WriteByte(0x80, OLED_CMD); //--Set Clock as 100 Frames/Sec
+    WriteByte(0xD9, OLED_CMD); //--pre-charge period
+    WriteByte(0xF1, OLED_CMD); //--Pre-Charge as 15 Clocks & Discharge as 1 Clock
+    WriteByte(0xDA, OLED_CMD); //--com pins hardware configuration
+    WriteByte(0x12, OLED_CMD);
+    WriteByte(0xDB, OLED_CMD); //--vcomh
+    WriteByte(0x40, OLED_CMD); //--VCOM Deselect Level
+    WriteByte(0x20, OLED_CMD); //--Page Addressing Mode
+    WriteByte(0x02, OLED_CMD);
+    WriteByte(0x8D, OLED_CMD); //--Charge Pump enable
+    WriteByte(0x14, OLED_CMD);
+    WriteByte(0xA4, OLED_CMD); //--Disable Entire Display On
+    WriteByte(0xA6, OLED_CMD); //--Disable Inverse Display On
+    WriteByte(0xAF, OLED_CMD); //--turn on oled panel
 
-    writeByte(0xAF, OLED_CMD); /*display ON*/
-    clear();
-    setPos(0, 0);
+    WriteByte(0xAF, OLED_CMD); /*display ON*/
+    Clear();
+    SetPos(0, 0);
 }
 
-void OLED::displayOn() {
-    writeByte(0X8D, OLED_CMD);
-    writeByte(0X14, OLED_CMD);
-    writeByte(0XAF, OLED_CMD);
+void OLED::DisplayOn() {
+    WriteByte(0X8D, OLED_CMD);
+    WriteByte(0X14, OLED_CMD);
+    WriteByte(0XAF, OLED_CMD);
 }
 
-void OLED::displayOff() {
-    writeByte(0X8D, OLED_CMD);
-    writeByte(0X10, OLED_CMD);
-    writeByte(0XAE, OLED_CMD);
+void OLED::DisplayOff() {
+    WriteByte(0X8D, OLED_CMD);
+    WriteByte(0X10, OLED_CMD);
+    WriteByte(0XAE, OLED_CMD);
 }
 
-void OLED::clear() {
+void OLED::Clear() {
     uint8_t i, n;
     for (i = 0; i < 8; i++) {
-        writeByte(0xb0 + i, OLED_CMD); // 设置页地址（0~7）
-        writeByte(0x00, OLED_CMD);     // 设置显示位置—列低地址
-        writeByte(0x10, OLED_CMD);     // 设置显示位置—列高地址
+        WriteByte(0xb0 + i, OLED_CMD); // 设置页地址（0~7）
+        WriteByte(0x00, OLED_CMD);     // 设置显示位置—列低地址
+        WriteByte(0x10, OLED_CMD);     // 设置显示位置—列高地址
         for (n = 0; n < 128; n++) {
-            writeByte(0x00, OLED_DATA);
+            WriteByte(0x00, OLED_DATA);
         }
     } // 更新显示
 }
 
-void OLED::setPos(uint8_t x, uint8_t y) {
-    writeByte(0xb0 + y, OLED_CMD);
-    writeByte(((x & 0xf0) >> 4) | 0x10, OLED_CMD);
-    writeByte((x & 0x0f), OLED_CMD);
+void OLED::SetPos(uint8_t x, uint8_t y) {
+    WriteByte(0xb0 + y, OLED_CMD);
+    WriteByte(((x & 0xf0) >> 4) | 0x10, OLED_CMD);
+    WriteByte((x & 0x0f), OLED_CMD);
 }
 
 // 在指定位置显示一个字符,包括部分字符
@@ -86,7 +86,7 @@ void OLED::setPos(uint8_t x, uint8_t y) {
 // y:0~8
 // mode:0,反白显示;1,正常显示
 // size:选择字体 16/8
-void OLED::showChar(uint8_t x, uint8_t y, uint8_t chr) {
+void OLED::ShowChar(uint8_t x, uint8_t y, uint8_t chr) {
     unsigned char c = 0, i = 0;
     c = chr - ' ';
     if (x > Max_Column - 1) {
@@ -94,41 +94,41 @@ void OLED::showChar(uint8_t x, uint8_t y, uint8_t chr) {
         y = y + 2;
     }
     if (SIZE == 16) {
-        setPos(x, y);
+        SetPos(x, y);
         for (i = 0; i < 8; i++)
-            writeByte(oled_font_8X16[c * 16 + i], OLED_DATA);
-        setPos(x, y + 1);
+            WriteByte(oled_font_8X16[c * 16 + i], OLED_DATA);
+        SetPos(x, y + 1);
         for (i = 0; i < 8; i++)
-            writeByte(oled_font_8X16[c * 16 + i + 8], OLED_DATA);
+            WriteByte(oled_font_8X16[c * 16 + i + 8], OLED_DATA);
     } else {
-        setPos(x, y + 1);
+        SetPos(x, y + 1);
         for (i = 0; i < 6; i++) {
-            writeByte(oled_font_6x8[c][i], OLED_DATA);
+            WriteByte(oled_font_6x8[c][i], OLED_DATA);
         }
     }
 }
 
-void OLED::showNum(uint8_t x, uint8_t y, uint32_t num, uint8_t len, uint8_t size2) {
+void OLED::ShowNum(uint8_t x, uint8_t y, uint32_t num, uint8_t len, uint8_t size2) {
     uint8_t t, temp;
     uint8_t enshow = 0;
     for (t = 0; t < len; t++) {
-        temp = (num / pow_uint32_t(10, len - t - 1)) % 10;
+        temp = (num / PowUint32_t(10, len - t - 1)) % 10;
         if (enshow == 0 && t < (len - 1)) {
             if (temp == 0) {
-                showChar(x + (size2 / 2) * t, y, ' ');
+                ShowChar(x + (size2 / 2) * t, y, ' ');
                 continue;
             } else {
                 enshow = 1;
             }
         }
-        showChar(x + (size2 / 2) * t, y, temp + '0');
+        ShowChar(x + (size2 / 2) * t, y, temp + '0');
     }
 }
 
-void OLED::showString(uint8_t x, uint8_t y, uint8_t *str) {
+void OLED::ShowString(uint8_t x, uint8_t y, uint8_t *str) {
     unsigned char j = 0;
     while (str[j] != '\0') {
-        showChar(x, y, str[j]);
+        ShowChar(x, y, str[j]);
         x += 8;
         if (x > 120) {
             x = 0;
@@ -138,19 +138,19 @@ void OLED::showString(uint8_t x, uint8_t y, uint8_t *str) {
     }
 }
 
-void OLED::showChinese(uint8_t x, uint8_t y, uint8_t no) {
+void OLED::ShowChinese(uint8_t x, uint8_t y, uint8_t no) {
     uint8_t t;
-    setPos(x, y);
+    SetPos(x, y);
     for (t = 0; t < 16; t++) {
-        writeByte(Hzk[2 * no][t], OLED_DATA);
+        WriteByte(Hzk[2 * no][t], OLED_DATA);       
     }
-    setPos(x, y + 1);
+    SetPos(x, y + 1);
     for (t = 0; t < 16; t++) {
-        writeByte(Hzk[2 * no + 1][t], OLED_DATA);
+        WriteByte(Hzk[2 * no + 1][t], OLED_DATA);
     }
 }
 
-void OLED::showCHStr(uint8_t X, uint8_t Y, uint8_t *pstr) {
+void OLED::ShowCHStr(uint8_t X, uint8_t Y, uint8_t *pstr) {
     unsigned char i;
     unsigned char Addr = 0;
     unsigned char count = 0;
@@ -162,13 +162,13 @@ void OLED::showCHStr(uint8_t X, uint8_t Y, uint8_t *pstr) {
                 break;
             }
         }
-        setPos(X + count * 12, Y);
+        SetPos(X + count * 12, Y);
         for (i = 0; i < 12; i++) {
-            writeByte(oled_font_chinese_12x12[Addr].data[i], 1);
+            WriteByte(oled_font_chinese_12x12[Addr].data[i], OLED_DATA);
         }
-        setPos(X + count * 12, Y + 1);
+        SetPos(X + count * 12, Y + 1);
         for (i = 0; i < 12; i++) {
-            writeByte(oled_font_chinese_12x12[Addr].data[12 + i], 1);
+            WriteByte(oled_font_chinese_12x12[Addr].data[12 + i], OLED_DATA);
         }
         count++;
         pstr++;
@@ -176,7 +176,7 @@ void OLED::showCHStr(uint8_t X, uint8_t Y, uint8_t *pstr) {
     }
 }
 
-void OLED::drawBMP(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, unsigned char BMP[]) {
+void OLED::DrawBMP(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, unsigned char BMP[]) {
     unsigned int j = 0;
     unsigned char x, y;
 
@@ -185,57 +185,57 @@ void OLED::drawBMP(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, unsigned char
     else
         y = y1 / 8 + 1;
     for (y = y0; y < y1; y++) {
-        setPos(x0, y);
+        SetPos(x0, y);
         for (x = x0; x < x1; x++) {
-            writeByte(BMP[j++], OLED_DATA);
+            WriteByte(BMP[j++], OLED_DATA);
         }
     }
 }
 
-void OLED::writeByte(uint8_t dat, uint8_t cmd) {
+void OLED::WriteByte(uint8_t dat, uint8_t cmd) {
     if (cmd == OLED_DATA) {
-        dcSet();
+        DCSet();
     } else {
-        dcClr();
+        DCClr();
     }
-    csClr();
-    spiTransferByte(dat);
-    csSet();
-    dcSet();
+    CSClr();
+    SPITransferByte(dat);
+    CSSet();
+    DCSet();
 }
 
-uint32_t OLED::pow_uint32_t(uint8_t m, uint8_t n) {
+uint32_t OLED::PowUint32_t(uint8_t m, uint8_t n) {
     uint32_t result = 1;
     while (n--)
         result *= m;
     return result;
 }
 
-void OLED::dcSet() {
+void OLED::DCSet() {
     gpio_bits_write(GPIOD, GPIO_PINS_6, TRUE);
 }
-void OLED::dcClr() {
+void OLED::DCClr() {
     gpio_bits_write(GPIOD, GPIO_PINS_6, FALSE);
 }
-void OLED::csSet() {
+void OLED::CSSet() {
     gpio_bits_write(GPIOD, GPIO_PINS_3, TRUE);
 }
-void OLED::csClr() {
+void OLED::CSClr() {
     gpio_bits_write(GPIOD, GPIO_PINS_3, FALSE);
 }
-void OLED::rstSet() {
+void OLED::RSTSet() {
     gpio_bits_write(GPIOE, GPIO_PINS_6, TRUE);
 }
-void OLED::rstClr() {
+void OLED::RSTClr() {
     gpio_bits_write(GPIOE, GPIO_PINS_6, FALSE);
 }
 
-void OLED::spiTransferByte(uint8_t data) {
+void OLED::SPITransferByte(uint8_t data) {
     spi_i2s_data_transmit(SPI3, data);
     while (spi_i2s_flag_get(SPI3, SPI_I2S_BF_FLAG) == SET) {}
 }
 
-void OLED::spiConfig() {
+void OLED::SPIConfig() {
     spi_init_type spi_init_struct;
     crm_periph_clock_enable(CRM_SPI3_PERIPH_CLOCK, TRUE);
 
@@ -253,7 +253,7 @@ void OLED::spiConfig() {
     spi_enable(SPI3, TRUE);
 }
 
-void OLED::gpioConfig() {
+void OLED::GPIOConfig() {
     gpio_init_type gpio_initstructure;
     crm_periph_clock_enable(CRM_GPIOC_PERIPH_CLOCK, TRUE);
     crm_periph_clock_enable(CRM_GPIOD_PERIPH_CLOCK, TRUE);

@@ -224,29 +224,29 @@ extern uint16_t BACK_COLOR;
 #define LCD_RESET_LOW()             gpio_bits_reset(LCD_RESET_GPIO_PORT, LCD_RESET_GPIO_PIN)
 
 // C 接口函数，用于 LVGL 和 C 模块
-void xmc_init(void);
-uint16_t lcd_read(void);
-void lcd_reg_write(uint16_t data);
-void lcd_data_write(uint16_t data);
-uint16_t lcd_data_read(void);
-void lcd_command_write(uint16_t lcd_comm, uint16_t lcd_regvalue);
-void lcd_command_read(uint16_t lcd_comm, uint8_t *rval, int32_t n);
-void lcd_ram_prepare_write(void);
-void lcd_ram_prepare_read(void);
-void lcd_data_16bit_write(uint16_t data);
-uint16_t color_to_565(uint8_t r, uint8_t g, uint8_t b);
-uint16_t lcd_data_16bit_read(void);
-void lcd_point_draw(uint16_t x, uint16_t y, uint16_t color);
-uint16_t lcd_point_read(uint16_t x, uint16_t y);
-void lcd_draw_line(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color);
-void lcd_clear(uint16_t color);
-void lcd_init(lcd_display_type direction);
-void lcd_windows_set(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yend);
-void lcd_cursor_set(uint16_t xpos, uint16_t ypos);
-void lcd_direction(uint8_t direction);
-uint16_t lcd_id_read(void);
-void lcd_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t color);
-void lcd_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color);
+void LCD_XMCInit(void);
+uint16_t LCD_Read(void);
+void LCD_RegWrite(uint16_t data);
+void LCD_DataWrite(uint16_t data);
+uint16_t LCD_DataRead(void);
+void LCD_CommandWrite(uint16_t lcd_comm, uint16_t lcd_regvalue);
+void LCD_CommandRead(uint16_t lcd_comm, uint8_t *rval, int32_t n);
+void LCD_RamPrepareWrite(void);
+void LCD_RamPrepareRead(void);
+void LCD_Data16BitWrite(uint16_t data);
+uint16_t LCD_ColorTo565(uint8_t r, uint8_t g, uint8_t b);
+uint16_t LCD_Data16BitRead(void);
+void LCD_PointDraw(uint16_t x, uint16_t y, uint16_t color);
+uint16_t LCD_PointRead(uint16_t x, uint16_t y);
+void LCD_DrawLine(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color);
+void LCD_Clear(uint16_t color);
+void LCD_Init(lcd_display_type direction);
+void LCD_WindowsSet(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yend);
+void LCD_CursorSet(uint16_t xpos, uint16_t ypos);
+void LCD_Direction(uint8_t direction);
+uint16_t LCD_IDRead(void);
+void LCD_Fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t color);
+void LCD_ColorFill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color);
 
 #ifdef __cplusplus
 }

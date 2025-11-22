@@ -17,33 +17,33 @@ class LCD {
     LCD &operator=(const LCD &) = delete;
 
     // 高等级操作
-    void init(lcd_display_type direction);                                                              // 初始化 LCD
-    void clear(uint16_t color);                                                                         // 清除 LCD 屏幕
-    void draw_line(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color); // 绘制一条线
-    void point_draw(uint16_t x, uint16_t y, uint16_t color);                                            // 绘制一个点
-    uint16_t point_read(uint16_t x, uint16_t y);                                    // 读取一个点的颜色
-    void windows_set(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yend); // 设置窗口
-    void cursor_set(uint16_t xpos, uint16_t ypos);                                  // 设置光标位置
-    void direction(uint8_t direction);                                              // 设置显示方向
-    uint16_t id_read();                                                             // 读取 LCD ID
+    void Init(lcd_display_type direction);                                                              // 初始化 LCD
+    void Clear(uint16_t color);                                                                         // 清除 LCD 屏幕
+    void DrawLine(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color); // 绘制一条线
+    void PointDraw(uint16_t x, uint16_t y, uint16_t color);                                            // 绘制一个点
+    uint16_t PointRead(uint16_t x, uint16_t y);                                    // 读取一个点的颜色
+    void WindowsSet(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yend); // 设置窗口
+    void CursorSet(uint16_t xpos, uint16_t ypos);                                  // 设置光标位置
+    void Direction(uint8_t direction);                                              // 设置显示方向
+    uint16_t IDRead();                                                             // 读取 LCD ID
 
     // 低等级操作
-    void xmc_init();                                                // 初始化 XMC
-    uint16_t read();                                                // 读取数据
-    void reg_write(uint16_t data);                                  // 写入寄存器
-    void data_write(uint16_t data);                                 // 写入数据
-    uint16_t data_read();                                           // 读取数据
-    void command_write(uint16_t lcd_comm, uint16_t lcd_regvalue);   // 写入命令
-    void command_read(uint16_t lcd_comm, uint8_t *rval, int32_t n); // 读取命令
-    void ram_prepare_write();                                       // 准备写入 RAM
-    void ram_prepare_read();                                        // 准备读取 RAM
-    void data_16bit_write(uint16_t data);                           // 写入 16 位数据
-    uint16_t color_to_565(uint8_t r, uint8_t g, uint8_t b);         // 将 RGB 转换为 565 格式
-    uint16_t data_16bit_read();                                     // 读取 16 位数据
+    void XMCInit();                                                // 初始化 XMC
+    uint16_t Read();                                                // 读取数据
+    void RegWrite(uint16_t data);                                  // 写入寄存器
+    void DataWrite(uint16_t data);                                 // 写入数据
+    uint16_t DataRead();                                           // 读取数据
+    void CommandWrite(uint16_t lcd_comm, uint16_t lcd_regvalue);   // 写入命令
+    void CommandRead(uint16_t lcd_comm, uint8_t *rval, int32_t n); // 读取命令
+    void RamPrepareWrite();                                       // 准备写入 RAM
+    void RamPrepareRead();                                        // 准备读取 RAM
+    void Data16BitWrite(uint16_t data);                           // 写入 16 位数据
+    uint16_t ColorTo565(uint8_t r, uint8_t g, uint8_t b);         // 将 RGB 转换为 565 格式
+    uint16_t Data16BitRead();                                     // 读取 16 位数据
 
     // 背光控制
-    void backlight_init_pwm();                   // 初始化背光 PWM
-    void backlight_set_percent(uint8_t percent); // 设置背光亮度百分比（0..100），0=关闭，100=最亮
+    void BacklightInitPWM();                   // 初始化背光 PWM
+    void BacklightSetPercent(uint8_t percent); // 设置背光亮度百分比（0..100），0=关闭，100=最亮
 
   private:
     LCD() = default;

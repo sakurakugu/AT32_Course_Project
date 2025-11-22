@@ -12,8 +12,8 @@ class LED {
     LED &operator=(const LED &) = delete;
 
     void Init(led_type led);
-    void On(led_type led);
-    void Off(led_type led);
+    void TurnOn(led_type led);
+    void TurnOff(led_type led);
     void Toggle(led_type led);
 
   private:

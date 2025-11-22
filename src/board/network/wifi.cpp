@@ -34,7 +34,7 @@ char g_EspBuf[2048]; /* 用于解码 */
  * @brief 初始化ESP12 串口WIFI模块
  * 配置无线模块相关的GPIO,  该函数被 bsp_Init() 调用。
  */
-void Wifi::init() {
+void Wifi::Init() {
     esp12_uart_init(UART3_BAUD);
 }
 
@@ -54,7 +54,7 @@ void ESP12_PrintRxData(uint8_t _ch) {
  * @param us_timeout : 命令执行超时，0表示一直等待. >０表示超时时间，单位1ms
  * @return bool true 表示成功  false 表示失败
  */
-bool Wifi::waitResponse(const char *ack_str, uint16_t us_timeout) {
+bool Wifi::WaitResponse(const char *ack_str, uint16_t us_timeout) {
     uint8_t ucData;
     uint16_t pos = 0;
     uint32_t len;
@@ -63,7 +63,7 @@ bool Wifi::waitResponse(const char *ack_str, uint16_t us_timeout) {
 
     len = strlen(ack_str);
     if (len > 255) {
-        return false;   
+        return false;
     }
 
     /* us_timeout == 0 表示无限等待 */
@@ -105,7 +105,7 @@ bool Wifi::waitResponse(const char *ack_str, uint16_t us_timeout) {
  * @param us_timeout : 命令执行超时，0表示一直等待. >0 表示超时时间，单位1ms
  * @return uint16_t 0 表示错误（超时）  > 0 表示应答的数据长度
  */
-uint16_t Wifi::readLine(char *buffer, uint16_t size, uint16_t us_timeout) {
+uint16_t Wifi::ReadLine(char *buffer, uint16_t size, uint16_t us_timeout) {
     uint8_t ucData;
     uint16_t pos = 0;
     uint8_t ret;
@@ -149,7 +149,7 @@ uint16_t Wifi::readLine(char *buffer, uint16_t size, uint16_t us_timeout) {
  * @brief 向模块发送AT命令。 本函数自动在AT字符串口增加<CR>字符
  * @param _Cmd : AT命令字符串，不包括末尾的回车<CR>. 以字符0结束
  */
-void Wifi::sendAT(const char *_Cmd) {
+void Wifi::SendAT(const char *_Cmd) {
     comSendBuf(COM_ESP12, (uint8_t *)_Cmd, strlen(_Cmd));
     comSendBuf(COM_ESP12, (uint8_t *)"\r\n", 2);
 }
@@ -159,17 +159,17 @@ void Wifi::sendAT(const char *_Cmd) {
  * @param _mode : 1 = Station模式,  2 = AP模式,  3 = AP兼Station模式
  * @return bool true 表示成功  false 表示失败
  */
-bool Wifi::setWiFiMode(uint8_t _mode) {
+bool Wifi::SetWiFiMode(uint8_t _mode) {
     char cmd_buf[30];
 
     if (_mode == 0 || _mode > 3) {
         _mode = 3;
     }
     sprintf(cmd_buf, "AT+CWMODE=%d", _mode);
-    sendAT(cmd_buf);
+    SendAT(cmd_buf);
     // 兼容 OK、无CRLF的 OK
-    if (waitResponse("OK\r\n", 2000) == false) {
-        if (waitResponse("OK", 2000) == false) {
+    if (WaitResponse("OK\r\n", 2000) == false) {
+        if (WaitResponse("OK", 2000) == false) {
             return false;
         }
     }
@@ -182,16 +182,16 @@ bool Wifi::setWiFiMode(uint8_t _mode) {
  * @param _mode : 0,表示关闭， 1表示启动
  * @return bool true 表示成功  false 表示失败
  */
-bool Wifi::enableCIPMUX(uint8_t _mode) {
+bool Wifi::EnableCIPMUX(uint8_t _mode) {
     char cmd_buf[30];
 
     if (_mode > 0) {
         _mode = 1;
     }
     sprintf(cmd_buf, "AT+CIPMUX=%d", _mode);
-    sendAT(cmd_buf);
-    if (waitResponse("OK\r\n", 2000) == false) {
-        if (waitResponse("OK", 2000) == false) {
+    SendAT(cmd_buf);
+    if (WaitResponse("OK\r\n", 2000) == false) {
+        if (WaitResponse("OK", 2000) == false) {
             return false;
         }
     }
@@ -204,13 +204,13 @@ bool Wifi::enableCIPMUX(uint8_t _mode) {
  * @param _ip :AP的IP地址，标准字符串
  * @return bool true 表示成功  false 表示失败
  */
-bool Wifi::setAPIP(const char *_ip) {
+bool Wifi::SetAPIP(const char *_ip) {
     char cmd_buf[30];
 
     sprintf(cmd_buf, "AT+CIPAP=\"%s\"", _ip);
-    sendAT(cmd_buf);
-    if (waitResponse("OK\r\n", 1000) == false) {
-        if (waitResponse("OK", 1000) == false) {
+    SendAT(cmd_buf);
+    if (WaitResponse("OK\r\n", 1000) == false) {
+        if (WaitResponse("OK", 1000) == false) {
             return false;
         }
     }
@@ -227,13 +227,13 @@ bool Wifi::setAPIP(const char *_ip) {
  * @param _ecn : 加密方式
  * @return bool true 表示成功  false 表示失败
  */
-bool Wifi::setAPNamePass(const char *_name, const char *_pwd, uint8_t _ch, uint8_t _ecn) {
+bool Wifi::SetAPNamePass(const char *_name, const char *_pwd, uint8_t _ch, uint8_t _ecn) {
     char cmd_buf[40];
 
     /* AT+CWSAP="ESP12","1234567890",5,3 */
     sprintf(cmd_buf, "AT+CWSAP=\"%s\",\"%s\",%d,%d", _name, _pwd, _ch, _ecn);
-    sendAT(cmd_buf);
-    if (waitResponse("OK\r\n", 500) == false) {
+    SendAT(cmd_buf);
+    if (WaitResponse("OK\r\n", 500) == false) {
         return false;
     }
 
@@ -245,23 +245,23 @@ bool Wifi::setAPNamePass(const char *_name, const char *_pwd, uint8_t _ch, uint8
  * @param _TcpPort : TCP 端口号
  * @return bool true 表示成功  false 表示失败
  */
-bool Wifi::createTCPServer(uint16_t _TcpPort) {
+bool Wifi::CreateTCPServer(uint16_t _TcpPort) {
     char cmd_buf[30];
 
-    sendAT("AT+CIPMUX=1"); /* 启动多连接 */
-    if (waitResponse("OK", 2000) == false) {
+    SendAT("AT+CIPMUX=1"); /* 启动多连接 */
+    if (WaitResponse("OK", 2000) == false) {
         return false;
     }
 
     /* 开启TCP server, 端口为 _TcpPort */
     sprintf(cmd_buf, "AT+CIPSERVER=1,%d", _TcpPort);
-    sendAT(cmd_buf);
-    if (waitResponse("OK\r\n", 2000) == false) {
+    SendAT(cmd_buf);
+    if (WaitResponse("OK\r\n", 2000) == false) {
         return false;
     }
 
-    sendAT("ATE0"); /* 关闭回显功能，主机发送的字符，模块无需返回 */
-    if (waitResponse("OK", 10000) == false) {
+    SendAT("ATE0"); /* 关闭回显功能，主机发送的字符，模块无需返回 */
+    if (WaitResponse("OK", 10000) == false) {
         return false;
     }
 
@@ -274,11 +274,11 @@ bool Wifi::createTCPServer(uint16_t _TcpPort) {
  * @param _LaocalPort : UDP 端口号
  * @return bool true 表示成功  false 表示失败
  */
-bool Wifi::createUDPServer(uint8_t _id, uint16_t _LaocalPort) {
+bool Wifi::CreateUDPServer(uint8_t _id, uint16_t _LaocalPort) {
     char cmd_buf[64];
 
-    sendAT("AT+CIPMUX=1"); /* 启动多连接 */
-    if (waitResponse("OK", 2000) == false) {
+    SendAT("AT+CIPMUX=1"); /* 启动多连接 */
+    if (WaitResponse("OK", 2000) == false) {
         return false;
     }
 
@@ -289,13 +289,13 @@ bool Wifi::createUDPServer(uint8_t _id, uint16_t _LaocalPort) {
     // AT+CIPSTART="UDP","255.255.255.255",8080,8080,1
     // sprintf(cmd_buf, "AT+CIPSTART=\"UDP\",\"255.255.255.255\",8080,%d,2", _LaocalPort);
 
-    sendAT(cmd_buf);
-    if (waitResponse("OK\r\n", 3000) == false) {
+    SendAT(cmd_buf);
+    if (WaitResponse("OK\r\n", 3000) == false) {
         return false;
     }
 
-    sendAT("ATE0"); /* 关闭回显功能，主机发送的字符，模块无需返回 */
-    if (waitResponse("OK", 10000) == false) {
+    SendAT("ATE0"); /* 关闭回显功能，主机发送的字符，模块无需返回 */
+    if (WaitResponse("OK", 10000) == false) {
         return false;
     }
 
@@ -309,7 +309,7 @@ bool Wifi::createUDPServer(uint8_t _id, uint16_t _LaocalPort) {
  * @param _TcpPort : TCP 端口号
  * @return bool true 表示成功  false 表示失败
  */
-bool Wifi::linkTCPServer(uint8_t _id, const char *_server_ip, uint16_t _TcpPort) {
+bool Wifi::LinkTCPServer(uint8_t _id, const char *_server_ip, uint16_t _TcpPort) {
     char cmd_buf[30];
 
 #if 0 /* 单连接 */
@@ -319,9 +319,9 @@ bool Wifi::linkTCPServer(uint8_t _id, const char *_server_ip, uint16_t _TcpPort)
     // AT+CIPSTART=0, "TCP","192.168.101.110",1000
     sprintf(cmd_buf, "AT+CIPSTART=%d,\"TCP\",\"%s\",%d", _id, _server_ip, _TcpPort);
 #endif
-    sendAT(cmd_buf);
-    if (waitResponse("OK\r\n", 3000) == false) {
-        if (waitResponse("OK", 3000) == false) {
+    SendAT(cmd_buf);
+    if (WaitResponse("OK\r\n", 3000) == false) {
+        if (WaitResponse("OK", 3000) == false) {
             return false;
         }
     }
@@ -335,7 +335,7 @@ bool Wifi::linkTCPServer(uint8_t _id, const char *_server_ip, uint16_t _TcpPort)
  * @param _databuf 数据
  * @param _len 数据长度
  */
-void Wifi::sendTcpUdp(uint8_t _id, uint8_t *_databuf, uint16_t _len) {
+void Wifi::SendTcpUdp(uint8_t _id, uint8_t *_databuf, uint16_t _len) {
     char buf[32];
 
     if (_len > 2048) {
@@ -345,25 +345,25 @@ void Wifi::sendTcpUdp(uint8_t _id, uint8_t *_databuf, uint16_t _len) {
     sprintf(buf, "AT+CIPSEND=%d,%d\r\n", _id, _len);
     comSendBuf(COM_ESP12, (uint8_t *)buf, strlen(buf));
 
-    waitResponse(">", 1000);
+    WaitResponse(">", 1000);
 
     comSendBuf(COM_ESP12, _databuf, _len);
-    waitResponse("SEND OK", 8000);
+    WaitResponse("SEND OK", 8000);
 }
 
 /**
  * @brief 关闭TCP或UDP连接. 用于多路连接
  * @param _id : 多连接时，连接ID （0-4）
  */
-void Wifi::closeTcpUdp(uint8_t _id) {
+void Wifi::CloseTcpUdp(uint8_t _id) {
     char buf[32];
 
-    sendAT("ATE1"); /* 打开回显功能 */
-    waitResponse("SEND OK", 50);
+    SendAT("ATE1"); /* 打开回显功能 */
+    WaitResponse("SEND OK", 50);
 
     sprintf(buf, "AT+CIPCLOSE=%d", _id);
-    sendAT(buf);
-    waitResponse("OK", 200);
+    SendAT(buf);
+    WaitResponse("OK", 200);
 }
 
 /**
@@ -372,13 +372,13 @@ void Wifi::closeTcpUdp(uint8_t _id) {
  * @param _mac : 本机MAC地址字符串
  * @return bool true 表示OK， false 表示未知
  */
-bool Wifi::getLocalIP(char *_ip, char *_mac) {
+bool Wifi::GetLocalIP(char *_ip, char *_mac) {
     char buf[64];
     uint8_t i, m;
     uint8_t ret = 0;
     uint8_t temp;
 
-    sendAT("AT+CIFSR");
+    SendAT("AT+CIFSR");
 
     /*　模块将应答:
 
@@ -391,7 +391,7 @@ bool Wifi::getLocalIP(char *_ip, char *_mac) {
     _ip[0] = 0;
     _mac[0] = 0;
     for (i = 0; i < 4; i++) {
-        readLine(buf, sizeof(buf), 500);
+        ReadLine(buf, sizeof(buf), 500);
         if (memcmp(buf, "+CIFSR:STAIP", 12) == 0) {
 
             for (m = 0; m < 20; m++) {
@@ -427,28 +427,28 @@ bool Wifi::getLocalIP(char *_ip, char *_mac) {
  * @param _timeout : 超时时间，单位毫秒
  * @return bool true 表示 0K  false 表示失败
  */
-bool Wifi::joinAP(const char *_ssid, const char *_pwd, uint16_t _timeout) {
+bool Wifi::JoinAP(const char *_ssid, const char *_pwd, uint16_t _timeout) {
     char buf[64];
     bool ret;
 
     sprintf(buf, "AT+CWJAP=\"%s\",\"%s\"", _ssid, _pwd);
-    sendAT(buf);
+    SendAT(buf);
 
-    if (readLine(buf, 64, _timeout)) {
+    if (ReadLine(buf, 64, _timeout)) {
         /* ATE1的情况，有命令回显的情况 */
         if (memcmp(buf, "AT+CWJAP", 8) == 0) /* 第1次读到的是 命令本身 */
         {
-            readLine(buf, 64, _timeout); /* 这个是回车 */
-            readLine(buf, 64, _timeout); /* 这次是读应答的OK */
+            ReadLine(buf, 64, _timeout); /* 这个是回车 */
+            ReadLine(buf, 64, _timeout); /* 这次是读应答的OK */
 
             if (memcmp(buf, "OK", 2) == 0) {
                 return 1;
             }
         } else /* ATE0 无回显的情况 */
         {
-            ret = waitResponse("OK\r\n", _timeout);
+            ret = WaitResponse("OK\r\n", _timeout);
             if (ret != true) {
-                ret = waitResponse("OK", _timeout);
+                ret = WaitResponse("OK", _timeout);
             }
             if (ret == true) {
                 return true;
@@ -461,6 +461,6 @@ bool Wifi::joinAP(const char *_ssid, const char *_pwd, uint16_t _timeout) {
 /**
  * @brief 退出当前的AP连接
  */
-void Wifi::quitAP() {
-    sendAT("AT+ CWQAP");
+void Wifi::QuitAP() {
+    SendAT("AT+ CWQAP");
 }

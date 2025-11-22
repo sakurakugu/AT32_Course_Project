@@ -113,7 +113,7 @@ void Music::play_one_song() {
 
         /* 暂停：在暂停期间保持短延时轮询，并立即静音 */
         if (music_resume) {
-            g_beep.disableOutput();
+            g_beep.DisableOutput();
             vTaskDelay(pdMS_TO_TICKS(50));
             /* 重做当前音符，不前进索引 */
             --music_index; /* for 循环会 ++，抵消保持当前 */
@@ -124,10 +124,10 @@ void Music::play_one_song() {
         uint16_t freq = (note_id < (sizeof(note_freqs) / sizeof(note_freqs[0]))) ? note_freqs[note_id] : 0;
 
         if (freq == 0) {
-            g_beep.disableOutput();
+            g_beep.DisableOutput();
         } else {
-            g_beep.setFreq(freq);
-            g_beep.enableOutput();
+            g_beep.SetFreq(freq);
+            g_beep.EnableOutput();
         }
 
         int duration_units = times[music_index];
@@ -139,7 +139,7 @@ void Music::play_one_song() {
     }
 
     /* 结束本曲播放 */
-    g_beep.disableOutput();
+    g_beep.DisableOutput();
     music_playing = 0;
     music_index = 0;
 }

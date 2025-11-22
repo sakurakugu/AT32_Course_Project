@@ -39,7 +39,7 @@ void LED::Init(led_type led) {
  *     @arg LED4
  * @retval none
  */
-void LED::On(led_type led) {
+void LED::TurnOn(led_type led) {
     if (led > (LED_NUM - 1))
         return;
     if (led_gpio_pin[led])
@@ -55,7 +55,7 @@ void LED::On(led_type led) {
  *     @arg LED4
  * @retval none
  */
-void LED::Off(led_type led) {
+void LED::TurnOff(led_type led) {
     if (led > (LED_NUM - 1))
         return;
     if (led_gpio_pin[led])
@@ -82,12 +82,12 @@ void LED::Toggle(led_type led) {
 //     LED::GetInstance().Init(led);
 // }
 
-void LED_On(led_type led) {
-    LED::GetInstance().On(led);
+void LED_TurnOn(led_type led) {
+    LED::GetInstance().TurnOn(led);
 }
 
-void LED_Off(led_type led) {
-    LED::GetInstance().Off(led);
+void LED_TurnOff(led_type led) {
+    LED::GetInstance().TurnOff(led);
 }
 
 // void LED_Toggle(led_type led) {

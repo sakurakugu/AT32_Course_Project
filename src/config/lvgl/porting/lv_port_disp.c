@@ -169,7 +169,7 @@ static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_
 
     lv_disp_drv_p = disp_drv;
     uint32_t size = (area->x2 - area->x1 + 1) * (area->y2 - area->y1 + 1);
-    lcd_windows_set(area->x1, area->y1, area->x2, area->y2);
+    LCD_WindowsSet(area->x1, area->y1, area->x2, area->y2);
     DMA1_CHANNEL3->ctrl &= ~(uint16_t)1;
     DMA1_CHANNEL3->paddr = (uint32_t)color_p;
     DMA1_CHANNEL3->dtcnt = size;

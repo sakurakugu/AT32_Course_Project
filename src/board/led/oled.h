@@ -29,31 +29,31 @@ class OLED {
     OLED(const OLED &) = delete;
     OLED &operator=(const OLED &) = delete;
 
-    void init();
-    void displayOn();
-    void displayOff();
-    void clear();
-    void setPos(uint8_t x, uint8_t y);
-    void showChar(uint8_t x, uint8_t y, uint8_t chr);
-    void showNum(uint8_t x, uint8_t y, uint32_t num, uint8_t len, uint8_t size2);
-    void showString(uint8_t x, uint8_t y, uint8_t *p);
-    void showChinese(uint8_t x, uint8_t y, uint8_t no);
-    void drawBMP(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, unsigned char BMP[]);
-    void showCHStr(uint8_t X, uint8_t Y, uint8_t *pstr);
-    void writeByte(uint8_t dat, uint8_t cmd);
+    void Init();
+    void DisplayOn();
+    void DisplayOff();
+    void Clear();
+    void SetPos(uint8_t x, uint8_t y);
+    void ShowChar(uint8_t x, uint8_t y, uint8_t chr);
+    void ShowNum(uint8_t x, uint8_t y, uint32_t num, uint8_t len, uint8_t size2);
+    void ShowString(uint8_t x, uint8_t y, uint8_t *p);
+    void ShowChinese(uint8_t x, uint8_t y, uint8_t no);
+    void DrawBMP(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, unsigned char BMP[]);
+    void ShowCHStr(uint8_t X, uint8_t Y, uint8_t *pstr);
+    void WriteByte(uint8_t dat, uint8_t cmd);
 
   private:
     OLED() = default;
     ~OLED() = default;
     
-    static uint32_t pow_uint32_t(uint8_t m, uint8_t n);
-    void dcSet();
-    void dcClr();
-    void csSet();
-    void csClr();
-    void rstSet();
-    void rstClr();
-    void spiTransferByte(uint8_t data);
-    void spiConfig();
-    void gpioConfig();
+    static uint32_t PowUint32_t(uint8_t m, uint8_t n);
+    void DCSet();
+    void DCClr();
+    void CSSet();
+    void CSClr();
+    void RSTSet();
+    void RSTClr();
+    void SPITransferByte(uint8_t data);
+    void SPIConfig();
+    void GPIOConfig();
 };

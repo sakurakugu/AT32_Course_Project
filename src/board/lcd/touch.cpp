@@ -30,13 +30,13 @@
 #include <string.h>
 #include "logger.h"
 
-i2c_handle_type hi2c_gt;
+i2c_handle_type hi2c_touch;
 
 uint8_t cmd_rdx = 0xd0;
 uint8_t cmd_rdy = 0x90;
 
-/* gt911 参数配置表 */
-const uint8_t GT911_CFG_TBL[] = {
+/* touch 参数配置表 */
+const uint8_t TOUCH_CFG_TBL[] = {
     0x41, /* 0x8047 */
     0x40, /* 0x8048 */
     0x01, /* 0x8049 */
@@ -224,34 +224,34 @@ const uint8_t GT911_CFG_TBL[] = {
 
 };
 
-/* gt911 点坐标表 */
-const uint16_t GT911_TPX_TBL[5] = {GT_TP1_REG, GT_TP2_REG, GT_TP3_REG, GT_TP4_REG, GT_TP5_REG};
+/* touch 点坐标表 */
+const uint16_t Touch_TPX_TBL[5] = {TOUCH_TP1_REG, TOUCH_TP2_REG, TOUCH_TP3_REG, TOUCH_TP4_REG, TOUCH_TP5_REG};
 
-uint16_t gt_error_code;
-uint8_t *gt_pdata;
-uint8_t gt_psize;
+uint16_t touch_error_code;
+uint8_t *touch_pdata;
+uint8_t touch_psize;
 
 /**
  * @brief  i2c 外设初始化.
  * @param  i2c_x: 这个参数是i2c外设的句柄，指向操作信息结构体。
  * @retval none.
  */
-void gt_i2c_init(i2c_type *i2c_x) {
+void touch_i2c_init(i2c_type *i2c_x) {
     gpio_init_type gpio_init_structure;
 
-    hi2c_gt.i2cx = i2c_x;
+    hi2c_touch.i2cx = i2c_x;
 
     /* 重置 i2c 外设 */
     i2c_reset(i2c_x);
 
     /* 开启 i2c 外设时钟 */
-    crm_periph_clock_enable(GT_I2C_CLK, TRUE);
-    crm_periph_clock_enable(GT_SCL_GPIO_CLK, TRUE);
-    crm_periph_clock_enable(GT_SDA_GPIO_CLK, TRUE);
+    crm_periph_clock_enable(TOUCH_I2C_CLK, TRUE);
+    crm_periph_clock_enable(TOUCH_SCL_GPIO_CLK, TRUE);
+    crm_periph_clock_enable(TOUCH_SDA_GPIO_CLK, TRUE);
 
     /* gpio 配置 */
-    gpio_pin_mux_config(GT_SCL_GPIO_PORT, GT_SCL_GPIO_PINS_SOURCE, GT_SCL_GPIO_MUX);
-    gpio_pin_mux_config(GT_SDA_GPIO_PORT, GT_SDA_GPIO_PINS_SOURCE, GT_SDA_GPIO_MUX);
+    gpio_pin_mux_config(TOUCH_SCL_GPIO_PORT, TOUCH_SCL_GPIO_PINS_SOURCE, TOUCH_SCL_GPIO_MUX);
+    gpio_pin_mux_config(TOUCH_SDA_GPIO_PORT, TOUCH_SDA_GPIO_PINS_SOURCE, TOUCH_SDA_GPIO_MUX);
 
     /* 配置 i2c 引脚: scl */
     gpio_init_structure.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
@@ -259,15 +259,15 @@ void gt_i2c_init(i2c_type *i2c_x) {
     gpio_init_structure.gpio_out_type = GPIO_OUTPUT_OPEN_DRAIN;
     gpio_init_structure.gpio_pull = GPIO_PULL_UP;
 
-    gpio_init_structure.gpio_pins = GT_SCL_GPIO_PIN;
-    gpio_init(GT_SCL_GPIO_PORT, &gpio_init_structure);
+    gpio_init_structure.gpio_pins = TOUCH_SCL_GPIO_PIN;
+    gpio_init(TOUCH_SCL_GPIO_PORT, &gpio_init_structure);
 
     /* 配置 i2c 引脚: sda */
-    gpio_init_structure.gpio_pins = GT_SDA_GPIO_PIN;
-    gpio_init(GT_SDA_GPIO_PORT, &gpio_init_structure);
+    gpio_init_structure.gpio_pins = TOUCH_SDA_GPIO_PIN;
+    gpio_init(TOUCH_SDA_GPIO_PORT, &gpio_init_structure);
 
     /* 配置 i2c */
-    i2c_init(i2c_x, 0x0F, GT_I2C_CLKCTRL_100K);
+    i2c_init(i2c_x, 0x0F, TOUCH_I2C_CLKCTRL_100K);
 
     /* 开启 i2c 外设 */
     i2c_enable(i2c_x, TRUE);
@@ -283,13 +283,13 @@ void gt_i2c_init(i2c_type *i2c_x) {
  * @param  timeout: 最大等待时间。
  * @retval i2c 状态。
  */
-i2c_status_type gt_i2c_write(i2c_handle_type *hi2c, uint16_t address, uint16_t mem_address, uint8_t *data, uint8_t size,
+i2c_status_type touch_i2c_write(i2c_handle_type *hi2c, uint16_t address, uint16_t mem_address, uint8_t *data, uint8_t size,
                              uint32_t timeout) {
     /* 初始化 i2c 传输参数 */
-    gt_pdata = data;
-    gt_psize = size + 2;
+    touch_pdata = data;
+    touch_psize = size + 2;
 
-    gt_error_code = I2C_OK;
+    touch_error_code = I2C_OK;
 
     /* 等待 busy 标志位被重置 */
     if (i2c_wait_flag(hi2c, I2C_BUSYF_FLAG, I2C_EVENT_CHECK_NONE, timeout) != I2C_OK) {
@@ -297,7 +297,7 @@ i2c_status_type gt_i2c_write(i2c_handle_type *hi2c, uint16_t address, uint16_t m
     }
 
     /* 开始传输 */
-    i2c_transmit_set(hi2c->i2cx, address, gt_psize, I2C_AUTO_STOP_MODE, I2C_GEN_START_WRITE);
+    i2c_transmit_set(hi2c->i2cx, address, touch_psize, I2C_AUTO_STOP_MODE, I2C_GEN_START_WRITE);
 
     /* 等待 tdis 标志位被设置 */
     if (i2c_wait_flag(hi2c, I2C_TDIS_FLAG, I2C_EVENT_CHECK_ACKFAIL, timeout) != I2C_OK) {
@@ -315,17 +315,17 @@ i2c_status_type gt_i2c_write(i2c_handle_type *hi2c, uint16_t address, uint16_t m
     /* 发送内存地址 */
     i2c_data_send(hi2c->i2cx, mem_address & 0xFF);
 
-    gt_psize -= 2;
+    touch_psize -= 2;
 
-    while (gt_psize > 0) {
+    while (touch_psize > 0) {
         /* 等待 tdis 标志位被设置 */
         if (i2c_wait_flag(hi2c, I2C_TDIS_FLAG, I2C_EVENT_CHECK_ACKFAIL, timeout) != I2C_OK) {
             return I2C_ERR_STEP_3;
         }
 
         /* 发送数据 */
-        i2c_data_send(hi2c->i2cx, *gt_pdata++);
-        gt_psize--;
+        i2c_data_send(hi2c->i2cx, *touch_pdata++);
+        touch_psize--;
     }
 
     /* 等待 stop 标志位被设置 */
@@ -352,13 +352,13 @@ i2c_status_type gt_i2c_write(i2c_handle_type *hi2c, uint16_t address, uint16_t m
  * @param  timeout: 最大等待时间。
  * @retval i2c 状态。
  */
-i2c_status_type gt_i2c_read(i2c_handle_type *hi2c, uint16_t address, uint16_t mem_address, uint8_t *data, uint8_t size,
+i2c_status_type touch_i2c_read(i2c_handle_type *hi2c, uint16_t address, uint16_t mem_address, uint8_t *data, uint8_t size,
                             uint32_t timeout) {
     /* 初始化 i2c 传输参数 */
-    gt_pdata = data;
-    gt_psize = size;
+    touch_pdata = data;
+    touch_psize = size;
 
-    gt_error_code = I2C_OK;
+    touch_error_code = I2C_OK;
 
     /* 等待 busy 标志位被重置 */
     if (i2c_wait_flag(hi2c, I2C_BUSYF_FLAG, I2C_EVENT_CHECK_NONE, timeout) != I2C_OK) {
@@ -390,17 +390,17 @@ i2c_status_type gt_i2c_read(i2c_handle_type *hi2c, uint16_t address, uint16_t me
     }
 
     /* 开始传输 */
-    i2c_transmit_set(hi2c->i2cx, address, gt_psize, I2C_AUTO_STOP_MODE, I2C_GEN_START_READ);
+    i2c_transmit_set(hi2c->i2cx, address, touch_psize, I2C_AUTO_STOP_MODE, I2C_GEN_START_READ);
 
-    while (gt_psize > 0) {
+    while (touch_psize > 0) {
         /* 等待 rdbf 标志位被设置 */
         if (i2c_wait_flag(hi2c, I2C_RDBF_FLAG, I2C_EVENT_CHECK_ACKFAIL, timeout) != I2C_OK) {
             return I2C_ERR_STEP_5;
         }
 
         /* 读取数据 */
-        (*gt_pdata++) = i2c_data_receive(hi2c->i2cx);
-        gt_psize--;
+        (*touch_pdata++) = i2c_data_receive(hi2c->i2cx);
+        touch_psize--;
     }
 
     /* 等待 stop 标志位被设置 */
@@ -424,8 +424,8 @@ i2c_status_type gt_i2c_read(i2c_handle_type *hi2c, uint16_t address, uint16_t me
  * @param  len: 数据大小
  * @retval bool
  */
-bool gt911_reg_write(uint16_t reg, uint8_t *buf, uint8_t len) {
-    if (gt_i2c_write(&hi2c_gt, GT_I2C_ADDRESS, reg, buf, len, GT_I2C_TIMEOUT) != I2C_OK) {
+bool touch_reg_write(uint16_t reg, uint8_t *buf, uint8_t len) {
+    if (touch_i2c_write(&hi2c_touch, TOUCH_I2C_ADDRESS, reg, buf, len, TOUCH_I2C_TIMEOUT) != I2C_OK) {
         return false;
     } else {
         return true;
@@ -433,14 +433,14 @@ bool gt911_reg_write(uint16_t reg, uint8_t *buf, uint8_t len) {
 }
 
 /**
- * @brief  gt911 读取寄存器
+ * @brief  touch 读取寄存器
  * @param  reg: 寄存器地址
  * @param  buf: 数据缓冲区
  * @param  len: 数据大小
  * @retval bool
  */
-bool gt911_reg_read(uint16_t reg, uint8_t *buf, uint8_t len) {
-    if (gt_i2c_read(&hi2c_gt, GT_I2C_ADDRESS, reg, buf, len, GT_I2C_TIMEOUT) != I2C_OK) {
+bool touch_reg_read(uint16_t reg, uint8_t *buf, uint8_t len) {
+    if (touch_i2c_read(&hi2c_touch, TOUCH_I2C_ADDRESS, reg, buf, len, TOUCH_I2C_TIMEOUT) != I2C_OK) {
         return false;
     } else {
         return true;
@@ -448,30 +448,30 @@ bool gt911_reg_read(uint16_t reg, uint8_t *buf, uint8_t len) {
 }
 
 /**
- * @brief  gt911 配置所有寄存器
+ * @brief  touch 配置所有寄存器
  * @param  mode: 参数保存模式
  *         - 0: 保存到 RAM
  *         - 1: 保存到 FLASH（掉电保存）
  * @retval bool
  */
-bool gt911_send_cfg(uint8_t mode) {
+bool touch_send_cfg(uint8_t mode) { 
     uint8_t buf[2];
     uint8_t i = 0;
     buf[0] = 0;
     buf[1] = mode;
 
-    for (i = 0; i < sizeof(GT911_CFG_TBL); i++) {
+    for (i = 0; i < sizeof(TOUCH_CFG_TBL); i++) {
         /* 计算校验和 */
-        buf[0] += GT911_CFG_TBL[i];
+        buf[0] += TOUCH_CFG_TBL[i];
     }
 
     buf[0] = (~buf[0]) + 1;
 
     /* 写入所有寄存器 */
-    gt911_reg_write(GT_CFG_REG, (uint8_t *)GT911_CFG_TBL, sizeof(GT911_CFG_TBL));
+    touch_reg_write(TOUCH_CFG_REG, (uint8_t *)TOUCH_CFG_TBL, sizeof(TOUCH_CFG_TBL));
 
     /* 写入校验和 */
-    gt911_reg_write(GT_CHECK_REG, buf, 2);
+    touch_reg_write(TOUCH_CHECK_REG, buf, 2);
 
     return true;
 }
@@ -491,8 +491,8 @@ bool Touch::Init(touch_scan_type direction) {
     m_direction = direction;
 
     /* 开启 GPIO 时钟 */
-    crm_periph_clock_enable(GT_RST_GPIO_CLK, TRUE);
-    crm_periph_clock_enable(GT_INT_GPIO_CLK, TRUE);
+    crm_periph_clock_enable(TOUCH_RST_GPIO_CLK, TRUE);
+    crm_periph_clock_enable(TOUCH_INT_GPIO_CLK, TRUE);
 
     gpio_init_struct.gpio_mode = GPIO_MODE_OUTPUT;
     gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
@@ -500,34 +500,34 @@ bool Touch::Init(touch_scan_type direction) {
     gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
 
     /* 配置 RST 和 INT 为输出 */
-    GT_RST_LOW();
-    gpio_init_struct.gpio_pins = GT_RST_GPIO_PIN;
-    gpio_init(GT_RST_GPIO_PORT, &gpio_init_struct);
+    TOUCH_RST_LOW();
+    gpio_init_struct.gpio_pins = TOUCH_RST_GPIO_PIN;
+    gpio_init(TOUCH_RST_GPIO_PORT, &gpio_init_struct);
 
-    GT_INT_LOW();
-    // GT_INT_HIGH();
-    gpio_init_struct.gpio_pins = GT_INT_GPIO_PIN;
-    gpio_init(GT_INT_GPIO_PORT, &gpio_init_struct);
+    TOUCH_INT_LOW();
+    // TOUCH_INT_HIGH();
+    gpio_init_struct.gpio_pins = TOUCH_INT_GPIO_PIN;
+    gpio_init(TOUCH_INT_GPIO_PORT, &gpio_init_struct);
 
     /* 初始化 I2C */
-    gt_i2c_init(GT_I2C_PORT);
+    touch_i2c_init(TOUCH_I2C_PORT);
 
-    /* GT911 地址选择握手：保持 INT 低电平 0xBA/0xBB */
-    GT_RST_LOW();
+    /* TOUCH 地址选择握手：保持 INT 低电平 0xBA/0xBB */
+    TOUCH_RST_LOW();
     delay_ms(10);
     /* 设置 RST 引脚高电平 */
-    GT_RST_HIGH();
+    TOUCH_RST_HIGH();
     delay_ms(10);
 
     /* 握手完成后，INT 引脚变为输入模式，用于数据就绪 */
     gpio_init_struct.gpio_mode = GPIO_MODE_INPUT;
-    gpio_init_struct.gpio_pins = GT_INT_GPIO_PIN;
-    gpio_init(GT_INT_GPIO_PORT, &gpio_init_struct);
+    gpio_init_struct.gpio_pins = TOUCH_INT_GPIO_PIN;
+    gpio_init(TOUCH_INT_GPIO_PORT, &gpio_init_struct);
 
     delay_ms(100);
 
     /* 读取触摸模块 ID */
-    gt911_reg_read(GT_PID_REG, temp, 4);
+    touch_reg_read(TOUCH_PID_REG, temp, 4);
 
     temp[3] = 0;
     temp[4] = 0;
@@ -536,19 +536,19 @@ bool Touch::Init(touch_scan_type direction) {
     if (strcmp((char *)temp, "911") == 0) {
         temp[0] = 0x02;
 
-        /* 软件复位 GT911 */
-        gt911_reg_write(GT_CTRL_REG, temp, 1);
+        /* 软件复位 TOUCH */
+        touch_reg_write(TOUCH_CTRL_REG, temp, 1);
 
-        /* 读取 GT_CFG_REG 寄存器 */
-        gt911_reg_read(GT_CFG_REG, temp, 1);
-        LOGI("GT911 默认配置版本: 0x%02X\r\n", temp[0]);
+        /* 读取 TOUCH_CFG_REG 寄存器 */
+        touch_reg_read(TOUCH_CFG_REG, temp, 1);
+        LOGI("触摸 默认配置版本: 0x%02X\r\n", temp[0]);
 
         /* 如果默认版本相对较低，更新 FLASH 配置 */
         if (temp[0] <= 0x41) {
-            LOGI("更新 GT911 配置...\r\n");
+            LOGI("更新 触摸 配置...\r\n");
 
             /* 更新并保存配置 */
-            gt911_send_cfg(1);
+            touch_send_cfg(1);
         }
 
         delay_ms(10);
@@ -556,11 +556,11 @@ bool Touch::Init(touch_scan_type direction) {
         temp[0] = 0x00;
 
         /* 结束软件复位 */
-        gt911_reg_write(GT_CTRL_REG, temp, 1);
+        touch_reg_write(TOUCH_CTRL_REG, temp, 1);  
 
         status = true;
     } else {
-        LOGI("GT911 未检测到, PID 读取: %s\r\n", temp);
+        LOGI("触摸 未检测到, PID 读取: %s\r\n", temp);
     }
 
     return status;
@@ -583,18 +583,18 @@ bool Touch::Read(uint16_t &x, uint16_t &y) {
     bool pressed = false;
 
     /* read touch point status */
-    gt911_reg_read(GT_STS_REG, &mode, 1);
+    touch_reg_read(TOUCH_STS_REG, &mode, 1);
 
     num = (mode & 0xF);
 
     if ((mode & 0x80) && (num < 6)) {
         /* clear touch flag */
-        gt911_reg_write(GT_STS_REG, &temp, 1);
+        touch_reg_write(TOUCH_STS_REG, &temp, 1);
 
         // uint8_t i = 0;
         // for (i = 0; i < num; i++) {
         //     /* read x y coordinates */
-        //     gt911_reg_read(GT911_TPX_TBL[i], buf, 4);
+        //     touch_reg_read(Touch_TPX_TBL[i], buf, 4);    
         //     uint16_t raw_x = (((uint16_t)buf[1] << 8) | buf[0]);
         //     uint16_t raw_y = (((uint16_t)buf[3] << 8) | buf[2]);
         //     switch (m_direction) {
@@ -620,7 +620,7 @@ bool Touch::Read(uint16_t &x, uint16_t &y) {
         //         break;
         //     }
         /* read first touch point coordinates */
-        gt911_reg_read(GT911_TPX_TBL[0], buf, 4);
+        touch_reg_read(Touch_TPX_TBL[0], buf, 4);
         uint16_t raw_x = (((uint16_t)buf[1] << 8) | buf[0]);
         uint16_t raw_y = (((uint16_t)buf[3] << 8) | buf[2]);
         switch (m_direction) {
@@ -661,7 +661,7 @@ extern "C" {
  * @param  x/y : 坐标值指针
  * @result bool : 若按下则返回 true，否则返回 false
  */
-bool touch_read_xy(uint16_t *x, uint16_t *y) {
+bool Touch_ReadXY(uint16_t *x, uint16_t *y) {
     return Touch::GetInstance().Read(*x, *y);
 }
 

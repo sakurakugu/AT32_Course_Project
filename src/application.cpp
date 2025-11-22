@@ -75,37 +75,37 @@ void tlink_init_wifi() {
 
     auto &wifi = Wifi::GetInstance();
 
-    wifi.sendAT("AT");
-    if (wifi.waitResponse("OK", 5000) != 1) {
+    wifi.SendAT("AT");
+    if (wifi.WaitResponse("OK", 5000) != 1) {
         LOGE("\r\n AT fail!\r\n");
         delay_ms(1000);
     }
-    wifi.sendAT("ATE0");
-    if (wifi.waitResponse("OK", 50) != 1) {
+    wifi.SendAT("ATE0");
+    if (wifi.WaitResponse("OK", 50) != 1) {
         LOGE("\r\n ATE0 fail\r\n");
     }
 
-    if (wifi.setWiFiMode(1) != 1) {
+    if (wifi.SetWiFiMode(1) != 1) {
         LOGE("\r\n CWMODE fail\r\n");
     }
 
     // 使用库函数进行AP连接，避免手动AT并统一处理应答
-    if (wifi.joinAP(wifi_ssid, wifi_password, 15000) != 1) {
+    if (wifi.JoinAP(wifi_ssid, wifi_password, 15000) != 1) {
         LOGE("\r\n CWJAP fail\r\n");
         delay_ms(1000);
     }
-    wifi.sendAT("AT+CIPSTART=\"TCP\",\"tcp.tlink.io\",8647");
-    if (wifi.waitResponse("OK", 5000) != 1) {
+    wifi.SendAT("AT+CIPSTART=\"TCP\",\"tcp.tlink.io\",8647");
+    if (wifi.WaitResponse("OK", 5000) != 1) {
         LOGE("\r\n CIPSTART fail\r\n");
     }
 
-    wifi.sendAT("AT+CIPMODE=1");
-    if (wifi.waitResponse("OK", 1000) != 1) {
+    wifi.SendAT("AT+CIPMODE=1");
+    if (wifi.WaitResponse("OK", 1000) != 1) {
         LOGE("\r\n CIPMODE fail\r\n");
     }
 
-    wifi.sendAT("AT+CIPSEND");
-    if (wifi.waitResponse("OK", 1000) != 1) {
+    wifi.SendAT("AT+CIPSEND");
+    if (wifi.WaitResponse("OK", 1000) != 1) {
         LOGE("\r\n CIPSEND fail\r\n");
     }
     LOGI("\r\n 服务器已连接!\r\n");
@@ -254,7 +254,7 @@ static void TaskHeartbeat(void *pvParameters) {
 static void TaskADC(void *pvParameters) {
     (void)pvParameters;
     for (;;) {
-        uint32_t current_adc_value = (uint32_t)analogRead() * 3300 / 4095;
+        uint32_t current_adc_value = (uint32_t)AnalogRead() * 3300 / 4095;
         if (adc_value_changed(current_adc_value, last_adc_value)) {
             last_adc_value = current_adc_value;
             update_adc_display(&guider_ui);
@@ -278,7 +278,7 @@ static void TaskMPU6050([[maybe_unused]] void *pvParameters) {
     for (;;) {
         vTaskDelay(pdMS_TO_TICKS(200));
         if (!inited) {
-            uint8_t ret = mpu6050Init();
+            uint8_t ret = MPU6050_Init();
             if (ret != 0) {
                 LOGE("MPU6050 init failed\r\n");
                 vTaskDelay(pdMS_TO_TICKS(500));
@@ -287,20 +287,20 @@ static void TaskMPU6050([[maybe_unused]] void *pvParameters) {
             inited = true;
         }
         int16_t ax_i, ay_i, az_i;
-        if (mpuGetAcc(&ax_i, &ay_i, &az_i) == 0) {
+        if (MPU6050_GetAcc(&ax_i, &ay_i, &az_i) == 0) {
             g_acc_x = ax_i / 16384.0f;
             g_acc_y = ay_i / 16384.0f;
             g_acc_z = az_i / 16384.0f;
             g_mpu_acc_dirty = true;
         }
         int16_t gx_i, gy_i, gz_i;
-        if (mpuGetGyro(&gx_i, &gy_i, &gz_i) == 0) {
+        if (MPU6050_GetGyro(&gx_i, &gy_i, &gz_i) == 0) {
             g_gyro_x = gx_i / 16.4f;
             g_gyro_y = gy_i / 16.4f;
             g_gyro_z = gz_i / 16.4f;
             g_mpu_gyro_dirty = true;
         }
-        short t100 = MmpuGetTemp();
+        short t100 = MPU6050_GetTemp();
         g_mpu_temp = t100 / 100.0f;
         g_mpu_temp_dirty = true;
         vTaskDelay(pdMS_TO_TICKS(100));
@@ -349,17 +349,17 @@ void Application::Start() {
 
     // 初始化 ESP12 的串口（USART3）与中断，确保后续 AT 指令有收发能力
     auto &wifi = Wifi::GetInstance();
-    wifi.init();
+    wifi.Init();
 
-    wifi.sendAT("AT");
-    if (wifi.waitResponse("OK", 50) == 1) {
+    wifi.SendAT("AT");
+    if (wifi.WaitResponse("OK", 50) == 1) {
         LOGI("\r\n ESP12 OK\r\n");
         delay_ms(1000);
     }
 
     // driver init
     tmr7_int_init(287, 999); // 1 micro second interrupt
-    lcd_init(LCD_DISPLAY_HORIZONTAL_180);
+    LCD_Init(LCD_DISPLAY_HORIZONTAL_180);
     Touch::GetInstance().Init(TOUCH_SCAN_HORIZONTAL_180);
 
     // lvgl init
@@ -381,7 +381,7 @@ void Application::Start() {
     // }
 
     // 初始化 ADC 值
-    last_adc_value = (uint32_t)analogRead() * 3300 / 4095;
+    last_adc_value = (uint32_t)AnalogRead() * 3300 / 4095;
     update_adc_display(&guider_ui);
 
     // 创建FreeRTOS任务

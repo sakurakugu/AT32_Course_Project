@@ -620,9 +620,9 @@ void electronic_organ_btnm_event_handler(lv_event_t *e) {
     }
 
     if (freq > 0) {
-        beep_setFreq(freq);
+        Beep_SetFreq(freq);
         // 点击发音：短促按键音（50ms）
-        beep_start(5, 1, 1);
+        Beep_Start(5, 1, 1);
     }
 }
 #endif
@@ -933,10 +933,10 @@ void smart_home_color_led_sw_event_handler(lv_event_t *e) {
 
     if (checked) {
         // 打开彩灯
-        Color_Led_TurnOn();
+        ColorLed_TurnOn();
     } else {
         // 关闭彩灯
-        Color_Led_TurnOff();
+        ColorLed_TurnOff();
     }
 }
 
@@ -974,7 +974,7 @@ void smart_home_color_led_cpicker_event_handler(lv_event_t *e) {
     b = (uint8_t)((b * brightness) / 100);
 
     // 设置颜色
-    Color_Led_SetColor(r, g, b);
+    ColorLed_SetColor(r, g, b);
 }
 
 // 彩灯亮度滑块事件：滑动调整亮度
@@ -1008,7 +1008,7 @@ void smart_home_color_led_light_slider_event_handler(lv_event_t *e) {
     b = (uint8_t)((b * brightness) / 100);
 
     // 设置颜色
-    Color_Led_SetColor(r, g, b);
+    ColorLed_SetColor(r, g, b);
 }
 
 // 绿灯开关事件
@@ -1022,10 +1022,10 @@ void smart_home_led_green_sw_event_handler(lv_event_t *e) {
 
     if (checked) {
         // 打开绿灯
-        LED_On(LED_Green);
+        LED_TurnOn(LED_Green);
     } else {
         // 关闭绿灯
-        LED_Off(LED_Green);
+        LED_TurnOff(LED_Green);
     }
 }
 #endif
@@ -1182,8 +1182,8 @@ static void s_countdown_cb(lv_timer_t *t) {
             }
             s_timer_running = 0;
             if (s_timer_bell_on) {
-                beep_setFreq(1500);
-                beep_start(3000, 1, 1);
+                Beep_SetFreq(1500);
+                Beep_Start(3000, 1, 1);
                 s_timer_ringing = 1;
                 if (s_ring_flag_clear) {
                     lv_timer_del(s_ring_flag_clear);
@@ -1205,7 +1205,7 @@ void clock_app_timer_SPC_btn_event_handler(lv_event_t *e) {
     if (lv_event_get_code(e) != LV_EVENT_CLICKED)
         return;
     if (s_timer_ringing) {
-        beep_stop();
+        Beep_Stop();
         s_timer_ringing = 0;
         if (lv_obj_is_valid(guider_ui.clock_app_timer_SPC_btn_label)) {
             lv_label_set_text(guider_ui.clock_app_timer_SPC_btn_label, "开始");
@@ -1251,7 +1251,7 @@ void clock_app_timer_reset_btn_event_handler(lv_event_t *e) {
         s_timer_remain = 0;
     }
     if (s_timer_ringing) {
-        beep_stop();
+        Beep_Stop();
         s_timer_ringing = 0;
     }
     update_timer_display();

@@ -449,11 +449,6 @@
               <FilePath>.\src\board\sensor\lm75.cpp</FilePath>
             </File>
             <File>
-              <FileName>bsp_queue.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\board\bsp_queue.c</FilePath>
-            </File>
-            <File>
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\board\timer.c</FilePath>

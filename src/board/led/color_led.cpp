@@ -1,3 +1,7 @@
+/**
+ * @brief 初始化颜色LED
+ * PWM输出模式，用于控制RGB颜色LED
+ */
 #include "color_led.hpp"
 
 #include "at32f435_437_gpio.h"
@@ -10,7 +14,7 @@ tmr_output_config_type tmr_oc_init_structure;
  * @brief 初始化颜色LED
  * PWM输出模式，用于控制RGB颜色LED
  */
-void Color_Led::Init() {
+void ColorLed::Init() {
     uint16_t prescalervalue = 0;
 
     gpio_init_type gpio_init_struct;
@@ -69,7 +73,7 @@ void Color_Led::Init() {
  * @param g 绿色分量 (0-255)
  * @param b 蓝色分量 (0-255)
  */
-void Color_Led::SetColor(uint8_t r, uint8_t g, uint8_t b) {
+void ColorLed::SetColor(uint8_t r, uint8_t g, uint8_t b) {
     current_r = r;
     current_g = g;
     current_b = b;
@@ -94,7 +98,7 @@ void Color_Led::SetColor(uint8_t r, uint8_t g, uint8_t b) {
  * @brief 设置亮度
  * @param brightness 亮度值 (0-100)
  */
-void Color_Led::SetBrightness(uint8_t brightness) {
+void ColorLed::SetBrightness(uint8_t brightness) {
     if (brightness > 100)
         brightness = 100;
     current_brightness = brightness;
@@ -106,7 +110,7 @@ void Color_Led::SetBrightness(uint8_t brightness) {
 /**
  * @brief 打开彩灯
  */
-void Color_Led::TurnOn() {
+void ColorLed::TurnOn() {
     tmr_counter_enable(TMR3, TRUE);
     SetColor(current_r, current_g, current_b);
 }
@@ -114,7 +118,7 @@ void Color_Led::TurnOn() {
 /**
  * @brief 关闭彩灯
  */
-void Color_Led::TurnOff() {
+void ColorLed::TurnOff() {
     tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_1, 0);
     tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_2, 0);
     tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_3, 0);
@@ -123,17 +127,17 @@ void Color_Led::TurnOff() {
 /**
  * C接口实现
  */
-void Color_Led_SetColor(uint8_t r, uint8_t g, uint8_t b) {
-    Color_Led::GetInstance().SetColor(r, g, b);
+void ColorLed_SetColor(uint8_t r, uint8_t g, uint8_t b) {
+    ColorLed::GetInstance().SetColor(r, g, b);
 }
 
-void Color_Led_TurnOn() {
-    Color_Led::GetInstance().TurnOn();
+void ColorLed_TurnOn() {
+    ColorLed::GetInstance().TurnOn();
 }
 
 /**
  * @brief 关闭彩灯
  */
-void Color_Led_TurnOff() {
-    Color_Led::GetInstance().TurnOff();
+void ColorLed_TurnOff() {
+    ColorLed::GetInstance().TurnOff();
 }

@@ -7,7 +7,7 @@
 
 #define PWWTIMER TMR5
 
-void Beep::init() {
+void Beep::Init() {
     gpio_init_type gpio_init_struct;
     tmr_output_config_type tmr_oc_init_structure;
     crm_clocks_freq_type crm_clocks_freq_struct = {0};
@@ -59,7 +59,7 @@ void Beep::init() {
     tmr_counter_enable(PWWTIMER, FALSE);
 }
 
-void Beep::setFreq(int freq) {
+void Beep::SetFreq(int freq) {
     if (freq <= 0)
         return;
     tmr_base_init(PWWTIMER, 1000000UL / (uint32_t)freq, prescalerValue);
@@ -73,7 +73,7 @@ void Beep::setFreq(int freq) {
  *			  _usCycle : 鸣叫次数， 0 表示持续鸣叫
  *	返 回 值: 无
  */
-void Beep::start(uint16_t bt, uint16_t st, uint16_t cy) {
+void Beep::Start(uint16_t bt, uint16_t st, uint16_t cy) {   
     if (bt == 0 || mute == 1) {
         return;
     }
@@ -86,7 +86,7 @@ void Beep::start(uint16_t bt, uint16_t st, uint16_t cy) {
     state = 0;
     enableFlag = 1;
 
-    enableOutput(); /* 开始发声 */
+    EnableOutput(); /* 开始发声 */  
 }
 
 /*
@@ -95,9 +95,9 @@ void Beep::start(uint16_t bt, uint16_t st, uint16_t cy) {
  *	形    参: 无
  *	返 回 值: 无
  */
-void Beep::stop() {
+void Beep::Stop() {
     enableFlag = 0;
-    disableOutput();
+    DisableOutput();
 }
 
 /*
@@ -106,8 +106,8 @@ void Beep::stop() {
  *	形    参: 无
  *	返 回 值: 无
  */
-void Beep::pause() {
-    stop();
+void Beep::Pause() {
+    Stop();
     mute = 1;
 }
 
@@ -117,8 +117,8 @@ void Beep::pause() {
  *	形    参: 无
  *	返 回 值: 无
  */
-void Beep::resume() {
-    stop();
+void Beep::Resume() {
+    Stop();
     mute = 0; /* 静音 */
 }
 
@@ -128,8 +128,8 @@ void Beep::resume() {
  *	形    参: 无
  *	返 回 值: 无
  */
-void Beep::keyTone() {
-    start(5, 1, 1); /* 鸣叫50ms，停10ms， 1次 */
+void Beep::KeyTone() {
+    Start(5, 1, 1); /* 鸣叫50ms，停10ms， 1次 */
 }
 
 /*
@@ -138,7 +138,7 @@ void Beep::keyTone() {
  *	形    参: 无
  *	返 回 值: 无
  */
-void Beep::process() {
+void Beep::Process() {
     if ((enableFlag == 0) || (stopTime == 0) || (mute == 1)) {
         return;
     }
@@ -146,7 +146,7 @@ void Beep::process() {
     if (state == 0) {
         if (stopTime > 0) { /* 间断发声 */
             if (++count >= beepTime) {
-                disableOutput(); /* 停止发声 */
+                DisableOutput(); /* 停止发声 */
                 count = 0;
                 state = 1;
             }
@@ -169,7 +169,7 @@ void Beep::process() {
             count = 0;
             state = 0;
 
-            enableOutput(); /* 开始发声 */
+            EnableOutput(); /* 开始发声 */
         }
     }
 }
@@ -177,23 +177,23 @@ void Beep::process() {
 /* 无源蜂鸣器 */
 // PB12   TMR5_CH1
 /* 1500表示频率1.5KHz，5000表示50.00%的占空比 */
-void Beep::enableOutput() {
+void Beep::EnableOutput() {
     tmr_counter_enable(PWWTIMER, TRUE);
 }
 
 /* 禁止蜂鸣器鸣叫 */
-void Beep::disableOutput() {
+void Beep::DisableOutput() {
     tmr_counter_enable(PWWTIMER, FALSE);
 }
 
 Beep g_beep;
 
-void beep_setFreq(int freq) {
-    g_beep.setFreq(freq);
+void Beep_SetFreq(int freq) {
+    g_beep.SetFreq(freq);
 }
-void beep_start(uint16_t beepTime, uint16_t stopTime, uint16_t cycle) {
-    g_beep.start(beepTime, stopTime, cycle);
+void Beep_Start(uint16_t beepTime, uint16_t stopTime, uint16_t cycle) {
+    g_beep.Start(beepTime, stopTime, cycle);
 }
-void beep_stop(void) {
-    g_beep.stop();
+void Beep_Stop(void) {
+    g_beep.Stop();
 }

@@ -190,7 +190,7 @@ static void touchpad_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data) {
     static int16_t last_y = 0;
 
     uint16_t x = 0, y = 0;
-    if (touch_read_xy(&x, &y)) {
+    if (Touch_ReadXY(&x, &y)) {
         data->point.x = (lv_coord_t)x;
         data->point.y = (lv_coord_t)y;
 

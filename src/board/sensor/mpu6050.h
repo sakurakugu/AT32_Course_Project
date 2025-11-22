@@ -49,13 +49,13 @@
 extern "C" {
 #endif
 
-uint8_t mpu6050GetID(void); // 获取设备 ID
-void mpu6050Test(void); // 测试初始化
-uint8_t mpu6050Init(void); // 初始化 MPU6050
+uint8_t MPU6050_GetID(void); // 获取设备 ID
+void MPU6050_Test(void); // 测试初始化
+uint8_t MPU6050_Init(void); // 初始化 MPU6050
 
-uint8_t mpuGetAcc(short *ax, short *ay, short *az);
-uint8_t mpuGetGyro(short *gx, short *gy, short *gz);
-short MmpuGetTemp(void);
+uint8_t MPU6050_GetAcc(short *ax, short *ay, short *az); // 获取加速度值
+uint8_t MPU6050_GetGyro(short *gx, short *gy, short *gz); // 获取陀螺仪值
+short MPU6050_GetTemp(void); // 获取温度值
 
 #ifdef __cplusplus
 }
