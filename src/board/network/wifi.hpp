@@ -93,3 +93,8 @@ extern void TaskWiFi(void *pvParameters);
 extern uint8_t should_reconnect();
 extern void reset_connection_status(void);
 extern bool tlink_init_wifi();
+extern bool tlink_disconnect_wifi();
+extern bool tlink_reconnect_wifi();
+// 时间同步标志访问器
+extern void wifi_set_time_sync_done(bool done);
+extern bool wifi_is_time_sync_done();

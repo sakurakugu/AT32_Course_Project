@@ -192,16 +192,20 @@ static void TaskHeartbeat(void *pvParameters) {
     (void)pvParameters;
     TickType_t lastHeartbeatTick = xTaskGetTickCount();
     static bool tlink_initialized = false;
+    static uint32_t lastTlinkAttemptTick = 0; // Tlink初始化重试节流
     for (;;) {
         // 处理心跳响应与命令
         IoT::GetInstance().CheckHeartbeat();
-        if (!tlink_initialized && !g_com3_guard && wifi_ssid[0] != '\0') {
-            if (tlink_init_wifi()) {
-                reset_connection_status();
-                IoT::GetInstance().SendStatusReport();
-                tlink_initialized = true;
-            } else {
-                LOGI("\r\nTlink初始化失败，保持未连接状态\r\n");
+        if (!tlink_initialized && !g_com3_guard && wifi_ssid[0] != '\0' && wifi_is_time_sync_done() && !connection_status) {
+            if (lastTlinkAttemptTick == 0 || Timer_PassedDelay(lastTlinkAttemptTick, 10000)) { // 每10秒尝试一次
+                lastTlinkAttemptTick = Timer_GetTickCount();
+                if (tlink_init_wifi()) {
+                    reset_connection_status();
+                    IoT::GetInstance().SendStatusReport();
+                    tlink_initialized = true;
+                } else {
+                    LOGI("\r\nTlink初始化失败，保持未连接状态\r\n");
+                }
             }
         }
 
@@ -329,9 +333,12 @@ void Application::Start() {
         delay_ms(1000);
     }
 
+    wifi.QuitAP();
+    wifi_reconnect_requested = 0;
+
     // driver init
     tmr7_int_init(287, 999); // 1 micro second interrupt
-    LCD_Init(LCD_DISPLAY_HORIZONTAL_180);
+    LCD::GetInstance().Init(LCD_DISPLAY_HORIZONTAL_180);
     Touch::GetInstance().Init(TOUCH_SCAN_HORIZONTAL_180);
 
     // lvgl init

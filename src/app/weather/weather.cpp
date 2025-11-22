@@ -155,6 +155,7 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
 
     // 保护 COM3 接收
     g_com3_guard = 1;
+    (void)tlink_disconnect_wifi();
 
     // 优先尝试 SSL（443），失败则回落到明文 HTTP（80）
     {
@@ -168,6 +169,7 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
         snprintf(cmd_tcp, sizeof(cmd_tcp), "AT+CIPSTART=\"TCP\",\"%s\",80", kHost);
         wifi.SendAT(cmd_tcp);
         if (wifi.WaitResponse("OK", 5000) != 1) {
+            (void)tlink_reconnect_wifi();
             g_com3_guard = 0;
             return false;
         }
@@ -187,6 +189,7 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
     if (req_len <= 0 || req_len >= (int)sizeof(req)) {
         wifi.SendAT("AT+CIPCLOSE");
         wifi.WaitResponse("OK", 1000);
+        (void)tlink_reconnect_wifi();
         g_com3_guard = 0;
         return false;
     }
@@ -198,6 +201,7 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
     if (wifi.WaitResponse(">", 2000) != 1) {
         wifi.SendAT("AT+CIPCLOSE");
         wifi.WaitResponse("OK", 1000);
+        (void)tlink_reconnect_wifi();
         g_com3_guard = 0;
         return false;
     }
@@ -329,10 +333,12 @@ bool WeatherService::http_get_seniverse(const char *path, char *resp_out, int re
 
     // 检查状态码
     if (strstr(resp_out, "HTTP/1.1 200") == NULL) {
+        (void)tlink_reconnect_wifi();
         g_com3_guard = 0;
         return false;
     }
 
+    (void)tlink_reconnect_wifi();
     g_com3_guard = 0;
     return true;
 }

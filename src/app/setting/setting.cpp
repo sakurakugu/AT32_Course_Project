@@ -47,11 +47,17 @@ bool Setting::SyncNetworkTime(bool sync) {
 
     // 保护COM3接收，避免IoT任务抢占HTTP响应
     g_com3_guard = 1;
+    (void)tlink_disconnect_wifi();
 
     // 建立到 quan.suning.com 的 TCP 连接
     wifi.SendAT("AT+CIPSTART=\"TCP\",\"quan.suning.com\",80");
     if (wifi.WaitResponse("OK", 5000) != 1) {
         g_com3_guard = 0;
+        wifi_set_time_sync_done(false);
+        // 失败时保持同步开关为关闭
+        if (lv_obj_is_valid(guider_ui.setting_app_sync_net_time_sw)) {
+            lv_obj_clear_state(guider_ui.setting_app_sync_net_time_sw, LV_STATE_CHECKED);
+        }
         return false;
     }
 
@@ -73,6 +79,10 @@ bool Setting::SyncNetworkTime(bool sync) {
         wifi.SendAT("AT+CIPCLOSE");
         wifi.WaitResponse("OK", 1000);
         g_com3_guard = 0;
+        wifi_set_time_sync_done(false);
+        if (lv_obj_is_valid(guider_ui.setting_app_sync_net_time_sw)) {
+            lv_obj_clear_state(guider_ui.setting_app_sync_net_time_sw, LV_STATE_CHECKED);
+        }
         return false;
     }
     // 发送 HTTP 请求正文
@@ -106,6 +116,10 @@ bool Setting::SyncNetworkTime(bool sync) {
         wifi.WaitResponse("OK", 2000);
         LOGI("HTTP状态非200，响应前200字节: %.*s\n", 200, resp);
         g_com3_guard = 0;
+        wifi_set_time_sync_done(false);
+        if (lv_obj_is_valid(guider_ui.setting_app_sync_net_time_sw)) {
+            lv_obj_clear_state(guider_ui.setting_app_sync_net_time_sw, LV_STATE_CHECKED);
+        }
         return false;
     }
 
@@ -120,6 +134,11 @@ bool Setting::SyncNetworkTime(bool sync) {
     if (!ok) {
         // 打印响应片段帮助定位问题
         LOGI("解析网络时间失败，响应前200字节: %.*s\n", 200, resp);
+        g_com3_guard = 0;
+        wifi_set_time_sync_done(false);
+        if (lv_obj_is_valid(guider_ui.setting_app_sync_net_time_sw)) {
+            lv_obj_clear_state(guider_ui.setting_app_sync_net_time_sw, LV_STATE_CHECKED);
+        }
         return false;
     }
 
@@ -128,6 +147,11 @@ bool Setting::SyncNetworkTime(bool sync) {
     ApplyDateLabels(year, month, day);
 
     LOGI("同步网络时间成功：%04d-%02d-%02d %02d:%02d:%02d\n", year, month, day, hour, min, sec);
+    wifi_set_time_sync_done(true);
+    // 成功时将设置界面开关置为打开
+    if (lv_obj_is_valid(guider_ui.setting_app_sync_net_time_sw)) {
+        lv_obj_add_state(guider_ui.setting_app_sync_net_time_sw, LV_STATE_CHECKED);
+    }
     g_com3_guard = 0;
     return true;
 }
@@ -239,8 +263,10 @@ void setting_app_sync_net_time_sw_event_handler(lv_event_t *e) {
     lv_obj_t *sw = lv_event_get_target(e);
     bool enabled = lv_obj_has_state(sw, LV_STATE_CHECKED);
     if (enabled) {
-        // 触发一次同步（内部会更新各屏幕的时分秒与日期标签）
-        (void)Setting_BacklightSetPercent(true);
+        bool ok = Setting_SyncNetworkTime(true);
+        if (!ok) {
+            lv_obj_clear_state(sw, LV_STATE_CHECKED);
+        }
     }
 }
 

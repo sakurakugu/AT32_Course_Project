@@ -504,7 +504,8 @@ bool Wifi::JoinAP(const char *_ssid, const char *_pwd, uint16_t _timeout) {
  * @brief 退出当前的AP连接
  */
 void Wifi::QuitAP() {
-    SendAT("AT+ CWQAP");
+    SendAT("AT+CWQAP");
+    WaitResponse("OK", 2000);
 }
 
 bool tlink_init_wifi() {
@@ -527,21 +528,30 @@ bool tlink_init_wifi() {
         // 关闭回显失败不影响后续关键路径，继续
     }
 
-    if (wifi.SetWiFiMode(1) != 1) {
-        LOGE("\r\n CWMODE fail\r\n");
-        return false;
-    }
-
-    // 使用库函数进行AP连接，避免手动AT并统一处理应答
-    if (wifi.JoinAP(wifi_ssid, wifi_password, 15000) != 1) {
-        LOGE("\r\n CWJAP fail\r\n");
-        delay_ms(1000);
-        return false;
-    }
+    // 此处不再重复设置 Station 模式及 JoinAP，避免在已连接状态下二次 CWJAP 触发误判失败
     wifi.SendAT("AT+CIPSTART=\"TCP\",\"tcp.tlink.io\",8647");
-    if (wifi.WaitResponse("OK", 5000) != 1) {
-        LOGE("\r\n CIPSTART fail\r\n");
-        return false;
+    {
+        char line[128];
+        bool ok = false;
+        for (int i = 0; i < 10; ++i) {
+            uint16_t n = wifi.ReadLine(line, sizeof(line), 600);
+            if (n == 0) break;
+            if (strstr(line, "ALREADY CONNECTED") || strstr(line, "OK")) {
+                ok = true;
+                break;
+            }
+            if (strstr(line, "ERROR") || strstr(line, "FAIL")) {
+                if (!ok) {
+                    LOGE("\r\n CIPSTART fail\r\n");
+                    return false;
+                }
+                break;
+            }
+        }
+        if (!ok) {
+            LOGE("\r\n CIPSTART fail\r\n");
+            return false;
+        }
     }
 
     wifi.SendAT("AT+CIPMODE=1");
@@ -559,6 +569,28 @@ bool tlink_init_wifi() {
     comSendBuf(COM3, (uint8_t *)testStr, strlen(testStr));
     delay_ms(4000);
     return true;
+}
+
+bool tlink_disconnect_wifi() {
+    comSendBuf(COM3, (uint8_t *)"+++", 3);
+    delay_ms(500);
+    auto &wifi = Wifi::GetInstance();
+    wifi.SendAT("AT");
+    wifi.WaitResponse("OK", 1000);
+    wifi.SendAT("AT+CIPCLOSE");
+    bool ok = wifi.WaitResponse("OK", 2000);
+    connection_status = 0;
+    connection_lost_time = Timer_GetTickCount();
+    return ok;
+}
+
+bool tlink_reconnect_wifi() {
+    if (tlink_init_wifi()) {
+        reset_connection_status();
+        IoT::GetInstance().SendStatusReport();
+        return true;
+    }
+    return false;
 }
 
 volatile uint8_t wifi_reconnect_requested = 0; // 0: 未请求, 1: 请求重连
@@ -605,6 +637,10 @@ static bool wifi_connect(const char *ssid, const char *pwd, uint16_t timeout_ms 
     return true;
 }
 
+// 时间同步标志访问器实现
+void wifi_set_time_sync_done(bool done) { time_sync_done = done; }
+bool wifi_is_time_sync_done() { return time_sync_done; }
+
 // 在设置页面显示已连接的Wi‑Fi名称
 void update_wifi_name_label(lv_ui *ui, const char *ssid) {
     if (!ui || !ssid)
@@ -641,31 +677,32 @@ void TaskWiFi([[maybe_unused]] void *pvParameters) {
             LOGD("wifi密码：%s\r\n", wifi_password);
             LOGI("\r\n开始WiFi连接...\r\n");
             // 仅连接到路由器，不建立到Tlink的TCP
-            bool ok = wifi_connect(wifi_ssid, wifi_password, 15000);
+            bool ok = wifi_connect(wifi_ssid, wifi_password, 30000);
             if (ok) {
                 LOGI("WiFi已连接: %s\r\n", wifi_ssid);
                 update_wifi_name_label(&guider_ui, wifi_ssid);
                 wifi_save_credentials_to_eeprom(wifi_ssid, wifi_password);
                 status_bar_update_wifi(true);
 
-                // 成功连接后，如果还未同步过时间，则执行一次网络时间同步
-                if (!time_sync_done) {
+                // 成功连接后，循环尝试同步网络时间，直至成功
+                while (!time_sync_done) {
                     bool ts_ok = Setting_SyncNetworkTime(true);
                     if (ts_ok) {
                         time_sync_done = true;
                         LOGI("网络时间已同步成功\r\n");
-                    } else {
-                        LOGI("网络时间同步失败\r\n");
+                        break;
                     }
+                    LOGI("网络时间同步失败，5秒后重试\r\n");
+                    vTaskDelay(pdMS_TO_TICKS(5000));
                 }
 
-                // 在成功连接到路由器后，建立到 Tlink 的TCP连接
-                if (tlink_init_wifi()) {
+                // 仅在时间同步成功后才建立到 Tlink 的TCP连接
+                if (time_sync_done && tlink_init_wifi()) {
                     reset_connection_status();
                     IoT::GetInstance().SendStatusReport();
                     LOGI("\r\nWiFi+Tlink连接完成，心跳机制启动\r\n");
                 } else {
-                    LOGI("\r\nTlink连接失败，保持未连接状态\r\n");
+                    LOGI("\r\nTlink连接失败或时间未同步，保持未连接状态\r\n");
                 }
 
                 // 成功后清除重试时间戳
