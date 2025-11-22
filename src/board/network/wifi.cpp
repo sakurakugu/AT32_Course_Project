@@ -132,6 +132,8 @@ bool Wifi::WaitResponse(const char *ack_str, uint16_t us_timeout) {
                     pos_fail = 0;
                 }
             }
+        } else {
+            delay_ms(1);
         }
     }
     return ret;
@@ -179,6 +181,8 @@ uint16_t Wifi::ReadLine(char *buffer, uint16_t size, uint16_t us_timeout) {
                 ret = pos; /* 成功。 返回数据长度 */
                 break;
             }
+        } else {
+            delay_ms(1);
         }
     }
     return ret;
@@ -693,7 +697,7 @@ void TaskWiFi([[maybe_unused]] void *pvParameters) {
                         break;
                     }
                     LOGI("网络时间同步失败，5秒后重试\r\n");
-                    vTaskDelay(pdMS_TO_TICKS(5000));
+                    delay_ms(5000);
                 }
 
                 // 仅在时间同步成功后才建立到 Tlink 的TCP连接
@@ -723,6 +727,6 @@ void TaskWiFi([[maybe_unused]] void *pvParameters) {
                 wifi_reconnect_requested = 1;
             }
         }
-        vTaskDelay(pdMS_TO_TICKS(100));
+        delay_ms(100);
     }
 }

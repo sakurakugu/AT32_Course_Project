@@ -82,6 +82,7 @@ void lv_port_disp_init(void) {
      */
 
 #define GUI_BUFFER_SIZE 320 * 180
+// #define GUI_BUFFER_SIZE (LV_HOR_RES_MAX * 80)
 
     /* Example for 1) */
     // 单缓冲

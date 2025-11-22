@@ -10,6 +10,7 @@
 #include "gui_guider.h"
 #include <FreeRTOS.h>
 #include <task.h>
+#include "delay.h"
 
 /* 依次定义GPIO */
 struct X_GPIO_T {
@@ -424,6 +425,6 @@ void TaskKeys([[maybe_unused]] void *pvParameters) {
             //     }
             // }
         }
-        vTaskDelay(pdMS_TO_TICKS(50));
+        delay_ms(50);
     }
 }

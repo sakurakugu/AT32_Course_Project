@@ -1,6 +1,7 @@
 #include "music.hpp"
 #include "FreeRTOS.h"
 #include "board.h"
+#include "delay.h"
 #include "task.h"
 
 /* 音高表：music_arrX 中的数值作为索引，映射到实际频率 */
@@ -100,7 +101,7 @@ void Music::PlayOneSong() {
         /* 暂停：在暂停期间保持短延时轮询，并立即静音 */
         if (music_resume) {
             Board::GetInstance().GetBeep().DisableOutput();
-            vTaskDelay(pdMS_TO_TICKS(50));
+            delay_ms(50);
             /* 重做当前音符，不前进索引 */
             --music_index; /* for 循环会 ++，抵消保持当前 */
             continue;
@@ -121,7 +122,7 @@ void Music::PlayOneSong() {
             duration_units = 1;
         }
         /* 单位为 100ms */
-        vTaskDelay(pdMS_TO_TICKS(duration_units * 100));
+        delay_ms(duration_units * 100);
     }
 
     /* 结束本曲播放 */
@@ -136,11 +137,11 @@ void TaskMusic([[maybe_unused]] void *pvParameters) {
         /* 外部请求开始播放 */
         if (music_start) {
             music_start = 0; /* 消耗启动请求 */
-            int delay_ms = music_switch_delay_ms;
+            int delay_ms_ = music_switch_delay_ms;
             music_switch_delay_ms = 0;
-            if (delay_ms > 0) {
+            if (delay_ms_ > 0) {
                 Board::GetInstance().GetBeep().DisableOutput();
-                vTaskDelay(pdMS_TO_TICKS(delay_ms));
+                delay_ms(delay_ms_);
             }
             music_index = 0;   /* 从头开始 */
             music_resume = 0;  /* 取消暂停 */
@@ -151,7 +152,7 @@ void TaskMusic([[maybe_unused]] void *pvParameters) {
             Music::GetInstance().PlayOneSong();
         } else {
             /* 空闲，降低占用 */
-            vTaskDelay(pdMS_TO_TICKS(50));
+            delay_ms(50);
         }
     }
 }

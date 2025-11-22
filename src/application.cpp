@@ -184,7 +184,7 @@ static void TaskLVGL(void *pvParameters) {
         }
         // LOGI("TaskLVGL 栈的高水位标记: %d\r\n", uxTaskGetStackHighWaterMark(NULL));
         lv_task_handler();
-        vTaskDelay(pdMS_TO_TICKS(25));
+        delay_ms(25);
     }
 }
 
@@ -223,7 +223,7 @@ static void TaskHeartbeat(void *pvParameters) {
             }
         }
 
-        vTaskDelay(pdMS_TO_TICKS(100));
+        delay_ms(100);
     }
 }
 
@@ -235,7 +235,7 @@ static void TaskADC(void *pvParameters) {
             last_adc_value = current_adc_value;
             update_adc_display(&guider_ui);
         }
-        vTaskDelay(pdMS_TO_TICKS(50));
+        delay_ms(50);
     }
 }
 
@@ -244,7 +244,7 @@ static void TaskLM75([[maybe_unused]] void *pvParameters) {
         uint8_t t = LM75::GetInstance().Read();
         g_temp_value = t;
         g_temp_dirty = true;
-        vTaskDelay(pdMS_TO_TICKS(500));
+        delay_ms(500);
     }
 }
 
@@ -252,12 +252,12 @@ static void TaskMPU6050([[maybe_unused]] void *pvParameters) {
     portTASK_USES_FLOATING_POINT();
     bool inited = false;
     for (;;) {
-        vTaskDelay(pdMS_TO_TICKS(200));
+        delay_ms(200);
         if (!inited) {
             uint8_t ret = MPU6050_Init();
             if (ret != 0) {
                 LOGE("MPU6050 init failed\r\n");
-                vTaskDelay(pdMS_TO_TICKS(500));
+                delay_ms(500);
                 continue;
             }
             inited = true;
@@ -279,7 +279,7 @@ static void TaskMPU6050([[maybe_unused]] void *pvParameters) {
         short t100 = MPU6050_GetTemp();
         g_mpu_temp = t100 / 100.0f;
         g_mpu_temp_dirty = true;
-        vTaskDelay(pdMS_TO_TICKS(100));
+        delay_ms(100);
     }
 }
 
@@ -299,14 +299,14 @@ static void TaskStatus(void *pvParameters) {
             LOGI("连接断开，数据未发送\r\n");
         }
 
-        vTaskDelay(pdMS_TO_TICKS(5000));
+        delay_ms(5000);
     }
 }
 
 static void TaskLED([[maybe_unused]] void *pvParameters) {
     for (;;) {
         LED::GetInstance().Toggle(LED_Yellow);
-        vTaskDelay(pdMS_TO_TICKS(200));
+        delay_ms(200);
     }
 }
 
