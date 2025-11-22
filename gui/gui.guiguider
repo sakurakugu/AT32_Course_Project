@@ -12875,7 +12875,7 @@
 			"version": 190,
 			"scrollbar_mode": "OFF",
 			"customer_code": {
-				"code_c": "    lv_obj_add_event_cb(ui->clock_app_start_or_pausing_btn, clock_app_start_or_pausing_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_reset_btn, clock_app_reset_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_timer_SPC_btn, clock_app_timer_SPC_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_timer_reset_btn, clock_app_timer_reset_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_timer_bell_btn, clock_app_timer_bell_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    clock_app_init_customize(ui);",
+				"code_c": "    // 修复字体错误\r\n    lv_style_set_text_font(&style_clock_app_clock_page_extra_option_btns_main_checked, &lv_font_SourceHanSerifSC_Regular_16);\r\n    \r\n    lv_obj_add_event_cb(ui->clock_app_start_or_pausing_btn, clock_app_start_or_pausing_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_reset_btn, clock_app_reset_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_timer_SPC_btn, clock_app_timer_SPC_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_timer_reset_btn, clock_app_timer_reset_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_timer_bell_btn, clock_app_timer_bell_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    clock_app_init_customize(ui);",
 				"inc_c": "#include \"../../src/board/sound/beep.h\"",
 				"code_py": "",
 				"inc_py": "",
@@ -14986,7 +14986,7 @@
 							"text_color": "#151212",
 							"text_align": "LV_TEXT_ALIGN_CENTER",
 							"font_family": "SourceHanSerifSC_Regular",
-							"font": 12,
+							"font": 16,
 							"padding_top": 10,
 							"padding_bottom": 10
 						},
@@ -15021,7 +15021,7 @@
 							"disable": false,
 							"text_color": "#41485a",
 							"font_family": "SourceHanSerifSC_Regular",
-							"font": 12,
+							"font": 16,
 							"text_align": "LV_TEXT_ALIGN_CENTER",
 							"bg_color": "#ffffff",
 							"bg_grad_color": "#41485a",
@@ -19067,7 +19067,7 @@
 			"version": 190,
 			"scrollbar_mode": "OFF",
 			"customer_code": {
-				"code_c": "#ifdef KEIL_COMPILE\r\n    // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）\r\n    lv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    // 绑定亮度滑块事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_light_slider, setting_app_light_slider_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“同步网络时间”开关事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sync_net_time_sw, setting_app_sync_net_time_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“声音开关”事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sound_sw, setting_app_sound_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    lv_obj_add_state(ui->setting_app_sound_sw, LV_STATE_CHECKED);\r\n#endif",
+				"code_c": "#ifdef KEIL_COMPILE\r\n    // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）\r\n    lv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    // 绑定亮度滑块事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_light_slider, setting_app_light_slider_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“同步网络时间”开关事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sync_net_time_sw, setting_app_sync_net_time_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“声音开关”事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sound_sw, setting_app_sound_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    lv_obj_add_state(ui->setting_app_sound_sw, LV_STATE_CHECKED);\r\n    // 修复字体错误\r\n    lv_style_set_text_font(&style_setting_app_setting_page_extra_option_btns_main_checked, &lv_font_SourceHanSerifSC_Regular_16);\r\n#endif",
 				"inc_c": "",
 				"code_py": "",
 				"inc_py": "",
@@ -39054,7 +39054,7 @@
 				"version": 190,
 				"scrollbar_mode": "OFF",
 				"customer_code": {
-					"code_c": "    lv_obj_add_event_cb(ui->clock_app_start_or_pausing_btn, clock_app_start_or_pausing_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_reset_btn, clock_app_reset_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_timer_SPC_btn, clock_app_timer_SPC_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_timer_reset_btn, clock_app_timer_reset_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_timer_bell_btn, clock_app_timer_bell_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    clock_app_init_customize(ui);",
+					"code_c": "    // 修复字体错误\r\n    lv_style_set_text_font(&style_clock_app_clock_page_extra_option_btns_main_checked, &lv_font_SourceHanSerifSC_Regular_16);\r\n    \r\n    lv_obj_add_event_cb(ui->clock_app_start_or_pausing_btn, clock_app_start_or_pausing_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_reset_btn, clock_app_reset_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_timer_SPC_btn, clock_app_timer_SPC_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_timer_reset_btn, clock_app_timer_reset_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    lv_obj_add_event_cb(ui->clock_app_timer_bell_btn, clock_app_timer_bell_btn_event_handler, LV_EVENT_CLICKED, ui);\r\n    clock_app_init_customize(ui);",
 					"inc_c": "#include \"../../src/board/sound/beep.h\"",
 					"code_py": "",
 					"inc_py": "",
@@ -41302,7 +41302,7 @@
 								"text_color": "#151212",
 								"text_align": "LV_TEXT_ALIGN_CENTER",
 								"font_family": "SourceHanSerifSC_Regular",
-								"font": 12,
+								"font": 16,
 								"padding_top": 10,
 								"padding_bottom": 10
 							},
@@ -41337,7 +41337,7 @@
 								"disable": false,
 								"text_color": "#41485a",
 								"font_family": "SourceHanSerifSC_Regular",
-								"font": 12,
+								"font": 16,
 								"text_align": "LV_TEXT_ALIGN_CENTER",
 								"bg_color": "#ffffff",
 								"bg_grad_color": "#41485a",
@@ -45417,7 +45417,7 @@
 				"version": 190,
 				"scrollbar_mode": "OFF",
 				"customer_code": {
-					"code_c": "#ifdef KEIL_COMPILE\r\n    // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）\r\n    lv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    // 绑定亮度滑块事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_light_slider, setting_app_light_slider_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“同步网络时间”开关事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sync_net_time_sw, setting_app_sync_net_time_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“声音开关”事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sound_sw, setting_app_sound_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    lv_obj_add_state(ui->setting_app_sound_sw, LV_STATE_CHECKED);\r\n#endif",
+					"code_c": "#ifdef KEIL_COMPILE\r\n    // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）\r\n    lv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    // 绑定亮度滑块事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_light_slider, setting_app_light_slider_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“同步网络时间”开关事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sync_net_time_sw, setting_app_sync_net_time_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“声音开关”事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sound_sw, setting_app_sound_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    lv_obj_add_state(ui->setting_app_sound_sw, LV_STATE_CHECKED);\r\n    // 修复字体错误\r\n    lv_style_set_text_font(&style_setting_app_setting_page_extra_option_btns_main_checked, &lv_font_SourceHanSerifSC_Regular_16);\r\n#endif",
 					"inc_c": "",
 					"code_py": "",
 					"inc_py": "",

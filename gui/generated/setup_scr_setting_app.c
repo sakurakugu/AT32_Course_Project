@@ -491,6 +491,8 @@ void setup_scr_setting_app(lv_ui *ui)
     // 绑定“声音开关”事件
     lv_obj_add_event_cb(guider_ui.setting_app_sound_sw, setting_app_sound_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
     lv_obj_add_state(ui->setting_app_sound_sw, LV_STATE_CHECKED);
+    // 修复字体错误
+    lv_style_set_text_font(&style_setting_app_setting_page_extra_option_btns_main_checked, &lv_font_SourceHanSerifSC_Regular_16);
 #endif
 
     //Update current screen layout.

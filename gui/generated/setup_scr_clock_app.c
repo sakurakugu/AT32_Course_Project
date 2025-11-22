@@ -101,7 +101,7 @@ void setup_scr_clock_app(lv_ui *ui)
     ui_init_style(&style_clock_app_clock_page_extra_option_btns_main_default);
 
     lv_style_set_text_color(&style_clock_app_clock_page_extra_option_btns_main_default, lv_color_hex(0x151212));
-    lv_style_set_text_font(&style_clock_app_clock_page_extra_option_btns_main_default, &lv_font_SourceHanSerifSC_Regular_12);
+    lv_style_set_text_font(&style_clock_app_clock_page_extra_option_btns_main_default, &lv_font_SourceHanSerifSC_Regular_16);
     lv_style_set_text_opa(&style_clock_app_clock_page_extra_option_btns_main_default, 255);
     lv_style_set_text_align(&style_clock_app_clock_page_extra_option_btns_main_default, LV_TEXT_ALIGN_CENTER);
     lv_style_set_pad_top(&style_clock_app_clock_page_extra_option_btns_main_default, 10);
@@ -134,7 +134,7 @@ void setup_scr_clock_app(lv_ui *ui)
     ui_init_style(&style_clock_app_clock_page_extra_main_title_main_default);
 
     lv_style_set_text_color(&style_clock_app_clock_page_extra_main_title_main_default, lv_color_hex(0x41485a));
-    lv_style_set_text_font(&style_clock_app_clock_page_extra_main_title_main_default, &lv_font_SourceHanSerifSC_Regular_12);
+    lv_style_set_text_font(&style_clock_app_clock_page_extra_main_title_main_default, &lv_font_SourceHanSerifSC_Regular_16);
     lv_style_set_text_opa(&style_clock_app_clock_page_extra_main_title_main_default, 255);
     lv_style_set_text_align(&style_clock_app_clock_page_extra_main_title_main_default, LV_TEXT_ALIGN_CENTER);
     lv_style_set_bg_opa(&style_clock_app_clock_page_extra_main_title_main_default, 255);
@@ -611,6 +611,9 @@ void setup_scr_clock_app(lv_ui *ui)
     lv_obj_add_style(lv_calendar_get_btnmatrix(ui->clock_app_calendar), &style_clock_app_calendar_main_items_default, LV_PART_ITEMS|LV_STATE_DEFAULT);
 
     //The custom code of clock_app.
+    // 修复字体错误
+    lv_style_set_text_font(&style_clock_app_clock_page_extra_option_btns_main_checked, &lv_font_SourceHanSerifSC_Regular_16);
+
     lv_obj_add_event_cb(ui->clock_app_start_or_pausing_btn, clock_app_start_or_pausing_btn_event_handler, LV_EVENT_CLICKED, ui);
     lv_obj_add_event_cb(ui->clock_app_reset_btn, clock_app_reset_btn_event_handler, LV_EVENT_CLICKED, ui);
     lv_obj_add_event_cb(ui->clock_app_timer_SPC_btn, clock_app_timer_SPC_btn_event_handler, LV_EVENT_CLICKED, ui);

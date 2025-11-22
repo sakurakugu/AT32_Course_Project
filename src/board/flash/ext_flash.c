@@ -3,7 +3,7 @@
  * @brief    the driver library of the qspi flash flash
  */
 
-#include "bsp_ext_flash.h"
+#include "ext_flash.h"
 
 qspi_cmd_type qspi_flash_cmd_config;
 

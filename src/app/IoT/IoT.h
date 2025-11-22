@@ -19,9 +19,9 @@ extern char TlinkCommandStr[20];
 // 状态上报定时器
 extern uint32_t send_timer;
 // 添加设备状态变量
-extern uint8_t lm75_temp;       // lm75温度值
-extern uint16_t adc_value;      // adc值
-extern uint8_t lighting_status; // 照明状态 (LED_YELLOW)
-#define HEARTBEAT_INTERVAL 55000            // 55秒心跳间隔
-#define HEARTBEAT_TIMEOUT 5000              // 5秒心跳响应超时
-#define MAX_HEARTBEAT_FAILURES 3            // 最大连续心跳失败次数
+extern uint8_t lm75_temp;        // lm75温度值
+extern uint16_t adc_value;       // adc值
+extern uint8_t lighting_status;  // 照明状态 (LED_YELLOW)
+#define HEARTBEAT_INTERVAL 55000 // 55秒心跳间隔
+#define HEARTBEAT_TIMEOUT 5000   // 5秒心跳响应超时
+#define MAX_HEARTBEAT_FAILURES 3 // 最大连续心跳失败次数

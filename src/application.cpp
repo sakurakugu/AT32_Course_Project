@@ -299,7 +299,7 @@ static void TaskStatus(void *pvParameters) {
             LOGI("连接断开，数据未发送\r\n");
         }
 
-        vTaskDelay(pdMS_TO_TICKS(30000));
+        vTaskDelay(pdMS_TO_TICKS(5000));
     }
 }
 

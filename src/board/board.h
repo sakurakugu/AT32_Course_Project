@@ -1,6 +1,6 @@
 #pragma once
 
-#include "bsp_ext_flash.h"
+#include "ext_flash.h"
 #include "key/key.h"
 #include "led/color_led.hpp"
 #include "led/oled.h"

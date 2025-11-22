@@ -440,7 +440,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\src\board\timer.c</PathWithFileName>
+      <PathWithFileName>.\src\board\timer\timer.c</PathWithFileName>
       <FilenameWithoutPath>timer.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -464,8 +464,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\src\board\bsp_ext_flash.c</PathWithFileName>
-      <FilenameWithoutPath>bsp_ext_flash.c</FilenameWithoutPath>
+      <PathWithFileName>.\src\board\flash\ext_flash.c</PathWithFileName>
+      <FilenameWithoutPath>ext_flash.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
