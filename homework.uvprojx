@@ -2643,14 +2643,9 @@
               <FilePath>.\gui\generated\images\_calculator_app_alpha_80x80.c</FilePath>
             </File>
             <File>
-              <FileName>_clock_alpha_80x80.c</FileName>
+              <FileName>_clock_app_alpha_80x80.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\generated\images\_clock_alpha_80x80.c</FilePath>
-            </File>
-            <File>
-              <FileName>_color_led_alpha_80x80.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gui\generated\images\_color_led_alpha_80x80.c</FilePath>
+              <FilePath>.\gui\generated\images\_clock_app_alpha_80x80.c</FilePath>
             </File>
             <File>
               <FileName>_drawing_app_alpha_80x80.c</FileName>
@@ -2661,6 +2656,31 @@
               <FileName>_electronic_organ_app_alpha_80x80.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\generated\images\_electronic_organ_app_alpha_80x80.c</FilePath>
+            </File>
+            <File>
+              <FileName>_IoT_ADC_alpha_80x80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_IoT_ADC_alpha_80x80.c</FilePath>
+            </File>
+            <File>
+              <FileName>_IoT_color_led_alpha_80x80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_IoT_color_led_alpha_80x80.c</FilePath>
+            </File>
+            <File>
+              <FileName>_IoT_green_led_alpha_80x80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_IoT_green_led_alpha_80x80.c</FilePath>
+            </File>
+            <File>
+              <FileName>_IoT_key_alpha_80x80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_IoT_key_alpha_80x80.c</FilePath>
+            </File>
+            <File>
+              <FileName>_IoT_lm75_alpha_80x80.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\generated\images\_IoT_lm75_alpha_80x80.c</FilePath>
             </File>
             <File>
               <FileName>_link_game_app_alpha_80x80.c</FileName>

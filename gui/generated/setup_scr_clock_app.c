@@ -16,9 +16,9 @@
 #include "../../src/board/sound/beep.h"
 
 
-int clock_app_analog_clock_1_hour_value = 3;
-int clock_app_analog_clock_1_min_value = 20;
-int clock_app_analog_clock_1_sec_value = 50;
+int clock_app_g_time_hour_value = 3;
+int clock_app_g_time_min_value = 20;
+int clock_app_g_time_sec_value = 50;
 lv_calendar_date_t clock_app_calendar_today;
 lv_calendar_date_t clock_app_calendar_highlihted_days[1];
 void setup_scr_clock_app(lv_ui *ui)
@@ -167,40 +167,40 @@ void setup_scr_clock_app(lv_ui *ui)
     lv_obj_set_style_pad_right(ui->clock_app_placeholder_div1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->clock_app_placeholder_div1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes clock_app_analog_clock_1
-    static bool clock_app_analog_clock_1_timer_enabled = false;
-    ui->clock_app_analog_clock_1 = lv_analogclock_create(ui->clock_app_clock_page_subpage_1);
-    lv_analogclock_hide_digits(ui->clock_app_analog_clock_1, false);
-    lv_analogclock_set_major_ticks(ui->clock_app_analog_clock_1, 2, 10, lv_color_hex(0x555555), 10);
-    lv_analogclock_set_ticks(ui->clock_app_analog_clock_1, 2, 5, lv_color_hex(0x333333));
-    lv_analogclock_set_hour_needle_line(ui->clock_app_analog_clock_1, 2, lv_color_hex(0x00ff00), -40);
-    lv_analogclock_set_min_needle_line(ui->clock_app_analog_clock_1, 2, lv_color_hex(0xE1FF00), -30);
-    lv_analogclock_set_sec_needle_line(ui->clock_app_analog_clock_1, 2, lv_color_hex(0x6600FF), -10);
-    lv_analogclock_set_time(ui->clock_app_analog_clock_1, clock_app_analog_clock_1_hour_value, clock_app_analog_clock_1_min_value,clock_app_analog_clock_1_sec_value);
+    //Write codes clock_app_g_time
+    static bool clock_app_g_time_timer_enabled = false;
+    ui->clock_app_g_time = lv_analogclock_create(ui->clock_app_clock_page_subpage_1);
+    lv_analogclock_hide_digits(ui->clock_app_g_time, false);
+    lv_analogclock_set_major_ticks(ui->clock_app_g_time, 2, 10, lv_color_hex(0x555555), 10);
+    lv_analogclock_set_ticks(ui->clock_app_g_time, 2, 5, lv_color_hex(0x333333));
+    lv_analogclock_set_hour_needle_line(ui->clock_app_g_time, 2, lv_color_hex(0x00ff00), -40);
+    lv_analogclock_set_min_needle_line(ui->clock_app_g_time, 2, lv_color_hex(0xE1FF00), -30);
+    lv_analogclock_set_sec_needle_line(ui->clock_app_g_time, 2, lv_color_hex(0x6600FF), -10);
+    lv_analogclock_set_time(ui->clock_app_g_time, clock_app_g_time_hour_value, clock_app_g_time_min_value,clock_app_g_time_sec_value);
     // create timer
-    if (!clock_app_analog_clock_1_timer_enabled) {
-        lv_timer_create(clock_app_analog_clock_1_timer, 1000, NULL);
-        clock_app_analog_clock_1_timer_enabled = true;
+    if (!clock_app_g_time_timer_enabled) {
+        lv_timer_create(clock_app_g_time_timer, 1000, NULL);
+        clock_app_g_time_timer_enabled = true;
     }
-    lv_obj_set_pos(ui->clock_app_analog_clock_1, 64, 30);
-    lv_obj_set_size(ui->clock_app_analog_clock_1, 200, 200);
+    lv_obj_set_pos(ui->clock_app_g_time, 64, 30);
+    lv_obj_set_size(ui->clock_app_g_time, 200, 200);
 
-    //Write style for clock_app_analog_clock_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->clock_app_analog_clock_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui->clock_app_analog_clock_1, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_dir(ui->clock_app_analog_clock_1, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui->clock_app_analog_clock_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->clock_app_analog_clock_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for clock_app_g_time, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->clock_app_g_time, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_g_time, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_g_time, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->clock_app_g_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->clock_app_g_time, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write style for clock_app_analog_clock_1, Part: LV_PART_TICKS, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_text_color(ui->clock_app_analog_clock_1, lv_color_hex(0xff0000), LV_PART_TICKS|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->clock_app_analog_clock_1, &lv_font_montserratMedium_12, LV_PART_TICKS|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->clock_app_analog_clock_1, 255, LV_PART_TICKS|LV_STATE_DEFAULT);
+    //Write style for clock_app_g_time, Part: LV_PART_TICKS, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->clock_app_g_time, lv_color_hex(0xff0000), LV_PART_TICKS|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->clock_app_g_time, &lv_font_montserratMedium_12, LV_PART_TICKS|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->clock_app_g_time, 255, LV_PART_TICKS|LV_STATE_DEFAULT);
 
-    //Write style for clock_app_analog_clock_1, Part: LV_PART_INDICATOR, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->clock_app_analog_clock_1, 255, LV_PART_INDICATOR|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui->clock_app_analog_clock_1, lv_color_hex(0x000000), LV_PART_INDICATOR|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_dir(ui->clock_app_analog_clock_1, LV_GRAD_DIR_NONE, LV_PART_INDICATOR|LV_STATE_DEFAULT);
+    //Write style for clock_app_g_time, Part: LV_PART_INDICATOR, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->clock_app_g_time, 255, LV_PART_INDICATOR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->clock_app_g_time, lv_color_hex(0x000000), LV_PART_INDICATOR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->clock_app_g_time, LV_GRAD_DIR_NONE, LV_PART_INDICATOR|LV_STATE_DEFAULT);
 
 
 

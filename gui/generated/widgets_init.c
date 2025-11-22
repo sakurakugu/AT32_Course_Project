@@ -149,15 +149,16 @@ void home_app1_date_calendar_event_handler(lv_event_t *e)
 
 
 
-extern int g_time_hour_value;
-extern int g_time_min_value;
-extern int g_time_sec_value;
+extern int clock_app_g_time_hour_value;
+extern int clock_app_g_time_min_value;
+extern int clock_app_g_time_sec_value;
 
-void clock_app_analog_clock_1_timer(lv_timer_t *timer)
+void clock_app_g_time_timer(lv_timer_t *timer)
 {
-    if (lv_obj_is_valid(guider_ui.clock_app_analog_clock_1))
+    // clock_count(&clock_app_g_time_hour_value, &clock_app_g_time_min_value, &clock_app_g_time_sec_value); 不然时间会一次跳两格
+    if (lv_obj_is_valid(guider_ui.clock_app_g_time))
     {
-        lv_analogclock_set_time(guider_ui.clock_app_analog_clock_1, g_time_hour_value, g_time_min_value, g_time_sec_value);
+        lv_analogclock_set_time(guider_ui.clock_app_g_time, clock_app_g_time_hour_value, clock_app_g_time_min_value, clock_app_g_time_sec_value);
     }
 }
 void clock_app_calendar_draw_part_begin_event_cb(lv_event_t * e)

@@ -200,7 +200,7 @@ typedef struct
 	lv_obj_t *clock_app_clock_page_cont_4;
 	lv_obj_t *clock_app_clock_page_label_4;
 	lv_obj_t *clock_app_placeholder_div1;
-	lv_obj_t *clock_app_analog_clock_1;
+	lv_obj_t *clock_app_g_time;
 	lv_obj_t *clock_app_placeholder_div2;
 	lv_obj_t *clock_app_second_chronograph;
 	lv_obj_t *clock_app_clock_font;
@@ -360,7 +360,7 @@ LV_IMG_DECLARE(_wifi_alpha_16x16);
 LV_IMG_DECLARE(_voice_on_alpha_16x16);
 LV_IMG_DECLARE(_voice_off_alpha_16x16);
 LV_IMG_DECLARE(_setting_app_alpha_80x80);
-LV_IMG_DECLARE(_clock_alpha_80x80);
+LV_IMG_DECLARE(_clock_app_alpha_80x80);
 LV_IMG_DECLARE(_calculator_app_alpha_80x80);
 LV_IMG_DECLARE(_smart_home_app_alpha_80x80);
 LV_IMG_DECLARE(_music_app_alpha_80x80);
@@ -375,12 +375,11 @@ LV_IMG_DECLARE(_music_next_song_alpha_16x16);
 LV_IMG_DECLARE(_music_player_alpha_16x16);
 LV_IMG_DECLARE(_music_pause_alpha_16x16);
 LV_IMG_DECLARE(_music_prev_song_alpha_16x16);
-LV_IMG_DECLARE(_color_led_alpha_80x80);
-LV_IMG_DECLARE(_color_led_alpha_80x80);
-LV_IMG_DECLARE(_color_led_alpha_80x80);
-LV_IMG_DECLARE(_color_led_alpha_80x80);
-LV_IMG_DECLARE(_color_led_alpha_80x80);
-LV_IMG_DECLARE(_color_led_alpha_80x80);
+LV_IMG_DECLARE(_IoT_key_alpha_80x80);
+LV_IMG_DECLARE(_IoT_ADC_alpha_80x80);
+LV_IMG_DECLARE(_IoT_lm75_alpha_80x80);
+LV_IMG_DECLARE(_IoT_green_led_alpha_80x80);
+LV_IMG_DECLARE(_IoT_color_led_alpha_80x80);
 
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_14)

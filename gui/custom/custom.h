@@ -34,9 +34,9 @@ extern "C" {
 // 全局变量：状态栏日期标签（用于更新日期）
 extern lv_obj_t *g_status_bar_date;
 // 全局变量：时间小时、分钟、秒（用于更新时间）
-extern int g_time_hour_value;
-extern int g_time_min_value;
-extern int g_time_sec_value;
+extern int clock_app_g_time_hour_value;
+extern int clock_app_g_time_min_value;
+extern int clock_app_g_time_sec_value;
 
 void custom_init(lv_ui *ui);
 

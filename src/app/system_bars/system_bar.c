@@ -47,9 +47,9 @@ lv_obj_t *g_status_bar_date;
 
 static void status_bar_timer_cb(lv_timer_t *timer) {
     (void)timer;
-    clock_count_24(&g_time_hour_value, &g_time_min_value, &g_time_sec_value);
+    clock_count_24(&clock_app_g_time_hour_value, &clock_app_g_time_min_value, &clock_app_g_time_sec_value);
     if (lv_obj_is_valid(g_status_bar_time)) {
-        lv_dclock_set_text_fmt(g_status_bar_time, "%d:%02d", g_time_hour_value, g_time_min_value);
+        lv_dclock_set_text_fmt(g_status_bar_time, "%d:%02d", clock_app_g_time_hour_value, clock_app_g_time_min_value);
     }
 }
 

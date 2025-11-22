@@ -30,14 +30,14 @@ void Setting_BacklightSetPercent(uint8_t percent) {
 #endif
 
 // 引用各屏幕的时钟全局变量（widgets_init.c 中以 extern 引用）
-extern int g_time_hour_value;
-extern int g_time_min_value;
-extern int g_time_sec_value;
+extern int clock_app_g_time_hour_value;
+extern int clock_app_g_time_min_value;
+extern int clock_app_g_time_sec_value;
 
 extern lv_obj_t *g_status_bar_date;
-extern int clock_app_analog_clock_1_hour_value;
-extern int clock_app_analog_clock_1_min_value;
-extern int clock_app_analog_clock_1_sec_value;
+extern int clock_app_g_time_hour_value;
+extern int clock_app_g_time_min_value;
+extern int clock_app_g_time_sec_value;
 extern lv_ui guider_ui;
 
 bool Setting::SyncNetworkTime(bool sync) {
@@ -199,15 +199,15 @@ bool Setting::ParseDatetimeISO8601(const char *json, int *year, int *month, int 
 
 void Setting::ApplyTimeToAll(int hour, int min, int sec) {
     // 更新全局时间变量
-    g_time_hour_value = hour;
-    g_time_min_value = min;
-    g_time_sec_value = sec;
+    clock_app_g_time_hour_value = hour;
+    clock_app_g_time_min_value = min;
+    clock_app_g_time_sec_value = sec;
     // 更新时钟显示
-    clock_app_analog_clock_1_hour_value = hour;
-    clock_app_analog_clock_1_min_value = min;
-    clock_app_analog_clock_1_sec_value = sec;
-    if (lv_obj_is_valid(guider_ui.clock_app_analog_clock_1)) {
-        lv_analogclock_set_time(guider_ui.clock_app_analog_clock_1, hour, min, sec);
+    clock_app_g_time_hour_value = hour;
+    clock_app_g_time_min_value = min;
+    clock_app_g_time_sec_value = sec;
+    if (lv_obj_is_valid(guider_ui.clock_app_g_time)) {
+        lv_analogclock_set_time(guider_ui.clock_app_g_time, hour, min, sec);
     }
 }
 

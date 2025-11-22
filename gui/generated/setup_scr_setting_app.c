@@ -458,7 +458,6 @@ void setup_scr_setting_app(lv_ui *ui)
     ui->setting_app_sound_sw = lv_switch_create(ui->setting_app_setting_page_subpage_4);
     lv_obj_set_pos(ui->setting_app_sound_sw, 73, 65);
     lv_obj_set_size(ui->setting_app_sound_sw, 40, 20);
-    lv_obj_add_state(ui->setting_app_sound_sw, LV_STATE_CHECKED);
 
     //Write style for setting_app_sound_sw, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->setting_app_sound_sw, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -491,6 +490,7 @@ void setup_scr_setting_app(lv_ui *ui)
     lv_obj_add_event_cb(guider_ui.setting_app_sync_net_time_sw, setting_app_sync_net_time_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
     // 绑定“声音开关”事件
     lv_obj_add_event_cb(guider_ui.setting_app_sound_sw, setting_app_sound_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
+    lv_obj_add_state(ui->setting_app_sound_sw, LV_STATE_CHECKED);
 #endif
 
     //Update current screen layout.

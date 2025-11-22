@@ -50,13 +50,13 @@ void setup_scr_smart_home_app(lv_ui *ui)
     //Write codes smart_home_app_IoT_8key
     ui->smart_home_app_IoT_8key = lv_imgbtn_create(ui->smart_home_app_IoT_page);
     lv_obj_add_flag(ui->smart_home_app_IoT_8key, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->smart_home_app_IoT_8key, LV_IMGBTN_STATE_RELEASED, NULL, &_color_led_alpha_80x80, NULL);
+    lv_imgbtn_set_src(ui->smart_home_app_IoT_8key, LV_IMGBTN_STATE_RELEASED, NULL, &_IoT_key_alpha_80x80, NULL);
     ui->smart_home_app_IoT_8key_label = lv_label_create(ui->smart_home_app_IoT_8key);
     lv_label_set_text(ui->smart_home_app_IoT_8key_label, "");
     lv_label_set_long_mode(ui->smart_home_app_IoT_8key_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->smart_home_app_IoT_8key_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->smart_home_app_IoT_8key, 0, LV_STATE_DEFAULT);
-    lv_obj_set_pos(ui->smart_home_app_IoT_8key, 330, 150);
+    lv_obj_set_pos(ui->smart_home_app_IoT_8key, 200, 150);
     lv_obj_set_size(ui->smart_home_app_IoT_8key, 80, 80);
 
     //Write style for smart_home_app_IoT_8key, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -91,14 +91,14 @@ void setup_scr_smart_home_app(lv_ui *ui)
     //Write codes smart_home_app_IoT_MPU6050
     ui->smart_home_app_IoT_MPU6050 = lv_imgbtn_create(ui->smart_home_app_IoT_page);
     lv_obj_add_flag(ui->smart_home_app_IoT_MPU6050, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->smart_home_app_IoT_MPU6050, LV_IMGBTN_STATE_RELEASED, NULL, &_color_led_alpha_80x80, NULL);
     ui->smart_home_app_IoT_MPU6050_label = lv_label_create(ui->smart_home_app_IoT_MPU6050);
     lv_label_set_text(ui->smart_home_app_IoT_MPU6050_label, "");
     lv_label_set_long_mode(ui->smart_home_app_IoT_MPU6050_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->smart_home_app_IoT_MPU6050_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->smart_home_app_IoT_MPU6050, 0, LV_STATE_DEFAULT);
-    lv_obj_set_pos(ui->smart_home_app_IoT_MPU6050, 200, 150);
+    lv_obj_set_pos(ui->smart_home_app_IoT_MPU6050, 330, 150);
     lv_obj_set_size(ui->smart_home_app_IoT_MPU6050, 80, 80);
+    lv_obj_add_flag(ui->smart_home_app_IoT_MPU6050, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for smart_home_app_IoT_MPU6050, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_text_color(ui->smart_home_app_IoT_MPU6050, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -132,7 +132,7 @@ void setup_scr_smart_home_app(lv_ui *ui)
     //Write codes smart_home_app_IoT_ADC
     ui->smart_home_app_IoT_ADC = lv_imgbtn_create(ui->smart_home_app_IoT_page);
     lv_obj_add_flag(ui->smart_home_app_IoT_ADC, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->smart_home_app_IoT_ADC, LV_IMGBTN_STATE_RELEASED, NULL, &_color_led_alpha_80x80, NULL);
+    lv_imgbtn_set_src(ui->smart_home_app_IoT_ADC, LV_IMGBTN_STATE_RELEASED, NULL, &_IoT_ADC_alpha_80x80, NULL);
     ui->smart_home_app_IoT_ADC_label = lv_label_create(ui->smart_home_app_IoT_ADC);
     lv_label_set_text(ui->smart_home_app_IoT_ADC_label, "");
     lv_label_set_long_mode(ui->smart_home_app_IoT_ADC_label, LV_LABEL_LONG_WRAP);
@@ -173,7 +173,7 @@ void setup_scr_smart_home_app(lv_ui *ui)
     //Write codes smart_home_app_IoT_lm75
     ui->smart_home_app_IoT_lm75 = lv_imgbtn_create(ui->smart_home_app_IoT_page);
     lv_obj_add_flag(ui->smart_home_app_IoT_lm75, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->smart_home_app_IoT_lm75, LV_IMGBTN_STATE_RELEASED, NULL, &_color_led_alpha_80x80, NULL);
+    lv_imgbtn_set_src(ui->smart_home_app_IoT_lm75, LV_IMGBTN_STATE_RELEASED, NULL, &_IoT_lm75_alpha_80x80, NULL);
     ui->smart_home_app_IoT_lm75_label = lv_label_create(ui->smart_home_app_IoT_lm75);
     lv_label_set_text(ui->smart_home_app_IoT_lm75_label, "");
     lv_label_set_long_mode(ui->smart_home_app_IoT_lm75_label, LV_LABEL_LONG_WRAP);
@@ -214,7 +214,7 @@ void setup_scr_smart_home_app(lv_ui *ui)
     //Write codes smart_home_app_IoT_led_green
     ui->smart_home_app_IoT_led_green = lv_imgbtn_create(ui->smart_home_app_IoT_page);
     lv_obj_add_flag(ui->smart_home_app_IoT_led_green, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->smart_home_app_IoT_led_green, LV_IMGBTN_STATE_RELEASED, NULL, &_color_led_alpha_80x80, NULL);
+    lv_imgbtn_set_src(ui->smart_home_app_IoT_led_green, LV_IMGBTN_STATE_RELEASED, NULL, &_IoT_green_led_alpha_80x80, NULL);
     ui->smart_home_app_IoT_led_green_label = lv_label_create(ui->smart_home_app_IoT_led_green);
     lv_label_set_text(ui->smart_home_app_IoT_led_green_label, "");
     lv_label_set_long_mode(ui->smart_home_app_IoT_led_green_label, LV_LABEL_LONG_WRAP);
@@ -255,7 +255,7 @@ void setup_scr_smart_home_app(lv_ui *ui)
     //Write codes smart_home_app_IoT_color_led
     ui->smart_home_app_IoT_color_led = lv_imgbtn_create(ui->smart_home_app_IoT_page);
     lv_obj_add_flag(ui->smart_home_app_IoT_color_led, LV_OBJ_FLAG_CHECKABLE);
-    lv_imgbtn_set_src(ui->smart_home_app_IoT_color_led, LV_IMGBTN_STATE_RELEASED, NULL, &_color_led_alpha_80x80, NULL);
+    lv_imgbtn_set_src(ui->smart_home_app_IoT_color_led, LV_IMGBTN_STATE_RELEASED, NULL, &_IoT_color_led_alpha_80x80, NULL);
     ui->smart_home_app_IoT_color_led_label = lv_label_create(ui->smart_home_app_IoT_color_led);
     lv_label_set_text(ui->smart_home_app_IoT_color_led_label, "");
     lv_label_set_long_mode(ui->smart_home_app_IoT_color_led_label, LV_LABEL_LONG_WRAP);
@@ -757,6 +757,7 @@ void setup_scr_smart_home_app(lv_ui *ui)
     lv_obj_set_pos(ui->smart_home_app_ADC_page, 220, 16);
     lv_obj_set_size(ui->smart_home_app_ADC_page, 260, 304);
     lv_obj_set_scrollbar_mode(ui->smart_home_app_ADC_page, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_flag(ui->smart_home_app_ADC_page, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(ui->smart_home_app_ADC_page, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for smart_home_app_ADC_page, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.

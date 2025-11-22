@@ -5,9 +5,6 @@
 // ===============================
 // 时钟事件实现
 // ===============================
-int g_time_min_value = 25;
-int g_time_hour_value = 11;
-int g_time_sec_value = 50;
 
 static lv_timer_t *s_sw_timer;
 static int s_sw_cs;
@@ -222,9 +219,9 @@ void clock_app_init_customize(lv_ui *ui) {
     if (lv_obj_is_valid(guider_ui.clock_app_timer_SPC_btn_label)) {
         lv_label_set_text(guider_ui.clock_app_timer_SPC_btn_label, "开始");
     }
-    if (lv_obj_is_valid(guider_ui.clock_app_analog_clock_1)) {
-        lv_analogclock_set_time(guider_ui.clock_app_analog_clock_1, g_time_hour_value, g_time_min_value,
-                                g_time_sec_value);
+    if (lv_obj_is_valid(guider_ui.clock_app_g_time)) {
+        lv_analogclock_set_time(guider_ui.clock_app_g_time, clock_app_g_time_hour_value, clock_app_g_time_min_value,
+                                clock_app_g_time_sec_value);
     }
     static lv_style_t s_style_strike;
     static uint8_t s_style_strike_inited;
