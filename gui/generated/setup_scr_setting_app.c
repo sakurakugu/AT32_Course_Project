@@ -60,6 +60,15 @@ void setup_scr_setting_app(lv_ui *ui)
     lv_obj_set_size(ui->setting_app_setting_page_label_3, LV_PCT(100), LV_SIZE_CONTENT);
     lv_obj_set_scrollbar_mode(ui->setting_app_setting_page_subpage_3, LV_SCROLLBAR_MODE_OFF);
     lv_menu_set_load_page_event(ui->setting_app_setting_page, ui->setting_app_setting_page_cont_3, ui->setting_app_setting_page_subpage_3);
+
+    //Create subpage for setting_app_setting_page
+    ui->setting_app_setting_page_subpage_4 = lv_menu_page_create(ui->setting_app_setting_page, NULL);
+    ui->setting_app_setting_page_cont_4 = lv_menu_cont_create(ui->setting_app_setting_page_sidebar_page);
+    ui->setting_app_setting_page_label_4 = lv_label_create(ui->setting_app_setting_page_cont_4);
+    lv_label_set_text(ui->setting_app_setting_page_label_4, "声音");
+    lv_obj_set_size(ui->setting_app_setting_page_label_4, LV_PCT(100), LV_SIZE_CONTENT);
+    lv_obj_set_scrollbar_mode(ui->setting_app_setting_page_subpage_4, LV_SCROLLBAR_MODE_OFF);
+    lv_menu_set_load_page_event(ui->setting_app_setting_page, ui->setting_app_setting_page_cont_4, ui->setting_app_setting_page_subpage_4);
     lv_event_send(ui->setting_app_setting_page_cont_1, LV_EVENT_CLICKED, NULL);
     lv_obj_set_pos(ui->setting_app_setting_page, 0, 16);
     lv_obj_set_size(ui->setting_app_setting_page, 480, 304);
@@ -92,6 +101,7 @@ void setup_scr_setting_app(lv_ui *ui)
     lv_style_set_text_align(&style_setting_app_setting_page_extra_option_btns_main_default, LV_TEXT_ALIGN_CENTER);
     lv_style_set_pad_top(&style_setting_app_setting_page_extra_option_btns_main_default, 10);
     lv_style_set_pad_bottom(&style_setting_app_setting_page_extra_option_btns_main_default, 10);
+    lv_obj_add_style(ui->setting_app_setting_page_cont_4, &style_setting_app_setting_page_extra_option_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_add_style(ui->setting_app_setting_page_cont_3, &style_setting_app_setting_page_extra_option_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_add_style(ui->setting_app_setting_page_cont_2, &style_setting_app_setting_page_extra_option_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_add_style(ui->setting_app_setting_page_cont_1, &style_setting_app_setting_page_extra_option_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -109,6 +119,7 @@ void setup_scr_setting_app(lv_ui *ui)
     lv_style_set_bg_opa(&style_setting_app_setting_page_extra_option_btns_main_checked, 60);
     lv_style_set_bg_color(&style_setting_app_setting_page_extra_option_btns_main_checked, lv_color_hex(0x00e0b8));
     lv_style_set_bg_grad_dir(&style_setting_app_setting_page_extra_option_btns_main_checked, LV_GRAD_DIR_NONE);
+    lv_obj_add_style(ui->setting_app_setting_page_cont_4, &style_setting_app_setting_page_extra_option_btns_main_checked, LV_PART_MAIN|LV_STATE_CHECKED);
     lv_obj_add_style(ui->setting_app_setting_page_cont_3, &style_setting_app_setting_page_extra_option_btns_main_checked, LV_PART_MAIN|LV_STATE_CHECKED);
     lv_obj_add_style(ui->setting_app_setting_page_cont_2, &style_setting_app_setting_page_extra_option_btns_main_checked, LV_PART_MAIN|LV_STATE_CHECKED);
     lv_obj_add_style(ui->setting_app_setting_page_cont_1, &style_setting_app_setting_page_extra_option_btns_main_checked, LV_PART_MAIN|LV_STATE_CHECKED);
@@ -394,7 +405,7 @@ void setup_scr_setting_app(lv_ui *ui)
 
     //Write codes setting_app_sync_net_time_sw
     ui->setting_app_sync_net_time_sw = lv_switch_create(ui->setting_app_setting_page_subpage_3);
-    lv_obj_set_pos(ui->setting_app_sync_net_time_sw, 69, 56);
+    lv_obj_set_pos(ui->setting_app_sync_net_time_sw, 148, 57);
     lv_obj_set_size(ui->setting_app_sync_net_time_sw, 40, 20);
 
     //Write style for setting_app_sync_net_time_sw, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -418,6 +429,58 @@ void setup_scr_setting_app(lv_ui *ui)
     lv_obj_set_style_border_width(ui->setting_app_sync_net_time_sw, 0, LV_PART_KNOB|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->setting_app_sync_net_time_sw, 10, LV_PART_KNOB|LV_STATE_DEFAULT);
 
+
+
+    //Write codes setting_app_sound_text
+    ui->setting_app_sound_text = lv_label_create(ui->setting_app_setting_page_subpage_4);
+    lv_label_set_text(ui->setting_app_sound_text, "是否打开声音:");
+    lv_label_set_long_mode(ui->setting_app_sound_text, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->setting_app_sound_text, 110, 60);
+    lv_obj_set_size(ui->setting_app_sound_text, 246, 57);
+
+    //Write style for setting_app_sound_text, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->setting_app_sound_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->setting_app_sound_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->setting_app_sound_text, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->setting_app_sound_text, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->setting_app_sound_text, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->setting_app_sound_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->setting_app_sound_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->setting_app_sound_text, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->setting_app_sound_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->setting_app_sound_text, 30, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->setting_app_sound_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->setting_app_sound_text, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->setting_app_sound_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->setting_app_sound_text, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes setting_app_sound_sw
+    ui->setting_app_sound_sw = lv_switch_create(ui->setting_app_setting_page_subpage_4);
+    lv_obj_set_pos(ui->setting_app_sound_sw, 73, 65);
+    lv_obj_set_size(ui->setting_app_sound_sw, 40, 20);
+    lv_obj_add_state(ui->setting_app_sound_sw, LV_STATE_CHECKED);
+
+    //Write style for setting_app_sound_sw, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->setting_app_sound_sw, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->setting_app_sound_sw, lv_color_hex(0xe6e2e6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->setting_app_sound_sw, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->setting_app_sound_sw, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->setting_app_sound_sw, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->setting_app_sound_sw, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style for setting_app_sound_sw, Part: LV_PART_INDICATOR, State: LV_STATE_CHECKED.
+    lv_obj_set_style_bg_opa(ui->setting_app_sound_sw, 255, LV_PART_INDICATOR|LV_STATE_CHECKED);
+    lv_obj_set_style_bg_color(ui->setting_app_sound_sw, lv_color_hex(0x2195f6), LV_PART_INDICATOR|LV_STATE_CHECKED);
+    lv_obj_set_style_bg_grad_dir(ui->setting_app_sound_sw, LV_GRAD_DIR_NONE, LV_PART_INDICATOR|LV_STATE_CHECKED);
+    lv_obj_set_style_border_width(ui->setting_app_sound_sw, 0, LV_PART_INDICATOR|LV_STATE_CHECKED);
+
+    //Write style for setting_app_sound_sw, Part: LV_PART_KNOB, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->setting_app_sound_sw, 255, LV_PART_KNOB|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->setting_app_sound_sw, lv_color_hex(0xffffff), LV_PART_KNOB|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->setting_app_sound_sw, LV_GRAD_DIR_NONE, LV_PART_KNOB|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->setting_app_sound_sw, 0, LV_PART_KNOB|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->setting_app_sound_sw, 10, LV_PART_KNOB|LV_STATE_DEFAULT);
+
     //The custom code of setting_app.
 #ifdef KEIL_COMPILE
     // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）
@@ -426,6 +489,8 @@ void setup_scr_setting_app(lv_ui *ui)
     lv_obj_add_event_cb(guider_ui.setting_app_light_slider, setting_app_light_slider_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
     // 绑定“同步网络时间”开关事件
     lv_obj_add_event_cb(guider_ui.setting_app_sync_net_time_sw, setting_app_sync_net_time_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
+    // 绑定“声音开关”事件
+    lv_obj_add_event_cb(guider_ui.setting_app_sound_sw, setting_app_sound_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
 #endif
 
     //Update current screen layout.

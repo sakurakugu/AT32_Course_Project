@@ -1,6 +1,7 @@
 #include "../app/setting/setting.h"
 #include "eeprom.h"
 #include "gui_guider.h"
+#include "system_bars.h"
 #include "logger.h"
 #include "timer.h"
 #include "wifi.hpp"
@@ -92,6 +93,7 @@ void TaskWiFi([[maybe_unused]] void *pvParameters) {
                 LOGI("WiFi已连接: %s\r\n", wifi_ssid);
                 update_wifi_name_label(&guider_ui, wifi_ssid);
                 wifi_save_credentials_to_eeprom(wifi_ssid, wifi_password);
+                status_bar_update_wifi(true);
 
                 // 成功连接后，如果还未同步过时间，则执行一次网络时间同步
                 if (!time_sync_done) {
@@ -110,6 +112,7 @@ void TaskWiFi([[maybe_unused]] void *pvParameters) {
                 LOGI("\r\nWiFi连接失败\r\n");
                 // 记录失败时间，用于5分钟后自动重试
                 last_wifi_retry_time = Timer_GetTickCount();
+                status_bar_update_wifi(false);
             }
             wifi_reconnect_requested = 0;
             // // 原有路径：同时建立到Tlink服务器的连接

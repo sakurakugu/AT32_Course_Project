@@ -4,7 +4,9 @@
 #include "logger.h"
 #include "lvgl.h"
 #include "../../gui/generated/gui_guider.h"
+#include "../../gui/custom/custom.h"
 #include "uart.h"
+#include "beep.hpp"
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -240,5 +242,15 @@ void setting_app_sync_net_time_sw_event_handler(lv_event_t *e) {
         // 触发一次同步（内部会更新各屏幕的时分秒与日期标签）
         (void)Setting_BacklightSetPercent(true);
     }
+}
+
+// 声音开关：打开显示“声音开启”图标并允许蜂鸣器发声；关闭显示“静音”并禁止蜂鸣
+void setting_app_sound_sw_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_VALUE_CHANGED)
+        return;
+    lv_obj_t *sw = lv_event_get_target(e);
+    bool on = lv_obj_has_state(sw, LV_STATE_CHECKED);
+    status_bar_update_sound(on);
+    Beep_SetMute(on ? 0 : 1);
 }
 #endif

@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>AT32F435VGT7, AT_START_F435_V1, USE_STDPERIPH_DRIVER,AT_SURF_F437_V1,HAVE_CONFIG_H,LV_LVGL_H_INCLUDE_SIMPLE, KEIL_COMPILE</Define>
               <Undefine></Undefine>
-              <IncludePath>.\lib\cJSON;.\lib\cmsis\cm4\core_support;.\lib\cmsis\cm4\device_support;.\lib\drivers\inc;.\lib\FreeRTOS\include;.\lib\FreeRTOS\portable\GCC\ARM_CM4F;.\lib\middlewares\i2c_application_library;.\lib\middlewares\3rd_party\fatfs\source;.\gui\lvgl;.\gui\custom;.\gui\generated\guider_customer_fonts;.\gui\generated\guider_fonts;.\gui\generated\images;.\gui\generated;.\src;.\src\app\electronic_organ;.\src\app\weather;.\src\app\music;.\src\app\IoT;.\src\app\calculator;.\src\app\clock;.\src\app\drawing_board;.\src\app\link_game;.\src\app\minecraft;.\src\app\setting;.\src\app\weather;.\src\board;.\src\board\eeprom;.\src\board\key;.\src\board\lcd;.\src\board\led;.\src\board\network;.\src\board\sensor;.\src\board\sound;.\src\board\uart;.\src\config;.\src\config\lvgl;.\src\config\lvgl\porting;.\src\util</IncludePath>
+              <IncludePath>.\lib\cJSON;.\lib\cmsis\cm4\core_support;.\lib\cmsis\cm4\device_support;.\lib\drivers\inc;.\lib\FreeRTOS\include;.\lib\FreeRTOS\portable\GCC\ARM_CM4F;.\lib\middlewares\i2c_application_library;.\lib\middlewares\3rd_party\fatfs\source;.\gui\lvgl;.\gui\custom;.\gui\generated\guider_customer_fonts;.\gui\generated\guider_fonts;.\gui\generated\images;.\gui\generated;.\src;.\src\app\electronic_organ;.\src\app\weather;.\src\app\music;.\src\app\IoT;.\src\app\calculator;.\src\app\clock;.\src\app\drawing_board;.\src\app\link_game;.\src\app\minecraft;.\src\app\setting;.\src\app\weather;.\src\app\system_bars;.\src\board;.\src\board\eeprom;.\src\board\key;.\src\board\lcd;.\src\board\led;.\src\board\network;.\src\board\sensor;.\src\board\sound;.\src\board\uart;.\src\config;.\src\config\lvgl;.\src\config\lvgl\porting;.\src\util</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -452,6 +452,11 @@
               <FileName>electronic_organ.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\app\electronic_organ\electronic_organ.c</FilePath>
+            </File>
+            <File>
+              <FileName>system_bar.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\app\system_bars\system_bar.c</FilePath>
             </File>
           </Files>
         </Group>

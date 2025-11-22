@@ -197,3 +197,10 @@ void Beep_Start(uint16_t beepTime, uint16_t stopTime, uint16_t cycle) {
 void Beep_Stop(void) {
     g_beep.Stop();
 }
+void Beep_SetMute(uint8_t mute) {
+    if (mute) {
+        g_beep.Pause();
+    } else {
+        g_beep.Resume();
+    }
+}

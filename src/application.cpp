@@ -49,6 +49,7 @@ static volatile float g_mpu_temp = 0.0f;
 static volatile bool g_mpu_acc_dirty = false;
 static volatile bool g_mpu_gyro_dirty = false;
 static volatile bool g_mpu_temp_dirty = false;
+static volatile bool g_adc_dirty = false;
 
 // 串口COM3接收保护：为避免HTTP响应被其他任务抢占
 volatile uint8_t g_com3_guard = 0;
@@ -165,9 +166,7 @@ bool adc_value_changed(uint32_t new_value, uint32_t old_value) {
 void update_adc_display(lv_ui *ui) {
     if (!ui)
         return;
-    char adc_str[32];
-    sprintf(adc_str, "%d mV", last_adc_value);
-    // lv_label_set_text(ui->smart_home_app_ADC_num, adc_str);
+    g_adc_dirty = true;
 }
 
 // FreeRTOS任务声明
@@ -219,6 +218,12 @@ static void TaskLVGL(void *pvParameters) {
             g_mpu_temp_dirty = false;
             if (guider_ui.smart_home_app_mpu6050_teemp_num) {
                 lv_label_set_text_fmt(guider_ui.smart_home_app_mpu6050_teemp_num, "%.1f°C", g_mpu_temp);
+            }
+        }
+        if (g_adc_dirty) {
+            g_adc_dirty = false;
+            if (guider_ui.smart_home_app_ADC_num) {
+                lv_label_set_text_fmt(guider_ui.smart_home_app_ADC_num, "%d mV", last_adc_value);
             }
         }
         // LOGI("TaskLVGL 栈的高水位标记: %d\r\n", uxTaskGetStackHighWaterMark(NULL));
@@ -389,11 +394,11 @@ void Application::Start() {
     // 增大 LVGL 任务栈深度，避免在显示键盘等复杂布局时栈溢出
     xTaskCreate(TaskLVGL, "lvgl", 8192, NULL, tskIDLE_PRIORITY + 2, NULL);
     xTaskCreate(TaskWiFi, "wifi", 1024+512, NULL, tskIDLE_PRIORITY + 1, NULL);
-    // xTaskCreate(TaskHeartbeat, "heartbeat", 1024, NULL, tskIDLE_PRIORITY + 3, NULL);
+    xTaskCreate(TaskHeartbeat, "heartbeat", 1024, NULL, tskIDLE_PRIORITY + 3, NULL);
     xTaskCreate(TaskADC, "adc", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskLM75, "lm75", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
     // xTaskCreate(TaskMPU6050, "mpu6050", 1024, NULL, tskIDLE_PRIORITY + 1, NULL);
-    // xTaskCreate(TaskStatus, "status", 768, NULL, tskIDLE_PRIORITY + 1, NULL);
+    xTaskCreate(TaskStatus, "status", 768, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskLED, "led",64+32, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskKeys, "keys", 512+32, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskMusic, "music", 256, NULL, tskIDLE_PRIORITY + 1, NULL);

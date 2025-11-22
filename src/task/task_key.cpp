@@ -9,6 +9,8 @@ extern "C" {
 #include "../app/minecraft/minecraft.h"
 }
 
+static bool s_key_pressing[8] = {false};
+
 // 获取 smart_home_app 中的 1~8 号按钮对象
 static inline lv_obj_t *get_smart_home_key_btn(uint8_t idx) {
     switch (idx) {
@@ -93,10 +95,14 @@ void TaskKeys([[maybe_unused]] void *pvParameters) {
             uint8_t idx = ((keyvalue - 1) / 3) + 1; // 1~8
             uint8_t type = ((keyvalue - 1) % 3);    // 0:DOWN, 1:UP, 2:LONG
             if (type == 0) {
-                g_beep.KeyTone();
+                if (!s_key_pressing[idx - 1]) {
+                    g_beep.KeyTone();
+                }
                 set_smart_home_key_btn_pressed(idx, true);
+                s_key_pressing[idx - 1] = true;
             } else if (type == 1) {
                 set_smart_home_key_btn_pressed(idx, false);
+                s_key_pressing[idx - 1] = false;
             }
         }
 

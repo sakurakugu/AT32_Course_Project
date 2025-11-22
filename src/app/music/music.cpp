@@ -80,6 +80,7 @@ volatile int music_timer = 0;
 volatile int music_resume = 0;
 volatile int music_playing = 0;
 volatile int music_song_id = 0;
+volatile int music_switch_delay_ms = 0;
 
 /* 播放一首歌：根据 music_song_id 选择曲目并播放 */
 void Music::PlayOneSong() {
@@ -150,6 +151,12 @@ void TaskMusic([[maybe_unused]] void *pvParameters) {
         /* 外部请求开始播放 */
         if (music_start) {
             music_start = 0;   /* 消耗启动请求 */
+            int delay_ms = music_switch_delay_ms;
+            music_switch_delay_ms = 0;
+            if (delay_ms > 0) {
+                g_beep.DisableOutput();
+                vTaskDelay(pdMS_TO_TICKS(delay_ms));
+            }
             music_index = 0;   /* 从头开始 */
             music_resume = 0;  /* 取消暂停 */
             music_playing = 1; /* 标记正在播放 */
@@ -206,9 +213,10 @@ void music_list_item_event_handler(lv_event_t *e) {
     }
 
     music_song_id = sel;
-    music_resume = 0;  // 确保为播放状态
-    music_playing = 0; // 终止当前曲目（若在播放）
-    music_start = 1;   // 触发播放任务从头开始
+    music_resume = 0;
+    music_playing = 0;
+    music_switch_delay_ms = 500;
+    music_start = 1;
 
     // 播放按钮状态更新为“播放中”（显示暂停图标）
     if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {
@@ -237,6 +245,7 @@ void music_prev_btn_event_handler(lv_event_t *e) {
     music_song_id = (music_song_id + 3 - 1) % 3;
     music_resume = 0;
     music_playing = 0;
+    music_switch_delay_ms = 500;
     music_start = 1;
 
     if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {
@@ -265,6 +274,7 @@ void music_next_btn_event_handler(lv_event_t *e) {
     music_song_id = (music_song_id + 1) % 3;
     music_resume = 0;
     music_playing = 0;
+    music_switch_delay_ms = 500;
     music_start = 1;
 
     if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {

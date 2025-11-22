@@ -6,6 +6,9 @@
 // ===============================
 // 时钟实现
 // ===============================
+extern int g_time_min_value;
+extern int g_time_hour_value;
+extern int g_time_sec_value;
 
 extern void clock_app_start_or_pausing_btn_event_handler(lv_event_t *e);
 extern void clock_app_reset_btn_event_handler(lv_event_t *e);

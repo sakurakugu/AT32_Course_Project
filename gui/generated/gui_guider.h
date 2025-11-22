@@ -280,6 +280,9 @@ typedef struct
 	lv_obj_t *setting_app_setting_page_subpage_3;
 	lv_obj_t *setting_app_setting_page_cont_3;
 	lv_obj_t *setting_app_setting_page_label_3;
+	lv_obj_t *setting_app_setting_page_subpage_4;
+	lv_obj_t *setting_app_setting_page_cont_4;
+	lv_obj_t *setting_app_setting_page_label_4;
 	lv_obj_t *setting_app_placeholder_1;
 	lv_obj_t *setting_app_wifi_name_text;
 	lv_obj_t *setting_app_wifi_name_input;
@@ -292,6 +295,8 @@ typedef struct
 	lv_obj_t *setting_app_light_slider;
 	lv_obj_t *setting_app_sync_net_time_text;
 	lv_obj_t *setting_app_sync_net_time_sw;
+	lv_obj_t *setting_app_sound_text;
+	lv_obj_t *setting_app_sound_sw;
 	lv_obj_t *electronic_organ_app;
 	bool electronic_organ_app_del;
 	lv_obj_t *electronic_organ_app_e_organ_btnm;

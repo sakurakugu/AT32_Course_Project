@@ -63,6 +63,8 @@ void clock_app_reset_btn_event_handler(lv_event_t *e) {
     }
 }
 
+ 
+
 static lv_timer_t *s_timer;
 static int s_timer_remain;
 static uint8_t s_timer_running;

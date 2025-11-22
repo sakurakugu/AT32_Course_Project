@@ -20,9 +20,6 @@
 #endif
 #include "custom.h"
 #include "custom.h"
-#ifdef KEIL_COMPILE
-#include "../../src/app/link_game/link_game.h"
-#endif
 
 static void home_app1_event_handler (lv_event_t *e)
 {

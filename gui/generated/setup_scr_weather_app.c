@@ -31,7 +31,6 @@ void setup_scr_weather_app(lv_ui *ui)
     lv_obj_set_pos(ui->weather_app_weather_page, 0, 16);
     lv_obj_set_size(ui->weather_app_weather_page, 480, 304);
     lv_obj_set_scrollbar_mode(ui->weather_app_weather_page, LV_SCROLLBAR_MODE_OFF);
-    lv_obj_add_flag(ui->weather_app_weather_page, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for weather_app_weather_page, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->weather_app_weather_page, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -54,6 +53,7 @@ void setup_scr_weather_app(lv_ui *ui)
     lv_label_set_long_mode(ui->weather_app_updatetime, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->weather_app_updatetime, 61, 280);
     lv_obj_set_size(ui->weather_app_updatetime, 347, 19);
+    lv_obj_add_flag(ui->weather_app_updatetime, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for weather_app_updatetime, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->weather_app_updatetime, 0, LV_PART_MAIN|LV_STATE_DEFAULT);

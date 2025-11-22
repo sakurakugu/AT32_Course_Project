@@ -18,13 +18,16 @@ extern "C" {
 #include "../../src/app/calculator/calculator.h"       // 计算器接口：供界面自定义代码调用
 #include "../../src/app/clock/clock_app.h"             // 时钟接口：供界面自定义代码调用
 #include "../../src/app/drawing_board/drawing_board.h" // 绘图画布接口：供界面自定义代码调用
+#include "../../src/app/system_bars/system_bars.h"
 
 #include "../../src/app/IoT/smart_home.h"
 #include "../../src/app/electronic_organ/electronic_organ.h"
+#include "../../src/app/link_game/link_game.h"
 #include "../../src/app/minecraft/minecraft.h"
 #include "../../src/app/music/music.h" // 音乐模块控制标志与曲目定义
 #include "../../src/app/setting/setting.h"
 #include "../../src/board/network/wifi.h"
+
 #ifdef KEIL_COMPILE
 #endif
 
@@ -36,21 +39,7 @@ extern int g_time_min_value;
 extern int g_time_sec_value;
 
 void custom_init(lv_ui *ui);
-void update_volume_icon(lv_ui *ui, uint8_t volume); // 更新音量图标
 
-// ——— 导航与状态栏统一 ———
-void status_bar_init(lv_ui *ui);           // 统一状态栏初始化（放在顶层图层），在 custom_init 中调用
-void status_bar_set_visible(bool visible); // 控制状态栏显隐
-// 导航：进入新页面（自动将当前页面压栈），以及返回上一个页面
-void nav_to(lv_ui *ui,                    // ui
-            lv_obj_t **new_scr,           // 新页面指针
-            bool new_scr_del,             // 是否删除旧页面
-            ui_setup_scr_t setup_scr,     // 新页面初始化函数指针
-            lv_scr_load_anim_t anim_type, // 动画类型
-            uint32_t time,                // 动画持续时间
-            uint32_t delay                // 动画延迟时间
-);
-void nav_back(lv_ui *ui);
 
 #ifdef __cplusplus
 }
