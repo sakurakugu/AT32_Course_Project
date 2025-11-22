@@ -16,6 +16,9 @@ class ColorLed {
     void SetBrightness(uint8_t brightness); // 设置亮度 (0-100)
     void TurnOn(); // 打开彩灯
     void TurnOff(); // 关闭彩灯
+    bool IsOn() const { return is_on; }
+    uint8_t GetBrightness() const { return current_brightness; }
+    void GetColor(uint8_t &r, uint8_t &g, uint8_t &b) const { r = current_r; g = current_g; b = current_b; }
 
   private:
     ColorLed() = default;
@@ -24,4 +27,5 @@ class ColorLed {
     uint8_t current_g = 255;
     uint8_t current_b = 255;
     uint8_t current_brightness = 100;
+    bool is_on = true;
 };

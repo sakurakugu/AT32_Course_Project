@@ -556,21 +556,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>src/task</GroupName>
-          <Files>
-            <File>
-              <FileName>task_key.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\task\task_key.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>task_wifi.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\task\task_wifi.cpp</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>src/util</GroupName>
           <Files>
             <File>

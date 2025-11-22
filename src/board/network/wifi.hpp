@@ -7,6 +7,7 @@
 #include <stdint.h>
 
 #include "wifi.h"
+#include "gui_guider.h"
 
 /* 定义下面这句话, 将把收到的字符发送到调试串口1 */
 #define ESP12_PRINTF_EN
@@ -86,3 +87,9 @@ class Wifi {
     Wifi() = default;
 };
 
+extern void TaskWiFi(void *pvParameters);
+extern void update_wifi_name_label(lv_ui *ui, const char *ssid);
+extern void TaskWiFi(void *pvParameters);
+extern uint8_t should_reconnect();
+extern void reset_connection_status(void);
+extern bool tlink_init_wifi();

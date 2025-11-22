@@ -113,6 +113,7 @@ void ColorLed::SetBrightness(uint8_t brightness) {
 void ColorLed::TurnOn() {
     tmr_counter_enable(TMR3, TRUE);
     SetColor(current_r, current_g, current_b);
+    is_on = true;
 }
 
 /**
@@ -122,6 +123,7 @@ void ColorLed::TurnOff() {
     tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_1, 0);
     tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_2, 0);
     tmr_channel_value_set(TMR3, TMR_SELECT_CHANNEL_3, 0);
+    is_on = false;
 }
 
 /**

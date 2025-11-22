@@ -5,26 +5,26 @@
 #include "at32f435_437_misc.h"
 #include "beep.hpp"
 #include "board.h"
-#include "delay.h"
-#include "eeprom.h"
-#include "lm75.h"
-#include "mpu6050.h"
 #include "board/led/led.h"
 #include "color_led.hpp"
 #include "config.h"
 #include "custom.h"
+#include "delay.h"
+#include "eeprom.h"
 #include "events_init.h"
 #include "gui_guider.h"
+#include "key.h"
 #include "lcd.hpp"
 #include "led.hpp"
+#include "lm75.h"
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
 #include "lv_tick_custom.h"
 #include "lvgl.h"
+#include "mpu6050.h"
 #include "music.hpp"
 #include "oled.h"
-#include "task/task_key.h"
-#include "task/task_wifi.h"
+#include "wifi.hpp"
 #include "timer.h"
 #include "touch.hpp"
 #include "wifi.hpp"
@@ -69,51 +69,7 @@ const char *get_connection_status_string(void) {
     }
 }
 
-void tlink_init_wifi() {
-    char testStr[] = "9B0Y5S576WNBR380";
-    comSendBuf(COM3, (uint8_t *)"+++", 3);
-    // LOGI("\r\n 发送AT指令: AT\r\n");
-    delay_ms(1000);
 
-    auto &wifi = Wifi::GetInstance();
-
-    wifi.SendAT("AT");
-    if (wifi.WaitResponse("OK", 5000) != 1) {
-        LOGE("\r\n AT fail!\r\n");
-        delay_ms(1000);
-    }
-    wifi.SendAT("ATE0");
-    if (wifi.WaitResponse("OK", 50) != 1) {
-        LOGE("\r\n ATE0 fail\r\n");
-    }
-
-    if (wifi.SetWiFiMode(1) != 1) {
-        LOGE("\r\n CWMODE fail\r\n");
-    }
-
-    // 使用库函数进行AP连接，避免手动AT并统一处理应答
-    if (wifi.JoinAP(wifi_ssid, wifi_password, 15000) != 1) {
-        LOGE("\r\n CWJAP fail\r\n");
-        delay_ms(1000);
-    }
-    wifi.SendAT("AT+CIPSTART=\"TCP\",\"tcp.tlink.io\",8647");
-    if (wifi.WaitResponse("OK", 5000) != 1) {
-        LOGE("\r\n CIPSTART fail\r\n");
-    }
-
-    wifi.SendAT("AT+CIPMODE=1");
-    if (wifi.WaitResponse("OK", 1000) != 1) {
-        LOGE("\r\n CIPMODE fail\r\n");
-    }
-
-    wifi.SendAT("AT+CIPSEND");
-    if (wifi.WaitResponse("OK", 1000) != 1) {
-        LOGE("\r\n CIPSEND fail\r\n");
-    }
-    LOGI("\r\n 服务器已连接!\r\n");
-    comSendBuf(COM3, (uint8_t *)testStr, strlen(testStr));
-    delay_ms(4000);
-}
 
 static bool wifi_load_credentials_from_eeprom(char *ssid_out, size_t ssid_out_size, char *pwd_out,
                                               size_t pwd_out_size) {
@@ -235,10 +191,20 @@ static void TaskLVGL(void *pvParameters) {
 static void TaskHeartbeat(void *pvParameters) {
     (void)pvParameters;
     TickType_t lastHeartbeatTick = xTaskGetTickCount();
+    static bool tlink_initialized = false;
     for (;;) {
         // 处理心跳响应与命令
         IoT::GetInstance().CheckHeartbeat();
-        
+        if (!tlink_initialized && !g_com3_guard && wifi_ssid[0] != '\0') {
+            if (tlink_init_wifi()) {
+                reset_connection_status();
+                IoT::GetInstance().SendStatusReport();
+                tlink_initialized = true;
+            } else {
+                LOGI("\r\nTlink初始化失败，保持未连接状态\r\n");
+            }
+        }
+
         // 检查是否需要重连
         if (should_reconnect()) {
             LOGI("\r\n检测到连接断开超过5分钟，尝试重连...\r\n");
@@ -393,14 +359,14 @@ void Application::Start() {
     // 创建FreeRTOS任务
     // 增大 LVGL 任务栈深度，避免在显示键盘等复杂布局时栈溢出
     xTaskCreate(TaskLVGL, "lvgl", 8192, NULL, tskIDLE_PRIORITY + 2, NULL);
-    xTaskCreate(TaskWiFi, "wifi", 1024+512, NULL, tskIDLE_PRIORITY + 1, NULL);
+    xTaskCreate(TaskWiFi, "wifi", 1024 + 512, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskHeartbeat, "heartbeat", 1024, NULL, tskIDLE_PRIORITY + 3, NULL);
     xTaskCreate(TaskADC, "adc", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskLM75, "lm75", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
     // xTaskCreate(TaskMPU6050, "mpu6050", 1024, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskStatus, "status", 768, NULL, tskIDLE_PRIORITY + 1, NULL);
-    xTaskCreate(TaskLED, "led",64+32, NULL, tskIDLE_PRIORITY + 1, NULL);
-    xTaskCreate(TaskKeys, "keys", 512+32, NULL, tskIDLE_PRIORITY + 1, NULL);
+    xTaskCreate(TaskLED, "led", 64 + 32, NULL, tskIDLE_PRIORITY + 1, NULL);
+    xTaskCreate(TaskKeys, "keys", 512 + 32, NULL, tskIDLE_PRIORITY + 1, NULL);
     xTaskCreate(TaskMusic, "music", 256, NULL, tskIDLE_PRIORITY + 1, NULL);
 
     LOGI("FreeRTOS任务创建完成\r\n");

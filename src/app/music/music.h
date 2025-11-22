@@ -7,12 +7,9 @@
 extern "C" {
 #endif
 
-extern uint8_t music_arr[];  // 音乐数组（红尘情歌）（音调）
-extern uint8_t time_arr[];   // 时间数组（持续时间）
-extern uint8_t music_arr1[]; // 音乐数组（荷塘月色）
-extern uint8_t time_arr1[];  // 时间数组（持续时间）
-extern uint8_t music_arr2[]; // 音乐数组（沉默是金）
-extern uint8_t time_arr2[];  // 时间数组（持续时间）
+extern const uint8_t *music_arr_all[3];
+extern const uint8_t *time_arr_all[3];
+extern const uint16_t time_len_all[3];
 
 extern volatile int music_start;   // 音乐是否开始（置1后由任务消费并清零）
 extern volatile int music_index;   // 当前播放的音符索引

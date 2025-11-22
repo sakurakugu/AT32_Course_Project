@@ -4,11 +4,19 @@
  */
 
 #include "wifi.hpp"
+#include "../app/setting/setting.h"
+#include "IoT.hpp"
+#include "delay.h"
+#include "eeprom.h"
+#include "gui_guider.h"
+#include "logger.h"
+#include "system_bars.h"
 #include "timer.h"
 #include "uart.h"
-// logger
+#include <FreeRTOS.h>
 #include <stdio.h>
 #include <string.h>
+#include <task.h>
 
 #define COM_ESP12 COM3
 
@@ -56,42 +64,73 @@ void ESP12_PrintRxData(uint8_t _ch) {
  */
 bool Wifi::WaitResponse(const char *ack_str, uint16_t us_timeout) {
     uint8_t ucData;
-    uint16_t pos = 0;
-    uint32_t len;
+    uint16_t pos_ack = 0;
+    uint32_t len_ack;
     bool ret = false;
-    uint32_t rx_bytes = 0;
+    uint16_t pos_err = 0;
+    uint16_t pos_fail = 0;
+    const char *err_str = "ERROR";
+    const char *fail_str = "FAIL";
 
-    len = strlen(ack_str);
-    if (len > 255) {
+    len_ack = strlen(ack_str);
+    if (len_ack > 255) {
         return false;
     }
 
-    /* us_timeout == 0 表示无限等待 */
     if (us_timeout > 0) {
-        bsp_StartTimer(Wifi_TMR_ID, us_timeout); /* 使用软件定时器3，作为超时控制 */
+        bsp_StartTimer(Wifi_TMR_ID, us_timeout);
     }
     while (1) {
-
         if (us_timeout > 0) {
             if (bsp_CheckTimer(Wifi_TMR_ID)) {
-                ret = false; /* 超时 */
+                ret = false;
                 break;
             }
         }
 
         if (comGetChar(COM_ESP12, &ucData)) {
-            rx_bytes++;
-            ESP12_PrintRxData(ucData); /* 将接收到数据打印到调试串口1 */
+            ESP12_PrintRxData(ucData);
 
-            if (ucData == ack_str[pos]) {
-                pos++;
-
-                if (pos == len) {
-                    ret = true; /* 收到指定的应答数据，返回成功 */
+            if (ucData == ack_str[pos_ack]) {
+                pos_ack++;
+                if (pos_ack == len_ack) {
+                    ret = true;
                     break;
                 }
             } else {
-                pos = 0;
+                if (pos_ack > 0 && ucData == ack_str[0]) {
+                    pos_ack = 1;
+                } else {
+                    pos_ack = 0;
+                }
+            }
+
+            if (ucData == err_str[pos_err]) {
+                pos_err++;
+                if (pos_err == 5) {
+                    ret = false;
+                    break;
+                }
+            } else {
+                if (pos_err > 0 && ucData == err_str[0]) {
+                    pos_err = 1;
+                } else {
+                    pos_err = 0;
+                }
+            }
+
+            if (ucData == fail_str[pos_fail]) {
+                pos_fail++;
+                if (pos_fail == 4) {
+                    ret = false;
+                    break;
+                }
+            } else {
+                if (pos_fail > 0 && ucData == fail_str[0]) {
+                    pos_fail = 1;
+                } else {
+                    pos_fail = 0;
+                }
             }
         }
     }
@@ -428,6 +467,9 @@ bool Wifi::GetLocalIP(char *_ip, char *_mac) {
  * @return bool true 表示 0K  false 表示失败
  */
 bool Wifi::JoinAP(const char *_ssid, const char *_pwd, uint16_t _timeout) {
+    if (_ssid == NULL || _ssid[0] == 0) {
+        return false;
+    }
     char buf[64];
     bool ret;
 
@@ -463,4 +505,187 @@ bool Wifi::JoinAP(const char *_ssid, const char *_pwd, uint16_t _timeout) {
  */
 void Wifi::QuitAP() {
     SendAT("AT+ CWQAP");
+}
+
+bool tlink_init_wifi() {
+    char testStr[] = "9B0Y5S576WNBR380";
+    comSendBuf(COM3, (uint8_t *)"+++", 3);
+    // LOGI("\r\n 发送AT指令: AT\r\n");
+    delay_ms(1000);
+
+    auto &wifi = Wifi::GetInstance();
+
+    wifi.SendAT("AT");
+    if (wifi.WaitResponse("OK", 5000) != 1) {
+        LOGE("\r\n AT fail!\r\n");
+        delay_ms(1000);
+        return false;
+    }
+    wifi.SendAT("ATE0");
+    if (wifi.WaitResponse("OK", 50) != 1) {
+        LOGE("\r\n ATE0 fail\r\n");
+        // 关闭回显失败不影响后续关键路径，继续
+    }
+
+    if (wifi.SetWiFiMode(1) != 1) {
+        LOGE("\r\n CWMODE fail\r\n");
+        return false;
+    }
+
+    // 使用库函数进行AP连接，避免手动AT并统一处理应答
+    if (wifi.JoinAP(wifi_ssid, wifi_password, 15000) != 1) {
+        LOGE("\r\n CWJAP fail\r\n");
+        delay_ms(1000);
+        return false;
+    }
+    wifi.SendAT("AT+CIPSTART=\"TCP\",\"tcp.tlink.io\",8647");
+    if (wifi.WaitResponse("OK", 5000) != 1) {
+        LOGE("\r\n CIPSTART fail\r\n");
+        return false;
+    }
+
+    wifi.SendAT("AT+CIPMODE=1");
+    if (wifi.WaitResponse("OK", 1000) != 1) {
+        LOGE("\r\n CIPMODE fail\r\n");
+        return false;
+    }
+
+    wifi.SendAT("AT+CIPSEND");
+    if (wifi.WaitResponse(">", 5000) != 1) {
+        LOGE("\r\n CIPSEND fail\r\n");
+        return false;
+    }
+    LOGI("\r\n 服务器已连接!\r\n");
+    comSendBuf(COM3, (uint8_t *)testStr, strlen(testStr));
+    delay_ms(4000);
+    return true;
+}
+
+volatile uint8_t wifi_reconnect_requested = 0; // 0: 未请求, 1: 请求重连
+static uint32_t last_wifi_retry_time = 0;      // 最近一次失败后记录的时间戳（ms）
+static bool time_sync_done = false;            // 成功同步过一次网络时间后置1
+#define CONNECTION_RETRY_INTERVAL 300000       // 5分钟重连间隔
+bool connection_status = 0;                    // 0: 未连接, 1: 已连接
+uint32_t connection_lost_time = 0;             // 连接丢失时间
+uint32_t last_heartbeat_response_time = 0;
+
+// 检查是否需要重连
+uint8_t should_reconnect(void) {
+    return (connection_status == 0 && connection_lost_time > 0 &&
+            Timer_PassedDelay(connection_lost_time, CONNECTION_RETRY_INTERVAL));
+}
+
+// 重置连接状态
+void reset_connection_status(void) {
+    connection_status = 1;
+    // consecutive_heartbeat_failures = 0; // 重置心跳失败次数
+    connection_lost_time = 0;
+    last_heartbeat_response_time = Timer_GetTickCount();
+}
+
+static bool wifi_connect(const char *ssid, const char *pwd, uint16_t timeout_ms = 15000) {
+    if (!ssid || !pwd)
+        return false;
+    auto &wifi = Wifi::GetInstance();
+
+    wifi.SendAT("AT");
+    wifi.WaitResponse("OK", 1000);
+    wifi.SendAT("ATE0");
+    wifi.WaitResponse("OK", 1000);
+
+    if (wifi.SetWiFiMode(1) != 1) {
+        LOGE("\r\n CWMODE fail\r\n");
+        return false;
+    }
+
+    if (wifi.JoinAP(ssid, pwd, timeout_ms) != 1) {
+        LOGE("\r\n CWJAP fail\r\n");
+        return false;
+    }
+    return true;
+}
+
+// 在设置页面显示已连接的Wi‑Fi名称
+void update_wifi_name_label(lv_ui *ui, const char *ssid) {
+    if (!ui || !ssid)
+        return;
+    char label_text[80];
+    snprintf(label_text, sizeof(label_text), "Wifi名称: %s", ssid);
+    lv_label_set_text(ui->setting_app_wifi_name_text, label_text);
+}
+
+static bool wifi_save_credentials_to_eeprom(const char *ssid, const char *pwd) {
+    if (!ssid || !pwd)
+        return false;
+    size_t ssid_len = strlen(ssid);
+    size_t pwd_len = strlen(pwd);
+    if (ssid_len > 32 || pwd_len > 64)
+        return false;
+
+    uint8_t ssid_buf[33] = {0};
+    uint8_t pwd_buf[65] = {0};
+    memcpy(ssid_buf, ssid, ssid_len);
+    memcpy(pwd_buf, pwd, pwd_len);
+
+    EEP_Write(WIFI_EEP_ADDR_SSID, ssid_buf, sizeof(ssid_buf));
+    EEP_Write(WIFI_EEP_ADDR_PASSWORD, pwd_buf, sizeof(pwd_buf));
+    return true;
+}
+
+// 异步WiFi连接任务：在后台执行连接过程，不阻塞UI
+void TaskWiFi([[maybe_unused]] void *pvParameters) {
+    for (;;) {
+        // LOGI("TaskWiFi 栈的高水位标记: %d\r\n", uxTaskGetStackHighWaterMark(NULL));
+        if (wifi_reconnect_requested) {
+            LOGD("wifi名称：%s\r\n", wifi_ssid);
+            LOGD("wifi密码：%s\r\n", wifi_password);
+            LOGI("\r\n开始WiFi连接...\r\n");
+            // 仅连接到路由器，不建立到Tlink的TCP
+            bool ok = wifi_connect(wifi_ssid, wifi_password, 15000);
+            if (ok) {
+                LOGI("WiFi已连接: %s\r\n", wifi_ssid);
+                update_wifi_name_label(&guider_ui, wifi_ssid);
+                wifi_save_credentials_to_eeprom(wifi_ssid, wifi_password);
+                status_bar_update_wifi(true);
+
+                // 成功连接后，如果还未同步过时间，则执行一次网络时间同步
+                if (!time_sync_done) {
+                    bool ts_ok = Setting_SyncNetworkTime(true);
+                    if (ts_ok) {
+                        time_sync_done = true;
+                        LOGI("网络时间已同步成功\r\n");
+                    } else {
+                        LOGI("网络时间同步失败\r\n");
+                    }
+                }
+
+                // 在成功连接到路由器后，建立到 Tlink 的TCP连接
+                if (tlink_init_wifi()) {
+                    reset_connection_status();
+                    IoT::GetInstance().SendStatusReport();
+                    LOGI("\r\nWiFi+Tlink连接完成，心跳机制启动\r\n");
+                } else {
+                    LOGI("\r\nTlink连接失败，保持未连接状态\r\n");
+                }
+
+                // 成功后清除重试时间戳
+                last_wifi_retry_time = 0;
+            } else {
+                LOGI("\r\nWiFi连接失败\r\n");
+                // 记录失败时间，用于5分钟后自动重试
+                last_wifi_retry_time = Timer_GetTickCount();
+                status_bar_update_wifi(false);
+            }
+            wifi_reconnect_requested = 0;
+        }
+
+        // 如果上次连接失败，且已过重试间隔，则触发一次自动重试
+        if (!wifi_reconnect_requested && last_wifi_retry_time != 0) {
+            if (Timer_PassedDelay(last_wifi_retry_time, CONNECTION_RETRY_INTERVAL)) { // 5分钟
+                LOGI("\r\n距离上次失败已过5分钟，自动重试连接Wi‑Fi\r\n");
+                wifi_reconnect_requested = 1;
+            }
+        }
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
 }

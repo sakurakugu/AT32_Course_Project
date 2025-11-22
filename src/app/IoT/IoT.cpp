@@ -6,6 +6,8 @@
 #include "lm75.h"
 #include "timer.h"
 #include "board/led/led.hpp"
+#include "board/led/color_led.hpp"
+#include "key.h"
 #include <cJSON.h>
 #include <stdint.h>
 #include "logger.h"
@@ -56,7 +58,7 @@ void IoT::ParseJson(char *cmd) {
             continue;
 
         // 获取 sensorID 和 switch
-        cJSON *sensorID = cJSON_GetObjectItem(item, "sensorID");
+        cJSON *sensorID = cJSON_GetObjectItem(item, "id");
         cJSON *switch_val = cJSON_GetObjectItem(item, "switch");
 
         if (!cJSON_IsString(sensorID) || !cJSON_IsNumber(switch_val))
@@ -149,6 +151,10 @@ void IoT::CheckHeartbeat() {
 
 // 心跳包发送函数
 void IoT::SendHeartbeat() {
+    if (g_com3_guard) {
+        LOGI("\r\n串口占用，跳过心跳发送\r\n");
+        return;
+    }
     LOGI("\r\n发送心跳包: Q\r\n");
     comSendBuf(COM3, (uint8_t *)"Q", 1);
     heartbeat_sent = 1; // 标记已发送心跳包
@@ -157,17 +163,27 @@ void IoT::SendHeartbeat() {
 
 
 void IoT::SendStatusReport() {
-    lm75_temp = LM75::GetInstance().Read(); // 读取lm75温度值
-    adc_value = AnalogRead();               // 读取ADC值
-    sprintf(TlinkCommandStr, "#%d,%d,%d,%d#", lm75_temp, adc_value, 0, lighting_status);
+    lm75_temp = LM75::GetInstance().Read();
+    uint32_t adc_mv = (uint32_t)AnalogRead() * 3300 / 4095;
+    uint8_t r=0,g=0,b=0;
+    ColorLed::GetInstance().GetColor(r,g,b);
+    uint32_t rgb = ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
+    uint8_t bright = ColorLed::GetInstance().GetBrightness();
+    uint8_t color_on = ColorLed::GetInstance().IsOn() ? 1 : 0;
+    uint8_t green_on = lighting_status ? 1 : 0;
+    uint8_t key_idx = TaskKeys_GetCurrentPressed();
+    sprintf(TlinkCommandStr, "#%d,%lu,%d,%d,%d,%lu,%d#", color_on, (unsigned long)rgb, bright, green_on, lm75_temp, (unsigned long)adc_mv, key_idx);
 
     LOGI("\r\n上报状态: %s\r\n", TlinkCommandStr);
-
-    if (connection_status) {
-        comSendBuf(COM3, (uint8_t *)TlinkCommandStr, strlen(TlinkCommandStr));
-    } else {
+    if (!connection_status) {
         LOGI("连接断开，状态未上报\r\n");
+        return;
     }
+    if (g_com3_guard) {
+        LOGI("串口占用，跳过状态上报\r\n");
+        return;
+    }
+    comSendBuf(COM3, (uint8_t *)TlinkCommandStr, strlen(TlinkCommandStr));
 }
 
 // 控制照明

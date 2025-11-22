@@ -130,3 +130,6 @@ class Key {
     void DetectKey(uint8_t i);
     void DetectFast(uint8_t i);
 };
+
+extern void TaskKeys(void *pvParameters);
+uint8_t TaskKeys_GetCurrentPressed();
