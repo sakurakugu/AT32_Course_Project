@@ -3,10 +3,6 @@
 
 class ColorLed {
   public:
-    static ColorLed &GetInstance() {
-        static ColorLed instance;
-        return instance;
-    }
     // 删除拷贝构造函数和赋值运算符
     ColorLed(const ColorLed &) = delete;
     ColorLed &operator=(const ColorLed &) = delete;
@@ -21,6 +17,7 @@ class ColorLed {
     void GetColor(uint8_t &r, uint8_t &g, uint8_t &b) const { r = current_r; g = current_g; b = current_b; }
 
   private:
+    friend class Board;
     ColorLed() = default;
     ~ColorLed() = default;
     uint8_t current_r = 255;

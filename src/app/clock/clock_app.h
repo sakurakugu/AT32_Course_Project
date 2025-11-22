@@ -3,6 +3,10 @@
 
 #include "gui_guider.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // ===============================
 // 时钟实现
 // ===============================
@@ -16,3 +20,7 @@ extern void clock_app_timer_SPC_btn_event_handler(lv_event_t *e);
 extern void clock_app_timer_reset_btn_event_handler(lv_event_t *e);
 extern void clock_app_timer_bell_btn_event_handler(lv_event_t *e);
 extern void clock_app_init_customize(lv_ui *ui);
+
+#ifdef __cplusplus
+}
+#endif

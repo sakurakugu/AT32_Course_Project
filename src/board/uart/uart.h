@@ -105,28 +105,28 @@ class Uart {
     Uart(usart_type *usart, uint8_t *tx_buf, uint16_t tx_buf_size, uint8_t *rx_buf, uint16_t rx_buf_size);
 
     /* 配置串口基本参数并使能收发与接收中断 */
-    void begin(uint32_t baudrate);
+    void Begin(uint32_t baudrate);
 
     /* 发送 API */
-    void sendBuf(const uint8_t *buf, uint16_t len);
-    void sendChar(uint8_t byte);
+    void SendBuf(const uint8_t *buf, uint16_t len);
+    void SendChar(uint8_t byte);
 
     /* 接收 API（非阻塞，返回 1 表示读到数据） */
-    uint8_t getChar(uint8_t *out_byte);
+    uint8_t GetChar(uint8_t *out_byte);
 
     /* FIFO 管理 */
-    void clearTx();
-    void clearRx();
-    uint8_t txEmpty() const; /* 1=空，0=非空 */
+    void ClearTx();
+    void ClearRx();
+    uint8_t TxEmpty() const; /* 1=空，0=非空 */
 
     /* 可选回调（例如 RS485 用途） */
-    void setCallbacks(void (*SendBefor)(void), void (*SendOver)(void), void (*ReciveNew)(uint8_t));
+    void SetCallbacks(void (*SendBefor)(void), void (*SendOver)(void), void (*ReciveNew)(uint8_t));
 
     /* 中断处理入口 */
     void onIRQ();
 
     /* 访问底层 usart 寄存器指针 */
-    usart_type *instance() const { return uart_; }
+    usart_type *Instance() const { return uart_; }
 
   private:
     /* 禁止拷贝 */
@@ -134,8 +134,8 @@ class Uart {
     Uart &operator=(const Uart &) = delete;
 
     /* 内部工具：关/开全局中断（与原实现保持一致） */
-    inline void disableIRQ() const { __set_PRIMASK(1); }
-    inline void enableIRQ() const { __set_PRIMASK(0); }
+    inline void DisableIRQ() const { __set_PRIMASK(1); }
+    inline void EnableIRQ() const { __set_PRIMASK(0); }
 
     usart_type *uart_; // STM32内部串口设备指针
     uint8_t *tx_buf_;  // 发送缓冲区

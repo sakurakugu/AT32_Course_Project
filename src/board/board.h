@@ -6,6 +6,7 @@
 #include "led/oled.h"
 #include "timer.h"
 #include "uart.h"
+#include "beep.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,13 +30,16 @@ class Board {
     Board(const Board &) = delete;            // 禁用拷贝构造函数
     Board &operator=(const Board &) = delete; // 禁用赋值操作
 
-    void Init(); // 初始化板级资源
+    void Init();
+    Key &GetKey() { return key_; }
+    ColorLed &GetColorLed() { return color_led_; }
+    Beep &GetBeep() { return beep_; }
 
   private:
-    Board();
-    ~Board();
+    Board() = default;
+    ~Board() = default;
 
-    // Key *key_;      // 声明按键
-    // Lcd *display_; // 声明液晶屏
-    ColorLed *color_led_; // 声明颜色LED
+    Key key_;
+    Beep beep_;
+    ColorLed color_led_;
 };

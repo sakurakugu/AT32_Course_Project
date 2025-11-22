@@ -6,15 +6,16 @@
 
 #pragma once
 #include <stdint.h>
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-extern void Beep_SetFreq(int freq);
-extern void Beep_Start(uint16_t beepTime, uint16_t stopTime, uint16_t cycle);
-extern void Beep_Stop(void);
-extern void Beep_SetMute(uint8_t mute);
+// extern void Beep_SetFreq(int freq);
+// extern void Beep_Start(uint16_t beepTime, uint16_t stopTime, uint16_t cycle);
+// extern void Beep_Stop(void);
+extern void Beep_SetMute(bool mute);
 
 #ifdef __cplusplus
 }

@@ -97,10 +97,6 @@ constexpr uint8_t KEY_COUNT = 8;    /* 8个独立键 */
 
 class Key {
   public:
-    static Key &GetInstance() {
-        static Key instance;
-        return instance;
-    }
     // 删除拷贝构造函数和赋值运算符
     Key(const Key &) = delete;
     Key &operator=(const Key &) = delete;
@@ -116,6 +112,7 @@ class Key {
     void Clear();
 
   private:
+    friend class Board;
     Key();
     KEY_T btn[KEY_COUNT] = {0};
     KEY_FIFO_T fifo{};

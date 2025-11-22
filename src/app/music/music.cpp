@@ -1,6 +1,6 @@
 #include "music.hpp"
 #include "FreeRTOS.h"
-#include "beep.hpp"
+#include "board.h"
 #include "task.h"
 
 /* 音高表：music_arrX 中的数值作为索引，映射到实际频率 */
@@ -99,7 +99,7 @@ void Music::PlayOneSong() {
 
         /* 暂停：在暂停期间保持短延时轮询，并立即静音 */
         if (music_resume) {
-            g_beep.DisableOutput();
+            Board::GetInstance().GetBeep().DisableOutput();
             vTaskDelay(pdMS_TO_TICKS(50));
             /* 重做当前音符，不前进索引 */
             --music_index; /* for 循环会 ++，抵消保持当前 */
@@ -110,10 +110,10 @@ void Music::PlayOneSong() {
         uint16_t freq = (note_id < (sizeof(note_freqs) / sizeof(note_freqs[0]))) ? note_freqs[note_id] : 0;
 
         if (freq == 0) {
-            g_beep.DisableOutput();
+            Board::GetInstance().GetBeep().DisableOutput();
         } else {
-            g_beep.SetFreq(freq);
-            g_beep.EnableOutput();
+            Board::GetInstance().GetBeep().SetFreq(freq);
+            Board::GetInstance().GetBeep().EnableOutput();
         }
 
         int duration_units = times[music_index];
@@ -125,7 +125,7 @@ void Music::PlayOneSong() {
     }
 
     /* 结束本曲播放 */
-    g_beep.DisableOutput();
+    Board::GetInstance().GetBeep().DisableOutput();
     music_playing = 0;
     music_index = 0;
 }
@@ -139,7 +139,7 @@ void TaskMusic([[maybe_unused]] void *pvParameters) {
             int delay_ms = music_switch_delay_ms;
             music_switch_delay_ms = 0;
             if (delay_ms > 0) {
-                g_beep.DisableOutput();
+                Board::GetInstance().GetBeep().DisableOutput();
                 vTaskDelay(pdMS_TO_TICKS(delay_ms));
             }
             music_index = 0;   /* 从头开始 */

@@ -404,9 +404,9 @@
               <FilePath>.\src\app\calculator\calculator.c</FilePath>
             </File>
             <File>
-              <FileName>clock_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\app\clock\clock_app.c</FilePath>
+              <FileName>clock_app.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\app\clock\clock_app.cpp</FilePath>
             </File>
             <File>
               <FileName>drawing_board.c</FileName>
@@ -449,9 +449,9 @@
               <FilePath>.\src\app\IoT\smart_home.c</FilePath>
             </File>
             <File>
-              <FileName>electronic_organ.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\app\electronic_organ\electronic_organ.c</FilePath>
+              <FileName>electronic_organ.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\app\electronic_organ\electronic_organ.cpp</FilePath>
             </File>
             <File>
               <FileName>system_bar.c</FileName>

@@ -13,7 +13,7 @@ int main(void) {
  */
 void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName) {
     /* 栈溢出处理 - 可以在这里添加调试信息或错误处理 */
-    LOGI("栈溢出错误: 任务 %s 发生栈溢出\r\n", pcTaskName);
+    LOGE("栈溢出错误: 任务 %s 发生栈溢出\r\n", pcTaskName);
 
     /* 进入无限循环，防止系统继续运行 */
     for (;;) {

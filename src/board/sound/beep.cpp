@@ -73,7 +73,7 @@ void Beep::SetFreq(int freq) {
  *			  _usCycle : 鸣叫次数， 0 表示持续鸣叫
  *	返 回 值: 无
  */
-void Beep::Start(uint16_t bt, uint16_t st, uint16_t cy) {   
+void Beep::Start(uint16_t bt, uint16_t st, uint16_t cy) {
     if (bt == 0 || mute == 1) {
         return;
     }
@@ -86,7 +86,7 @@ void Beep::Start(uint16_t bt, uint16_t st, uint16_t cy) {
     state = 0;
     enableFlag = 1;
 
-    EnableOutput(); /* 开始发声 */  
+    EnableOutput(); /* 开始发声 */
 }
 
 /*
@@ -186,21 +186,30 @@ void Beep::DisableOutput() {
     tmr_counter_enable(PWWTIMER, FALSE);
 }
 
-Beep g_beep;
-
-void Beep_SetFreq(int freq) {
-    g_beep.SetFreq(freq);
-}
-void Beep_Start(uint16_t beepTime, uint16_t stopTime, uint16_t cycle) {
-    g_beep.Start(beepTime, stopTime, cycle);
-}
-void Beep_Stop(void) {
-    g_beep.Stop();
-}
-void Beep_SetMute(uint8_t mute) {
+/**
+ * @brief 设置蜂鸣器静音
+ * @param mute : true 表示静音，false 表示正常发声
+ * @retval none
+ */
+void Beep::SetMute(bool mute) {
     if (mute) {
-        g_beep.Pause();
+        Pause();
     } else {
-        g_beep.Resume();
+        Resume();
     }
+}
+
+#include "board.h"
+// void Beep_SetFreq(int freq) {
+//     Board::GetInstance().GetBeep().SetFreq(freq);
+// }
+// void Beep_Start(uint16_t beepTime, uint16_t stopTime, uint16_t cycle) {
+//     Board::GetInstance().GetBeep().Start(beepTime, stopTime, cycle);
+// }
+// void Beep_Stop(void) {
+//     Board::GetInstance().GetBeep().Stop();
+// }
+
+void Beep_SetMute(bool mute) {
+    Board::GetInstance().GetBeep().SetMute(mute);
 }

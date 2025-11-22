@@ -1,12 +1,13 @@
 #include "delay.h"
 #include "at32f435_437_misc.h"
+
 // FreeRTOS 仅在调度器运行、且不在中断中时使用
 #include "FreeRTOS.h"
 #include "task.h"
 
 #define STEP_DELAY_MS 50
 
-/* delay variable */
+/* delay 变量 */
 static __IO uint32_t fac_us;
 static __IO uint32_t fac_ms;
 
@@ -16,20 +17,20 @@ static inline int delay_is_in_isr(void) {
 }
 
 /**
- * @brief  initialize delay function
+ * @brief  初始化 delay 函数
  * @param  none
  * @retval none
  */
 void delay_init() {
-    /* configure systick */
+    /* 配置 系统滴答计时器 */
     systick_clock_source_config(SYSTICK_CLOCK_SOURCE_AHBCLK_NODIV);
     fac_us = system_core_clock / (1000000U);
     fac_ms = fac_us * (1000U);
 }
 
 /**
- * @brief  inserts a delay time.
- * @param  nus: specifies the delay time length, in microsecond.
+ * @brief  微秒级延时
+ * @param  nus: 延时时间，单位：微秒
  * @retval none
  */
 void delay_us(uint32_t nus) {
@@ -46,8 +47,8 @@ void delay_us(uint32_t nus) {
 }
 
 /**
- * @brief  inserts a delay time.
- * @param  nms: specifies the delay time length, in milliseconds.
+ * @brief  毫秒级延时
+ * @param  nms: 延时时间，单位：毫秒
  * @retval none
  */
 void delay_ms(uint16_t nms) {
@@ -79,13 +80,12 @@ void delay_ms(uint16_t nms) {
 }
 
 /**
- * @brief  inserts a delay time.
- * @param  sec: specifies the delay time, in seconds.
+ * @brief  秒级延时
+ * @param  sec: 延时时间，单位：秒
  * @retval none
  */
 void delay_sec(uint16_t sec) {
-    uint16_t index;
-    for (index = 0; index < sec; index++) {
+    for (uint16_t index = 0; index < sec; index++) {
         delay_ms(500);
         delay_ms(500);
     }

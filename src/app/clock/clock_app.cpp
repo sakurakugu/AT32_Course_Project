@@ -1,5 +1,5 @@
 #include "clock_app.h"
-#include "beep.h"
+#include "board.h"
 #include <stdio.h>
 
 // ===============================
@@ -114,8 +114,8 @@ static void s_countdown_cb(lv_timer_t *t) {
             }
             s_timer_running = 0;
             if (s_timer_bell_on) {
-                Beep_SetFreq(1500);
-                Beep_Start(3000, 1, 1);
+                Board::GetInstance().GetBeep().SetFreq(1500);
+                Board::GetInstance().GetBeep().Start(3000, 1, 1);
                 s_timer_ringing = 1;
                 if (s_ring_flag_clear) {
                     lv_timer_del(s_ring_flag_clear);
@@ -137,7 +137,7 @@ void clock_app_timer_SPC_btn_event_handler(lv_event_t *e) {
     if (lv_event_get_code(e) != LV_EVENT_CLICKED)
         return;
     if (s_timer_ringing) {
-        Beep_Stop();
+        Board::GetInstance().GetBeep().Stop();
         s_timer_ringing = 0;
         if (lv_obj_is_valid(guider_ui.clock_app_timer_SPC_btn_label)) {
             lv_label_set_text(guider_ui.clock_app_timer_SPC_btn_label, "开始");
@@ -183,7 +183,7 @@ void clock_app_timer_reset_btn_event_handler(lv_event_t *e) {
         s_timer_remain = 0;
     }
     if (s_timer_ringing) {
-        Beep_Stop();
+        Board::GetInstance().GetBeep().Stop();
         s_timer_ringing = 0;
     }
     update_timer_display();

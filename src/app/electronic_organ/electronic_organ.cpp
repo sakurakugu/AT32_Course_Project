@@ -1,6 +1,6 @@
 #include "electronic_organ.h"
 #include "music.h"
-#include "beep.h"
+#include "board.h"
 
 // 电子琴：按钮矩阵点击发声
 void electronic_organ_btnm_event_handler(lv_event_t *e) {
@@ -99,8 +99,8 @@ void electronic_organ_btnm_event_handler(lv_event_t *e) {
     }
 
     if (freq > 0) {
-        Beep_SetFreq(freq);
+        Board::GetInstance().GetBeep().SetFreq(freq);
         // 点击发音：短促按键音（50ms）
-        Beep_Start(5, 1, 1);
+        Board::GetInstance().GetBeep().Start(5, 1, 1);
     }
 }

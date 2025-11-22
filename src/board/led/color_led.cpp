@@ -3,6 +3,7 @@
  * PWM输出模式，用于控制RGB颜色LED
  */
 #include "color_led.hpp"
+#include "../board.h"
 
 #include "at32f435_437_gpio.h"
 #include "at32f435_437_clock.h"
@@ -130,16 +131,16 @@ void ColorLed::TurnOff() {
  * C接口实现
  */
 void ColorLed_SetColor(uint8_t r, uint8_t g, uint8_t b) {
-    ColorLed::GetInstance().SetColor(r, g, b);
+    Board::GetInstance().GetColorLed().SetColor(r, g, b);
 }
 
 void ColorLed_TurnOn() {
-    ColorLed::GetInstance().TurnOn();
+    Board::GetInstance().GetColorLed().TurnOn();
 }
 
 /**
  * @brief 关闭彩灯
  */
 void ColorLed_TurnOff() {
-    ColorLed::GetInstance().TurnOff();
+    Board::GetInstance().GetColorLed().TurnOff();
 }

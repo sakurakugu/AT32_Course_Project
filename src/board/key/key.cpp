@@ -5,8 +5,8 @@
  */
 
 #include "key.h"
+#include "../board.h"
 #include "at32f435_437_gpio.h"
-#include "beep.hpp"
 #include "gui_guider.h"
 #include <FreeRTOS.h>
 #include <task.h>
@@ -340,7 +340,7 @@ static inline void set_smart_home_key_btn_pressed(uint8_t idx, bool pressed) {
 
 void TaskKeys([[maybe_unused]] void *pvParameters) {
     for (;;) {
-        uint8_t keyvalue = Key::GetInstance().Get();
+        uint8_t keyvalue = Board::GetInstance().GetKey().Get();
 
         // 检查当前是否在Minecraft游戏界面
         lv_obj_t *current_screen = lv_scr_act();
@@ -385,7 +385,7 @@ void TaskKeys([[maybe_unused]] void *pvParameters) {
             uint8_t type = ((keyvalue - 1) % 3);    // 0:DOWN, 1:UP, 2:LONG
             if (type == 0) {
                 if (!s_key_pressing[idx - 1]) {
-                    g_beep.KeyTone();
+                    Board::GetInstance().GetBeep().KeyTone();
                 }
                 set_smart_home_key_btn_pressed(idx, true);
                 s_key_pressing[idx - 1] = true;
@@ -420,7 +420,7 @@ void TaskKeys([[maybe_unused]] void *pvParameters) {
             //     music_resume = !music_resume;
             //     LOGI("KEY_3_DOWN - %s播放\r\n", music_resume ? "暂停" : "继续");
             //     if (music_resume) {
-            //         g_beep.disableOutput(); /* 立即静音 */
+            //         Board::GetInstance().GetBeep().DisableOutput(); /* 立即静音 */
             //     }
             // }
         }

@@ -11,6 +11,7 @@ class Beep {
     void Process();
     void Pause();
     void Resume();
+    void SetMute(bool mute);
 
     void EnableOutput();
     void DisableOutput();

@@ -54,7 +54,7 @@ void setup_scr_drawing_board_app(lv_ui *ui)
 
     //Write codes drawing_board_app_width_slider
     ui->drawing_board_app_width_slider = lv_slider_create(ui->drawing_board_app_tools_panel);
-    lv_slider_set_range(ui->drawing_board_app_width_slider, 1, 30);
+    lv_slider_set_range(ui->drawing_board_app_width_slider, 1, 10);
     lv_slider_set_mode(ui->drawing_board_app_width_slider, LV_SLIDER_MODE_NORMAL);
     lv_slider_set_value(ui->drawing_board_app_width_slider, 4, LV_ANIM_OFF);
     lv_obj_set_pos(ui->drawing_board_app_width_slider, 7, 148);

@@ -146,7 +146,9 @@
         "clock_app.h": "c",
         "smart_home.h": "c",
         "minecraft.h": "c",
-        "drawing_board.h": "c"
+        "drawing_board.h": "c",
+        "beep.hpp": "c",
+        "board.h": "c"
     },
     "search.useIgnoreFiles": false, // 禁用git忽略文件
     "search.exclude": { // 排除搜索范围

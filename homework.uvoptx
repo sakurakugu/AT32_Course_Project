@@ -272,12 +272,12 @@
     <File>
       <GroupNumber>2</GroupNumber>
       <FileNumber>4</FileNumber>
-      <FileType>1</FileType>
+      <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\src\app\clock\clock_app.c</PathWithFileName>
-      <FilenameWithoutPath>clock_app.c</FilenameWithoutPath>
+      <PathWithFileName>.\src\app\clock\clock_app.cpp</PathWithFileName>
+      <FilenameWithoutPath>clock_app.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -380,12 +380,12 @@
     <File>
       <GroupNumber>2</GroupNumber>
       <FileNumber>13</FileNumber>
-      <FileType>1</FileType>
+      <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\src\app\electronic_organ\electronic_organ.c</PathWithFileName>
-      <FilenameWithoutPath>electronic_organ.c</FilenameWithoutPath>
+      <PathWithFileName>.\src\app\electronic_organ\electronic_organ.cpp</PathWithFileName>
+      <FilenameWithoutPath>electronic_organ.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

@@ -12,7 +12,7 @@ Uart::Uart(usart_type *usart, uint8_t *tx_buf, uint16_t tx_buf_size, uint8_t *rx
     : uart_(usart), tx_buf_(tx_buf), rx_buf_(rx_buf), tx_size_(tx_buf_size), rx_size_(rx_buf_size), tx_write_(0),
       tx_read_(0), tx_count_(0), rx_write_(0), rx_read_(0), rx_count_(0) {}
 
-void Uart::begin(uint32_t baudrate) {
+void Uart::Begin(uint32_t baudrate) {
     /* 配置串口参数并开启收发和接收中断 */
     usart_init(uart_, baudrate, USART_DATA_8BITS, USART_STOP_1_BIT);
     usart_transmitter_enable(uart_, TRUE);
@@ -21,7 +21,7 @@ void Uart::begin(uint32_t baudrate) {
     usart_enable(uart_, TRUE);
 }
 
-void Uart::sendBuf(const uint8_t *buf, uint16_t len) {
+void Uart::SendBuf(const uint8_t *buf, uint16_t len) {
     if (SendBefor_) {
         SendBefor_();
     }
@@ -29,9 +29,9 @@ void Uart::sendBuf(const uint8_t *buf, uint16_t len) {
         /* 等待缓冲区有空位 */
         while (true) {
             volatile uint16_t count;
-            disableIRQ();
+            DisableIRQ();
             count = tx_count_;
-            enableIRQ();
+            EnableIRQ();
             if (count < tx_size_) {
                 break;
             } else if (count == tx_size_) {
@@ -44,20 +44,20 @@ void Uart::sendBuf(const uint8_t *buf, uint16_t len) {
 
         /* 填入发送 FIFO */
         tx_buf_[tx_write_] = buf[i];
-        disableIRQ();
+        DisableIRQ();
         if (++tx_write_ >= tx_size_) {
             tx_write_ = 0;
         }
         tx_count_++;
-        enableIRQ();
+        EnableIRQ();
     }
 
     /* 开启数据发送完毕中断（缓冲区空） */
     uart_->ctrl1_bit.tdcien = 1;
 }
 
-void Uart::sendChar(uint8_t byte) {
-    sendBuf(&byte, 1);
+void Uart::SendChar(uint8_t byte) {
+    SendBuf(&byte, 1);
 }
 
 /**
@@ -67,32 +67,32 @@ void Uart::sendChar(uint8_t byte) {
  *	 @param _pByte : 存放读取数据的指针
  *	 @return 0 表示无数据  1表示读取到数据
  */
-uint8_t Uart::getChar(uint8_t *out_byte) {
+uint8_t Uart::GetChar(uint8_t *out_byte) {
     uint16_t count;
-    disableIRQ();
+    DisableIRQ();
     count = rx_count_;
-    enableIRQ();
+    EnableIRQ();
     if (count == 0) {
         return 0;
     } else {
         *out_byte = rx_buf_[rx_read_];
-        disableIRQ();
+        DisableIRQ();
         if (++rx_read_ >= rx_size_) {
             rx_read_ = 0;
         }
         rx_count_--;
-        enableIRQ();
+        EnableIRQ();
         return 1;
     }
 }
 
-void Uart::clearTx() {
+void Uart::ClearTx() {
     tx_write_ = 0;
     tx_read_ = 0;
     tx_count_ = 0;
 }
 
-void Uart::clearRx() {
+void Uart::ClearRx() {
     rx_write_ = 0;
     rx_read_ = 0;
     rx_count_ = 0;
@@ -104,11 +104,11 @@ void Uart::clearRx() {
  *	 @param _pUart : 串口设备
  *	 @return 1为空。0为不空。
  */
-uint8_t Uart::txEmpty() const {
+uint8_t Uart::TxEmpty() const {
     return tx_count_ == 0 ? 1 : 0;
 }
 
-void Uart::setCallbacks(void (*SendBefor)(void), void (*SendOver)(void), void (*ReciveNew)(uint8_t)) {
+void Uart::SetCallbacks(void (*SendBefor)(void), void (*SendOver)(void), void (*ReciveNew)(uint8_t)) {
     SendBefor_ = SendBefor;
     SendOver_ = SendOver;
     ReciveNew_ = ReciveNew;
@@ -243,7 +243,7 @@ void esp12_uart_init(uint32_t baudrate) {
     nvic_irq_enable(USART3_IRQn, 1, 1);
 
     /* 使用类实例进行统一管理 */
-    g_Uart3.begin(baudrate);
+    g_Uart3.Begin(baudrate);
 }
 
 /**
@@ -289,7 +289,7 @@ void uart_print_init(uint32_t baudrate) {
 
     // gpio_pin_mux_config(PRINT_UART_TX_GPIO, PRINT_UART_TX_PIN_SOURCE, PRINT_UART_TX_PIN_MUX_NUM);
 
-    g_Uart1.begin(baudrate);
+    g_Uart1.Begin(baudrate);
 }
 
 /**
@@ -303,7 +303,7 @@ void comSendBuf(COM_PORT_E _ucPort, uint8_t *_ucaBuf, uint16_t _usLen) {
     Uart *uart = PortToUart(_ucPort);
     if (!uart)
         return;
-    uart->sendBuf(_ucaBuf, _usLen);
+    uart->SendBuf(_ucaBuf, _usLen);
 }
 
 /**
@@ -316,7 +316,7 @@ void comSendChar(COM_PORT_E _ucPort, uint8_t _ucByte) {
     Uart *uart = PortToUart(_ucPort);
     if (!uart)
         return;
-    uart->sendChar(_ucByte);
+    uart->SendChar(_ucByte);
 }
 
 /**
@@ -329,7 +329,7 @@ uint8_t comGetChar(COM_PORT_E _ucPort, uint8_t *_pByte) {
     Uart *uart = PortToUart(_ucPort);
     if (!uart)
         return 0;
-    return uart->getChar(_pByte);
+    return uart->GetChar(_pByte);
 }
 
 /**
@@ -341,7 +341,7 @@ void comClearTxFifo(COM_PORT_E _ucPort) {
     Uart *uart = PortToUart(_ucPort);
     if (!uart)
         return;
-    uart->clearTx();
+    uart->ClearTx();
 }
 
 /**
@@ -353,7 +353,7 @@ void comClearRxFifo(COM_PORT_E _ucPort) {
     Uart *uart = PortToUart(_ucPort);
     if (!uart)
         return;
-    uart->clearRx();
+    uart->ClearRx();
 }
 
 /* 如果是RS485通信，请按如下格式编写函数， 我们仅举了 USART3作为RS485的例子 */
@@ -367,7 +367,7 @@ uint8_t UartTxEmpty(COM_PORT_E _ucPort) {
     Uart *uart = PortToUart(_ucPort);
     if (!uart)
         return 0;
-    return uart->txEmpty();
+    return uart->TxEmpty();
 }
 
 /**
