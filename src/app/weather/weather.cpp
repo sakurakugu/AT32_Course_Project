@@ -1,4 +1,4 @@
-#include "weather_service.hpp"
+#include "weather.hpp"
 
 #include "../../config/api_key.h"
 #include "../../gui/generated/gui_guider.h"
@@ -648,6 +648,6 @@ bool WeatherService::UpdateWeather(lv_ui *ui) {
 }
 
 // C 包装，供 C 事件回调调用
-extern "C" bool weather_update_ui(void) {
+extern "C" bool Weather_UpdateUI(void) {
     return WeatherService::GetInstance().UpdateWeather(&guider_ui);
 }

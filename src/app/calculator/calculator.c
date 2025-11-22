@@ -243,13 +243,13 @@ static bool eval_expr(const char *s, int64_t *out, const char **errmsg)
     return true;
 }
 
-void calculator_init(lv_obj_t *display_label)
+void Calculator_Init(lv_obj_t *display_label)
 {
     s_display = display_label; // 保存显示标签指针
     clear_expr(); // 初始化表达式为空
 }
 
-void calculator_input_key(const char *key)
+void Calculator_InputKey(const char *key)
 {
     if (!key || !*key) return;
     // 特殊键
@@ -289,4 +289,12 @@ void calculator_input_key(const char *key)
 
     // 若 key 是多字符（理论上不会），只取第一个
     append_char_to_expr(c);
+}
+
+// 统一的按键事件处理器：从 user_data 读取按键字符串并转交给计算器
+void calc_key_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) == LV_EVENT_CLICKED) {
+        const char *key = (const char *)lv_event_get_user_data(e);
+        Calculator_InputKey(key);
+    }
 }

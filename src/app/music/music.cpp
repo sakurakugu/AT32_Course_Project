@@ -82,7 +82,7 @@ volatile int music_playing = 0;
 volatile int music_song_id = 0;
 
 /* 播放一首歌：根据 music_song_id 选择曲目并播放 */
-void Music::play_one_song() {
+void Music::PlayOneSong() {
     const uint8_t *notes = nullptr;
     const uint8_t *times = nullptr;
     size_t total = 0;
@@ -156,11 +156,172 @@ void TaskMusic([[maybe_unused]] void *pvParameters) {
         }
 
         if (music_playing) {
-            Music::GetInstance().play_one_song();
+            Music::GetInstance().PlayOneSong();
         } else {
             /* 空闲，降低占用 */
             vTaskDelay(pdMS_TO_TICKS(50));
         }
     }
 }
+
+#include "music.h"
+
+// ===============================
+// 音乐播放器事件实现
+// ===============================
+
+#ifdef KEIL_COMPILE
+
+static void anim_img_angle_exec(void *var, int32_t v) {
+    lv_img_set_angle((lv_obj_t *)var, v);
+}
+
+static void stylus_to_play_ready_cb(lv_anim_t *a) {
+    (void)a;
+    if (!lv_obj_is_valid(guider_ui.music_app_music_recode))
+        return;
+    lv_anim_del(guider_ui.music_app_music_recode, anim_img_angle_exec);
+    ui_animation(guider_ui.music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
+                 0, anim_img_angle_exec, NULL, NULL, NULL);
+}
+
+// 列表项点击：根据点击项设置曲目并开始播放
+void music_list_item_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui)
+        return;
+    lv_obj_t *target = lv_event_get_target(e);
+
+    int sel = 0;
+    if (target == ui->music_app_music_list_item0) {
+        sel = 0;
+    } else if (target == ui->music_app_music_list_item1) {
+        sel = 1;
+    } else if (target == ui->music_app_music_list_item2) {
+        sel = 2;
+    } else {
+        return; // 未识别的项
+    }
+
+    music_song_id = sel;
+    music_resume = 0;  // 确保为播放状态
+    music_playing = 0; // 终止当前曲目（若在播放）
+    music_start = 1;   // 触发播放任务从头开始
+
+    // 播放按钮状态更新为“播放中”（显示暂停图标）
+    if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {
+        lv_obj_clear_state(ui->music_app_music_player_or_pause_btn, LV_STATE_CHECKED);
+    }
+
+    if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+        lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
+                     anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
+    } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
+        lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
+                     0, anim_img_angle_exec, NULL, NULL, NULL);
+    }
+}
+
+// 上一首：索引减一并循环，然后重启播放
+void music_prev_btn_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui)
+        return;
+
+    music_song_id = (music_song_id + 3 - 1) % 3;
+    music_resume = 0;
+    music_playing = 0;
+    music_start = 1;
+
+    if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {
+        lv_obj_clear_state(ui->music_app_music_player_or_pause_btn, LV_STATE_CHECKED);
+    }
+
+    if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+        lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
+                     anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
+    } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
+        lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
+                     0, anim_img_angle_exec, NULL, NULL, NULL);
+    }
+}
+
+// 下一首：索引加一并循环，然后重启播放
+void music_next_btn_event_handler(lv_event_t *e) {
+    if (lv_event_get_code(e) != LV_EVENT_CLICKED)
+        return;
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui)
+        return;
+
+    music_song_id = (music_song_id + 1) % 3;
+    music_resume = 0;
+    music_playing = 0;
+    music_start = 1;
+
+    if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {
+        lv_obj_clear_state(ui->music_app_music_player_or_pause_btn, LV_STATE_CHECKED);
+    }
+
+    if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+        lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
+                     anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
+    } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
+        lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
+                     0, anim_img_angle_exec, NULL, NULL, NULL);
+    }
+}
+
+void music_play_pause_btn_event_handler(lv_event_t *e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    if (!(code == LV_EVENT_VALUE_CHANGED || code == LV_EVENT_CLICKED))
+        return;
+    lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
+    if (!ui)
+        return;
+    lv_obj_t *btn = lv_event_get_target(e);
+    bool checked = lv_obj_has_state(btn, LV_STATE_CHECKED);
+
+    if (checked) {
+        if (music_playing) {
+            music_resume = 1;
+        }
+        if (lv_obj_is_valid(ui->music_app_music_recode)) {
+            lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+        }
+        if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+            lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+            int32_t cur = lv_img_get_angle(ui->music_app_music_stylus);
+            ui_animation(ui->music_app_music_stylus, 400, 0, cur, -240, lv_anim_path_ease_in_out, 0, 0, 0, 0,
+                         anim_img_angle_exec, NULL, NULL, NULL);
+        }
+    } else {
+        music_resume = 0;
+        if (!music_playing) {
+            music_start = 1;
+        }
+        if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+            lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+            ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
+                         anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
+        } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
+            lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+            ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0,
+                         0, 0, anim_img_angle_exec, NULL, NULL, NULL);
+        }
+    }
+}
+
+
+#endif
 

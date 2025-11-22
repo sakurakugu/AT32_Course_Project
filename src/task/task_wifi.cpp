@@ -73,8 +73,8 @@ static bool wifi_save_credentials_to_eeprom(const char *ssid, const char *pwd) {
     memcpy(ssid_buf, ssid, ssid_len);
     memcpy(pwd_buf, pwd, pwd_len);
 
-    eep_write(WIFI_EEP_ADDR_SSID, ssid_buf, sizeof(ssid_buf));
-    eep_write(WIFI_EEP_ADDR_PASSWORD, pwd_buf, sizeof(pwd_buf));
+    EEP_Write(WIFI_EEP_ADDR_SSID, ssid_buf, sizeof(ssid_buf));
+    EEP_Write(WIFI_EEP_ADDR_PASSWORD, pwd_buf, sizeof(pwd_buf));
     return true;
 }
 
@@ -95,7 +95,7 @@ void TaskWiFi([[maybe_unused]] void *pvParameters) {
 
                 // 成功连接后，如果还未同步过时间，则执行一次网络时间同步
                 if (!time_sync_done) {
-                    bool ts_ok = sync_network_time(true);
+                    bool ts_ok = Setting_SyncNetworkTime(true);
                     if (ts_ok) {
                         time_sync_done = true;
                         LOGI("网络时间已同步成功\r\n");

@@ -282,7 +282,7 @@ static void weather_app_update_weather_btn_event_handler (lv_event_t *e)
     {
 #ifdef KEIL_COMPILE
         // 点击更新天气：后台发起一次网络请求并刷新界面
-        bool ok = weather_update_ui();
+        bool ok = Weather_UpdateUI();
         if (!ok) {
             // 简单错误反馈：在更新时间标签显示失败
             if (lv_obj_is_valid(guider_ui.weather_app_updatetime)) {
@@ -775,7 +775,7 @@ static void link_game_app_reopen_btn_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        reset_event_cb(e);
+        LinkGame_ResetEventCb(e);
         break;
     }
     default:

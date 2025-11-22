@@ -1,3 +1,4 @@
+// 这是后端
 #include "IoT.hpp"
 
 #include "uart.h"
@@ -71,7 +72,7 @@ void IoT::ParseJson(char *cmd) {
             // control_aircon(sw);
             // send_timer = 25000;
         } else if (strcmp(id, "lighting_switch") == 0) {
-            Control_Lighting(sw);
+            ControlLighting(sw);
             send_timer = 25000;
         } else {
             LOGI("未知的设备ID: %s\n", id);
@@ -82,7 +83,7 @@ void IoT::ParseJson(char *cmd) {
 }
 
 // 处理接收到的数据
-void IoT::Process_Received_Data() {
+void IoT::ProcessReceivedData() {
     uint8_t received_data;
 
     // 若存在串口接收保护，跳过读取，避免与HTTP流程抢占
@@ -127,8 +128,8 @@ void IoT::Process_Received_Data() {
 }
 
 // 检测心跳包 函数
-void IoT::Check_Heartbeat() {
-    Process_Received_Data();
+void IoT::CheckHeartbeat() {
+    ProcessReceivedData();
 
     // 检查心跳响应超时
     if (heartbeat_sent && Timer_PassedDelay(last_heartbeat_response_time, HEARTBEAT_TIMEOUT)) {
@@ -147,7 +148,7 @@ void IoT::Check_Heartbeat() {
 }
 
 // 心跳包发送函数
-void IoT::Send_Heartbeat() {
+void IoT::SendHeartbeat() {
     LOGI("\r\n发送心跳包: Q\r\n");
     comSendBuf(COM3, (uint8_t *)"Q", 1);
     heartbeat_sent = 1; // 标记已发送心跳包
@@ -155,7 +156,7 @@ void IoT::Send_Heartbeat() {
 }
 
 
-void IoT::Send_Status_Report() {
+void IoT::SendStatusReport() {
     lm75_temp = LM75::GetInstance().Read(); // 读取lm75温度值
     adc_value = AnalogRead();               // 读取ADC值
     sprintf(TlinkCommandStr, "#%d,%d,%d,%d#", lm75_temp, adc_value, 0, lighting_status);
@@ -170,7 +171,7 @@ void IoT::Send_Status_Report() {
 }
 
 // 控制照明
-void IoT::Control_Lighting(uint8_t status) {
+void IoT::ControlLighting(uint8_t status) {
     lighting_status = status;
     if (status) {
         LED::GetInstance().TurnOn(LED_Green);

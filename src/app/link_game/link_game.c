@@ -1,8 +1,11 @@
 #include "link_game.h"
 #include "gui_guider.h"
 
-void link_init_board(uint32_t seed) {
-    int total = LINK_ROWS * LINK_COLS;
+#define BR(r, c) board[(r) * (LINKGAME_COLS + 2) + (c)]
+#define TL(r, c) tiles[((r) - 1) * LINKGAME_COLS + ((c) - 1)]
+
+void LinkGame_InitBoard(uint32_t seed) {
+    int total = LINKGAME_ROWS * LINKGAME_COLS;
     int types = total / 2;
     int *vals = (int *)lv_mem_alloc(total * sizeof(int));
     for (int i = 0; i < types; i++) {
@@ -18,15 +21,15 @@ void link_init_board(uint32_t seed) {
         vals[j] = t;
     }
     if (!board)
-        board = (int *)lv_mem_alloc((LINK_ROWS + 2) * (LINK_COLS + 2) * sizeof(int));
-    for (int r = 0; r < LINK_ROWS + 2; r++) {
-        for (int c = 0; c < LINK_COLS + 2; c++) {
+        board = (int *)lv_mem_alloc((LINKGAME_ROWS + 2) * (LINKGAME_COLS + 2) * sizeof(int));
+    for (int r = 0; r < LINKGAME_ROWS + 2; r++) {
+        for (int c = 0; c < LINKGAME_COLS + 2; c++) {
             BR(r, c) = 0;
         }
     }
     int k = 0;
-    for (int r = 1; r <= LINK_ROWS; r++) {
-        for (int c = 1; c <= LINK_COLS; c++) {
+    for (int r = 1; r <= LINKGAME_ROWS; r++) {
+        for (int c = 1; c <= LINKGAME_COLS; c++) {
             BR(r, c) = vals[k++];
         }
     }
@@ -43,8 +46,8 @@ static void set_tile_selected(lv_obj_t *obj, bool sel) {
 }
 
 static bool link_check_win(void) {
-    for (int r = 1; r <= LINK_ROWS; r++) {
-        for (int c = 1; c <= LINK_COLS; c++) {
+    for (int r = 1; r <= LINKGAME_ROWS; r++) {
+        for (int c = 1; c <= LINKGAME_COLS; c++) {
             if (BR(r, c) != 0)
                 return false;
         }
@@ -53,7 +56,7 @@ static bool link_check_win(void) {
 }
 
 static bool link_can_connect(int r1, int c1, int r2, int c2) {
-    int cells = (LINK_ROWS + 2) * (LINK_COLS + 2);
+    int cells = (LINKGAME_ROWS + 2) * (LINKGAME_COLS + 2);
     int *visited = (int *)lv_mem_alloc(cells * 4 * sizeof(int));
     for (int i = 0; i < cells * 4; i++)
         visited[i] = -1;
@@ -66,7 +69,7 @@ static bool link_can_connect(int r1, int c1, int r2, int c2) {
     int dr[4] = {-1, 1, 0, 0};
     int dc[4] = {0, 0, -1, 1};
     for (int d = 0; d < 4; d++) {
-        visited[(r1 * (LINK_COLS + 2) + c1) * 4 + d] = 0;
+        visited[(r1 * (LINKGAME_COLS + 2) + c1) * 4 + d] = 0;
         qr[qi] = r1;
         qc[qi] = c1;
         qd[qi] = d;
@@ -78,12 +81,12 @@ static bool link_can_connect(int r1, int c1, int r2, int c2) {
         qh++;
         int nr = r + dr[dir];
         int nc = c + dc[dir];
-        while (nr >= 0 && nr < LINK_ROWS + 2 && nc >= 0 && nc < LINK_COLS + 2) {
+        while (nr >= 0 && nr < LINKGAME_ROWS + 2 && nc >= 0 && nc < LINKGAME_COLS + 2) {
             if (nr == r2 && nc == c2)
                 return true;
             if (BR(nr, nc) != 0)
                 break;
-            int vi = (nr * (LINK_COLS + 2) + nc) * 4 + dir;
+            int vi = (nr * (LINKGAME_COLS + 2) + nc) * 4 + dir;
             if (visited[vi] == -1) {
                 visited[vi] = turns;
                 qr[qi] = nr;
@@ -99,16 +102,16 @@ static bool link_can_connect(int r1, int c1, int r2, int c2) {
             if (nd == dir)
                 continue;
             int nturns = turns + 1;
-            if (nturns > LINK_MAX_TURNS)
+            if (nturns > LINKGAME_MAX_TURNS)
                 continue;
             int ar = r + dr[nd];
             int ac = c + dc[nd];
-            while (ar >= 0 && ar < LINK_ROWS + 2 && ac >= 0 && ac < LINK_COLS + 2) {
+            while (ar >= 0 && ar < LINKGAME_ROWS + 2 && ac >= 0 && ac < LINKGAME_COLS + 2) {
                 if (ar == r2 && ac == c2)
                     return true;
                 if (BR(ar, ac) != 0)
                     break;
-                int vi2 = (ar * (LINK_COLS + 2) + ac) * 4 + nd;
+                int vi2 = (ar * (LINKGAME_COLS + 2) + ac) * 4 + nd;
                 if (visited[vi2] == -1 || visited[vi2] > nturns) {
                     visited[vi2] = nturns;
                     qr[qi] = ar;
@@ -147,10 +150,10 @@ static void show_win(void) {
 static void tile_event_cb(lv_event_t *e) {
     lv_obj_t *obj = lv_event_get_target(e);
     int r = -1, c = -1;
-    for (int idx = 0; idx < LINK_ROWS * LINK_COLS; idx++) {
+    for (int idx = 0; idx < LINKGAME_ROWS * LINKGAME_COLS; idx++) {
         if (tiles[idx] == obj) {
-            r = idx / LINK_COLS + 1;
-            c = idx % LINK_COLS + 1;
+            r = idx / LINKGAME_COLS + 1;
+            c = idx % LINKGAME_COLS + 1;
             break;
         }
     }
@@ -203,19 +206,19 @@ static void tile_event_cb(lv_event_t *e) {
     }
 }
 
-void link_create_grid(lv_ui *ui) {
+void LinkGame_CreateGrid(lv_ui *ui) {
     int tile_w = 44;
     int tile_h = 34;
     grid_container = lv_obj_create(ui->link_game_app);
-    lv_obj_set_size(grid_container, LINK_COLS * tile_w, LINK_ROWS * tile_h);
+    lv_obj_set_size(grid_container, LINKGAME_COLS * tile_w, LINKGAME_ROWS * tile_h);
     lv_obj_align(grid_container, LV_ALIGN_CENTER, 0, 10);
     lv_obj_set_style_bg_opa(grid_container, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     if (!tiles)
-        tiles = (lv_obj_t **)lv_mem_alloc(LINK_ROWS * LINK_COLS * sizeof(lv_obj_t *));
-    for (int r = 1; r <= LINK_ROWS; r++) {
-        for (int c = 1; c <= LINK_COLS; c++) {
+        tiles = (lv_obj_t **)lv_mem_alloc(LINKGAME_ROWS * LINKGAME_COLS * sizeof(lv_obj_t *));
+    for (int r = 1; r <= LINKGAME_ROWS; r++) {
+        for (int c = 1; c <= LINKGAME_COLS; c++) {
             lv_obj_t *btn = lv_btn_create(grid_container);
-            tiles[(r - 1) * LINK_COLS + (c - 1)] = btn;
+            tiles[(r - 1) * LINKGAME_COLS + (c - 1)] = btn;
             lv_obj_set_size(btn, tile_w - 6, tile_h - 6);
             lv_obj_set_pos(btn, (c - 1) * tile_w + 3, (r - 1) * tile_h + 3);
             lv_obj_set_style_radius(btn, 6, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -238,8 +241,8 @@ void link_create_grid(lv_ui *ui) {
 }
 
 static void link_update_ui(void) {
-    for (int r = 1; r <= LINK_ROWS; r++) {
-        for (int c = 1; c <= LINK_COLS; c++) {
+    for (int r = 1; r <= LINKGAME_ROWS; r++) {
+        for (int c = 1; c <= LINKGAME_COLS; c++) {
             lv_obj_t *btn = TL(r, c);
             if (!btn)
                 continue;
@@ -260,19 +263,19 @@ static void link_update_ui(void) {
     }
 }
 
-static void link_reset(uint32_t seed) {
+static void LinkGame_Reset(uint32_t seed) {
     sel_r = -1;
     sel_c = -1;
-    link_init_board(seed);
+    LinkGame_InitBoard(seed);
     link_update_ui();
 }
 
-void reset_event_cb(lv_event_t *e) {
+void LinkGame_ResetEventCb(lv_event_t *e) {
     uint32_t seed = lv_tick_get();
-    link_reset(seed);
+    LinkGame_Reset(seed);
 }
 
-void root_delete_cb(lv_event_t *e) {
+void LinkGame_RootDeleteCb(lv_event_t *e) {
     if (tiles) {
         lv_mem_free(tiles);
         tiles = NULL;

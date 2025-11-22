@@ -57,7 +57,7 @@ void Board::Init(void) {
 #endif
     delay_init();
     ADC_Config();
-    iic_init(); /* 初始化I2C接口，用于LM75温度传感器 */
+    I2C_Init(); /* 初始化I2C接口，用于LM75温度传感器 */
     // g_eep_lm75.init(); /* 初始化I2C接口，用于LM75温度传感器 */
     Key::GetInstance().Init(); /* 按键初始化，要放在滴答定时器之前，因为按钮检测是通过滴答定时器扫描 */
     bsp_InitTimer();           /* 初始化滴答定时器 */

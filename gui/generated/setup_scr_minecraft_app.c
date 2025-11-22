@@ -52,8 +52,8 @@ void setup_scr_minecraft_app(lv_ui *ui)
     //The custom code of minecraft_app.
 #ifdef KEIL_COMPILE
     lv_obj_add_event_cb(ui->minecraft_app, minecraft_app_screen_delete_event_handler, LV_EVENT_DELETE, ui);
-    minecraft_init();
-    const uint8_t *fb = (const uint8_t *)minecraft_get_framebuffer();
+    Minecraft_Init();
+    const uint8_t *fb = (const uint8_t *)Minecraft_GetFramebuffer();
     if (fb == NULL) {
         lv_obj_t *err = lv_label_create(ui->minecraft_app);
         lv_label_set_text(err, "Minecraft初始化失败：内存不足");

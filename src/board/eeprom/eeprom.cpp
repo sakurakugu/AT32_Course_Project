@@ -3,13 +3,13 @@
 #include "util/mutex.h"
 
 i2c_handle_type hi2cx;
-uint8_t eep_write_buf[16] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+uint8_t eep_write[16] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 uint8_t eep_read_buf[32];
 
 static mutex g_i2c_mutex;
 
 
-void iic_init(void) {
+void I2C_Init(void) {
     hi2cx.i2cx = I2Cx_PORT;
     /* i2c config */
     i2c_config(&hi2cx);
@@ -54,17 +54,17 @@ void i2c_lowlevel_init(i2c_handle_type *hi2c) {
     }
 }
 //
-void i2c_bus_lock(void) { g_i2c_mutex.lock(); }
-void i2c_bus_unlock(void) { g_i2c_mutex.unlock(); }
+void I2C_BusLock(void) { g_i2c_mutex.lock(); }
+void I2C_BusUnlock(void) { g_i2c_mutex.unlock(); }
 
-void eep_write(uint16_t mem_address, uint8_t *pdata, uint16_t size) {
-    i2c_bus_lock();
+void EEP_Write(uint16_t mem_address, uint8_t *pdata, uint16_t size) {
+    I2C_BusLock();
     i2c_memory_write(&hi2cx, I2C_MEM_ADDR_WIDIH_16, 0xA0, mem_address, pdata, size, I2C_TIMEOUT);
-    i2c_bus_unlock();
+    I2C_BusUnlock();
 }
 
-void eep_read(uint16_t mem_address, uint8_t *pdata, uint16_t size) {
-    i2c_bus_lock();
+void EEP_Read(uint16_t mem_address, uint8_t *pdata, uint16_t size) {
+    I2C_BusLock();
     i2c_memory_read(&hi2cx, I2C_MEM_ADDR_WIDIH_16, 0xA0, mem_address, pdata, size, I2C_TIMEOUT);
-    i2c_bus_unlock();
+    I2C_BusUnlock();
 }

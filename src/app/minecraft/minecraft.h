@@ -1,6 +1,7 @@
 #ifndef MINECRAFT_H
 #define MINECRAFT_H
 
+#include "gui_guider.h"
 #include <stdint.h>
 
 #ifdef __cplusplus
@@ -39,22 +40,34 @@ typedef struct {
 } MinecraftState;
 
 // 初始化游戏
-void minecraft_init(void);
+void Minecraft_Init(void);
 
 // 游戏主循环
-void minecraft_loop(void);
+void Minecraft_Loop(void);
 
 // 处理按键输入
-void minecraft_handle_key(uint8_t key);
+void Minecraft_HandleKey(uint8_t key);
 
-// 渲染到framebuffer
-void minecraft_render(void);
+// // 渲染到framebuffer
+// void Minecraft_Render(void);
 
 // 获取帧缓冲指针 (用于LVGL显示)
-uint16_t* minecraft_get_framebuffer(void);
+uint16_t* Minecraft_GetFramebuffer(void);
 
 // 释放运行时缓冲
-void minecraft_deinit(void);
+void Minecraft_Deinit(void);
+
+// ===============================
+// 我的世界游戏实现
+// ===============================
+
+extern lv_timer_t *minecraft_timer;
+extern lv_obj_t *minecraft_img;
+
+// 游戏循环定时器回调
+extern void minecraft_timer_cb(lv_timer_t *timer);
+extern void cleanup_scr_minecraft(lv_ui *ui);
+extern void minecraft_app_screen_delete_event_handler(lv_event_t *e);
 
 #ifdef __cplusplus
 }

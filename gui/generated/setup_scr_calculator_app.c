@@ -530,7 +530,7 @@ void setup_scr_calculator_app(lv_ui *ui)
     lv_obj_set_style_shadow_width(ui->calculator_app_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //The custom code of calculator_app.
-    calculator_init(ui->calculator_app_label_1);
+    Calculator_Init(ui->calculator_app_label_1);
 
     // 为所有按键绑定事件与按键值
     static const char *K_0 = "0";

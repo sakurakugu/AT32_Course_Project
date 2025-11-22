@@ -468,7 +468,7 @@ static void processMovement(void) {
 // 已不再需要翻转缓冲
 
 // 初始化游戏
-void minecraft_init(void) {
+void Minecraft_Init(void) {
     memset(&g_state, 0, sizeof(g_state));
     // 初始位置和方向
     g_state.posX = 22.0f;
@@ -489,7 +489,7 @@ void minecraft_init(void) {
 }
 
 // 游戏主循环
-void minecraft_loop(void) {
+void Minecraft_Loop(void) { 
     UPDATE_JNTM();
     UPDATE_BADAPPLE();
     DRAW_FLOOR_AND_CEILING();
@@ -499,18 +499,63 @@ void minecraft_loop(void) {
 }
 
 // 处理按键输入
-void minecraft_handle_key(uint8_t key) {
+void Minecraft_HandleKey(uint8_t key) {
     currentKey = key;
 }
 
 // 获取帧缓冲指针
-uint16_t* minecraft_get_framebuffer(void) {
+uint16_t* Minecraft_GetFramebuffer(void) {
     return lv_framebuffer;
 }
 
-void minecraft_deinit(void) {
+// 释放运行时缓冲
+void Minecraft_Deinit(void) {
     if (lv_framebuffer) {
         vPortFree(lv_framebuffer);
         lv_framebuffer = NULL;
     }
 }
+
+// ===============================
+// 我的世界游戏实现
+// ===============================
+
+lv_timer_t *minecraft_timer = NULL;
+lv_obj_t *minecraft_img = NULL;
+
+// 游戏循环定时器回调
+void minecraft_timer_cb(lv_timer_t *timer) {
+    (void)timer;
+
+    Minecraft_Loop();
+    if (lv_obj_is_valid(minecraft_img)) {
+        lv_obj_invalidate(minecraft_img);
+    }
+}
+
+void cleanup_scr_minecraft(lv_ui *ui) {
+    // 停止定时器
+    if (minecraft_timer) {
+        lv_timer_del(minecraft_timer);
+        minecraft_timer = NULL;
+    }
+    if (lv_obj_is_valid(minecraft_img)) {
+        lv_obj_del(minecraft_img);
+        minecraft_img = NULL;
+    }
+    Minecraft_Deinit();
+    (void)ui;
+}
+
+void minecraft_app_screen_delete_event_handler(lv_event_t *e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_DELETE: {
+        cleanup_scr_minecraft(&guider_ui);
+        break;
+    }
+    default:
+        break;
+    }
+}
+

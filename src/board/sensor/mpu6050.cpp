@@ -34,8 +34,6 @@ extern i2c_handle_type hi2cx; // I2C 句柄
 #define USING_IIC_INT_DMA 0 // 是否使用I2C DMA 中断
 #define USING_IIC_POLLING 1 // 是否使用I2C 轮询
 
-static void error_handler(uint32_t error_code);
-
 void i2c_lowlevel_init(i2c_handle_type *hi2c); // I2C 低电平初始化函数
 
 /**
@@ -43,9 +41,7 @@ void i2c_lowlevel_init(i2c_handle_type *hi2c); // I2C 低电平初始化函数
  * @param  i2c_status
  * @retval none
  */
-static void error_handler(uint32_t error_code) // I2C 错误处理函数
-{
-
+static void error_handler(uint32_t error_code) { // I2C 错误处理函数
     printf("I2C error code: %d\n", error_code);
 }
 
@@ -121,9 +117,9 @@ void i2c_lowlevel_init(i2c_handle_type* hi2c) //I2C 低电平初始化函数
 uint8_t MPU6050_WrReg(uint8_t regAddr, uint8_t data) // 写入寄存器
 {
     i2c_status_type i2c_status;
-    i2c_bus_lock();
+    I2C_BusLock();
     i2c_status = i2c_memory_write(&hi2cx, I2C_MEM_ADDR_WIDIH_8, MPU6050_ADDRESS, regAddr, &data, 1, I2C_TIMEOUT);
-    i2c_bus_unlock();
+    I2C_BusUnlock();
     if (i2c_status != I2C_OK) {
         error_handler(i2c_status);
         return 1;
@@ -134,9 +130,9 @@ uint8_t MPU6050_ReadByte(uint8_t regAddr) // 读取寄存器
 {
     uint8_t res = 0;
     i2c_status_type i2c_status;
-    i2c_bus_lock();
+    I2C_BusLock();
     i2c_status = i2c_memory_read(&hi2cx, I2C_MEM_ADDR_WIDIH_8, MPU6050_ADDRESS, regAddr, &res, 1, I2C_TIMEOUT);
-    i2c_bus_unlock();
+    I2C_BusUnlock();
     if (i2c_status != I2C_OK) {
         error_handler(i2c_status);
         return 0;
@@ -146,9 +142,9 @@ uint8_t MPU6050_ReadByte(uint8_t regAddr) // 读取寄存器
 
 uint8_t MPU6050_WriteLen(uint8_t regAddr, uint8_t len, uint8_t *buf) {
     i2c_status_type i2c_status;
-    i2c_bus_lock();
+    I2C_BusLock();
     i2c_status = i2c_memory_write(&hi2cx, I2C_MEM_ADDR_WIDIH_8, MPU6050_ADDRESS, regAddr, buf, len, I2C_TIMEOUT);
-    i2c_bus_unlock();
+    I2C_BusUnlock();
     if (i2c_status != I2C_OK) {
         error_handler(i2c_status);
         return 1;
@@ -158,9 +154,9 @@ uint8_t MPU6050_WriteLen(uint8_t regAddr, uint8_t len, uint8_t *buf) {
 
 uint8_t MPU6050_ReadLen(uint8_t regAddr, uint8_t len, uint8_t *buf) {
     i2c_status_type i2c_status;
-    i2c_bus_lock();
+    I2C_BusLock();
     i2c_status = i2c_memory_read(&hi2cx, I2C_MEM_ADDR_WIDIH_8, MPU6050_ADDRESS, regAddr, buf, len, I2C_TIMEOUT);
-    i2c_bus_unlock();
+    I2C_BusUnlock();
     if (i2c_status != I2C_OK) {
         error_handler(i2c_status);
         return 1;
@@ -273,7 +269,7 @@ uint8_t MPU6050_Init(void) // 初始化 MPU6050
     {
         MPU6050_WrReg(MPU6050_PWR_MGMT_1, 0X01); // CLKSEL,PLL X is the ref
         MPU6050_WrReg(MPU6050_PWR_MGMT_2, 0X00); // enable Gyro and acc
-        MPU6050_SetRate(50);                         // set rate is 50Hz
+        MPU6050_SetRate(50);                     // set rate is 50Hz
     } else
         return 1; // init failed
     return 0;     // init success

@@ -1351,7 +1351,8 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			]
+			],
+			"layerName": "home_app1"
 		},
 		{
 			"name": "home_app2",
@@ -1902,7 +1903,8 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			]
+			],
+			"layerName": "home_app2"
 		},
 		{
 			"name": "weather_app",
@@ -2116,7 +2118,7 @@
 										"actionList": {
 											"custom_code": {
 												"inc_c": "#ifdef KEIL_COMPILE\r\n#include \"../../src/app/weather/weather.h\"\r\n#endif",
-												"code_c": "#ifdef KEIL_COMPILE\r\n        // 点击更新天气：后台发起一次网络请求并刷新界面\r\n        bool ok = weather_update_ui();\r\n        if (!ok) {\r\n            // 简单错误反馈：在更新时间标签显示失败\r\n            if (lv_obj_is_valid(guider_ui.weather_app_updatetime)) {\r\n                lv_label_set_text(guider_ui.weather_app_updatetime, \"上次更新时间：获取失败\");\r\n            }\r\n        }\r\n#endif",
+												"code_c": "#ifdef KEIL_COMPILE\r\n        // 点击更新天气：后台发起一次网络请求并刷新界面\r\n        bool ok = Weather_UpdateUI();\r\n        if (!ok) {\r\n            // 简单错误反馈：在更新时间标签显示失败\r\n            if (lv_obj_is_valid(guider_ui.weather_app_updatetime)) {\r\n                lv_label_set_text(guider_ui.weather_app_updatetime, \"上次更新时间：获取失败\");\r\n            }\r\n        }\r\n#endif",
 												"inc_py": "",
 												"code_py": ""
 											}
@@ -12896,98 +12898,6 @@
 					"width": 480,
 					"height": 304,
 					"default_style": false,
-					"style": [
-						{
-							"part": "LV_PART_MAIN",
-							"state": "LV_STATE_DEFAULT",
-							"object": "main",
-							"disable": false,
-							"bg_color": "#ffffff",
-							"bg_grad_color": "#41485a",
-							"bg_opa": 255,
-							"bg_grad_dir": "LV_GRAD_DIR_NONE",
-							"bg_dither_mode": "LV_DITHER_NONE",
-							"bg_main_stop": 0,
-							"bg_grad_stop": 255,
-							"radius": 0,
-							"shadow_color": "#2195f6",
-							"shadow_opa": 255,
-							"shadow_width": 0,
-							"shadow_spread": 0,
-							"shadow_ofs_x": 0,
-							"shadow_ofs_y": 0
-						},
-						{
-							"part": "LV_PART_BTNBOX",
-							"state": "LV_STATE_DEFAULT",
-							"object": "extra_sidebar_page",
-							"disable": false,
-							"bg_color": "#daf2f8",
-							"bg_grad_color": "#5a6173",
-							"bg_opa": 255,
-							"bg_grad_dir": "LV_GRAD_DIR_NONE",
-							"bg_dither_mode": "LV_DITHER_NONE",
-							"bg_main_stop": 0,
-							"bg_grad_stop": 255,
-							"desc": "Button Box",
-							"radius": 0
-						},
-						{
-							"part": "LV_PART_ITEMS",
-							"state": "LV_STATE_DEFAULT",
-							"object": "extra_option_btns",
-							"disable": false,
-							"text_color": "#151212",
-							"font_family": "SourceHanSerifSC_Regular",
-							"font": 12,
-							"text_align": "LV_TEXT_ALIGN_CENTER",
-							"padding_top": 10,
-							"padding_bottom": 10
-						},
-						{
-							"part": "LV_PART_ITEMS",
-							"state": "LV_STATE_CHECKED",
-							"object": "extra_option_btns",
-							"disable": false,
-							"text_color": "#9ab700",
-							"font_family": "montserratMedium",
-							"font": 12,
-							"border_side": [
-								"LV_BORDER_SIDE_BOTTOM"
-							],
-							"border_width": 0,
-							"border_opa": 255,
-							"radius": 0,
-							"border_color": "#329df6",
-							"bg_color": "#00e0b8",
-							"bg_grad_color": "#329df6",
-							"bg_grad_dir": "LV_GRAD_DIR_NONE",
-							"bg_dither_mode": "LV_DITHER_NONE",
-							"bg_main_stop": 0,
-							"bg_grad_stop": 255,
-							"bg_opa": 60,
-							"text_align": "LV_TEXT_ALIGN_CENTER"
-						},
-						{
-							"part": "LV_PART_MENU_TITLE",
-							"state": "LV_STATE_DEFAULT",
-							"object": "extra_main_title",
-							"disable": false,
-							"text_color": "#41485a",
-							"font_family": "SourceHanSerifSC_Regular",
-							"font": 12,
-							"text_align": "LV_TEXT_ALIGN_CENTER",
-							"bg_color": "#ffffff",
-							"bg_grad_color": "#41485a",
-							"bg_opa": 255,
-							"bg_grad_dir": "LV_GRAD_DIR_NONE",
-							"bg_dither_mode": "LV_DITHER_NONE",
-							"bg_main_stop": 0,
-							"bg_grad_stop": 255,
-							"padding_top": 0,
-							"padding_bottom": 0
-						}
-					],
 					"scrollbar_mode": "OFF",
 					"current_item": 1,
 					"main_title": "时间",
@@ -14699,8 +14609,7 @@
 											"bg_opa": 255,
 											"radius": 0
 										}
-									],
-									"dropToGap": false
+									]
 								},
 								{
 									"name": "placeholder_div5",
@@ -14750,8 +14659,7 @@
 											"shadow_ofs_x": 0,
 											"shadow_ofs_y": 0
 										}
-									],
-									"dropToGap": false
+									]
 								}
 							],
 							"index": 2
@@ -15032,6 +14940,98 @@
 									]
 								}
 							]
+						}
+					],
+					"style": [
+						{
+							"part": "LV_PART_MAIN",
+							"state": "LV_STATE_DEFAULT",
+							"object": "main",
+							"disable": false,
+							"bg_color": "#ffffff",
+							"bg_grad_color": "#41485a",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"radius": 0,
+							"shadow_color": "#2195f6",
+							"shadow_opa": 255,
+							"shadow_width": 0,
+							"shadow_spread": 0,
+							"shadow_ofs_x": 0,
+							"shadow_ofs_y": 0
+						},
+						{
+							"part": "LV_PART_BTNBOX",
+							"state": "LV_STATE_DEFAULT",
+							"desc": "Button Box",
+							"object": "extra_sidebar_page",
+							"disable": false,
+							"bg_color": "#daf2f8",
+							"bg_grad_color": "#5a6173",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"radius": 0
+						},
+						{
+							"part": "LV_PART_ITEMS",
+							"state": "LV_STATE_DEFAULT",
+							"object": "extra_option_btns",
+							"disable": false,
+							"text_color": "#151212",
+							"text_align": "LV_TEXT_ALIGN_CENTER",
+							"font_family": "SourceHanSerifSC_Regular",
+							"font": 12,
+							"padding_top": 10,
+							"padding_bottom": 10
+						},
+						{
+							"part": "LV_PART_ITEMS",
+							"state": "LV_STATE_CHECKED",
+							"object": "extra_option_btns",
+							"disable": false,
+							"text_color": "#9ab700",
+							"text_align": "LV_TEXT_ALIGN_CENTER",
+							"font_family": "montserratMedium",
+							"font": 12,
+							"border_side": [
+								"LV_BORDER_SIDE_BOTTOM"
+							],
+							"border_width": 0,
+							"border_opa": 255,
+							"radius": 0,
+							"border_color": "#329df6",
+							"bg_color": "#00e0b8",
+							"bg_grad_color": "#329df6",
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"bg_opa": 60
+						},
+						{
+							"part": "LV_PART_MENU_TITLE",
+							"state": "LV_STATE_DEFAULT",
+							"object": "extra_main_title",
+							"disable": false,
+							"text_color": "#41485a",
+							"font_family": "SourceHanSerifSC_Regular",
+							"font": 12,
+							"text_align": "LV_TEXT_ALIGN_CENTER",
+							"bg_color": "#ffffff",
+							"bg_grad_color": "#41485a",
+							"bg_opa": 255,
+							"bg_grad_dir": "LV_GRAD_DIR_NONE",
+							"bg_dither_mode": "LV_DITHER_NONE",
+							"bg_main_stop": 0,
+							"bg_grad_stop": 255,
+							"padding_top": 0,
+							"padding_bottom": 0
 						}
 					]
 				}
@@ -29501,7 +29501,7 @@
 											"actionList": {
 												"custom_code": {
 													"inc_c": "#ifdef KEIL_COMPILE\r\n#include \"../../src/app/weather/weather.h\"\r\n#endif",
-													"code_c": "#ifdef KEIL_COMPILE\r\n        // 点击更新天气：后台发起一次网络请求并刷新界面\r\n        bool ok = weather_update_ui();\r\n        if (!ok) {\r\n            // 简单错误反馈：在更新时间标签显示失败\r\n            if (lv_obj_is_valid(guider_ui.weather_app_updatetime)) {\r\n                lv_label_set_text(guider_ui.weather_app_updatetime, \"上次更新时间：获取失败\");\r\n            }\r\n        }\r\n#endif",
+													"code_c": "#ifdef KEIL_COMPILE\r\n        // 点击更新天气：后台发起一次网络请求并刷新界面\r\n        bool ok = Weather_UpdateUI();\r\n        if (!ok) {\r\n            // 简单错误反馈：在更新时间标签显示失败\r\n            if (lv_obj_is_valid(guider_ui.weather_app_updatetime)) {\r\n                lv_label_set_text(guider_ui.weather_app_updatetime, \"上次更新时间：获取失败\");\r\n            }\r\n        }\r\n#endif",
 													"inc_py": "",
 													"code_py": ""
 												}
@@ -40725,12 +40725,12 @@
 										"today_date": [
 											2025,
 											11,
-											20
+											22
 										],
 										"mark_date": [
 											2025,
 											11,
-											21
+											23
 										],
 										"has_header": true,
 										"header": "arrow",
@@ -40946,6 +40946,7 @@
 							{
 								"part": "LV_PART_MAIN",
 								"state": "LV_STATE_DEFAULT",
+								"desc": "Button Box",
 								"object": "extra_sidebar_page",
 								"disable": false,
 								"bg_color": "#daf2f8",
@@ -40955,7 +40956,6 @@
 								"bg_dither_mode": "LV_DITHER_NONE",
 								"bg_main_stop": 0,
 								"bg_grad_stop": 255,
-								"desc": "Button Box",
 								"radius": 0
 							},
 							{
@@ -40964,9 +40964,9 @@
 								"object": "extra_option_btns",
 								"disable": false,
 								"text_color": "#151212",
+								"text_align": "LV_TEXT_ALIGN_CENTER",
 								"font_family": "SourceHanSerifSC_Regular",
 								"font": 12,
-								"text_align": "LV_TEXT_ALIGN_CENTER",
 								"padding_top": 10,
 								"padding_bottom": 10
 							},
@@ -40976,6 +40976,7 @@
 								"object": "extra_option_btns",
 								"disable": false,
 								"text_color": "#9ab700",
+								"text_align": "LV_TEXT_ALIGN_CENTER",
 								"font_family": "montserratMedium",
 								"font": 12,
 								"border_side": [
@@ -40991,8 +40992,7 @@
 								"bg_dither_mode": "LV_DITHER_NONE",
 								"bg_main_stop": 0,
 								"bg_grad_stop": 255,
-								"bg_opa": 60,
-								"text_align": "LV_TEXT_ALIGN_CENTER"
+								"bg_opa": 60
 							},
 							{
 								"part": "LV_PART_MAIN",

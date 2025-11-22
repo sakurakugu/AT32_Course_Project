@@ -58,34 +58,33 @@ void TaskKeys([[maybe_unused]] void *pvParameters) {
         // Minecraft游戏按键处理
         if (is_minecraft_screen) {
             if (keyvalue == KEY_1_DOWN) { // KEY1 - 前进
-                minecraft_handle_key(MINECRAFT_KEY_UP);
+                Minecraft_HandleKey(MINECRAFT_KEY_UP);
             } else if (keyvalue == KEY_1_UP) {
-                minecraft_handle_key(0);
+                Minecraft_HandleKey(0);
             } else if (keyvalue == KEY_2_DOWN) { // KEY2 - 右转
-                minecraft_handle_key(MINECRAFT_KEY_RIGHT);
+                Minecraft_HandleKey(MINECRAFT_KEY_RIGHT);
             } else if (keyvalue == KEY_2_UP) {
-                minecraft_handle_key(0);
+                Minecraft_HandleKey(0);
             } else if (keyvalue == KEY_3_DOWN) { // KEY3 - 后退
-                minecraft_handle_key(MINECRAFT_KEY_DOWN);
+                Minecraft_HandleKey(MINECRAFT_KEY_DOWN);
             } else if (keyvalue == KEY_3_UP) {
-                minecraft_handle_key(0);
+                Minecraft_HandleKey(0);
             } else if (keyvalue == KEY_4_DOWN) { // KEY4 - 左转
-                minecraft_handle_key(MINECRAFT_KEY_LEFT);
+                Minecraft_HandleKey(MINECRAFT_KEY_LEFT);
             } else if (keyvalue == KEY_4_UP) {
-                minecraft_handle_key(0);
+                Minecraft_HandleKey(0);
             } else if (keyvalue == KEY_5_DOWN) { // KEY5 - 低头
-                minecraft_handle_key(MINECRAFT_KEY_LOOK_DOWN);
+                Minecraft_HandleKey(MINECRAFT_KEY_LOOK_DOWN);
             } else if (keyvalue == KEY_5_UP) {
-                minecraft_handle_key(0);
+                Minecraft_HandleKey(0);
             } else if (keyvalue == KEY_7_DOWN) { // KEY7 - 抬头
-                minecraft_handle_key(MINECRAFT_KEY_LOOK_UP);
+                Minecraft_HandleKey(MINECRAFT_KEY_LOOK_UP);
             } else if (keyvalue == KEY_7_UP) {
-                minecraft_handle_key(0);
-
+                Minecraft_HandleKey(0);
             } else if (keyvalue == KEY_8_DOWN) { // KEY8 - 攻击/破坏
-                minecraft_handle_key(MINECRAFT_KEY_ACTION);
+                Minecraft_HandleKey(MINECRAFT_KEY_ACTION);
             } else if (keyvalue == KEY_8_UP) {
-                minecraft_handle_key(0);
+                Minecraft_HandleKey(0);
             }
         }
 

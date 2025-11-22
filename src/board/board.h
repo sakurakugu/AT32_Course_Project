@@ -1,50 +1,24 @@
 #pragma once
 
-
-
+#include "bsp_ext_flash.h"
+#include "key/key.h"
+#include "led/color_led.hpp"
+#include "led/oled.h"
+#include "timer.h"
+#include "uart.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 extern "C" {
-#include "at32f435_437_clock.h"
-#include "bsp_ext_flash.h"
-#include "key/key.h"
-#include "led/oled.h"
-#include "led/color_led.hpp"
 #define ESP12_DEBUG 0
 
-#define ERROR_HANDLER() Error_Handler(__FILE__, __LINE__);
 void ADC_Config(void);
 uint16_t AnalogRead(void);
-
-/* 默认是关闭状态 */
-#define Enable_EventRecorder 0
-
-#if Enable_EventRecorder == 1
-#include "EventRecorder.h"
-#endif
-
-
 
 /* 定义优先级分组 */
 #define NVIC_PREEMPT_PRIORITY 4
-
-#include "timer.h"
-#include "wifi.hpp"
-#include "uart.h"
-#include "bsp_ext_flash.h"
-
-
-/* 提供给其他C文件调用的函数 */
-void delay_us(uint32_t nus);
-void ADC_Config(void);
-uint16_t AnalogRead(void);
-void delay_ms(uint16_t nms);
 }
-
-
-
 
 class Board {
   public:

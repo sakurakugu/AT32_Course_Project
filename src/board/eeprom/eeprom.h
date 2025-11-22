@@ -31,18 +31,18 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-void iic_init(void);
-void eep_write(uint16_t mem_address, uint8_t *pdata, uint16_t size);
-void eep_read(uint16_t mem_address, uint8_t *pdata, uint16_t size);
+void I2C_Init(void);
+void EEP_Write(uint16_t mem_address, uint8_t *pdata, uint16_t size);
+void EEP_Read(uint16_t mem_address, uint8_t *pdata, uint16_t size);
 
 /* expose common i2c buffers for application use */
-extern uint8_t eep_write_buf[16];
+extern uint8_t eep_write[16];
 extern uint8_t eep_read_buf[32];
 extern uint8_t lm75_buf[2];
 extern i2c_handle_type hi2cx;
 /* I2C bus guard APIs */
-void i2c_bus_lock(void);
-void i2c_bus_unlock(void);
+void I2C_BusLock(void);
+void I2C_BusUnlock(void);
 
 #ifdef __cplusplus
 }

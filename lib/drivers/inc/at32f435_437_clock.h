@@ -31,7 +31,14 @@
 /* includes ------------------------------------------------------------------*/
 #include "at32f435_437.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 /* exported functions ------------------------------------------------------- */
 void system_clock_config(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

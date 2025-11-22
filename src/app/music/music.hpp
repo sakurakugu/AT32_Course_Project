@@ -37,6 +37,7 @@
 // }
 
 
+
 class Music {
   public:
     static Music &GetInstance() {
@@ -47,9 +48,11 @@ class Music {
     Music(const Music &) = delete;
     Music &operator=(const Music &) = delete;
 
-    void play_one_song();
+    void PlayOneSong();
 
   private:
     Music() = default;
     ~Music() = default;
 };
+
+extern void TaskMusic(void *pvParameters);

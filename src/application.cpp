@@ -5,6 +5,7 @@
 #include "at32f435_437_misc.h"
 #include "beep.hpp"
 #include "board.h"
+#include "delay.h"
 #include "eeprom.h"
 #include "lm75.h"
 #include "mpu6050.h"
@@ -20,7 +21,7 @@
 #include "lv_port_indev.h"
 #include "lv_tick_custom.h"
 #include "lvgl.h"
-#include "music.h"
+#include "music.hpp"
 #include "oled.h"
 #include "task/task_key.h"
 #include "task/task_wifi.h"
@@ -123,8 +124,8 @@ static bool wifi_load_credentials_from_eeprom(char *ssid_out, size_t ssid_out_si
     uint8_t ssid_buf[33] = {0};
     uint8_t pwd_buf[65] = {0};
 
-    eep_read(WIFI_EEP_ADDR_SSID, ssid_buf, sizeof(ssid_buf));
-    eep_read(WIFI_EEP_ADDR_PASSWORD, pwd_buf, sizeof(pwd_buf));
+    EEP_Read(WIFI_EEP_ADDR_SSID, ssid_buf, sizeof(ssid_buf));
+    EEP_Read(WIFI_EEP_ADDR_PASSWORD, pwd_buf, sizeof(pwd_buf));
     LOGD("ssid_buf: %s, pwd_buf: %s", ssid_buf, pwd_buf);
 
     // 简单校验：非空
@@ -231,8 +232,8 @@ static void TaskHeartbeat(void *pvParameters) {
     TickType_t lastHeartbeatTick = xTaskGetTickCount();
     for (;;) {
         // 处理心跳响应与命令
-        IoT::GetInstance().Check_Heartbeat();
-
+        IoT::GetInstance().CheckHeartbeat();
+        
         // 检查是否需要重连
         if (should_reconnect()) {
             LOGI("\r\n检测到连接断开超过5分钟，尝试重连...\r\n");
@@ -243,7 +244,7 @@ static void TaskHeartbeat(void *pvParameters) {
         if ((xTaskGetTickCount() - lastHeartbeatTick) >= pdMS_TO_TICKS(HEARTBEAT_INTERVAL)) {
             lastHeartbeatTick = xTaskGetTickCount();
             if (connection_status) {
-                IoT::GetInstance().Send_Heartbeat();
+                IoT::GetInstance().SendHeartbeat();
             }
         }
 
@@ -318,7 +319,7 @@ static void TaskStatus(void *pvParameters) {
 
         // 连接状态下上报当前状态
         if (connection_status) {
-            IoT::GetInstance().Send_Status_Report();
+            IoT::GetInstance().SendStatusReport();
         } else {
             LOGI("连接断开，数据未发送\r\n");
         }

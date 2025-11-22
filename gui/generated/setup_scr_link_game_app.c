@@ -74,9 +74,9 @@ void setup_scr_link_game_app(lv_ui *ui)
 
     //The custom code of link_game_app.
     link_root = ui->link_game_app;
-    lv_obj_add_event_cb(link_root, root_delete_cb, LV_EVENT_DELETE, NULL);
-    link_init_board(lv_tick_get());
-    link_create_grid(ui);
+    lv_obj_add_event_cb(link_root, LinkGame_RootDeleteCb, LV_EVENT_DELETE, NULL);
+    LinkGame_InitBoard(lv_tick_get());
+    LinkGame_CreateGrid(ui);
     lv_obj_move_foreground(ui->link_game_app_back_btn);
     lv_obj_move_foreground(ui->link_game_app_reopen_btn);
 

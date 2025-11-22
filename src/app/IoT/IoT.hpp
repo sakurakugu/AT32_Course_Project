@@ -1,3 +1,4 @@
+// 这是后端
 #pragma once
 
 #include "IoT.h"
@@ -15,12 +16,12 @@ class IoT {
     IoT &operator=(const IoT &) = delete;
 
     void ParseJson(char *cmd);
-    void Process_Received_Data(); // 处理接收数据
-    void Check_Heartbeat(); // 检查心跳包
-    void Send_Heartbeat(); // 发送心跳包
-    void Send_Status_Report(); // 发送状态上报
+    void ProcessReceivedData(); // 处理接收数据
+    void CheckHeartbeat(); // 检查心跳包
+    void SendHeartbeat(); // 发送心跳包
+    void SendStatusReport(); // 发送状态上报
 
-    void Control_Lighting(uint8_t status); // 控制照明
+    void ControlLighting(uint8_t status); // 控制照明
 
   private:
     IoT() = default;
