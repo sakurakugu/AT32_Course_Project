@@ -55,7 +55,7 @@ void i2c_lowlevel_init(i2c_handle_type* hi2c) //I2C 低电平初始化函数
 
   if(hi2c->i2cx == I2Cx_PORT)
   {
-    /* i2c 时钟使能 */
+    /* i2c 时钟开启 */
     crm_periph_clock_enable(I2Cx_CLK, TRUE);
     crm_periph_clock_enable(I2Cx_SCL_GPIO_CLK, TRUE);
     crm_periph_clock_enable(I2Cx_SDA_GPIO_CLK, TRUE);
@@ -74,16 +74,16 @@ void i2c_lowlevel_init(i2c_handle_type* hi2c) //I2C 低电平初始化函数
     gpio_initstructure.gpio_pins = I2Cx_SDA_PIN;
     gpio_init(I2Cx_SDA_GPIO_PORT, &gpio_initstructure);
 #if USING_IIC_INT_DMA
-    /* 配置并使能 i2c dma 通道中断 */
+    /* 配置并开启 i2c dma 通道中断 */
     nvic_irq_enable(I2Cx_DMA_TX_IRQn, 0, 0);
     nvic_irq_enable(I2Cx_DMA_RX_IRQn, 0, 0);
 
-    /* 配置并使能 i2c 中断 */
+    /* 配置并开启 i2c 中断 */
     nvic_irq_enable(I2Cx_EVT_IRQn, 0, 0);
     nvic_irq_enable(I2Cx_ERR_IRQn, 0, 0);
 
     /* i2c dma tx 和 rx 通道配置 */
-    /* 使能 i2c dma 时钟 */
+    /* 开启 i2c dma 时钟 */
     crm_periph_clock_enable(I2Cx_DMA_CLK, TRUE);
 
     /* i2c dma 通道配置 */
@@ -264,7 +264,7 @@ uint8_t MPU6050_Init(void) // 初始化 MPU6050
     if (res == (MPU6050_ADDRESS >> 1)) // 设备ID正确
     {
         MPU6050_WrReg(MPU6050_PWR_MGMT_1, 0X01); // CLKSEL,PLL X 是外部8MHz晶振
-        MPU6050_WrReg(MPU6050_PWR_MGMT_2, 0X00); // 使能 Gyro 和 acc
+        MPU6050_WrReg(MPU6050_PWR_MGMT_2, 0X00); // 开启 Gyro 和 acc
         MPU6050_SetRate(50);                     // 设置采样率为50Hz
     } else
         return 1; // 初始化失败

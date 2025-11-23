@@ -24,10 +24,13 @@
 #define AT_LF '\n'
 
 char g_EspBuf[2048]; /* 用于解码 */
+char wifi_ssid[33] = {0};
+char wifi_password[65] = {0};
 
 /**
  * @brief  ESP12 串口WIFI模块中断服务函数
  */
+// #define ESP12_DEBUG 0
 // #if ESP12_DEBUG
 // void USART1_IRQHandler() {
 //     if (USART1->ctrl1_bit.rdbfien != RESET) {
@@ -78,11 +81,11 @@ bool Wifi::WaitResponse(const char *ack_str, uint16_t us_timeout) {
     }
 
     if (us_timeout > 0) {
-        bsp_StartTimer(Wifi_TMR_ID, us_timeout);
+        Timer::GetInstance().StartTimer(Wifi_TMR_ID, us_timeout);
     }
     while (1) {
         if (us_timeout > 0) {
-            if (bsp_CheckTimer(Wifi_TMR_ID)) {
+            if (Timer::GetInstance().CheckTimer(Wifi_TMR_ID)) {
                 ret = false;
                 break;
             }
@@ -153,11 +156,11 @@ uint16_t Wifi::ReadLine(char *buffer, uint16_t size, uint16_t us_timeout) {
 
     /* us_timeout == 0 表示无限等待 */
     if (us_timeout > 0) {
-        bsp_StartTimer(Wifi_TMR_ID, us_timeout); /* 使用软件定时器作为超时控制 */
+        Timer::GetInstance().StartTimer(Wifi_TMR_ID, us_timeout); /* 使用软件定时器作为超时控制 */
     }
     while (1) {
 
-        if (bsp_CheckTimer(Wifi_TMR_ID)) {
+        if (Timer::GetInstance().CheckTimer(Wifi_TMR_ID)) {
             buffer[pos] = 0; /* 结尾加0， 便于函数调用者识别字符串结束 */
             ret = pos;       /* 成功。 返回数据长度 */
             break;
@@ -166,7 +169,7 @@ uint16_t Wifi::ReadLine(char *buffer, uint16_t size, uint16_t us_timeout) {
         if (comGetChar(COM_ESP12, &ucData)) {
             ESP12_PrintRxData(ucData); /* 将接收到数据打印到调试串口1 */
 
-            bsp_StartTimer(Wifi_TMR_ID, 500);
+            Timer::GetInstance().StartTimer(Wifi_TMR_ID, 500);
             /* 保护缓冲区，避免溢出导致数据破坏 */
             if (pos < (uint16_t)(size - 1)) {
                 buffer[pos++] = ucData; /* 保存接收到的数据 */

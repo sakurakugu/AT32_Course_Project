@@ -2,7 +2,7 @@
  * @brief 初始化颜色LED
  * PWM输出模式，用于控制RGB颜色LED
  */
-#include "color_led.hpp"
+#include "color_led.h"
 #include "../board.h"
 
 #include "at32f435_437_gpio.h"
@@ -64,7 +64,7 @@ void ColorLed::Init() {
 
     tmr_period_buffer_enable(TMR3, TRUE);
 
-    /* TMR3 使能计数器 */
+    /* TMR3 开启计数器 */
     tmr_counter_enable(TMR3, TRUE);
 }
 
@@ -127,20 +127,3 @@ void ColorLed::TurnOff() {
     is_on = false;
 }
 
-/**
- * C接口实现
- */
-void ColorLed_SetColor(uint8_t r, uint8_t g, uint8_t b) {
-    Board::GetInstance().GetColorLed().SetColor(r, g, b);
-}
-
-void ColorLed_TurnOn() {
-    Board::GetInstance().GetColorLed().TurnOn();
-}
-
-/**
- * @brief 关闭彩灯
- */
-void ColorLed_TurnOff() {
-    Board::GetInstance().GetColorLed().TurnOff();
-}

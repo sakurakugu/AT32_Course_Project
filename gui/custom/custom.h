@@ -26,7 +26,6 @@ extern "C" {
 #include "../../src/app/minecraft/minecraft.h"
 #include "../../src/app/music/music.h" // 音乐模块控制标志与曲目定义
 #include "../../src/app/setting/setting.h"
-#include "../../src/board/network/wifi.h"
 
 #ifdef KEIL_COMPILE
 #endif

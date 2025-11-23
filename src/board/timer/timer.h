@@ -7,6 +7,7 @@
 
 #include "at32f435_437_crm.h"
 #include <stdio.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -39,21 +40,36 @@ typedef struct {
     volatile uint32_t PreLoad; /**< 自动模式下的重载值 */
 } SOFT_TMR;
 
-/* 提供给其他C文件调用的函数 */
-void bsp_InitTimer(void); // 初始化软件定时器并启动 TMR6 1ms 中断。
-void bsp_StartTimer(uint8_t _id, uint32_t _period);     // 启动一次性定时器。
-void bsp_StartAutoTimer(uint8_t _id, uint32_t _period); // 启动自动重载定时器。
-void bsp_StopTimer(uint8_t _id);                        // 停止一个定时器。
-uint8_t bsp_CheckTimer(uint8_t _id);                    // 检测定时器是否到期。
-
-// void tone(int freq);
-// void toneOff(void);
-// void timer5_init(void);
-// void bsp_InitHardTimer(void);
-// void bsp_StartHardTimer(uint8_t _CC, uint32_t _uiTimeOut, void *_pCallBack);
+// /* 提供给其他C文件调用的函数 */
+// void bsp_InitTimer(void);                               // 初始化软件定时器并启动 TMR6 1ms 中断。
+// void bsp_StartTimer(uint8_t _id, uint32_t _period);     // 启动一次性定时器。
+// void bsp_StartAutoTimer(uint8_t _id, uint32_t _period); // 启动自动重载定时器。
+// void bsp_StopTimer(uint8_t _id);                        // 停止一个定时器。
+// uint8_t bsp_CheckTimer(uint8_t _id);                    // 检测定时器是否到期。
 
 extern crm_clocks_freq_type crm_clocks_freq_struct; // 系统时钟频率信息缓存（由驱动更新）。
 
 #ifdef __cplusplus
 }
 #endif
+
+class Timer {
+  public:
+    static Timer &GetInstance() {
+        static Timer instance;
+        return instance;
+    }
+    Timer(const Timer &) = delete;            // 禁用拷贝构造函数
+    Timer &operator=(const Timer &) = delete; // 禁用赋值操作
+
+    void InitTimer();                                   // 初始化软件定时器并启动 TMR6 1ms 中断
+    void StartTimer(uint8_t _id, uint32_t _period);     // 启动一次性定时器并设置周期
+    void StartAutoTimer(uint8_t _id, uint32_t _period); // 启动自动重载定时器并设置周期
+    void StopTimer(uint8_t _id);                        // 停止一个定时器
+    bool CheckTimer(uint8_t _id);                       // 检测定时器是否到期
+
+    static void SoftTimerDec(SOFT_TMR *_tmr); // 每隔 1ms 对所有定时器变量减1，处理到期标志与自动重载
+  private:
+    Timer() = default;
+    ~Timer() = default;
+};

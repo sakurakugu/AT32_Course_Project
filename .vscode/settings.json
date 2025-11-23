@@ -130,7 +130,6 @@
         "task.h": "c",
         "delay.h": "c",
         "__verbose_abort": "cpp",
-        "wifi.h": "c",
         "widgets_init.h": "c",
         "xlocmes": "c",
         "condition_variable": "cpp",
@@ -148,7 +147,14 @@
         "minecraft.h": "c",
         "drawing_board.h": "c",
         "beep.hpp": "c",
-        "board.h": "c"
+        "board.h": "c",
+        "xlocinfo": "cpp",
+        "cctype": "cpp",
+        "cstdarg": "cpp",
+        "cwctype": "cpp",
+        "stdexcept": "cpp",
+        "__external_threading": "cpp",
+        "cerrno": "cpp"
     },
     "search.useIgnoreFiles": false, // 禁用git忽略文件
     "search.exclude": { // 排除搜索范围

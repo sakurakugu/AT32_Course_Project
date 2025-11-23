@@ -1,25 +1,13 @@
 #pragma once
 
-#include "ext_flash.h"
-#include "key/key.h"
-#include "led/color_led.hpp"
-#include "led/oled.h"
-#include "timer.h"
-#include "uart.h"
 #include "beep.hpp"
+#include "key/key.h"
+#include "led/color_led.h"
+#include "led/oled.h"
+#include "led/led.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-extern "C" {
-#define ESP12_DEBUG 0
-
-void ADC_Config(void);
-uint16_t AnalogRead(void);
-
-/* 定义优先级分组 */
-#define NVIC_PREEMPT_PRIORITY 4
-}
 
 class Board {
   public:
@@ -34,6 +22,8 @@ class Board {
     Key &GetKey() { return key_; }
     ColorLed &GetColorLed() { return color_led_; }
     Beep &GetBeep() { return beep_; }
+    OLED &GetOLED() { return oled_; }
+    LED &GetLED() { return led_; }
 
   private:
     Board() = default;
@@ -42,4 +32,6 @@ class Board {
     Key key_;
     Beep beep_;
     ColorLed color_led_;
+    LED led_;
+    OLED oled_;
 };

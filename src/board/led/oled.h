@@ -21,10 +21,6 @@
 
 class OLED {
   public:
-    static OLED &GetInstance() {
-        static OLED instance;
-        return instance;
-    }
     // 删除拷贝构造函数和赋值运算符
     OLED(const OLED &) = delete;
     OLED &operator=(const OLED &) = delete;
@@ -43,6 +39,7 @@ class OLED {
     void WriteByte(uint8_t dat, uint8_t cmd);
 
   private:
+  friend class Board;
     OLED() = default;
     ~OLED() = default;
     

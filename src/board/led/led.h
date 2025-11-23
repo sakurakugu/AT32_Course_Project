@@ -1,10 +1,11 @@
 #pragma once
+
 #include <stdint.h>
 
-typedef enum {
+enum led_type {
     LED_Green = 0,
     LED_Yellow = 1,
-} led_type;
+};
 
 #define LED_NUM 2
 
@@ -16,15 +17,20 @@ typedef enum {
 #define LED_Yellow_GPIO GPIOC
 #define LED_Yellow_GPIO_CRM_CLK CRM_GPIOC_PERIPH_CLOCK
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+class LED {
+  public:
+    // 删除拷贝构造函数和赋值运算符
+    LED(const LED &) = delete;
+    LED &operator=(const LED &) = delete;
 
-// extern void LED_Init(led_type led);
-extern void LED_TurnOn(led_type led);
-extern void LED_TurnOff(led_type led);
-// extern void LED_Toggle(led_type led);
+    void Init(led_type led);
+    void TurnOn(led_type led);
+    void TurnOff(led_type led);
+    void Toggle(led_type led);
 
-#ifdef __cplusplus
-}
-#endif
+  private:
+    friend class Board;
+    LED() = default;
+    ~LED() = default;
+    uint8_t led_pin;
+};

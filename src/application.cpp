@@ -1,21 +1,23 @@
 #include "application.h"
 #include "IoT.hpp"
 
+#include "adc_voltage.h"
 #include "at32f435_437_clock.h"
 #include "at32f435_437_misc.h"
 #include "beep.hpp"
 #include "board.h"
 #include "board/led/led.h"
-#include "color_led.hpp"
+#include "color_led.h"
 #include "config.h"
 #include "custom.h"
 #include "delay.h"
 #include "eeprom.h"
 #include "events_init.h"
+#include "ext_flash.h"
 #include "gui_guider.h"
 #include "key.h"
 #include "lcd.hpp"
-#include "led.hpp"
+#include "led.h"
 #include "lm75.h"
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
@@ -24,7 +26,6 @@
 #include "mpu6050.h"
 #include "music.hpp"
 #include "oled.h"
-#include "wifi.hpp"
 #include "timer.h"
 #include "touch.hpp"
 #include "wifi.hpp"
@@ -68,8 +69,6 @@ const char *get_connection_status_string(void) {
         }
     }
 }
-
-
 
 static bool wifi_load_credentials_from_eeprom(char *ssid_out, size_t ssid_out_size, char *pwd_out,
                                               size_t pwd_out_size) {
@@ -196,7 +195,8 @@ static void TaskHeartbeat(void *pvParameters) {
     for (;;) {
         // 处理心跳响应与命令
         IoT::GetInstance().CheckHeartbeat();
-        if (!tlink_initialized && !g_com3_guard && wifi_ssid[0] != '\0' && wifi_is_time_sync_done() && !connection_status) {
+        if (!tlink_initialized && !g_com3_guard && wifi_ssid[0] != '\0' && wifi_is_time_sync_done() &&
+            !connection_status) {
             if (lastTlinkAttemptTick == 0 || Timer_PassedDelay(lastTlinkAttemptTick, 10000)) { // 每10秒尝试一次
                 lastTlinkAttemptTick = Timer_GetTickCount();
                 if (tlink_init_wifi()) {
@@ -305,7 +305,7 @@ static void TaskStatus(void *pvParameters) {
 
 static void TaskLED([[maybe_unused]] void *pvParameters) {
     for (;;) {
-        LED::GetInstance().Toggle(LED_Yellow);
+        Board::GetInstance().GetLED().Toggle(LED_Yellow);
         delay_ms(200);
     }
 }

@@ -6,6 +6,8 @@
 #include "timer.h"
 #include "logger.h"
 
+extern "C" {
+
 /* 开关全局中断的宏 */
 #define ENABLE_INT() __set_PRIMASK(0)  /* 开启全局中断 */
 #define DISABLE_INT() __set_PRIMASK(1) /* 禁止全局中断 */
@@ -26,10 +28,28 @@ static volatile uint8_t s_ucTimeOutFlag = 0;
 /* 定于软件定时器结构体变量 */
 static SOFT_TMR s_tTmr[TMR_COUNT] = {0};
 
-static void bsp_SoftTimerDec(SOFT_TMR *_tmr);
+// static void bsp_SoftTimerDec(SOFT_TMR *_tmr);
 
-extern void bsp_RunPer1ms(void);
-extern void bsp_RunPer10ms(void);
+#include "board.h"
+
+/**
+ * @brief  每10ms被Systick中断调用1次。详见 bsp_timer.c的定时中断服务程序。一些处理时间要求不严格的
+ *			任务可以放在此函数。比如：按键扫描、蜂鸣器鸣叫控制等。
+ * @param  none
+ * @retval none
+ */
+void bsp_RunPer10ms(void) {
+    Board::GetInstance().GetKey().Scan10ms();
+    Board::GetInstance().GetBeep().Process();
+}
+
+/**
+ * @brief  每1ms被Systick中断调用1次。详见 bsp_timer.c的定时中断服务程序。一些需要周期性处理的事务
+ *			 可以放在此函数。比如：触摸坐标扫描。
+ * @param  none
+ * @retval none
+ */
+void bsp_RunPer1ms(void) {}
 
 /**
  * @brief TMR6 溢出中断服务程序，每 1ms 进入一次。
@@ -49,7 +69,7 @@ void TMR6_DAC_GLOBAL_IRQHandler(void) {
 
         /* 每隔1ms，对软件定时器的计数器进行减一操作 */
         for (i = 0; i < TMR_COUNT; i++) {
-            bsp_SoftTimerDec(&s_tTmr[i]);
+            Timer::GetInstance().SoftTimerDec(&s_tTmr[i]);
         }
 
         systick_ms++;
@@ -90,11 +110,12 @@ void timer6_init(void) {
     /* 开启 TMR6 计数器 */
     tmr_counter_enable(TMR6, TRUE);
 }
+}
 
 /**
  * @brief 初始化软件定时器并启动 TMR6 1ms 中断。
  */
-void bsp_InitTimer() {
+void Timer::InitTimer() {
     uint8_t i;
 
     /* clear all the softtimer */
@@ -112,7 +133,7 @@ void bsp_InitTimer() {
  * @brief 每隔 1ms 对所有定时器变量减1，处理到期标志与自动重载。
  * @param _tmr 定时器变量指针。
  */
-static void bsp_SoftTimerDec(SOFT_TMR *_tmr) {
+void Timer::SoftTimerDec(SOFT_TMR *_tmr) {
     if (_tmr->Count > 0) {
         /* 如果定时器变量减到 1 则设置到期标志 */
         if (--_tmr->Count == 0) {
@@ -131,7 +152,7 @@ static void bsp_SoftTimerDec(SOFT_TMR *_tmr) {
  * @param _id 定时器 ID，范围 [0, TMR_COUNT-1]。
  * @param _period 定时周期，单位 1ms。
  */
-void bsp_StartTimer(uint8_t _id, uint32_t _period) {
+void Timer::StartTimer(uint8_t _id, uint32_t _period) {
     if (_id >= TMR_COUNT) {
         /* 打印出错的源代码文件名、函数名称 */
         LOGI("Error: file %s, function %s()\r\n", __FILE__, __FUNCTION__);
@@ -154,7 +175,7 @@ void bsp_StartTimer(uint8_t _id, uint32_t _period) {
  * @param _id 定时器 ID，范围 [0, TMR_COUNT-1]。
  * @param _period 定时周期，单位 1ms。
  */
-void bsp_StartAutoTimer(uint8_t _id, uint32_t _period) {
+void Timer::StartAutoTimer(uint8_t _id, uint32_t _period) {
 #if uCOS_EN == 1
     CPU_SR_ALLOC();
 #endif
@@ -180,7 +201,7 @@ void bsp_StartAutoTimer(uint8_t _id, uint32_t _period) {
  * @brief 停止一个定时器。
  * @param _id 定时器 ID，范围 [0, TMR_COUNT-1]。
  */
-void bsp_StopTimer(uint8_t _id) {
+void Timer::StopTimer(uint8_t _id) {
 #if uCOS_EN == 1
     CPU_SR_ALLOC();
 #endif
@@ -204,9 +225,9 @@ void bsp_StopTimer(uint8_t _id) {
 /**
  * @brief 检测定时器是否到期。
  * @param _id 定时器 ID，范围 [0, TMR_COUNT-1]。
- * @return 1 表示到期；0 表示尚未到期或 ID 异常。
+ * @return true 表示到期；false 表示尚未到期或 ID 异常。
  */
-uint8_t bsp_CheckTimer(uint8_t _id) {
+bool Timer::CheckTimer(uint8_t _id) {
     if (_id >= TMR_COUNT) {
         return 0;
     }

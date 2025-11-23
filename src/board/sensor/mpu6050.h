@@ -15,11 +15,11 @@
 #define	MPU6050_GYRO_CONFIG		0x1B //陀螺仪配置寄存器
 #define	MPU6050_ACCEL_CONFIG	0x1C //加速度器配置寄存器
 #define MPU6050_MOTION_DET_REG		0X1F	//运动检测寄存器
-#define MPU6050_FIFO_EN_REG				0X23	//FIFO使能寄存器
+#define MPU6050_FIFO_EN_REG				0X23	//FIFO开启寄存器
  
 #define MPU6050_I2CMST_STA_REG		0X36	//IIC主模式状态寄存器
 #define MPU6050_INTBP_CFG_REG			0X37	//中断/旁路配置寄存器
-#define MPU6050_INT_EN_REG				0X38	//中断使能寄存器
+#define MPU6050_INT_EN_REG				0X38	//中断开启寄存器
 #define MPU6050_INT_STA_REG				0X3A	//中断状态寄存器
 
 #define	MPU6050_ACCEL_XOUT_H	0x3B //加速度X高字节

@@ -104,7 +104,7 @@ class Uart {
     /* 通过外部提供的环形缓冲区进行构造，避免动态内存分配 */
     Uart(usart_type *usart, uint8_t *tx_buf, uint16_t tx_buf_size, uint8_t *rx_buf, uint16_t rx_buf_size);
 
-    /* 配置串口基本参数并使能收发与接收中断 */
+    /* 配置串口基本参数并开启收发与接收中断 */
     void Begin(uint32_t baudrate);
 
     /* 发送 API */

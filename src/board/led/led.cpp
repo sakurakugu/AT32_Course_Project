@@ -1,4 +1,4 @@
-#include "led.hpp"
+#include "led.h"
 #include "at32f435_437_crm.h"
 #include "at32f435_437_gpio.h"
 
@@ -15,7 +15,7 @@ crm_periph_clock_type led_gpio_crm_clk[LED_NUM] = {LED_Green_GPIO_CRM_CLK, LED_Y
 void LED::Init(led_type led) {
     gpio_init_type gpio_init_struct;
 
-    /* 使能LED时钟 */
+    /* 开启LED时钟 */
     crm_periph_clock_enable(led_gpio_crm_clk[led], TRUE);
 
     /* 设置默认参数 */
@@ -65,19 +65,3 @@ void LED::Toggle(led_type led) {
     if (led_gpio_pin[led])
         led_gpio_port[led]->odt ^= led_gpio_pin[led];
 }
-
-// void LED_Init(led_type led) {
-//     LED::GetInstance().Init(led);
-// }
-
-void LED_TurnOn(led_type led) {
-    LED::GetInstance().TurnOn(led);
-}
-
-void LED_TurnOff(led_type led) {
-    LED::GetInstance().TurnOff(led);
-}
-
-// void LED_Toggle(led_type led) {
-//     LED::GetInstance().Toggle(led);
-// }

@@ -1,5 +1,6 @@
 #pragma once
 #include "beep.h"
+#include <stdint.h>
 
 class Beep {
   public:

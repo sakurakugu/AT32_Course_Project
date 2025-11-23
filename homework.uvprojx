@@ -444,9 +444,9 @@
               <FilePath>.\src\app\link_game\link_game.c</FilePath>
             </File>
             <File>
-              <FileName>smart_home.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\app\IoT\smart_home.c</FilePath>
+              <FileName>smart_home.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\app\IoT\smart_home.cpp</FilePath>
             </File>
             <File>
               <FileName>electronic_organ.cpp</FileName>
@@ -474,9 +474,9 @@
               <FilePath>.\src\board\sensor\lm75.cpp</FilePath>
             </File>
             <File>
-              <FileName>timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\board\timer\timer.c</FilePath>
+              <FileName>timer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\board\timer\timer.cpp</FilePath>
             </File>
             <File>
               <FileName>uart.cpp</FileName>
@@ -527,11 +527,6 @@
               <FileName>wifi.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\board\network\wifi.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>wifi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\board\network\wifi.c</FilePath>
             </File>
             <File>
               <FileName>color_led.cpp</FileName>

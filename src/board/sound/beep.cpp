@@ -200,16 +200,6 @@ void Beep::SetMute(bool mute) {
 }
 
 #include "board.h"
-// void Beep_SetFreq(int freq) {
-//     Board::GetInstance().GetBeep().SetFreq(freq);
-// }
-// void Beep_Start(uint16_t beepTime, uint16_t stopTime, uint16_t cycle) {
-//     Board::GetInstance().GetBeep().Start(beepTime, stopTime, cycle);
-// }
-// void Beep_Stop(void) {
-//     Board::GetInstance().GetBeep().Stop();
-// }
-
 void Beep_SetMute(bool mute) {
     Board::GetInstance().GetBeep().SetMute(mute);
 }

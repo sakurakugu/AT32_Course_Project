@@ -1,16 +1,17 @@
 // 这是后端
 #include "IoT.hpp"
 
-#include "uart.h"
+#include "adc_voltage.h"
 #include "board.h"
-#include "lm75.h"
-#include "timer.h"
-#include "board/led/led.hpp"
-#include "board/led/color_led.hpp"
+#include "board/led/color_led.h"
+#include "board/led/led.h"
 #include "key.h"
+#include "lm75.h"
+#include "logger.h"
+#include "timer.h"
+#include "uart.h"
 #include <cJSON.h>
 #include <stdint.h>
-#include "logger.h"
 #include <string.h>
 
 // 来自应用的串口接收保护标志
@@ -32,7 +33,6 @@ uint32_t send_timer = 0;
 uint8_t lm75_temp = 0;       // lm75温度值
 uint16_t adc_value = 0;      // adc值
 uint8_t lighting_status = 0; // 照明状态 (LED_YELLOW)
-
 
 void IoT::ParseJson(char *cmd) {
     LOGI("\r\n收到命令: %s\r\n", cmd);
@@ -161,18 +161,18 @@ void IoT::SendHeartbeat() {
     last_heartbeat_response_time = Timer_GetTickCount();
 }
 
-
 void IoT::SendStatusReport() {
     lm75_temp = LM75::GetInstance().Read();
     uint32_t adc_mv = (uint32_t)AnalogRead() * 3300 / 4095;
-    uint8_t r=0,g=0,b=0;
+    uint8_t r = 0, g = 0, b = 0;
     uint32_t rgb = ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
-    Board::GetInstance().GetColorLed().GetColor(r,g,b);
+    Board::GetInstance().GetColorLed().GetColor(r, g, b);
     uint8_t bright = Board::GetInstance().GetColorLed().GetBrightness();
     uint8_t color_on = Board::GetInstance().GetColorLed().IsOn() ? 1 : 0;
     uint8_t green_on = lighting_status ? 1 : 0;
     uint8_t key_idx = TaskKeys_GetCurrentPressed();
-    sprintf(TlinkCommandStr, "#%d,%lu,%d,%d,%d,%d,%d#", color_on, (unsigned long)rgb, bright, green_on, lm75_temp, adc_mv, key_idx);
+    sprintf(TlinkCommandStr, "#%d,%lu,%d,%d,%d,%d,%d#", color_on, (unsigned long)rgb, bright, green_on, lm75_temp,
+            adc_mv, key_idx);
 
     LOGI("\r\n上报状态: %s\r\n", TlinkCommandStr);
     if (!connection_status) {
@@ -190,10 +190,10 @@ void IoT::SendStatusReport() {
 void IoT::ControlLighting(uint8_t status) {
     lighting_status = status;
     if (status) {
-        LED::GetInstance().TurnOn(LED_Green);
+        Board::GetInstance().GetLED().TurnOn(LED_Green);
         LOGI("\r\n照明已开启 (LED_GREEN ON)\r\n");
     } else {
-        LED::GetInstance().TurnOff(LED_Green);
+        Board::GetInstance().GetLED().TurnOff(LED_Green);
         LOGI("\r\n照明已关闭 (LED_GREEN OFF)\r\n");
     }
 }

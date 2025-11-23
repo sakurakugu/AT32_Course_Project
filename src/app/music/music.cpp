@@ -3,26 +3,23 @@
 #include "board.h"
 #include "delay.h"
 #include "task.h"
+#include <array>
 
 /* 音高表：music_arrX 中的数值作为索引，映射到实际频率 */
-static const uint16_t note_freqs[] = {
-    TONE_REST, TONE_L1, TONE_L2, TONE_L3, TONE_L4, TONE_L5, TONE_L6, TONE_L7, TONE_M1, TONE_M2, TONE_M3,
-    TONE_M4,   TONE_M5, TONE_M6, TONE_M7, TONE_H1, TONE_H2, TONE_H3, TONE_H4, TONE_H5, TONE_H6, TONE_H7,
-    // Tone::REST,
-    // Tone::L1, Tone::L2, Tone::L3, Tone::L4, Tone::L5, Tone::L6, Tone::L7,
-    // Tone::M1, Tone::M2, Tone::M3, Tone::M4, Tone::M5, Tone::M6, Tone::M7,
-    // Tone::H1, Tone::H2, Tone::H3, Tone::H4, Tone::H5, Tone::H6, Tone::H7,
+static constexpr std::array<uint16_t, 22> note_freqs = {
+    Tone::REST, Tone::L1, Tone::L2, Tone::L3, Tone::L4, Tone::L5, Tone::L6, Tone::L7, Tone::M1, Tone::M2, Tone::M3,
+    Tone::M4,   Tone::M5, Tone::M6, Tone::M7, Tone::H1, Tone::H2, Tone::H3, Tone::H4, Tone::H5, Tone::H6, Tone::H7,
 };
 
 // 红尘情歌
-uint8_t music_arr[] = { // 音调
+static constexpr uint8_t music_arr[] = { // 音调
     5, 5, 6, 8, 7, 6, 5, 6, 0, 0, 5, 5, 6, 8, 7, 6, 5, 3, 0, 0,  2,  2, 3, 5,  3, 5, 6, 3, 2, 1, 6,
     6, 5, 6, 5, 3, 6, 5, 0, 0, 5, 5, 6, 8, 7, 6, 5, 6, 0, 0, 5,  5,  6, 8, 7,  6, 5, 3, 0, 0, 2, 2,
     3, 5, 3, 5, 6, 3, 2, 1, 6, 6, 5, 6, 5, 3, 6, 1, 0, 8, 9, 10, 10, 9, 8, 10, 9, 8, 6, 0, 6, 8, 9,
     9, 8, 6, 9, 8, 6, 5, 0, 2, 3, 5, 5, 3, 5, 5, 6, 8, 7, 6, 6,  10, 9, 9, 8,  6, 5, 6, 8};
 
 // 荷塘月色
-uint8_t music_arr1[] = { // 音调
+static constexpr uint8_t music_arr1[] = { // 音调
     8,  12, 6,  5,  6, 8,  8,  9,  10, 9,  9,  8,  9,  9,  12, 12, 10, 10, 9,  10, 8,  8,  6, 5, 12,
     10, 9,  10, 9,  8, 9,  9,  8,  9,  9,  10, 9,  8,  6,  9,  8,  8,  8,  6,  5,  6,  8,  8, 9, 10,
     9,  9,  8,  9,  9, 12, 12, 10, 10, 9,  10, 8,  8,  8,  6,  5,  12, 10, 9,  10, 9,  8,  9, 9, 8,
@@ -30,7 +27,7 @@ uint8_t music_arr1[] = { // 音调
     9,  9,  10, 10, 9, 10, 12, 12, 12, 12, 13, 12, 10, 9,  8,  6,  8,  6,  5,  9,  10, 8,  0};
 
 // 沉默是金
-uint8_t music_arr2[] = { // 音调
+static constexpr uint8_t music_arr2[] = { // 音调
     10, 12, 12, 13, 12, 12, 10, 9,  10, 10, 10, 9,  8,  8,  13, 15, 15, 16, 15, 15, 13, 12, 10, 12, 13, 15, 15,
     16, 15, 15, 13, 12, 10, 12, 12, 12, 13, 10, 10, 12, 10, 9,  13, 12, 10, 9,  10, 12, 10, 12, 12, 13, 12, 12,
     10, 9,  10, 10, 10, 9,  8,  8,  13, 15, 15, 16, 15, 15, 13, 12, 10, 12, 13, 15, 15, 16, 15, 15, 13, 12, 10,
@@ -40,21 +37,21 @@ uint8_t music_arr2[] = { // 音调
     12, 13, 15, 15, 16, 15, 15, 13, 12, 10, 12, 12, 12, 13, 10, 10, 12, 10, 9,  9,  13, 12, 10, 9,  8};
 
 // 红尘情歌
-uint8_t time_arr[] = { // 时间
+static constexpr uint8_t time_arr[] = { // 时间
     2, 4, 2, 2, 2, 2, 2, 8, 4, 4, 2, 4, 2, 2, 2, 2, 2, 8, 4, 4, 2, 4, 2, 4, 2, 2, 4, 2, 2, 8, 2,
     4, 2, 2, 2, 2, 2, 8, 4, 4, 2, 4, 2, 2, 2, 2, 2, 8, 4, 4, 2, 4, 2, 2, 2, 2, 2, 8, 4, 4, 2, 4,
     2, 4, 2, 2, 4, 2, 2, 8, 2, 4, 2, 2, 2, 2, 2, 8, 4, 2, 2, 2, 4, 2, 2, 2, 2, 2, 8, 4, 2, 2, 2,
     4, 2, 2, 2, 2, 2, 8, 4, 2, 2, 2, 4, 2, 2, 5, 2, 6, 2, 4, 2, 2, 2, 4, 2, 4, 2, 2, 12};
 
 // 荷塘月色
-uint8_t time_arr1[] = { // 时间
+static constexpr uint8_t time_arr1[] = { // 时间
     2, 4, 2, 4, 4, 4, 2, 2, 8, 2, 4, 2, 4, 2, 2, 2, 2, 2, 2, 8, 2, 4, 2, 4, 4, 2, 2, 2, 2, 8,  2,
     4, 2, 2, 4, 2, 2, 2, 2, 2, 8, 2, 4, 2, 4, 4, 2, 4, 2, 8, 2, 4, 2, 4, 2, 2, 2, 2, 2, 2, 8,  2,
     2, 2, 2, 4, 4, 2, 2, 2, 2, 8, 2, 4, 2, 2, 4, 2, 2, 2, 2, 2, 8, 2, 4, 2, 4, 4, 2, 2, 2, 2,  8,
     2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 6, 2, 4, 2, 4, 4, 2, 2, 2, 2, 8, 2, 2, 2, 2, 4, 4, 12, 4};
 
 // 沉默是金
-uint8_t time_arr2[] = { // 时间
+static constexpr uint8_t time_arr2[] = { // 时间
     2, 2, 2,  1, 1, 4, 1, 3,  2, 2, 2,  1, 1, 8, 2, 2,  2, 1, 1, 4, 2, 2, 2,  16, 2, 2, 2, 1, 1, 4, 2,  2,
     2, 2, 2,  2, 1, 1, 4, 2,  2, 6, 2,  4, 2, 2, 2, 16, 2, 2, 2, 1, 1, 4, 1,  3,  2, 2, 2, 1, 1, 8, 2,  2,
     2, 1, 1,  4, 2, 2, 2, 16, 2, 2, 2,  1, 1, 4, 2, 2,  2, 2, 2, 2, 1, 1, 4,  2,  2, 6, 2, 4, 2, 2, 16, 4,
@@ -62,24 +59,22 @@ uint8_t time_arr2[] = { // 时间
     1, 4, 2,  2, 6, 2, 4, 2,  2, 2, 16, 2, 2, 2, 1, 1,  4, 1, 3, 2, 2, 2, 1,  1,  8, 2, 2, 2, 1, 1, 4,  2,
     2, 2, 16, 2, 2, 2, 1, 1,  4, 2, 2,  2, 2, 2, 2, 1,  1, 4, 2, 2, 2, 4, 2,  2,  4, 2, 16};
 
-extern "C" {
-const uint8_t *music_arr_all[3] = {music_arr, music_arr1, music_arr2};
-const uint8_t *time_arr_all[3] = {time_arr, time_arr1, time_arr2};
-const uint16_t time_len_all[3] = {
+static constexpr std::array<const uint8_t *, 3> music_arr_all = {music_arr, music_arr1, music_arr2};
+static constexpr std::array<const uint8_t *, 3> time_arr_all = {time_arr, time_arr1, time_arr2};
+static constexpr std::array<uint16_t, 3> time_len_all = {
     (uint16_t)(sizeof(time_arr) / sizeof(time_arr[0])),
     (uint16_t)(sizeof(time_arr1) / sizeof(time_arr1[0])),
     (uint16_t)(sizeof(time_arr2) / sizeof(time_arr2[0])),
 };
-}
 
 /* 播放控制标志的实际定义 */
-volatile int music_start = 0;
-volatile int music_index = 0;
-volatile int music_timer = 0;
-volatile int music_resume = 0;
-volatile int music_playing = 0;
-volatile int music_song_id = 0;
-volatile int music_switch_delay_ms = 0;
+static std::atomic<int> music_start{0};           // 音乐是否开始（置1后由任务消费并清零）
+static std::atomic<int> music_index{0};           // 当前播放的音符索引
+static std::atomic<int> music_timer{0};           // 当前音符的持续时间（保留未用）
+static std::atomic<int> music_resume{0};          // 音乐是否暂停（1=暂停，0=继续）
+static std::atomic<int> music_playing{0};         // 当前是否处于播放状态
+static std::atomic<int> music_song_id{0};         // 当前选中的歌曲索引（0=红尘情歌，1=荷塘月色，2=沉默是金）
+static std::atomic<int> music_switch_delay_ms{0}; // 切换歌曲时的延时（毫秒）
 
 /* 播放一首歌：根据 music_song_id 选择曲目并播放 */
 void Music::PlayOneSong() {
@@ -93,14 +88,15 @@ void Music::PlayOneSong() {
     total = time_len_all[sel];
 
     /* 起始索引由全局 music_index 控制，可从头或从中间继续 */
+    auto &beep = Board::GetInstance().GetBeep();
     for (; music_index < (int)total; ++music_index) {
-        if (!music_playing) {
+        if (!music_playing.load()) {
             break; /* 被外部停止 */
         }
 
         /* 暂停：在暂停期间保持短延时轮询，并立即静音 */
-        if (music_resume) {
-            Board::GetInstance().GetBeep().DisableOutput();
+        if (music_resume.load()) {
+            beep.DisableOutput();
             delay_ms(50);
             /* 重做当前音符，不前进索引 */
             --music_index; /* for 循环会 ++，抵消保持当前 */
@@ -108,13 +104,13 @@ void Music::PlayOneSong() {
         }
 
         uint8_t note_id = notes[music_index];
-        uint16_t freq = (note_id < (sizeof(note_freqs) / sizeof(note_freqs[0]))) ? note_freqs[note_id] : 0;
+        uint16_t freq = (note_id < note_freqs.size()) ? note_freqs[note_id] : 0;
 
         if (freq == 0) {
-            Board::GetInstance().GetBeep().DisableOutput();
+            beep.DisableOutput();
         } else {
-            Board::GetInstance().GetBeep().SetFreq(freq);
-            Board::GetInstance().GetBeep().EnableOutput();
+            beep.SetFreq(freq);
+            beep.EnableOutput();
         }
 
         int duration_units = times[music_index];
@@ -126,7 +122,7 @@ void Music::PlayOneSong() {
     }
 
     /* 结束本曲播放 */
-    Board::GetInstance().GetBeep().DisableOutput();
+    beep.DisableOutput();
     music_playing = 0;
     music_index = 0;
 }
@@ -135,9 +131,9 @@ void Music::PlayOneSong() {
 void TaskMusic([[maybe_unused]] void *pvParameters) {
     for (;;) {
         /* 外部请求开始播放 */
-        if (music_start) {
+        if (music_start.load()) {
             music_start = 0; /* 消耗启动请求 */
-            int delay_ms_ = music_switch_delay_ms;
+            int delay_ms_ = music_switch_delay_ms.load();
             music_switch_delay_ms = 0;
             if (delay_ms_ > 0) {
                 Board::GetInstance().GetBeep().DisableOutput();
@@ -148,7 +144,7 @@ void TaskMusic([[maybe_unused]] void *pvParameters) {
             music_playing = 1; /* 标记正在播放 */
         }
 
-        if (music_playing) {
+        if (music_playing.load()) {
             Music::GetInstance().PlayOneSong();
         } else {
             /* 空闲，降低占用 */
@@ -157,13 +153,9 @@ void TaskMusic([[maybe_unused]] void *pvParameters) {
     }
 }
 
-#include "music.h"
-
 // ===============================
 // 音乐播放器事件实现
 // ===============================
-
-#ifdef KEIL_COMPILE
 
 static void anim_img_angle_exec(void *var, int32_t v) {
     lv_img_set_angle((lv_obj_t *)var, v);
@@ -176,6 +168,30 @@ static void stylus_to_play_ready_cb(lv_anim_t *a) {
     lv_anim_del(guider_ui.music_app_music_recode, anim_img_angle_exec);
     ui_animation(guider_ui.music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
                  0, anim_img_angle_exec, NULL, NULL, NULL);
+}
+
+static inline void apply_play_ready_animation(lv_ui *ui) {
+    if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+        lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
+                     anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
+    } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
+        lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+        ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
+                     0, anim_img_angle_exec, NULL, NULL, NULL);
+    }
+}
+
+static inline void start_song_and_update_ui(lv_ui *ui, int sel) {
+    music_song_id = sel;
+    music_resume = 0;
+    music_playing = 0;
+    music_switch_delay_ms = 500;
+    music_start = 1;
+    if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {
+        lv_obj_clear_state(ui->music_app_music_player_or_pause_btn, LV_STATE_CHECKED);
+    }
+    apply_play_ready_animation(ui);
 }
 
 // 列表项点击：根据点击项设置曲目并开始播放
@@ -197,27 +213,7 @@ void music_list_item_event_handler(lv_event_t *e) {
     } else {
         return; // 未识别的项
     }
-
-    music_song_id = sel;
-    music_resume = 0;
-    music_playing = 0;
-    music_switch_delay_ms = 500;
-    music_start = 1;
-
-    // 播放按钮状态更新为“播放中”（显示暂停图标）
-    if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {
-        lv_obj_clear_state(ui->music_app_music_player_or_pause_btn, LV_STATE_CHECKED);
-    }
-
-    if (lv_obj_is_valid(ui->music_app_music_stylus)) {
-        lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
-        ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
-                     anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
-    } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
-        lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
-        ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
-                     0, anim_img_angle_exec, NULL, NULL, NULL);
-    }
+    start_song_and_update_ui(ui, sel);
 }
 
 // 上一首：索引减一并循环，然后重启播放
@@ -227,26 +223,8 @@ void music_prev_btn_event_handler(lv_event_t *e) {
     lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
     if (!ui)
         return;
-
-    music_song_id = (music_song_id + 3 - 1) % 3;
-    music_resume = 0;
-    music_playing = 0;
-    music_switch_delay_ms = 500;
-    music_start = 1;
-
-    if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {
-        lv_obj_clear_state(ui->music_app_music_player_or_pause_btn, LV_STATE_CHECKED);
-    }
-
-    if (lv_obj_is_valid(ui->music_app_music_stylus)) {
-        lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
-        ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
-                     anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
-    } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
-        lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
-        ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
-                     0, anim_img_angle_exec, NULL, NULL, NULL);
-    }
+    int sel = (music_song_id.load() + 3 - 1) % 3;
+    start_song_and_update_ui(ui, sel);
 }
 
 // 下一首：索引加一并循环，然后重启播放
@@ -256,26 +234,8 @@ void music_next_btn_event_handler(lv_event_t *e) {
     lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
     if (!ui)
         return;
-
-    music_song_id = (music_song_id + 1) % 3;
-    music_resume = 0;
-    music_playing = 0;
-    music_switch_delay_ms = 500;
-    music_start = 1;
-
-    if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {
-        lv_obj_clear_state(ui->music_app_music_player_or_pause_btn, LV_STATE_CHECKED);
-    }
-
-    if (lv_obj_is_valid(ui->music_app_music_stylus)) {
-        lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
-        ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
-                     anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
-    } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
-        lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
-        ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
-                     0, anim_img_angle_exec, NULL, NULL, NULL);
-    }
+    int sel = (music_song_id.load() + 1) % 3;
+    start_song_and_update_ui(ui, sel);
 }
 
 void music_play_pause_btn_event_handler(lv_event_t *e) {
@@ -289,7 +249,7 @@ void music_play_pause_btn_event_handler(lv_event_t *e) {
     bool checked = lv_obj_has_state(btn, LV_STATE_CHECKED);
 
     if (checked) {
-        if (music_playing) {
+        if (music_playing.load()) {
             music_resume = 1;
         }
         if (lv_obj_is_valid(ui->music_app_music_recode)) {
@@ -303,7 +263,7 @@ void music_play_pause_btn_event_handler(lv_event_t *e) {
         }
     } else {
         music_resume = 0;
-        if (!music_playing) {
+        if (!music_playing.load()) {
             music_start = 1;
         }
         if (lv_obj_is_valid(ui->music_app_music_stylus)) {
@@ -317,5 +277,3 @@ void music_play_pause_btn_event_handler(lv_event_t *e) {
         }
     }
 }
-
-#endif

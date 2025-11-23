@@ -1,6 +1,5 @@
 #include "smart_home.h"
-#include "led.h"
-#include "color_led.h"
+#include "board.h"
 
 // ===============================
 // 智能家居事件实现
@@ -176,10 +175,10 @@ void smart_home_color_led_sw_event_handler(lv_event_t *e) {
 
     if (checked) {
         // 打开彩灯
-        ColorLed_TurnOn();
+        Board::GetInstance().GetColorLed().TurnOn();
     } else {
         // 关闭彩灯
-        ColorLed_TurnOff();
+        Board::GetInstance().GetColorLed().TurnOff();
     }
 }
 
@@ -217,7 +216,7 @@ void smart_home_color_led_cpicker_event_handler(lv_event_t *e) {
     b = (uint8_t)((b * brightness) / 100);
 
     // 设置颜色
-    ColorLed_SetColor(r, g, b);
+    Board::GetInstance().GetColorLed().SetColor(r, g, b);
 }
 
 // 彩灯亮度滑块事件：滑动调整亮度
@@ -251,7 +250,7 @@ void smart_home_color_led_light_slider_event_handler(lv_event_t *e) {
     b = (uint8_t)((b * brightness) / 100);
 
     // 设置颜色
-    ColorLed_SetColor(r, g, b);
+    Board::GetInstance().GetColorLed().SetColor(r, g, b);
 }
 
 // 绿灯开关事件
@@ -265,10 +264,10 @@ void smart_home_led_green_sw_event_handler(lv_event_t *e) {
 
     if (checked) {
         // 打开绿灯
-        LED_TurnOn(LED_Green);
+        Board::GetInstance().GetLED().TurnOn(LED_Green);
     } else {
         // 关闭绿灯
-        LED_TurnOff(LED_Green);
+        Board::GetInstance().GetLED().TurnOff(LED_Green);
     }
 }
 #endif

@@ -40,7 +40,7 @@ void OLED::Init() {
     WriteByte(0x40, OLED_CMD); //--设置VCOM Deselect Level为0.77xVCC
     WriteByte(0x20, OLED_CMD); //--设置页地址模式
     WriteByte(0x02, OLED_CMD);
-    WriteByte(0x8D, OLED_CMD); //--设置充电泵使能
+    WriteByte(0x8D, OLED_CMD); //--设置充电泵开启
     WriteByte(0x14, OLED_CMD);
     WriteByte(0xA4, OLED_CMD); //--设置整个显示关闭
     WriteByte(0xA6, OLED_CMD); //--设置正常显示

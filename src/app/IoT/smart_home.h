@@ -3,6 +3,10 @@
 
 #include "gui_guider.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // 智能家居事件
 void smart_home_iot_color_led_event_handler(lv_event_t *e);          // IoT页面彩灯图标点击事件
 void smart_home_iot_led_green_event_handler(lv_event_t *e);          // IoT页面绿灯图标点击事件
@@ -19,5 +23,9 @@ void smart_home_led_green_sw_event_handler(lv_event_t *e);           // 绿灯�
 // 通用页面滑动控制（供事件内部调用）
 void smart_home_close_all_pages_with_slide(lv_ui *ui);           // 关闭所有IoT子页面（滑出并隐藏）
 void smart_home_open_page_with_slide(lv_ui *ui, lv_obj_t *page); // 打开指定页面（滑入），并关闭其他页面
+
+#ifdef __cplusplus
+}
+#endif
 
 

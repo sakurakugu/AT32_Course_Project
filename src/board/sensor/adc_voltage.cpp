@@ -71,10 +71,10 @@ void ADC_Config(void) {
     /* 每个普通通道转换设置 occe 标志 */
     adc_occe_each_conversion_enable(ADC1, TRUE);
 
-    /* 使能 adc 溢出中断 */
+    /* 开启 adc 溢出中断 */
     adc_interrupt_enable(ADC1, ADC_OCCO_INT, TRUE);
 
-    /* 使能 adc */
+    /* 开启 adc */
     adc_enable(ADC1, TRUE);
     while (adc_flag_get(ADC1, ADC_RDY_FLAG) == RESET)
         ;

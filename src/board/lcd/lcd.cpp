@@ -7,6 +7,7 @@
  */
 
 #include "lcd.hpp"
+#include "at32f435_437.h"
 #include "delay.h"
 
 lcd_device_type lcddev;
@@ -404,7 +405,7 @@ void LCD::DrawLine(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t 
  * @param  y:像素点的y坐标
  * @retval 读取到的像素点颜色值
  */
-uint16_t LCD::PointRead(uint16_t x, uint16_t y) {   
+uint16_t LCD::PointRead(uint16_t x, uint16_t y) {
     uint16_t color;
     if (x >= lcddev.width || y >= lcddev.height) {
         return 0;
@@ -640,68 +641,8 @@ uint16_t LCD::IDRead(void) {
 
 // C 接口包装器，保持与 lcd.h 兼容
 extern "C" {
-void LCD_XMCInit(void) {
-    LCD::GetInstance().XMCInit();
-}
-uint16_t LCD_Read(void) {
-    return LCD::GetInstance().Read();
-}
-void LCD_RegWrite(uint16_t data) {
-    LCD::GetInstance().RegWrite(data);
-}
-void LCD_DataWrite(uint16_t data) {
-    LCD::GetInstance().DataWrite(data);
-}
-uint16_t LCD_DataRead(void) {
-    return LCD::GetInstance().DataRead();
-}
-void LCD_CommandWrite(uint16_t lcd_comm, uint16_t lcd_regvalue) {
-    LCD::GetInstance().CommandWrite(lcd_comm, lcd_regvalue);
-}
-void LCD_CommandRead(uint16_t lcd_comm, uint8_t *rval, int32_t n) {
-    LCD::GetInstance().CommandRead(lcd_comm, rval, n);
-}
-void LCD_RamPrepareWrite(void) {
-    LCD::GetInstance().RamPrepareWrite();
-}
-void LCD_RamPrepareRead(void) {
-    LCD::GetInstance().RamPrepareRead();
-}
-void LCD_Data16BitWrite(uint16_t data) {
-    LCD::GetInstance().Data16BitWrite(data);
-}
-uint16_t LCD_ColorTo565(uint8_t r, uint8_t g, uint8_t b) {
-    return LCD::GetInstance().ColorTo565(r, g, b);
-}
-uint16_t LCD_Data16BitRead(void) {
-    return LCD::GetInstance().Data16BitRead();
-}
-void LCD_PointDraw(uint16_t x, uint16_t y, uint16_t color) {
-    LCD::GetInstance().PointDraw(x, y, color);
-}
-uint16_t LCD_PointRead(uint16_t x, uint16_t y) {
-    return LCD::GetInstance().PointRead(x, y);
-}
-void LCD_DrawLine(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t color) {
-    LCD::GetInstance().DrawLine(x_start, y_start, x_end, y_end, color);
-}
-void LCD_Clear(uint16_t color) {
-    LCD::GetInstance().Clear(color);
-}
-void LCD_Init(lcd_display_type direction) {
-    LCD::GetInstance().Init(direction);
-}
 void LCD_WindowsSet(uint16_t xstar, uint16_t ystar, uint16_t xend, uint16_t yend) {
     LCD::GetInstance().WindowsSet(xstar, ystar, xend, yend);
-}
-void LCD_CursorSet(uint16_t xpos, uint16_t ypos) {
-    LCD::GetInstance().CursorSet(xpos, ypos);
-}
-void LCD_Direction(uint8_t direction) {
-    LCD::GetInstance().Direction(direction);
-}
-uint16_t LCD_IDRead(void) {
-    return LCD::GetInstance().IDRead();
 }
 }
 
@@ -714,7 +655,7 @@ uint16_t LCD_IDRead(void) {
  * @param  color : 填充颜色
  * @retval none
  */
-void LCD_Fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t color) {
+void LCD::Fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t color) {
     uint16_t height, width;
     uint16_t i, j;
 
@@ -739,7 +680,7 @@ void LCD_Fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t color
  * @param  color : 颜色指针，用于填充lcd区域
  * @retval none
  */
-void LCD_ColorFill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color) {
+void LCD::ColorFill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color) {
     uint16_t height, width;
     uint16_t i, j;
 
@@ -756,13 +697,14 @@ void LCD_ColorFill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t 
 }
 
 void LCD::BacklightInitPWM(void) {
-    if (m_backlight_initialized) return;
+    if (m_backlight_initialized)
+        return;
 
     // 开启定时器1和背光GPIO时钟
     crm_periph_clock_enable(CRM_TMR1_PERIPH_CLOCK, TRUE);
     crm_periph_clock_enable(LCD_BL_GPIO_CLK, TRUE);
 
-    // 将 PA8 配置为 TIM1_CH1 (备用功能) 
+    // 将 PA8 配置为 TIM1_CH1 (备用功能)
     gpio_init_type gpio_init_struct;
     gpio_default_para_init(&gpio_init_struct);
     gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
@@ -813,7 +755,8 @@ void LCD::BacklightSetPercent(uint8_t percent) {
     if (!m_backlight_initialized) {
         BacklightInitPWM();
     }
-    if (percent > 100) percent = 100;
+    if (percent > 100)
+        percent = 100;
 
     uint16_t arr = (uint16_t)(m_backlight_period - 1);
     uint16_t duty = (uint16_t)((arr * percent) / 100);
