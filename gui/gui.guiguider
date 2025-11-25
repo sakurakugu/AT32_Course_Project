@@ -1001,7 +1001,7 @@
 							"width": 112,
 							"height": 16,
 							"default_style": false,
-							"inital_datetext": "2023/07/31",
+							"inital_datetext": "2025/11/25",
 							"style": [
 								{
 									"part": "LV_PART_MAIN",
@@ -1351,7 +1351,8 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			]
+			],
+			"layerName": "home_app1"
 		},
 		{
 			"name": "home_app2",
@@ -1902,7 +1903,8 @@
 					"bg_img_recolor": "#ffffff",
 					"bg_img_recolor_opa": 0
 				}
-			]
+			],
+			"layerName": "home_app2"
 		},
 		{
 			"name": "weather_app",
@@ -1930,7 +1932,9 @@
 					"top": 256,
 					"visible": true,
 					"isLock": false,
-					"flag": [],
+					"flag": [
+						"LV_OBJ_FLAG_HIDDEN"
+					],
 					"width": 119,
 					"height": 31,
 					"default_style": false,
@@ -2167,7 +2171,7 @@
 									"width": 80,
 									"height": 20,
 									"default_style": false,
-									"text": "12°C",
+									"text": "13°C",
 									"long_mode": "LV_LABEL_LONG_WRAP",
 									"is_static": false,
 									"custom_attribute": [],
@@ -2267,7 +2271,7 @@
 									"width": 238,
 									"height": 14,
 									"default_style": false,
-									"text": "11/21          11/22          11/23",
+									"text": "11/25          11/26          11/27",
 									"long_mode": "LV_LABEL_LONG_WRAP",
 									"is_static": false,
 									"custom_attribute": [],
@@ -2667,7 +2671,7 @@
 									"width": 80,
 									"height": 20,
 									"default_style": false,
-									"text": "13°C",
+									"text": "14°C",
 									"long_mode": "LV_LABEL_LONG_WRAP",
 									"is_static": false,
 									"custom_attribute": [],
@@ -2767,7 +2771,7 @@
 									"width": 80,
 									"height": 20,
 									"default_style": false,
-									"text": "阴",
+									"text": "多云",
 									"long_mode": "LV_LABEL_LONG_WRAP",
 									"is_static": false,
 									"custom_attribute": [],
@@ -2867,7 +2871,7 @@
 									"width": 80,
 									"height": 20,
 									"default_style": false,
-									"text": "15°C",
+									"text": "14°C",
 									"long_mode": "LV_LABEL_LONG_WRAP",
 									"is_static": false,
 									"custom_attribute": [],
@@ -3067,7 +3071,7 @@
 									"width": 80,
 									"height": 20,
 									"default_style": false,
-									"text": "19°C",
+									"text": "23°C",
 									"long_mode": "LV_LABEL_LONG_WRAP",
 									"is_static": false,
 									"custom_attribute": [],
@@ -3167,7 +3171,7 @@
 									"width": 80,
 									"height": 20,
 									"default_style": false,
-									"text": "雨",
+									"text": "多云",
 									"long_mode": "LV_LABEL_LONG_WRAP",
 									"is_static": false,
 									"custom_attribute": [],
@@ -3467,7 +3471,7 @@
 									"width": 80,
 									"height": 20,
 									"default_style": false,
-									"text": "雨",
+									"text": "多云",
 									"long_mode": "LV_LABEL_LONG_WRAP",
 									"is_static": false,
 									"custom_attribute": [],
@@ -3804,7 +3808,7 @@
 							"width": 119,
 							"height": 63,
 							"default_style": false,
-							"text": "17",
+							"text": "18",
 							"long_mode": "LV_LABEL_LONG_WRAP",
 							"is_static": false,
 							"custom_attribute": [],
@@ -19067,7 +19071,7 @@
 			"version": 190,
 			"scrollbar_mode": "OFF",
 			"customer_code": {
-				"code_c": "#ifdef KEIL_COMPILE\r\n    // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）\r\n    lv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    // 绑定亮度滑块事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_light_slider, setting_app_light_slider_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“同步网络时间”开关事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sync_net_time_sw, setting_app_sync_net_time_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“声音开关”事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sound_sw, setting_app_sound_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    lv_obj_add_state(ui->setting_app_sound_sw, LV_STATE_CHECKED);\r\n    // 修复字体错误\r\n    lv_style_set_text_font(&style_setting_app_setting_page_extra_option_btns_main_checked, &lv_font_SourceHanSerifSC_Regular_16);\r\n#endif",
+				"code_c": "#ifdef KEIL_COMPILE\r\n    // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）\r\n    lv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, setting_app_wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    // 绑定亮度滑块事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_light_slider, setting_app_light_slider_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“同步网络时间”开关事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sync_net_time_sw, setting_app_sync_net_time_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“声音开关”事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sound_sw, setting_app_sound_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    lv_obj_add_state(ui->setting_app_sound_sw, LV_STATE_CHECKED);\r\n    // 修复字体错误\r\n    lv_style_set_text_font(&style_setting_app_setting_page_extra_option_btns_main_checked, &lv_font_SourceHanSerifSC_Regular_16);\r\n#endif",
 				"inc_c": "",
 				"code_py": "",
 				"inc_py": "",
@@ -24040,7 +24044,7 @@
 									16
 								],
 								"default_style": false,
-								"inital_datetext": "2023/07/31",
+								"inital_datetext": "2025/11/25",
 								"style": [
 									{
 										"part": "LV_PART_MAIN",
@@ -25662,7 +25666,7 @@
 														"width": 112,
 														"height": 16,
 														"default_style": false,
-														"inital_datetext": "2023/07/31",
+														"inital_datetext": "2025/11/25",
 														"style": [
 															{
 																"part": "LV_PART_MAIN",
@@ -26762,7 +26766,7 @@
 														"width": 112,
 														"height": 16,
 														"default_style": false,
-														"inital_datetext": "2023/07/31",
+														"inital_datetext": "2025/11/25",
 														"style": [
 															{
 																"part": "LV_PART_MAIN",
@@ -27984,7 +27988,7 @@
 								"default_style": false,
 								"attribute_type": "",
 								"custom_attribute": [],
-								"text": "17",
+								"text": "18",
 								"long_mode": "LV_LABEL_LONG_WRAP",
 								"is_static": false,
 								"style": [
@@ -28310,7 +28314,7 @@
 										"default_style": false,
 										"attribute_type": "",
 										"custom_attribute": [],
-										"text": "雨",
+										"text": "多云",
 										"long_mode": "LV_LABEL_LONG_WRAP",
 										"is_static": false,
 										"style": [
@@ -28619,7 +28623,7 @@
 										"default_style": false,
 										"attribute_type": "",
 										"custom_attribute": [],
-										"text": "雨",
+										"text": "多云",
 										"long_mode": "LV_LABEL_LONG_WRAP",
 										"is_static": false,
 										"style": [
@@ -28722,7 +28726,7 @@
 										"default_style": false,
 										"attribute_type": "",
 										"custom_attribute": [],
-										"text": "19°C",
+										"text": "23°C",
 										"long_mode": "LV_LABEL_LONG_WRAP",
 										"is_static": false,
 										"style": [
@@ -28928,7 +28932,7 @@
 										"default_style": false,
 										"attribute_type": "",
 										"custom_attribute": [],
-										"text": "15°C",
+										"text": "14°C",
 										"long_mode": "LV_LABEL_LONG_WRAP",
 										"is_static": false,
 										"style": [
@@ -29031,7 +29035,7 @@
 										"default_style": false,
 										"attribute_type": "",
 										"custom_attribute": [],
-										"text": "阴",
+										"text": "多云",
 										"long_mode": "LV_LABEL_LONG_WRAP",
 										"is_static": false,
 										"style": [
@@ -29134,7 +29138,7 @@
 										"default_style": false,
 										"attribute_type": "",
 										"custom_attribute": [],
-										"text": "13°C",
+										"text": "14°C",
 										"long_mode": "LV_LABEL_LONG_WRAP",
 										"is_static": false,
 										"style": [
@@ -29546,7 +29550,7 @@
 										"default_style": false,
 										"attribute_type": "",
 										"custom_attribute": [],
-										"text": "11/21          11/22          11/23",
+										"text": "11/25          11/26          11/27",
 										"long_mode": "LV_LABEL_LONG_WRAP",
 										"is_static": false,
 										"style": [
@@ -29649,7 +29653,7 @@
 										"default_style": false,
 										"attribute_type": "",
 										"custom_attribute": [],
-										"text": "12°C",
+										"text": "13°C",
 										"long_mode": "LV_LABEL_LONG_WRAP",
 										"is_static": false,
 										"style": [
@@ -29814,7 +29818,9 @@
 						"id": "heayd8l3",
 						"type": "btn",
 						"visible": true,
-						"flag": [],
+						"flag": [
+							"LV_OBJ_FLAG_HIDDEN"
+						],
 						"pos": [
 							54,
 							256
@@ -41061,12 +41067,12 @@
 										"today_date": [
 											2025,
 											11,
-											22
+											25
 										],
 										"mark_date": [
 											2025,
 											11,
-											23
+											26
 										],
 										"has_header": true,
 										"header": "arrow",
@@ -45417,7 +45423,7 @@
 				"version": 190,
 				"scrollbar_mode": "OFF",
 				"customer_code": {
-					"code_c": "#ifdef KEIL_COMPILE\r\n    // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）\r\n    lv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    // 绑定亮度滑块事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_light_slider, setting_app_light_slider_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“同步网络时间”开关事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sync_net_time_sw, setting_app_sync_net_time_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“声音开关”事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sound_sw, setting_app_sound_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    lv_obj_add_state(ui->setting_app_sound_sw, LV_STATE_CHECKED);\r\n    // 修复字体错误\r\n    lv_style_set_text_font(&style_setting_app_setting_page_extra_option_btns_main_checked, &lv_font_SourceHanSerifSC_Regular_16);\r\n#endif",
+					"code_c": "#ifdef KEIL_COMPILE\r\n    // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）\r\n    lv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, setting_app_wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);\r\n    // 绑定亮度滑块事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_light_slider, setting_app_light_slider_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“同步网络时间”开关事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sync_net_time_sw, setting_app_sync_net_time_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    // 绑定“声音开关”事件\r\n    lv_obj_add_event_cb(guider_ui.setting_app_sound_sw, setting_app_sound_sw_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);\r\n    lv_obj_add_state(ui->setting_app_sound_sw, LV_STATE_CHECKED);\r\n    // 修复字体错误\r\n    lv_style_set_text_font(&style_setting_app_setting_page_extra_option_btns_main_checked, &lv_font_SourceHanSerifSC_Regular_16);\r\n#endif",
 					"inc_c": "",
 					"code_py": "",
 					"inc_py": "",

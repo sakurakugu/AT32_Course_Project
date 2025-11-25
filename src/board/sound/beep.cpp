@@ -199,7 +199,3 @@ void Beep::SetMute(bool mute) {
     }
 }
 
-#include "board.h"
-void Beep_SetMute(bool mute) {
-    Board::GetInstance().GetBeep().SetMute(mute);
-}

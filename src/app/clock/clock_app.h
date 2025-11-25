@@ -20,6 +20,7 @@ extern void clock_app_timer_SPC_btn_event_handler(lv_event_t *e);
 extern void clock_app_timer_reset_btn_event_handler(lv_event_t *e);
 extern void clock_app_timer_bell_btn_event_handler(lv_event_t *e);
 extern void clock_app_init_customize(lv_ui *ui);
+extern void clock_app_stopwatch_isr_update(void);
 
 #ifdef __cplusplus
 }

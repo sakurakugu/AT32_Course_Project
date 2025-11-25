@@ -1,24 +1,35 @@
 #include "adc_voltage.h"
 #include "at32f435_437_adc.h"
 
+void ADCVoltage::Init() {
+    ConfigGPIO();
+    ConfigADC();
+}
+
 /**
- * @brief  配置ADC电压采集
+ * @brief  配置ADC电压采集 GPIO
  * @param  none
  * @retval none
  */
-void ADC_Config(void) {
+void ADCVoltage::ConfigGPIO() {
     gpio_init_type gpio_initstructure;
-    adc_common_config_type adc_common_struct;
-    adc_base_config_type adc_base_struct;
 
     crm_periph_clock_enable(CRM_GPIOA_PERIPH_CLOCK, TRUE);
-
     gpio_default_para_init(&gpio_initstructure);
-
     /* 配置 ADC 引脚为模拟输入模式 */
     gpio_initstructure.gpio_mode = GPIO_MODE_ANALOG;
     gpio_initstructure.gpio_pins = GPIO_PINS_0;
     gpio_init(GPIOA, &gpio_initstructure);
+}
+
+/**
+ * @brief  配置ADC电压采集 ADC
+ * @param  none
+ * @retval none
+ */
+void ADCVoltage::ConfigADC() {
+    adc_common_config_type adc_common_struct;
+    adc_base_config_type adc_base_struct;
 
     crm_periph_clock_enable(CRM_ADC1_PERIPH_CLOCK, TRUE);
     nvic_irq_enable(ADC1_2_3_IRQn, 0, 0);
@@ -93,7 +104,7 @@ void ADC_Config(void) {
  * @param  none
  * @retval adc 值
  */
-uint16_t AnalogRead(void) {
+uint16_t ADCVoltage::Read() {
     adc_ordinary_software_trigger_enable(ADC1, TRUE);
     while (adc_flag_get(ADC1, ADC_OCCE_FLAG) == RESET)
         ;

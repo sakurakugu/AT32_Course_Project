@@ -302,6 +302,8 @@ void setup_scr_music_app(lv_ui *ui)
     lv_obj_add_event_cb(guider_ui.music_app_music_prev_song_btn, music_prev_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
     lv_obj_add_event_cb(guider_ui.music_app_music_next_song_btn, music_next_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
     lv_obj_add_event_cb(guider_ui.music_app_music_player_or_pause_btn, music_play_pause_btn_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
+    // 初始化音乐app界面状态
+    music_app_init_customize(&guider_ui);
 #endif
 
     //Update current screen layout.

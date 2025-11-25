@@ -13,10 +13,6 @@ extern uint8_t lm75_buf[2];
 
 class LM75 {
   public:
-    static LM75 &GetInstance() {
-        static LM75 instance;
-        return instance;
-    }
     // 删除拷贝构造函数和赋值运算符
     LM75(const LM75 &) = delete;
     LM75 &operator=(const LM75 &) = delete;
@@ -24,6 +20,7 @@ class LM75 {
     uint8_t Read();
 
   private:
+    friend class Board;
     LM75() = default;
     ~LM75() = default;
 };

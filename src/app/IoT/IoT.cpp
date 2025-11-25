@@ -162,8 +162,7 @@ void IoT::SendHeartbeat() {
 }
 
 void IoT::SendStatusReport() {
-    lm75_temp = LM75::GetInstance().Read();
-    uint32_t adc_mv = (uint32_t)AnalogRead() * 3300 / 4095;
+    lm75_temp = Board::GetInstance().GetLM75().Read();
     uint8_t r = 0, g = 0, b = 0;
     uint32_t rgb = ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
     Board::GetInstance().GetColorLed().GetColor(r, g, b);
@@ -172,7 +171,7 @@ void IoT::SendStatusReport() {
     uint8_t green_on = lighting_status ? 1 : 0;
     uint8_t key_idx = TaskKeys_GetCurrentPressed();
     sprintf(TlinkCommandStr, "#%d,%lu,%d,%d,%d,%d,%d#", color_on, (unsigned long)rgb, bright, green_on, lm75_temp,
-            adc_mv, key_idx);
+            current_adc_value, key_idx);
 
     LOGI("\r\n上报状态: %s\r\n", TlinkCommandStr);
     if (!connection_status) {

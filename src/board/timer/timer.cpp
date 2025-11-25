@@ -5,6 +5,7 @@
 
 #include "timer.h"
 #include "logger.h"
+#include "clock_app.h"
 
 extern "C" {
 
@@ -41,6 +42,7 @@ static SOFT_TMR s_tTmr[TMR_COUNT] = {0};
 void bsp_RunPer10ms(void) {
     Board::GetInstance().GetKey().Scan10ms();
     Board::GetInstance().GetBeep().Process();
+    clock_app_stopwatch_isr_update();
 }
 
 /**

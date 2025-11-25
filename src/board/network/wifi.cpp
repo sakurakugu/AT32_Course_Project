@@ -4,7 +4,7 @@
  */
 
 #include "wifi.hpp"
-#include "../app/setting/setting.h"
+#include "../app/setting/setting.hpp"
 #include "IoT.hpp"
 #include "delay.h"
 #include "eeprom.h"
@@ -600,9 +600,7 @@ bool tlink_reconnect_wifi() {
     return false;
 }
 
-volatile uint8_t wifi_reconnect_requested = 0; // 0: 未请求, 1: 请求重连
 static uint32_t last_wifi_retry_time = 0;      // 最近一次失败后记录的时间戳（ms）
-static bool time_sync_done = false;            // 成功同步过一次网络时间后置1
 #define CONNECTION_RETRY_INTERVAL 300000       // 5分钟重连间隔
 bool connection_status = 0;                    // 0: 未连接, 1: 已连接
 uint32_t connection_lost_time = 0;             // 连接丢失时间
@@ -644,19 +642,6 @@ static bool wifi_connect(const char *ssid, const char *pwd, uint16_t timeout_ms 
     return true;
 }
 
-// 时间同步标志访问器实现
-void wifi_set_time_sync_done(bool done) { time_sync_done = done; }
-bool wifi_is_time_sync_done() { return time_sync_done; }
-
-// 在设置页面显示已连接的Wi‑Fi名称
-void update_wifi_name_label(lv_ui *ui, const char *ssid) {
-    if (!ui || !ssid)
-        return;
-    char label_text[80];
-    snprintf(label_text, sizeof(label_text), "Wifi名称: %s", ssid);
-    lv_label_set_text(ui->setting_app_wifi_name_text, label_text);
-}
-
 static bool wifi_save_credentials_to_eeprom(const char *ssid, const char *pwd) {
     if (!ssid || !pwd)
         return false;
@@ -677,9 +662,10 @@ static bool wifi_save_credentials_to_eeprom(const char *ssid, const char *pwd) {
 
 // 异步WiFi连接任务：在后台执行连接过程，不阻塞UI
 void TaskWiFi([[maybe_unused]] void *pvParameters) {
+    auto &wifi = Wifi::GetInstance();
     for (;;) {
         // LOGI("TaskWiFi 栈的高水位标记: %d\r\n", uxTaskGetStackHighWaterMark(NULL));
-        if (wifi_reconnect_requested) {
+        if (wifi.reconnect_requested) {
             LOGD("wifi名称：%s\r\n", wifi_ssid);
             LOGD("wifi密码：%s\r\n", wifi_password);
             LOGI("\r\n开始WiFi连接...\r\n");
@@ -687,15 +673,15 @@ void TaskWiFi([[maybe_unused]] void *pvParameters) {
             bool ok = wifi_connect(wifi_ssid, wifi_password, 30000);
             if (ok) {
                 LOGI("WiFi已连接: %s\r\n", wifi_ssid);
-                update_wifi_name_label(&guider_ui, wifi_ssid);
+                setting_app_update_wifi_name_label(&guider_ui, wifi_ssid);
                 wifi_save_credentials_to_eeprom(wifi_ssid, wifi_password);
                 status_bar_update_wifi(true);
 
                 // 成功连接后，循环尝试同步网络时间，直至成功
-                while (!time_sync_done) {
-                    bool ts_ok = Setting_SyncNetworkTime(true);
+                while (!wifi.time_sync_done) {
+                    bool ts_ok = Setting::GetInstance().SyncNetworkTime();
                     if (ts_ok) {
-                        time_sync_done = true;
+                        wifi.time_sync_done = true;
                         LOGI("网络时间已同步成功\r\n");
                         break;
                     }
@@ -704,7 +690,7 @@ void TaskWiFi([[maybe_unused]] void *pvParameters) {
                 }
 
                 // 仅在时间同步成功后才建立到 Tlink 的TCP连接
-                if (time_sync_done && tlink_init_wifi()) {
+                if (wifi.time_sync_done && tlink_init_wifi()) {
                     reset_connection_status();
                     IoT::GetInstance().SendStatusReport();
                     LOGI("\r\nWiFi+Tlink连接完成，心跳机制启动\r\n");
@@ -720,14 +706,14 @@ void TaskWiFi([[maybe_unused]] void *pvParameters) {
                 last_wifi_retry_time = Timer_GetTickCount();
                 status_bar_update_wifi(false);
             }
-            wifi_reconnect_requested = 0;
+            wifi.reconnect_requested = 0;
         }
 
         // 如果上次连接失败，且已过重试间隔，则触发一次自动重试
-        if (!wifi_reconnect_requested && last_wifi_retry_time != 0) {
+        if (!wifi.reconnect_requested && last_wifi_retry_time != 0) {
             if (Timer_PassedDelay(last_wifi_retry_time, CONNECTION_RETRY_INTERVAL)) { // 5分钟
                 LOGI("\r\n距离上次失败已过5分钟，自动重试连接Wi‑Fi\r\n");
-                wifi_reconnect_requested = 1;
+                wifi.reconnect_requested = 1;
             }
         }
         delay_ms(100);

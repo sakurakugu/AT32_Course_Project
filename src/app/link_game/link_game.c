@@ -68,6 +68,8 @@ static bool link_can_connect(int r1, int c1, int r2, int c2) {
     int qh = 0, qi = 0;
     int dr[4] = {-1, 1, 0, 0};
     int dc[4] = {0, 0, -1, 1};
+    bool found = false;
+    
     for (int d = 0; d < 4; d++) {
         visited[(r1 * (LINKGAME_COLS + 2) + c1) * 4 + d] = 0;
         qr[qi] = r1;
@@ -82,8 +84,10 @@ static bool link_can_connect(int r1, int c1, int r2, int c2) {
         int nr = r + dr[dir];
         int nc = c + dc[dir];
         while (nr >= 0 && nr < LINKGAME_ROWS + 2 && nc >= 0 && nc < LINKGAME_COLS + 2) {
-            if (nr == r2 && nc == c2)
-                return true;
+            if (nr == r2 && nc == c2) {
+                found = true;
+                goto cleanup;
+            }
             if (BR(nr, nc) != 0)
                 break;
             int vi = (nr * (LINKGAME_COLS + 2) + nc) * 4 + dir;
@@ -107,8 +111,10 @@ static bool link_can_connect(int r1, int c1, int r2, int c2) {
             int ar = r + dr[nd];
             int ac = c + dc[nd];
             while (ar >= 0 && ar < LINKGAME_ROWS + 2 && ac >= 0 && ac < LINKGAME_COLS + 2) {
-                if (ar == r2 && ac == c2)
-                    return true;
+                if (ar == r2 && ac == c2) {
+                    found = true;
+                    goto cleanup;
+                }
                 if (BR(ar, ac) != 0)
                     break;
                 int vi2 = (ar * (LINKGAME_COLS + 2) + ac) * 4 + nd;
@@ -125,12 +131,14 @@ static bool link_can_connect(int r1, int c1, int r2, int c2) {
             }
         }
     }
+    
+cleanup:
     lv_mem_free(visited);
     lv_mem_free(qr);
     lv_mem_free(qc);
     lv_mem_free(qd);
     lv_mem_free(qt);
-    return false;
+    return found;
 }
 
 static void link_remove_tile(int r, int c) {

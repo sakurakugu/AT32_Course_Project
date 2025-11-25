@@ -173,7 +173,8 @@ static void stylus_to_play_ready_cb(lv_anim_t *a) {
 static inline void apply_play_ready_animation(lv_ui *ui) {
     if (lv_obj_is_valid(ui->music_app_music_stylus)) {
         lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
-        ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
+        int32_t cur = lv_img_get_angle(ui->music_app_music_stylus);
+        ui_animation(ui->music_app_music_stylus, 400, 0, cur, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
                      anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
     } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
         lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
@@ -248,32 +249,95 @@ void music_play_pause_btn_event_handler(lv_event_t *e) {
     lv_obj_t *btn = lv_event_get_target(e);
     bool checked = lv_obj_has_state(btn, LV_STATE_CHECKED);
 
+    // 注意：此时checked是点击后的状态
+    // checked=true 表示现在显示暂停图标，说明点击了播放按钮，应该开始播放
+    // checked=false 表示现在显示播放图标，说明点击了暂停按钮，应该暂停
     if (checked) {
+        // 点击了播放按钮 -> 开始播放
+        music_resume = 0;
+        if (!music_playing.load()) {
+            music_start = 1;
+        }
+        // 唱针移到播放位置（0度）
+        if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+            lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+            int32_t cur = lv_img_get_angle(ui->music_app_music_stylus);
+            ui_animation(ui->music_app_music_stylus, 400, 0, cur, 3600, lv_anim_path_ease_in_out, 0, 0, 0, 0,
+                         anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
+        } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
+            lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+            ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0,
+                         0, 0, anim_img_angle_exec, NULL, NULL, NULL);
+        }
+    } else {
+        // 点击了暂停按钮 -> 暂停播放
         if (music_playing.load()) {
             music_resume = 1;
         }
+        // 停止唱片旋转
         if (lv_obj_is_valid(ui->music_app_music_recode)) {
             lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
         }
+        // 唱针移回休息位置（-240度）
         if (lv_obj_is_valid(ui->music_app_music_stylus)) {
             lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
             int32_t cur = lv_img_get_angle(ui->music_app_music_stylus);
             ui_animation(ui->music_app_music_stylus, 400, 0, cur, -240, lv_anim_path_ease_in_out, 0, 0, 0, 0,
                          anim_img_angle_exec, NULL, NULL, NULL);
         }
-    } else {
-        music_resume = 0;
-        if (!music_playing.load()) {
-            music_start = 1;
-        }
-        if (lv_obj_is_valid(ui->music_app_music_stylus)) {
-            lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
-            ui_animation(ui->music_app_music_stylus, 400, 0, -240, 0, lv_anim_path_ease_in_out, 0, 0, 0, 0,
-                         anim_img_angle_exec, NULL, stylus_to_play_ready_cb, NULL);
-        } else if (lv_obj_is_valid(ui->music_app_music_recode)) {
-            lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
-            ui_animation(ui->music_app_music_recode, 2000, 0, 0, 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0,
-                         0, 0, anim_img_angle_exec, NULL, NULL, NULL);
+    }
+}
+
+// 获取当前播放状态（1=正在播放或暂停中，0=已停止）
+int music_get_playing_state(void) {
+    return music_playing.load() || music_resume.load();
+}
+
+// 初始化音乐app界面，设置正确的播放按钮状态
+void music_app_init_customize(lv_ui *ui) {
+    if (!ui)
+        return;
+    // 根据当前播放状态设置播放/暂停按钮
+    // checked=true -> 显示暂停图标 -> 当前正在播放
+    // checked=false -> 显示播放图标 -> 当前暂停/停止
+    if (lv_obj_is_valid(ui->music_app_music_player_or_pause_btn)) {
+        if (music_resume.load()) {
+            // 当前是暂停状态，显示播放按钮
+            lv_obj_clear_state(ui->music_app_music_player_or_pause_btn, LV_STATE_CHECKED);
+            // 停止所有动画
+            if (lv_obj_is_valid(ui->music_app_music_recode)) {
+                lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+            }
+            if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+                lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+            }
+        } else if (music_playing.load()) {
+            // 当前正在播放，显示暂停按钮，唱针在播放位置，唱片旋转
+            lv_obj_add_state(ui->music_app_music_player_or_pause_btn, LV_STATE_CHECKED);
+            // 唱针设置到播放位置（0度）
+            if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+                lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+                lv_img_set_angle(ui->music_app_music_stylus, 0);
+            }
+            // 唱片开始旋转（从当前角度继续旋转）
+            if (lv_obj_is_valid(ui->music_app_music_recode)) {
+                lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+                int32_t current_angle = lv_img_get_angle(ui->music_app_music_recode);
+                ui_animation(ui->music_app_music_recode, 2000, 0, current_angle, current_angle + 3600, lv_anim_path_linear, LV_ANIM_REPEAT_INFINITE, 0, 0,
+                             0, anim_img_angle_exec, NULL, NULL, NULL);
+            }
+        } else {
+            // 当前已停止，显示播放按钮，唱针在休息位置
+            lv_obj_clear_state(ui->music_app_music_player_or_pause_btn, LV_STATE_CHECKED);
+            // 确保唱针在休息位置（3360度，即-240度）
+            if (lv_obj_is_valid(ui->music_app_music_stylus)) {
+                lv_anim_del(ui->music_app_music_stylus, anim_img_angle_exec);
+                lv_img_set_angle(ui->music_app_music_stylus, 3360);
+            }
+            // 停止唱片旋转
+            if (lv_obj_is_valid(ui->music_app_music_recode)) {
+                lv_anim_del(ui->music_app_music_recode, anim_img_angle_exec);
+            }
         }
     }
 }

@@ -1,33 +1,19 @@
 #include "setting.hpp"
+#include "../../gui/custom/custom.h"
+#include "../../gui/generated/gui_guider.h"
 #include "../board/lcd/lcd.hpp"
 #include "../network/wifi.hpp"
+#include "beep.hpp"
+#include "board.h"
 #include "logger.h"
 #include "lvgl.h"
-#include "../../gui/generated/gui_guider.h"
-#include "../../gui/custom/custom.h"
 #include "uart.h"
-#include "beep.hpp"
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 
 // 来自应用的串口接收保护标志
 extern volatile uint8_t g_com3_guard;
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-bool Setting_SyncNetworkTime(bool sync) {
-    return Setting::GetInstance().SyncNetworkTime(sync);
-}
-void Setting_BacklightSetPercent(uint8_t percent) {
-    Setting::GetInstance().BacklightSetPercent(percent);
-}
-
-#ifdef __cplusplus
-}
-#endif
 
 // 引用各屏幕的时钟全局变量（widgets_init.c 中以 extern 引用）
 extern int clock_app_g_time_hour_value;
@@ -40,7 +26,7 @@ extern int clock_app_g_time_min_value;
 extern int clock_app_g_time_sec_value;
 extern lv_ui guider_ui;
 
-bool Setting::SyncNetworkTime(bool sync) {
+bool Setting::SyncNetworkTime() {
     auto &wifi = Wifi::GetInstance();
 
     LOGI("开始同步网络时间\n");
@@ -53,7 +39,7 @@ bool Setting::SyncNetworkTime(bool sync) {
     wifi.SendAT("AT+CIPSTART=\"TCP\",\"quan.suning.com\",80");
     if (wifi.WaitResponse("OK", 5000) != 1) {
         g_com3_guard = 0;
-        wifi_set_time_sync_done(false);
+        Wifi::GetInstance().time_sync_done = false;
         // 失败时保持同步开关为关闭
         if (lv_obj_is_valid(guider_ui.setting_app_sync_net_time_sw)) {
             lv_obj_clear_state(guider_ui.setting_app_sync_net_time_sw, LV_STATE_CHECKED);
@@ -79,7 +65,7 @@ bool Setting::SyncNetworkTime(bool sync) {
         wifi.SendAT("AT+CIPCLOSE");
         wifi.WaitResponse("OK", 1000);
         g_com3_guard = 0;
-        wifi_set_time_sync_done(false);
+        Wifi::GetInstance().time_sync_done = false;
         if (lv_obj_is_valid(guider_ui.setting_app_sync_net_time_sw)) {
             lv_obj_clear_state(guider_ui.setting_app_sync_net_time_sw, LV_STATE_CHECKED);
         }
@@ -97,16 +83,13 @@ bool Setting::SyncNetworkTime(bool sync) {
     int pos = 0;
     while (1) {
         uint16_t n = wifi.ReadLine(line, sizeof(line), 1500);
-        if (n == 0)
-            break;
-        if (pos + n >= (int)sizeof(resp) - 1)
-            break;
+        if (n == 0) break;
+        if (pos + n >= (int)sizeof(resp) - 1) break;
         memcpy(resp + pos, line, n);
         pos += n;
         resp[pos] = '\0';
         // 仅在连接关闭时结束读取，避免因 "HTTP/1.1 200 OK" 提前退出
-        if (strstr(line, "CLOSED"))
-            break;
+        if (strstr(line, "CLOSED")) break;
     }
 
     // 在解析前先检查HTTP状态码
@@ -116,7 +99,7 @@ bool Setting::SyncNetworkTime(bool sync) {
         wifi.WaitResponse("OK", 2000);
         LOGI("HTTP状态非200，响应前200字节: %.*s\n", 200, resp);
         g_com3_guard = 0;
-        wifi_set_time_sync_done(false);
+        Wifi::GetInstance().time_sync_done = false;
         if (lv_obj_is_valid(guider_ui.setting_app_sync_net_time_sw)) {
             lv_obj_clear_state(guider_ui.setting_app_sync_net_time_sw, LV_STATE_CHECKED);
         }
@@ -135,7 +118,7 @@ bool Setting::SyncNetworkTime(bool sync) {
         // 打印响应片段帮助定位问题
         LOGI("解析网络时间失败，响应前200字节: %.*s\n", 200, resp);
         g_com3_guard = 0;
-        wifi_set_time_sync_done(false);
+        Wifi::GetInstance().time_sync_done = false;
         if (lv_obj_is_valid(guider_ui.setting_app_sync_net_time_sw)) {
             lv_obj_clear_state(guider_ui.setting_app_sync_net_time_sw, LV_STATE_CHECKED);
         }
@@ -147,7 +130,7 @@ bool Setting::SyncNetworkTime(bool sync) {
     ApplyDateLabels(year, month, day);
 
     LOGI("同步网络时间成功：%04d-%02d-%02d %02d:%02d:%02d\n", year, month, day, hour, min, sec);
-    wifi_set_time_sync_done(true);
+    Wifi::GetInstance().time_sync_done = true;
     // 成功时将设置界面开关置为打开
     if (lv_obj_is_valid(guider_ui.setting_app_sync_net_time_sw)) {
         lv_obj_add_state(guider_ui.setting_app_sync_net_time_sw, LV_STATE_CHECKED);
@@ -214,8 +197,7 @@ void Setting::ApplyTimeToAll(int hour, int min, int sec) {
 void Setting::ApplyDateLabels(int year, int month, int day) {
     char buf[20];
     snprintf(buf, sizeof(buf), "%d/%02d/%02d", year, month, day);
-    if (lv_obj_is_valid(g_status_bar_date))
-        lv_label_set_text(g_status_bar_date, buf);
+    if (lv_obj_is_valid(g_status_bar_date)) lv_label_set_text(g_status_bar_date, buf);
 }
 
 void Setting::BacklightSetPercent(uint8_t percent) {
@@ -224,16 +206,14 @@ void Setting::BacklightSetPercent(uint8_t percent) {
 
 #ifdef KEIL_COMPILE
 // 点击“连接”按钮事件：读取输入->触发异步连接->成功后写EEPROM
-void wifi_link_btn_event_handler(lv_event_t *e) {
+void setting_app_wifi_link_btn_event_handler(lv_event_t *e) {
     lv_ui *ui = (lv_ui *)lv_event_get_user_data(e);
-    if (!ui)
-        return;
+    if (!ui) return;
 
     const char *ssid_text = lv_textarea_get_text(ui->setting_app_wifi_name_input);
     const char *pwd_text = lv_textarea_get_text(ui->setting_app_wifi_password_input);
 
-    if (!ssid_text || !pwd_text)
-        return;
+    if (!ssid_text || !pwd_text) return;
 
     // 复制到运行时缓冲，并更新全局凭据指针
     strncpy(wifi_ssid, ssid_text, sizeof(wifi_ssid) - 1);
@@ -242,28 +222,26 @@ void wifi_link_btn_event_handler(lv_event_t *e) {
     wifi_password[sizeof(wifi_password) - 1] = '\0';
 
     // 由后台任务异步完成连接，避免阻塞UI
-    wifi_reconnect_requested = 1;
+    Wifi::GetInstance().reconnect_requested = 1;
 }
 #endif
 
 #ifdef KEIL_COMPILE
-// 亮度滑块事件：0 关闭背光；>0 打开背光（如需PWM可在 Setting_BacklightSetPercent 内扩展）
+// 亮度滑块事件：0 关闭背光；>0 打开背光（如需PWM可在 BacklightSetPercent 内扩展）
 void setting_app_light_slider_event_handler(lv_event_t *e) {
-    if (lv_event_get_code(e) != LV_EVENT_VALUE_CHANGED)
-        return;
+    if (lv_event_get_code(e) != LV_EVENT_VALUE_CHANGED) return;
     lv_obj_t *slider = lv_event_get_target(e);
     int32_t val = lv_slider_get_value(slider); // 0..100
-    Setting_BacklightSetPercent((uint8_t)val);
+    Setting::GetInstance().BacklightSetPercent((uint8_t)val);
 }
 
 // 同步网络时间开关：打开时立即触发一次与服务器的时间同步
 void setting_app_sync_net_time_sw_event_handler(lv_event_t *e) {
-    if (lv_event_get_code(e) != LV_EVENT_VALUE_CHANGED)
-        return;
+    if (lv_event_get_code(e) != LV_EVENT_VALUE_CHANGED) return;
     lv_obj_t *sw = lv_event_get_target(e);
     bool enabled = lv_obj_has_state(sw, LV_STATE_CHECKED);
     if (enabled) {
-        bool ok = Setting_SyncNetworkTime(true);
+        bool ok = Setting::GetInstance().SyncNetworkTime();
         if (!ok) {
             lv_obj_clear_state(sw, LV_STATE_CHECKED);
         }
@@ -272,11 +250,23 @@ void setting_app_sync_net_time_sw_event_handler(lv_event_t *e) {
 
 // 声音开关：打开显示“声音开启”图标并允许蜂鸣器发声；关闭显示“静音”并禁止蜂鸣
 void setting_app_sound_sw_event_handler(lv_event_t *e) {
-    if (lv_event_get_code(e) != LV_EVENT_VALUE_CHANGED)
-        return;
+    if (lv_event_get_code(e) != LV_EVENT_VALUE_CHANGED) return;
     lv_obj_t *sw = lv_event_get_target(e);
     bool on = lv_obj_has_state(sw, LV_STATE_CHECKED);
     status_bar_update_sound(on);
-    Beep_SetMute(on ? 0 : 1);
+    setting_app_beep_set_mute(on ? 0 : 1);
 }
+
+void setting_app_beep_set_mute(bool mute) {
+    Board::GetInstance().GetBeep().SetMute(mute);
+}
+
+// 在设置页面显示已连接的Wi‑Fi名称
+void setting_app_update_wifi_name_label(lv_ui *ui, const char *ssid) {
+    if (!ui || !ssid) return;
+    char label_text[80];
+    snprintf(label_text, sizeof(label_text), "Wifi名称: %s", ssid);
+    lv_label_set_text(ui->setting_app_wifi_name_text, label_text);
+}
+
 #endif

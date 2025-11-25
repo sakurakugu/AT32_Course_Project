@@ -82,18 +82,16 @@ class Wifi {
     bool JoinAP(const char *ssid, const char *pwd, uint16_t timeout); // 加入AP
     void QuitAP();                                                    // 退出AP
 
+    bool time_sync_done = false;      // 成功同步过一次网络时间后置1
+    bool reconnect_requested = false; // 请求重新连接WiFi标志
+
   private:
     Wifi() = default;
 };
 
-extern void TaskWiFi(void *pvParameters);
-extern void update_wifi_name_label(lv_ui *ui, const char *ssid);
 extern void TaskWiFi(void *pvParameters);
 extern uint8_t should_reconnect();
 extern void reset_connection_status(void);
 extern bool tlink_init_wifi();
 extern bool tlink_disconnect_wifi();
 extern bool tlink_reconnect_wifi();
-// 时间同步标志访问器
-extern void wifi_set_time_sync_done(bool done);
-extern bool wifi_is_time_sync_done();

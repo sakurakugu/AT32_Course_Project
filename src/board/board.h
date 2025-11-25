@@ -3,8 +3,10 @@
 #include "beep.hpp"
 #include "key/key.h"
 #include "led/color_led.h"
-#include "led/oled.h"
 #include "led/led.h"
+#include "led/oled.h"
+#include "sensor/lm75.h"
+#include "sensor/adc_voltage.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,6 +26,8 @@ class Board {
     Beep &GetBeep() { return beep_; }
     OLED &GetOLED() { return oled_; }
     LED &GetLED() { return led_; }
+    LM75 &GetLM75() { return lm75_; }
+    ADCVoltage &GetADCVoltage() { return adc_voltage_; }
 
   private:
     Board() = default;
@@ -34,4 +38,6 @@ class Board {
     ColorLed color_led_;
     LED led_;
     OLED oled_;
+    LM75 lm75_;
+    ADCVoltage adc_voltage_;
 };

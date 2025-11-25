@@ -10,7 +10,6 @@
 #include <string.h>
 
 #include "../../src/app/calculator/calculator.h"
-#include "../../src/board/sound/beep.h" // 蜂鸣器接口：设定频率并发声
 #include "../lvgl/src/extra/widgets/dclock/lv_dclock.h"
 
 #ifdef KEIL_COMPILE
@@ -23,7 +22,7 @@ void custom_init(lv_ui *ui) {
     status_bar_init(ui);
     status_bar_update_sound(true);
 #ifdef KEIL_COMPILE
-    Beep_SetMute(0);
+    setting_app_beep_set_mute(0);
 #endif
     // 清空导航栈
     // （栈定义在本文件的静态区域）

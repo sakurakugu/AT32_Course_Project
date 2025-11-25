@@ -23,6 +23,8 @@ class IoT {
 
     void ControlLighting(uint8_t status); // 控制照明
 
+    uint32_t current_adc_value = 0;
+
   private:
     IoT() = default;
     ~IoT() = default;

@@ -555,12 +555,12 @@ void setup_scr_clock_app(lv_ui *ui)
     ui->clock_app_calendar = lv_calendar_create(ui->clock_app_clock_page_subpage_4);
     clock_app_calendar_today.year = 2025;
     clock_app_calendar_today.month = 11;
-    clock_app_calendar_today.day = 22;
+    clock_app_calendar_today.day = 25;
     lv_calendar_set_today_date(ui->clock_app_calendar, clock_app_calendar_today.year, clock_app_calendar_today.month, clock_app_calendar_today.day);
     lv_calendar_set_showed_date(ui->clock_app_calendar, clock_app_calendar_today.year, clock_app_calendar_today.month);
     clock_app_calendar_highlihted_days[0].year = 2025;
     clock_app_calendar_highlihted_days[0].month = 11;
-    clock_app_calendar_highlihted_days[0].day = 23;
+    clock_app_calendar_highlihted_days[0].day = 26;
     lv_calendar_set_highlighted_dates(ui->clock_app_calendar, clock_app_calendar_highlihted_days, 1);
     lv_obj_t *clock_app_calendar_header = lv_calendar_header_arrow_create(ui->clock_app_calendar);
     lv_calendar_t *clock_app_calendar = (lv_calendar_t *)ui->clock_app_calendar;

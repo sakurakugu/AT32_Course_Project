@@ -483,7 +483,7 @@ void setup_scr_setting_app(lv_ui *ui)
     //The custom code of setting_app.
 #ifdef KEIL_COMPILE
     // 绑定设置页“连接”按钮事件（读取输入并异步连接Wi‑Fi）
-    lv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
+    lv_obj_add_event_cb(guider_ui.setting_app_wifi_link_btn, setting_app_wifi_link_btn_event_handler, LV_EVENT_CLICKED, &guider_ui);
     // 绑定亮度滑块事件
     lv_obj_add_event_cb(guider_ui.setting_app_light_slider, setting_app_light_slider_event_handler, LV_EVENT_VALUE_CHANGED, &guider_ui);
     // 绑定“同步网络时间”开关事件

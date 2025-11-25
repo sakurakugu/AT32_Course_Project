@@ -7,11 +7,18 @@
 // ===============================
 
 static lv_timer_t *s_sw_timer;
-static int s_sw_cs;
+static volatile int s_sw_cs;
 static uint8_t s_sw_running;
+
+// 在中断中调用，每10ms一次用于秒表计数
+void clock_app_stopwatch_isr_update(void) {
+    if (s_sw_running) {
+        s_sw_cs++;
+    }
+}
+
 static void s_stopwatch_cb(lv_timer_t *t) {
     (void)t;
-    s_sw_cs++;
     int cs = s_sw_cs % 100;
     int total_s = s_sw_cs / 100;
     int s = total_s % 60;
@@ -69,6 +76,8 @@ static uint8_t s_timer_bell_on;
 static uint8_t s_timer_ringing;
 static lv_timer_t *s_ring_flag_clear;
 static int s_timer_initial;
+static lv_style_t s_style_strike;
+static uint8_t s_style_strike_inited;
 static void s_ring_clear_cb(lv_timer_t *tt) {
     (void)tt;
     s_timer_ringing = 0;
@@ -192,8 +201,6 @@ void clock_app_timer_bell_btn_event_handler(lv_event_t *e) {
     if (lv_event_get_code(e) != LV_EVENT_CLICKED)
         return;
     s_timer_bell_on = !s_timer_bell_on;
-    static lv_style_t s_style_strike;
-    static uint8_t s_style_strike_inited;
     if (!s_style_strike_inited) {
         lv_style_init(&s_style_strike);
         lv_style_set_text_decor(&s_style_strike, LV_TEXT_DECOR_STRIKETHROUGH);
@@ -223,8 +230,6 @@ void clock_app_init_customize(lv_ui *ui) {
         lv_analogclock_set_time(guider_ui.clock_app_g_time, clock_app_g_time_hour_value, clock_app_g_time_min_value,
                                 clock_app_g_time_sec_value);
     }
-    static lv_style_t s_style_strike;
-    static uint8_t s_style_strike_inited;
     if (!s_style_strike_inited) {
         lv_style_init(&s_style_strike);
         lv_style_set_text_decor(&s_style_strike, LV_TEXT_DECOR_STRIKETHROUGH);

@@ -120,7 +120,7 @@ void setup_scr_home_app1(lv_ui *ui)
 
     //Write codes home_app1_date
     ui->home_app1_date = lv_label_create(ui->home_app1_status_bar);
-    lv_label_set_text(ui->home_app1_date, "2023/07/31");
+    lv_label_set_text(ui->home_app1_date, "2025/11/25");
     lv_obj_set_style_text_align(ui->home_app1_date, LV_TEXT_ALIGN_CENTER, 0);
     lv_obj_add_flag(ui->home_app1_date, LV_OBJ_FLAG_CLICKABLE);
     lv_obj_add_event_cb(ui->home_app1_date, home_app1_date_event_handler, LV_EVENT_ALL, NULL);

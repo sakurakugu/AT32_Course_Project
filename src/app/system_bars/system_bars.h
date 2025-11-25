@@ -11,7 +11,6 @@ extern "C" {
 void status_bar_init(lv_ui *ui);                    // 统一状态栏初始化（放在顶层图层），在 custom_init 中调用
 void status_bar_set_visible(bool visible);          // 控制状态栏显隐
 void status_bar_update_wifi(bool connected);        // 控制WiFi图标显隐
-void update_volume_icon(lv_ui *ui, uint8_t volume); // 更新音量图标
 void status_bar_update_sound(bool on);
 // 导航：进入新页面（自动将当前页面压栈），以及返回上一个页面
 void nav_to(lv_ui *ui,                    // ui

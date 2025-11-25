@@ -72,10 +72,8 @@ const char *get_connection_status_string(void) {
 
 static bool wifi_load_credentials_from_eeprom(char *ssid_out, size_t ssid_out_size, char *pwd_out,
                                               size_t pwd_out_size) {
-    if (!ssid_out || !pwd_out)
-        return false;
-    if (ssid_out_size < 33 || pwd_out_size < 65)
-        return false;
+    if (!ssid_out || !pwd_out) return false;
+    if (ssid_out_size < 33 || pwd_out_size < 65) return false;
 
     uint8_t ssid_buf[33] = {0};
     uint8_t pwd_buf[65] = {0};
@@ -85,8 +83,7 @@ static bool wifi_load_credentials_from_eeprom(char *ssid_out, size_t ssid_out_si
     LOGD("ssid_buf: %s, pwd_buf: %s", ssid_buf, pwd_buf);
 
     // 简单校验：非空
-    if (ssid_buf[0] == '\0')
-        return false;
+    if (ssid_buf[0] == '\0') return false;
 
     memcpy(ssid_out, ssid_buf, 33);
     memcpy(pwd_out, pwd_buf, 65);
@@ -119,8 +116,7 @@ bool adc_value_changed(uint32_t new_value, uint32_t old_value) {
  * @param ui LVGL UI 结构体指针
  */
 void update_adc_display(lv_ui *ui) {
-    if (!ui)
-        return;
+    if (!ui) return;
     g_adc_dirty = true;
 }
 
@@ -141,43 +137,43 @@ static void TaskLVGL(void *pvParameters) {
         if (g_temp_dirty) {
             uint8_t v = g_temp_value;
             g_temp_dirty = false;
-            if (guider_ui.smart_home_app_temperature_num) {
+            if (lv_obj_is_valid(guider_ui.smart_home_app_temperature_num)) {
                 lv_label_set_text_fmt(guider_ui.smart_home_app_temperature_num, "%d°C", v);
             }
         }
         if (g_mpu_acc_dirty) {
             g_mpu_acc_dirty = false;
-            if (guider_ui.smart_home_app_accelerated_speed_num_x) {
+            if (lv_obj_is_valid(guider_ui.smart_home_app_accelerated_speed_num_x)) {
                 lv_label_set_text_fmt(guider_ui.smart_home_app_accelerated_speed_num_x, "%.2f", g_acc_x);
             }
-            if (guider_ui.smart_home_app_accelerated_speed_num_y) {
+            if (lv_obj_is_valid(guider_ui.smart_home_app_accelerated_speed_num_y)) {
                 lv_label_set_text_fmt(guider_ui.smart_home_app_accelerated_speed_num_y, "%.2f", g_acc_y);
             }
-            if (guider_ui.smart_home_app_accelerated_speed_num_z) {
+            if (lv_obj_is_valid(guider_ui.smart_home_app_accelerated_speed_num_z)) {
                 lv_label_set_text_fmt(guider_ui.smart_home_app_accelerated_speed_num_z, "%.2f", g_acc_z);
             }
         }
         if (g_mpu_gyro_dirty) {
             g_mpu_gyro_dirty = false;
-            if (guider_ui.smart_home_app_attitude_num_x) {
+            if (lv_obj_is_valid(guider_ui.smart_home_app_attitude_num_x)) {
                 lv_label_set_text_fmt(guider_ui.smart_home_app_attitude_num_x, "%.1f", g_gyro_x);
             }
-            if (guider_ui.smart_home_app_attitude_num_y) {
+            if (lv_obj_is_valid(guider_ui.smart_home_app_attitude_num_y)) {
                 lv_label_set_text_fmt(guider_ui.smart_home_app_attitude_num_y, "%.1f", g_gyro_y);
             }
-            if (guider_ui.smart_home_app_attitude_num_z) {
+            if (lv_obj_is_valid(guider_ui.smart_home_app_attitude_num_z)) {
                 lv_label_set_text_fmt(guider_ui.smart_home_app_attitude_num_z, "%.1f", g_gyro_z);
             }
         }
         if (g_mpu_temp_dirty) {
             g_mpu_temp_dirty = false;
-            if (guider_ui.smart_home_app_mpu6050_teemp_num) {
+            if (lv_obj_is_valid(guider_ui.smart_home_app_mpu6050_teemp_num)) {
                 lv_label_set_text_fmt(guider_ui.smart_home_app_mpu6050_teemp_num, "%.1f°C", g_mpu_temp);
             }
         }
         if (g_adc_dirty) {
             g_adc_dirty = false;
-            if (guider_ui.smart_home_app_ADC_num) {
+            if (lv_obj_is_valid(guider_ui.smart_home_app_ADC_num)) {
                 lv_label_set_text_fmt(guider_ui.smart_home_app_ADC_num, "%d mV", last_adc_value);
             }
         }
@@ -195,7 +191,7 @@ static void TaskHeartbeat(void *pvParameters) {
     for (;;) {
         // 处理心跳响应与命令
         IoT::GetInstance().CheckHeartbeat();
-        if (!tlink_initialized && !g_com3_guard && wifi_ssid[0] != '\0' && wifi_is_time_sync_done() &&
+        if (!tlink_initialized && !g_com3_guard && wifi_ssid[0] != '\0' && Wifi::GetInstance().time_sync_done &&
             !connection_status) {
             if (lastTlinkAttemptTick == 0 || Timer_PassedDelay(lastTlinkAttemptTick, 10000)) { // 每10秒尝试一次
                 lastTlinkAttemptTick = Timer_GetTickCount();
@@ -212,7 +208,7 @@ static void TaskHeartbeat(void *pvParameters) {
         // 检查是否需要重连
         if (should_reconnect()) {
             LOGI("\r\n检测到连接断开超过5分钟，尝试重连...\r\n");
-            wifi_reconnect_requested = 1;
+            Wifi::GetInstance().reconnect_requested = 1;
         }
 
         // 定时发送心跳包
@@ -230,9 +226,9 @@ static void TaskHeartbeat(void *pvParameters) {
 static void TaskADC(void *pvParameters) {
     (void)pvParameters;
     for (;;) {
-        uint32_t current_adc_value = (uint32_t)AnalogRead() * 3300 / 4095;
-        if (adc_value_changed(current_adc_value, last_adc_value)) {
-            last_adc_value = current_adc_value;
+        IoT::GetInstance().current_adc_value = (uint32_t)Board::GetInstance().GetADCVoltage().Read() * 3300 / 4095;
+        if (adc_value_changed(IoT::GetInstance().current_adc_value, last_adc_value)) {
+            last_adc_value = IoT::GetInstance().current_adc_value;
             update_adc_display(&guider_ui);
         }
         delay_ms(50);
@@ -241,7 +237,7 @@ static void TaskADC(void *pvParameters) {
 
 static void TaskLM75([[maybe_unused]] void *pvParameters) {
     for (;;) {
-        uint8_t t = LM75::GetInstance().Read();
+        uint8_t t = Board::GetInstance().GetLM75().Read();
         g_temp_value = t;
         g_temp_dirty = true;
         delay_ms(500);
@@ -334,7 +330,7 @@ void Application::Start() {
     }
 
     wifi.QuitAP();
-    wifi_reconnect_requested = 0;
+    wifi.reconnect_requested = 0;
 
     // driver init
     tmr7_int_init(287, 999); // 1 micro second interrupt
@@ -355,13 +351,9 @@ void Application::Start() {
     // if (wifi_load_credentials_from_eeprom(wifi_ssid, sizeof(wifi_ssid), wifi_password, sizeof(wifi_password))) {
     //     lv_textarea_set_text(guider_ui.setting_app_wifi_name_input, wifi_ssid);
     //     lv_textarea_set_text(guider_ui.setting_app_wifi_password_input, wifi_password);
-    //     update_wifi_name_label(&guider_ui, wifi_ssid);
-    //     wifi_reconnect_requested = 1; // 启动后台自动连接Wi‑Fi
+    //     setting_app_update_wifi_name_label(&guider_ui, wifi_ssid);
+    //     wifi.reconnect_requested = 1; // 启动后台自动连接Wi‑Fi
     // }
-
-    // 初始化 ADC 值
-    last_adc_value = (uint32_t)AnalogRead() * 3300 / 4095;
-    update_adc_display(&guider_ui);
 
     // 创建FreeRTOS任务
     // 增大 LVGL 任务栈深度，避免在显示键盘等复杂布局时栈溢出

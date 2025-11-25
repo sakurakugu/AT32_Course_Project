@@ -1,9 +1,9 @@
 #include "minecraft.h"
 #include "minecraft_textures.h"
+#include <FreeRTOS.h>
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#include <FreeRTOS.h>
 #include <task.h>
 
 #define CHUNK_W 32
@@ -39,8 +39,7 @@ static uint8_t worldMap[MAP_WIDTH][MAP_HEIGHT] = {
     {4, 0, 0, 15, 0, 0, 0, 0, 0, 4, 9, 0, 0, 10, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2},
     {4, 0, 6, 0, 6, 0, 0, 0, 0, 4, 9, 0, 0, 10, 0, 0, 5, 0, 0, 2, 0, 0, 0, 2},
     {4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 9, 0, 0, 10, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2},
-    {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 10, 17, 16, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3}
-};
+    {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 10, 17, 16, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3}};
 
 // 游戏状态
 static MinecraftState g_state;
@@ -65,7 +64,7 @@ static uint16_t CHANGE_SIDE_TEX_COLOR(uint16_t color) {
 }
 
 // 将8位纹理转换为16位
-static inline uint16_t READ16(const uint8_t* base, int idx) {
+static inline uint16_t READ16(const uint8_t *base, int idx) {
     return (uint16_t)(base[idx] << 8) | (uint16_t)(base[idx + 1]);
 }
 
@@ -137,8 +136,8 @@ static inline void UPDATE_BADAPPLE(void) {
 
 // 检查是否在地图边界
 static bool CHECK_MAP_SIDE(void) {
-    if (g_state.targetMapX == 0 || g_state.targetMapY == 0 || 
-        g_state.targetMapX == MAP_WIDTH - 1 || g_state.targetMapY == MAP_HEIGHT - 1) {
+    if (g_state.targetMapX == 0 || g_state.targetMapY == 0 || g_state.targetMapX == MAP_WIDTH - 1 ||
+        g_state.targetMapY == MAP_HEIGHT - 1) {
         return false;
     }
     return true;
@@ -207,7 +206,7 @@ static void DRAW_FLOOR_AND_CEILING_REGION(int xs, int ys, int xe, int ye) {
     int8_t floorTexture = 3;
     int8_t ceilingTexture = 6;
     for (int y = ys; y < ye; y++) {
-        uint16_t* fb_row = lv_framebuffer + y * SCREEN_WIDTH;
+        uint16_t *fb_row = lv_framebuffer + y * SCREEN_WIDTH;
         float rayDirX0 = g_state.dirX - g_state.planeX;
         float rayDirY0 = g_state.dirY - g_state.planeY;
         float rayDirX1 = g_state.dirX + g_state.planeX;
@@ -242,8 +241,10 @@ static void DRAW_FLOOR_AND_CEILING_REGION(int xs, int ys, int xe, int ye) {
 static void DRAW_FLOOR_AND_CEILING(void) {
     for (int y = 0; y < SCREEN_HEIGHT; y += CHUNK_H) {
         for (int x = 0; x < SCREEN_WIDTH; x += CHUNK_W) {
-            int xe = x + CHUNK_W; if (xe > SCREEN_WIDTH) xe = SCREEN_WIDTH;
-            int ye = y + CHUNK_H; if (ye > SCREEN_HEIGHT) ye = SCREEN_HEIGHT;
+            int xe = x + CHUNK_W;
+            if (xe > SCREEN_WIDTH) xe = SCREEN_WIDTH;
+            int ye = y + CHUNK_H;
+            if (ye > SCREEN_HEIGHT) ye = SCREEN_HEIGHT;
             DRAW_FLOOR_AND_CEILING_REGION(x, y, xe, ye);
         }
     }
@@ -254,6 +255,7 @@ static void RAYCASTING_REGION(int xs, int xe, int ys, int ye) {
     const float invSW = 1.0f / (float)SCREEN_WIDTH;
     const float twoInvSW = 2.0f * invSW;
     const int centerY = SCREEN_HEIGHT / 2 + g_state.pitch;
+    // 遍历屏幕区域的每一列
     for (int x = xs; x < xe; x++) {
         float cameraX = twoInvSW * x - 1.0f;
         float rayDirX = g_state.dirX + g_state.planeX * cameraX;
@@ -293,10 +295,26 @@ static void RAYCASTING_REGION(int xs, int xe, int ys, int ye) {
                 mapY += stepY;
                 side = 1;
             }
-            if (mapX < 0) { mapX = 0; hit = 1; break; }
-            if (mapX >= MAP_WIDTH) { mapX = MAP_WIDTH - 1; hit = 1; break; }
-            if (mapY < 0) { mapY = 0; hit = 1; break; }
-            if (mapY >= MAP_HEIGHT) { mapY = MAP_HEIGHT - 1; hit = 1; break; }
+            if (mapX < 0) {
+                mapX = 0;
+                hit = 1;
+                break;
+            }
+            if (mapX >= MAP_WIDTH) {
+                mapX = MAP_WIDTH - 1;
+                hit = 1;
+                break;
+            }
+            if (mapY < 0) {
+                mapY = 0;
+                hit = 1;
+                break;
+            }
+            if (mapY >= MAP_HEIGHT) {
+                mapY = MAP_HEIGHT - 1;
+                hit = 1;
+                break;
+            }
             if (worldMap[mapX][mapY] > 0) {
                 hit = 1;
             }
@@ -324,7 +342,7 @@ static void RAYCASTING_REGION(int xs, int xe, int ys, int ye) {
         if (worldMap[mapX][mapY] > 0) {
             texNum = worldMap[mapX][mapY] - 1;
         }
-        
+
         // 计算纹理坐标
         float wallX;
         if (side == 0) {
@@ -339,15 +357,23 @@ static void RAYCASTING_REGION(int xs, int xe, int ys, int ye) {
         }
         float oneStep = 1.0f * texHeight / (float)lineHeight;
         float texPos = (drawStart - centerY + lineHeight / 2) * oneStep;
-        int y0 = drawStart; if (y0 < ys) { texPos += oneStep * (ys - y0); y0 = ys; }
-        int y1 = drawEnd; if (y1 > ye) { y1 = ye; }
-        uint16_t* p = lv_framebuffer + y0 * SCREEN_WIDTH + x;
+        int y0 = drawStart;
+        if (y0 < ys) {
+            texPos += oneStep * (ys - y0);
+            y0 = ys;
+        }
+        int y1 = drawEnd;
+        if (y1 > ye) {
+            y1 = ye;
+        }
+        // 绘制屏幕区域
+        uint16_t *p = lv_framebuffer + y0 * SCREEN_WIDTH + x;
         for (int y = y0; y < y1; y++) {
             int texY = (int)texPos & (texHeight - 1);
             texPos += oneStep;
-            color = SAMPLE_WALL_COLOR(texNum, texX, texY);
+            color = SAMPLE_WALL_COLOR(texNum, texX, texY); // 采样纹理颜色
             if (side == 1) {
-                color = CHANGE_SIDE_TEX_COLOR(color);
+                color = CHANGE_SIDE_TEX_COLOR(color); // 改变侧面纹理颜色
             }
             *p = color;
             p += SCREEN_WIDTH;
@@ -358,9 +384,11 @@ static void RAYCASTING_REGION(int xs, int xe, int ys, int ye) {
 static void RAYCASTING(void) {
     for (int y = 0; y < SCREEN_HEIGHT; y += CHUNK_H) {
         for (int x = 0; x < SCREEN_WIDTH; x += CHUNK_W) {
-            int xe = x + CHUNK_W; if (xe > SCREEN_WIDTH) xe = SCREEN_WIDTH;
-            int ye = y + CHUNK_H; if (ye > SCREEN_HEIGHT) ye = SCREEN_HEIGHT;
-            RAYCASTING_REGION(x, xe, y, ye);
+            int xe = x + CHUNK_W;
+            if (xe > SCREEN_WIDTH) xe = SCREEN_WIDTH;
+            int ye = y + CHUNK_H;
+            if (ye > SCREEN_HEIGHT) ye = SCREEN_HEIGHT;
+            RAYCASTING_REGION(x, xe, y, ye); // 绘制屏幕区域
         }
     }
 }
@@ -375,9 +403,9 @@ static void processMovement(void) {
     int pitchStep = (int)(frameTime * 60.0f);
     if (pitchStep < 1) pitchStep = 1;
     int maxPitch = SCREEN_HEIGHT / 3;
-    
+
     uint8_t a = currentKey;
-    
+
     // 步伐动画
     if (a != 0 && a != MINECRAFT_KEY_ACTION) {
         if (millis() >= g_state.t2 + 300) {
@@ -405,62 +433,59 @@ static void processMovement(void) {
             }
         }
     }
-    
+
     // 处理按键
     switch (a) {
-        case MINECRAFT_KEY_UP: // 前进
-            if (worldMap[(int)(g_state.posX + g_state.dirX * moveSpeed)][(int)g_state.posY] == 0) {
-                g_state.posX += g_state.dirX * moveSpeed;
-            }
-            if (worldMap[(int)g_state.posX][(int)(g_state.posY + g_state.dirY * moveSpeed)] == 0) {
-                g_state.posY += g_state.dirY * moveSpeed;
-            }
-            break;
-
-        case MINECRAFT_KEY_DOWN: // 后退
-            if (worldMap[(int)(g_state.posX - g_state.dirX * moveSpeed)][(int)g_state.posY] == 0) {
-                g_state.posX -= g_state.dirX * moveSpeed;
-            }
-            if (worldMap[(int)g_state.posX][(int)(g_state.posY - g_state.dirY * moveSpeed)] == 0) {
-                g_state.posY -= g_state.dirY * moveSpeed;
-            }
-            break;
-            
-        case  MINECRAFT_KEY_LEFT: // 左转
-        {
-            float cs = cosf(rotSpeed);
-            float sn = sinf(rotSpeed);
-            float oldDirX = g_state.dirX;
-            g_state.dirX = g_state.dirX * cs - g_state.dirY * sn;
-            g_state.dirY = oldDirX * sn + g_state.dirY * cs;
-            float oldPlaneX = g_state.planeX;
-            g_state.planeX = g_state.planeX * cs - g_state.planeY * sn;
-            g_state.planeY = oldPlaneX * sn + g_state.planeY * cs;
+    case MINECRAFT_KEY_UP: // 前进
+        if (worldMap[(int)(g_state.posX + g_state.dirX * moveSpeed)][(int)g_state.posY] == 0) {
+            g_state.posX += g_state.dirX * moveSpeed;
+        }
+        if (worldMap[(int)g_state.posX][(int)(g_state.posY + g_state.dirY * moveSpeed)] == 0) {
+            g_state.posY += g_state.dirY * moveSpeed;
         }
         break;
 
-        case MINECRAFT_KEY_RIGHT: // 右转
-        {
-            float cs = cosf(rotSpeed);
-            float sn = sinf(rotSpeed);
-            sn = -sn;
-            float oldDirX = g_state.dirX;
-            g_state.dirX = g_state.dirX * cs - g_state.dirY * sn;
-            g_state.dirY = oldDirX * sn + g_state.dirY * cs;
-            float oldPlaneX = g_state.planeX;
-            g_state.planeX = g_state.planeX * cs - g_state.planeY * sn;
-            g_state.planeY = oldPlaneX * sn + g_state.planeY * cs;
+    case MINECRAFT_KEY_DOWN: // 后退
+        if (worldMap[(int)(g_state.posX - g_state.dirX * moveSpeed)][(int)g_state.posY] == 0) {
+            g_state.posX -= g_state.dirX * moveSpeed;
+        }
+        if (worldMap[(int)g_state.posX][(int)(g_state.posY - g_state.dirY * moveSpeed)] == 0) {
+            g_state.posY -= g_state.dirY * moveSpeed;
         }
         break;
-        case MINECRAFT_KEY_LOOK_UP:
-            g_state.pitch -= pitchStep;
-            if (g_state.pitch < -maxPitch) g_state.pitch = -maxPitch;
-            break;
-        case MINECRAFT_KEY_LOOK_DOWN:
-            g_state.pitch += pitchStep;
-            if (g_state.pitch > maxPitch) g_state.pitch = maxPitch;
-            break;
-        
+
+    case MINECRAFT_KEY_LEFT: // 左转
+    {
+        float cs = cosf(rotSpeed);
+        float sn = sinf(rotSpeed);
+        float oldDirX = g_state.dirX;
+        g_state.dirX = g_state.dirX * cs - g_state.dirY * sn;
+        g_state.dirY = oldDirX * sn + g_state.dirY * cs;
+        float oldPlaneX = g_state.planeX;
+        g_state.planeX = g_state.planeX * cs - g_state.planeY * sn;
+        g_state.planeY = oldPlaneX * sn + g_state.planeY * cs;
+    } break;
+
+    case MINECRAFT_KEY_RIGHT: // 右转
+    {
+        float cs = cosf(rotSpeed);
+        float sn = sinf(rotSpeed);
+        sn = -sn;
+        float oldDirX = g_state.dirX;
+        g_state.dirX = g_state.dirX * cs - g_state.dirY * sn;
+        g_state.dirY = oldDirX * sn + g_state.dirY * cs;
+        float oldPlaneX = g_state.planeX;
+        g_state.planeX = g_state.planeX * cs - g_state.planeY * sn;
+        g_state.planeY = oldPlaneX * sn + g_state.planeY * cs;
+    } break;
+    case MINECRAFT_KEY_LOOK_UP:
+        g_state.pitch -= pitchStep;
+        if (g_state.pitch < -maxPitch) g_state.pitch = -maxPitch;
+        break;
+    case MINECRAFT_KEY_LOOK_DOWN:
+        g_state.pitch += pitchStep;
+        if (g_state.pitch > maxPitch) g_state.pitch = maxPitch;
+        break;
     }
 }
 
@@ -489,13 +514,13 @@ void Minecraft_Init(void) {
 }
 
 // 游戏主循环
-void Minecraft_Loop(void) { 
-    UPDATE_JNTM();
-    UPDATE_BADAPPLE();
-    DRAW_FLOOR_AND_CEILING();
-    RAYCASTING();
-    processMovement();
-    DRAW_WEAPONS_TO_SCREEN(1);
+void Minecraft_Loop(void) {
+    UPDATE_JNTM();             // 更新鸡你太美
+    UPDATE_BADAPPLE();         // 更新坏苹果
+    DRAW_FLOOR_AND_CEILING();  // 绘制地板和天花板
+    RAYCASTING();              // 射线投射
+    processMovement();         // 处理移动
+    DRAW_WEAPONS_TO_SCREEN(1); // 绘制武器到屏幕
 }
 
 // 处理按键输入
@@ -504,7 +529,7 @@ void Minecraft_HandleKey(uint8_t key) {
 }
 
 // 获取帧缓冲指针
-uint16_t* Minecraft_GetFramebuffer(void) {
+uint16_t *Minecraft_GetFramebuffer(void) {
     return lv_framebuffer;
 }
 
@@ -554,8 +579,6 @@ void minecraft_app_screen_delete_event_handler(lv_event_t *e) {
         cleanup_scr_minecraft(&guider_ui);
         break;
     }
-    default:
-        break;
+    default: break;
     }
 }
-
