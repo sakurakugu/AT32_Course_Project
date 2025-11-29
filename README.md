@@ -1,9 +1,9 @@
 # 专业基础实践课期末大作业（AT32）
 
 一个基于 AT32F435 的综合实践项目，集成 FreeRTOS、LVGL 图形界面、以太网 lwIP、ESP12 Wi‑Fi（AT 指令）、I2C/SPI/QSPI 等外设，涵盖时间同步、天气查询、小游戏与多种板载传感器/外设演示。
-主仓库：[github.com:sakurakugu/AT32_Course_Project](https://github.com/sakurakugu/AT32_Course_Project.git)
-镜像仓库：[gitee.com/sakurakugu/AT32_Course_Project](https://gitee.com/sakurakugu/AT32_Course_Project.git)
-镜像仓库：[gitcode.com/sakurakugu/AT32_Course_Project](https://gitcode.com/sakurakugu/AT32_Course_Project.git)
+- 主仓库：[github.com](https://github.com/sakurakugu/AT32_Course_Project.git)
+- 镜像仓库：[gitee.com](https://gitee.com/sakurakugu/AT32_Course_Project.git)
+- 镜像仓库：[gitcode.com](https://gitcode.com/sakurakugu/AT32_Course_Project.git)
 
 **主工程**：`homework.uvprojx`
 
