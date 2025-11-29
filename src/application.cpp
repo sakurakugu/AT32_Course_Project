@@ -23,7 +23,6 @@
 #include "lv_port_indev.h"
 #include "lv_tick_custom.h"
 #include "lvgl.h"
-#include "mpu6050.h"
 #include "music.hpp"
 #include "oled.h"
 #include "timer.h"
@@ -244,6 +243,7 @@ static void TaskLM75([[maybe_unused]] void *pvParameters) {
     }
 }
 
+/*
 static void TaskMPU6050([[maybe_unused]] void *pvParameters) {
     portTASK_USES_FLOATING_POINT();
     bool inited = false;
@@ -278,6 +278,7 @@ static void TaskMPU6050([[maybe_unused]] void *pvParameters) {
         delay_ms(100);
     }
 }
+*/
 
 static void TaskStatus(void *pvParameters) {
     (void)pvParameters;
